@@ -1,0 +1,25 @@
+/* .menu-item:hover {
+    background-color: #B22222 !important;
+  } */
+  
+  .menu-item.active {
+    background-color: #B22222 !important;
+  }
+  
+  .centered-logo {
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  .table {
+    text-align: left;
+  }
+
+  .divider-line {
+    width: 1px;
+    height: 90%;
+    background-color: #000;
+    margin: 0 10px;
+  }
+  
+  
