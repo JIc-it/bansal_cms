@@ -67,3 +67,13 @@ export const getArchitectsRequest = () => {
             throw error;
         });
 };
+
+export const createContractor = (data) => {
+    console.log(data);
+    return axiosInstance.post(contractorsURL, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error('Error while creating reward product:', error);
+        throw error;
+      });
+  };

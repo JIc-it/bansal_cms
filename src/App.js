@@ -9,7 +9,9 @@ import ForgotPassword from './components/forgotPassword';
 
 function App() {
   return (
-    <div id="app" style={{ display: 'flex', flexDirection: 'column', marginTop: '60px' }}>
+    <div id="app" style={{ display: 'flex', flexDirection: 'column', 
+    // marginTop: '60px'
+     }}>
       <Routes>
         {/* Define your login route without Navbar and Sidebar */}
         <Route path="/" element={<Login />} />

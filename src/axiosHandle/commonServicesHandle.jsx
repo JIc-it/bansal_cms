@@ -1,0 +1,21 @@
+import axiosInstance from "./authHandle";
+
+export const getAllLocations = () => {
+  return axiosInstance
+    .get("/core/location/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};
+
+export const getAllStates = () => {
+  return axiosInstance
+    .get("/core/state/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};

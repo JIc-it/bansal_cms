@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { getContractorsRequest } from '../../axiosHandle/userHandle';
+import React, { useState, useEffect } from "react";
+import { getContractorsRequest } from "../../axiosHandle/userHandle";
+import AddNewContractor from "./AddNewContractor";
 
 export default function Contractor() {
-
   const [user_data, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
-
+  const [isOpenAddContractor, setIsOpenAddContractor] = useState(false);
   useEffect(() => {
     getContractorsRequest()
       .then((data) => {
@@ -13,12 +13,12 @@ export default function Contractor() {
         setUserTotalData(data.count);
       })
       .catch((error) => {
-        console.error('Error fetching distributor data:', error);
+        console.error("Error fetching distributor data:", error);
       });
   }, []);
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
       <div className="container">
         <div className="row">
@@ -29,7 +29,8 @@ export default function Contractor() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6><br />
+                        <h6>Total Users</h6>
+                        <br />
                         <h3>{user_total_data}</h3>
                       </div>
                     </div>
@@ -41,7 +42,8 @@ export default function Contractor() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Admins</h6><br />
+                        <h6>Total Admins</h6>
+                        <br />
                         <h3>12</h3>
                       </div>
                     </div>
@@ -53,7 +55,8 @@ export default function Contractor() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>New Admins in current Qtr</h6><br />
+                        <h6>New Admins in current Qtr</h6>
+                        <br />
                         <h3>12</h3>
                       </div>
                     </div>
@@ -75,16 +78,52 @@ export default function Contractor() {
                   </div>
                   <div className="row">
                     <div className="col-5">
-                      <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                        <input type="text" className="form-control" style={{ marginRight: 10 }} placeholder="Search..." aria-label="Search..." aria-describedby="search-button" />
-                        <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button>
+                      <div
+                        className="input-group mb-3"
+                        style={{
+                          maxWidth: 300,
+                          paddingTop: 15,
+                          paddingLeft: 15,
+                        }}
+                      >
+                        <input
+                          type="text"
+                          className="form-control"
+                          style={{ marginRight: 10 }}
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="search-button"
+                        />
+                        <button
+                          className="btn btn-dark"
+                          type="button"
+                          id="search-button"
+                        >
+                          <i className="fas fa-filter" />
+                        </button>
                       </div>
                     </div>
                     <div className="col-5 text-end">
-                      <button className="btn btn-primary btn-sm" type="button" id="add-points-button"><i className="fa-regular fa-square-plus" /> Add New Contractor</button>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddContractor(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add New
+                        Contractor
+                      </button>
                     </div>
                     <div className="col-2">
-                      <button className="btn btn-light btn-sm" type="button" id="export-button"><i className="fa-solid fa-file-export" /> Export</button>
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                      >
+                        <i className="fa-solid fa-file-export" /> Export
+                      </button>
                     </div>
                   </div>
                   <table id="empoloyees-tblwrapper" className="table">
@@ -103,12 +142,26 @@ export default function Contractor() {
                       {user_data && user_data.length > 0 ? (
                         user_data.slice(0, 5).map((data) => (
                           <tr key={data.id}>
-                            <td><h6>{data.name}</h6></td>
-                            <td><h6>{data.user_id}</h6></td>
-                            <td><h6>{data.mobile}</h6></td>
-                            <td><h6>{data.district_name}</h6></td>
                             <td>
-                              <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
+                              <h6>{data.name}</h6>
+                            </td>
+                            <td>
+                              <h6>{data.user_id}</h6>
+                            </td>
+                            <td>
+                              <h6>{data.mobile}</h6>
+                            </td>
+                            <td>
+                              <h6>{data.district_name}</h6>
+                            </td>
+                            <td>
+                              <a
+                                className="btn btn-primary btn-sm"
+                                href="#"
+                                role="button"
+                              >
+                                View User
+                              </a>
                             </td>
                           </tr>
                         ))
@@ -125,9 +178,12 @@ export default function Contractor() {
           </div>
         </div>
       </div>
+      {isOpenAddContractor && (
+        <AddNewContractor
+          setOpen={setIsOpenAddContractor}
+          open={isOpenAddContractor}
+        />
+      )}
     </div>
   );
-};
-
-
-
+}
