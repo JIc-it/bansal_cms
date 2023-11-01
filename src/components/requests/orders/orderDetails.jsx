@@ -23,9 +23,6 @@ const statusOffcanvas = {
     backgroundColor: '#F2F2F2',
 };
 
-
-
-
 export default function OrderDetails(props) {
 
     const [order_data, setOrderData] = useState({
