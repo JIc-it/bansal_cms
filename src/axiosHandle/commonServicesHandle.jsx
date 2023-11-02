@@ -19,3 +19,13 @@ export const getAllStates = () => {
       throw error;
     });
 };
+
+export const getTotalUsersCount = () => {
+  return axiosInstance
+    .get("/account/total-users/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};

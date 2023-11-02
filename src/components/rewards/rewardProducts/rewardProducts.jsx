@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Cards from './cards';
-import { getRewardProductsRequest } from '../../../axiosHandle/rewardHandle';
-import AddReward from './addReward';
-import EditReward from './editReward';
+import React, { useState, useEffect } from "react";
+import Cards from "./cards";
+import { getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
+import AddReward from "./addReward";
+import EditReward from "./editReward";
 
 function RewardPoints() {
   const [reward_product_data, setRewardProductData] = useState(null);
@@ -26,29 +26,47 @@ function RewardPoints() {
         setRewardProductData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
   }, []);
-
   const exportToCSV = () => {
     if (reward_product_data) {
-      const header = ['Product', 'Product ID', 'Points', 'Description', 'Status', 'Times Redeemed'];
+      const header = [
+        "Product",
+        "Product ID",
+        "Points",
+        "Description",
+        "Status",
+        "Times Redeemed",
+      ];
       const csvData = reward_product_data.map((rr_data) => {
-        return [rr_data.title, rr_data.id, rr_data.points, rr_data.description, null, null, rr_data.quantity];
+        return [
+          rr_data.title,
+          rr_data.id,
+          rr_data.points,
+          rr_data.description,
+          null,
+          null,
+          rr_data.quantity,
+        ];
       });
 
-      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'reward_product.csv';
+      a.download = "reward_product.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
   };
 
-  const totalPages = Math.ceil(reward_product_data ? reward_product_data.length / itemsPerPage : 1);
+  const totalPages = Math.ceil(
+    reward_product_data ? reward_product_data.length / itemsPerPage : 1
+  );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -74,7 +92,7 @@ function RewardPoints() {
   };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       <Cards />
       <div className="container">
         <div className="row">
@@ -103,10 +121,25 @@ function RewardPoints() {
                       </div>
                     </div>
                     <div className="col-5 text-end">
-                      <button className="btn btn-primary btn-sm" type="button" id="add-product-button" onClick={() => handleCreateClick()}><i className="fa-regular fa-square-plus" /> Add Reward Product</button>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-product-button"
+                        onClick={() => handleCreateClick()}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add Reward
+                        Product
+                      </button>
                     </div>
                     <div className="col-2">
-                      <button className="btn btn-light btn-sm" type="button" id="export-button"><i className="fa-solid fa-file-export" onClick={exportToCSV} /> Export</button>
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
+                      >
+                        <i className="fa-solid fa-file-export" /> Export
+                      </button>
                     </div>
                   </div>
                   <table id="reports-tbl" className="table">
@@ -127,15 +160,35 @@ function RewardPoints() {
                       {filteredItems.length > 0 ? (
                         filteredItems.map((rw_data) => (
                           <tr key={rw_data.id}>
-                            <td><h6>{rw_data.title}</h6></td>
-                            <td><h6>{rw_data.id}</h6></td>
-                            <td><h6>{rw_data.points}</h6></td>
-                            <td><h6>{rw_data.description}</h6></td>
-                            <td><h6>{null}</h6></td>
-                            <td><h6>{null}</h6></td>
-                            <td><h6>{rw_data.quantity}</h6></td>
                             <td>
-                              <button style={{ background: 'blue' }} className="btn btn-primary btn-sm" onClick={() => handleEditClick(rw_data)}>Edit</button>
+                              <h6>{rw_data.title}</h6>
+                            </td>
+                            <td>
+                              <h6>{rw_data.id}</h6>
+                            </td>
+                            <td>
+                              <h6>{rw_data.points}</h6>
+                            </td>
+                            <td>
+                              <h6>{rw_data.description}</h6>
+                            </td>
+                            <td>
+                              <h6>{null}</h6>
+                            </td>
+                            <td>
+                              <h6>{null}</h6>
+                            </td>
+                            <td>
+                              <h6>{rw_data.quantity}</h6>
+                            </td>
+                            <td>
+                              <button
+                                style={{ background: "blue" }}
+                                className="btn btn-primary btn-sm"
+                                onClick={() => handleEditClick(rw_data)}
+                              >
+                                Edit
+                              </button>
                             </td>
                           </tr>
                         ))
@@ -147,11 +200,20 @@ function RewardPoints() {
                     </tbody>
                   </table>
                   <div className="col-12">
-                    <div className="btn-group" style={{ float: 'right' }}>
-                      <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                    <div className="btn-group" style={{ float: "right" }}>
+                      <button
+                        className="btn btn-light btn-sm"
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                      >
                         Previous
-                      </button>&nbsp;
-                      <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                      </button>
+                      &nbsp;
+                      <button
+                        className="btn btn-light btn-sm"
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                      >
                         Next
                       </button>
                     </div>
@@ -161,8 +223,20 @@ function RewardPoints() {
             </div>
           </div>
         </div>
-        {createProduct && <AddReward data={createProduct} open={createProduct} setOpen={setCreateProduct} />}
-        {updateProduct && <EditReward data={updateProduct} open={updateProduct} setOpen={setUpdateProduct} />}
+        {createProduct && (
+          <AddReward
+            data={createProduct}
+            open={createProduct}
+            setOpen={setCreateProduct}
+          />
+        )}
+        {updateProduct && (
+          <EditReward
+            data={updateProduct}
+            open={updateProduct}
+            setOpen={setUpdateProduct}
+          />
+        )}
       </div>
     </div>
   );

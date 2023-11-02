@@ -3,10 +3,12 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import {
   getAllLocations,
   getAllStates,
-} from "../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../axiosHandle/userHandle";
+} from "../../../axiosHandle/commonServicesHandle";
+import { createContractor } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Loader } from "react-simple-widgets";
+import { toast } from "react-toastify";
 
 const offcanvasStyle = {
   width: "365px",
@@ -23,10 +25,7 @@ export default function AddNewContractor({
   setIsContractorAdded,
   isContractorAdded,
 }) {
-  const [formValues, setFormValues] = useState({
-    district: { id: "0", name: "District" },
-    state: { id: "0", name: "State" },
-  });
+  const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
 
@@ -46,16 +45,28 @@ export default function AddNewContractor({
         console.error("Error fetching lead data:", error);
       });
   }, []);
-  console.log(formValues);
-  
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
-    district: Yup.string().required("District is required"),
-    state: Yup.string().required("State is required"),
+    district: Yup.mixed().test(
+      "isDistrictSelected",
+      "District is required",
+      function (value) {
+        return value && value.id !== "0" && value.name !== "District";
+      }
+    ),
+    state: Yup.mixed().test(
+      "isStateSelected",
+      "state is required",
+      function (value) {
+        return value && value.id !== "0" && value.name !== "State";
+      }
+    ),
+
     password: Yup.string().required("Password is required"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
@@ -74,35 +85,68 @@ export default function AddNewContractor({
     },
     validationSchema,
     onSubmit: async (values) => {
-      try {
-        const data = {
-          name: values.name,
-          email: values.email,
-          mobile: values.mobile,
-          password: values.password,
-          district_name: values.district,
-          state_name: values.state,
-        };
+      setIsLoading(true);
+      if (!isLoading) {
+        try {
+          const data = {
+            name: values.name,
+            email: values.email,
+            mobile: values.mobile,
+            password: values.password,
+            district_name: values.district,
+            state_name: values.state,
+          };
 
-        const contractorData = await createContractor(data);
-        if (contractorData) {
-          setIsContractorAdded(!isContractorAdded);
-          window.alert("Contractor created successfully!");
-          setOpen(false);
-        } else {
-          console.error(
-            "Error while creating Contractor:",
-            contractorData.error
-          );
+          const contractorData = await createContractor(data);
+          console.log(contractorData);
+          if (contractorData) {
+            setIsContractorAdded(!isContractorAdded);
+            toast.success("Contractor created successfully!");
+            setOpen(false);
+            setIsLoading(false);
+          } else {
+            console.error(
+              "Error while creating Contractor:",
+              contractorData.error
+            );
+            setIsLoading(false);
+          }
+          setIsLoading(false);
+        } catch (err) {
+          console.log(err);
+          err.response.data.email && toast.error(err.response.data.email[0]);
+          err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+          setIsLoading(false);
         }
-      } catch (err) {
-        console.log(err);
       }
     },
   });
 
   const handleCloseOffcanvas = () => {
     setOpen(false);
+    setIsLoading(false);
+  };
+
+  const handleDistrictChange = (e) => {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const id = selectedOption.getAttribute("id");
+    const districtName = e.target.value;
+
+    formik.setValues({
+      ...formik.values,
+      district: { id, name: districtName },
+    });
+  };
+
+  const handleStateChange = (e) => {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const id = selectedOption.getAttribute("id");
+    const stateName = e.target.value;
+
+    formik.setValues({
+      ...formik.values,
+      state: { id, name: stateName },
+    });
   };
 
   return (
@@ -121,7 +165,7 @@ export default function AddNewContractor({
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Reward Product Details</h5>
+          <h5>Contractor Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"
@@ -165,20 +209,12 @@ export default function AddNewContractor({
               <div className="error">{formik.errors.mobile}</div>
             ) : null}
           </div>
-          <div>
+          <div style={{ marginTop: 7 }}>
             <select
               defaultValue=""
-              className="my-2 w-100 form-control-sm form-control"
+              className=" w-100 form-control-sm form-control"
               placeholder="District"
-              onChange={(e) => {
-                const selectedOption = e.target.options[e.target.selectedIndex];
-                const id = selectedOption.getAttribute("id");
-                console.log("Selected Option ID:", id);
-                setFormValues({
-                  ...formValues,
-                  district: { id: id, name: e.target.value },
-                });
-              }}
+              onChange={handleDistrictChange}
             >
               <option disabled={true} value="" id={"0"}>
                 District
@@ -188,38 +224,16 @@ export default function AddNewContractor({
                   return <option id={item.id}>{item.district_name}</option>;
                 })}
             </select>
-            {/* <select
-              name="district"
-              className="w-100 form-control-sm form-control"
-              value={formik.values.district}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <option disabled={true} value="" id={"0"}>
-                District
-              </option>
-              {locationList &&
-                locationList.map((item, i) => (
-                  <option key={item.id} value={item.district_name}>
-                    {item.district_name}
-                  </option>
-                ))}
-            </select> */}
+            {formik.touched.district && formik.errors.district ? (
+              <div className="error">{formik.errors.district}</div>
+            ) : null}
           </div>
-          <div>
+          <div style={{ marginTop: 7 }}>
             <select
               defaultValue=""
               className=" w-100 form-control-sm form-control"
               placeholder="State"
-              onChange={(e) => {
-                const selectedOption = e.target.options[e.target.selectedIndex];
-                const id = selectedOption.getAttribute("id");
-                console.log("State Option ID:", id);
-                setFormValues({
-                  ...formValues,
-                  state: { id: id, name: e.target.value },
-                });
-              }}
+              onChange={handleStateChange}
             >
               <option disabled={true} value="" id={"0"}>
                 State
@@ -229,9 +243,12 @@ export default function AddNewContractor({
                   return <option id={ele.id}>{ele.state_name}</option>;
                 })}
             </select>
+            {formik.touched.state && formik.errors.state ? (
+              <div className="error">{formik.errors.state}</div>
+            ) : null}
           </div>
           <h5 style={{ marginTop: 10 }}>Password</h5>
-          <div>
+          <div style={{ marginTop: 7 }}>
             <input
               type="text"
               placeholder="Password"
@@ -245,9 +262,10 @@ export default function AddNewContractor({
               <div className="error">{formik.errors.password}</div>
             ) : null}
           </div>
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 7 }}>
             <input
               type="text"
+              name="confirmPassword"
               placeholder="Confirm Password"
               className="form-control form-control-sm"
               value={formik.values.confirmPassword}
@@ -261,11 +279,14 @@ export default function AddNewContractor({
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ flex: 1,
-              //  margin: "0 5px",
-                width: "100%" }}
+            style={{
+              flex: 1,
+              margin: "7px 0",
+              padding: 0,
+              width: "100%",
+            }}
           >
-            Confirm
+            {isLoading ? <Loader /> : "Confirm"}
           </button>
         </div>
       </form>
