@@ -1,13 +1,11 @@
 import axiosInstance from "./authHandle";
 
-
 const contractorsURL = '/account/create-contractor/';
 const architectsURL = '/account/create-architect/';
 const salepocURL = '/account/create-sales-poc/';
 const engineersURL = '/account/create-engineer/';
 const adminsURL = '/account/create-admin/';
 const distributorsURL = '/account/create-distributor/';
-
 
 export const getDistributorsRequest = () => {
     return axiosInstance.get(distributorsURL)
@@ -18,7 +16,6 @@ export const getDistributorsRequest = () => {
         });
 };
 
-
 export const getAdminsRequest = () => {
     return axiosInstance.get(adminsURL)
         .then((response) => response.data)
@@ -27,7 +24,6 @@ export const getAdminsRequest = () => {
             throw error;
         });
 };
-
 
 export const getEngineersRequest = () => {
     return axiosInstance.get(engineersURL)

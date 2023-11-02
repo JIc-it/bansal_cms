@@ -5,13 +5,12 @@ import AddReward from './addReward';
 import EditReward from './editReward';
 
 function RewardPoints() {
-
   const [reward_product_data, setRewardProductData] = useState(null);
-  // const [selectedProduct, setSelectedProduct] = useState(null);
   const [createProduct, setCreateProduct] = useState(null);
   const [updateProduct, setUpdateProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [searchText, setSearchText] = useState('');
 
   const handleEditClick = (data) => {
     setUpdateProduct(data);
@@ -30,6 +29,7 @@ function RewardPoints() {
         console.error('Error fetching lead data:', error);
       });
   }, []);
+
   const exportToCSV = () => {
     if (reward_product_data) {
       const header = ['Product', 'Product ID', 'Points', 'Description', 'Status', 'Times Redeemed'];
@@ -51,8 +51,14 @@ function RewardPoints() {
   const totalPages = Math.ceil(reward_product_data ? reward_product_data.length / itemsPerPage : 1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reward_product_data
-    ? reward_product_data.slice(indexOfFirstItem, indexOfLastItem)
+
+  const filteredItems = reward_product_data
+    ? reward_product_data.filter((rw_data) => {
+      const searchableFields = [rw_data.title, rw_data.id, rw_data.points, rw_data.description];
+      return searchableFields.some((field) =>
+        (typeof field === 'string' && field.toLowerCase().includes(searchText.toLowerCase()))
+      );
+    })
     : [];
 
   const handleNextPage = () => {
@@ -82,7 +88,17 @@ function RewardPoints() {
                   <div className="row">
                     <div className="col-5">
                       <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                        <input type="text" className="form-control" style={{ marginRight: 10 }} placeholder="Search..." aria-label="Search..." aria-describedby="search-button" />
+                        {/* Step 3: Capture the search input */}
+                        <input
+                          type="text"
+                          className="form-control"
+                          style={{ marginRight: 10 }}
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="search-button"
+                          value={searchText}
+                          onChange={(e) => setSearchText(e.target.value)}
+                        />
                         <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button>
                       </div>
                     </div>
@@ -108,8 +124,8 @@ function RewardPoints() {
                     </thead>
                     <tbody>
 
-                      {currentItems.length > 0 ? (
-                        currentItems.map((rw_data) => (
+                      {filteredItems.length > 0 ? (
+                        filteredItems.map((rw_data) => (
                           <tr key={rw_data.id}>
                             <td><h6>{rw_data.title}</h6></td>
                             <td><h6>{rw_data.id}</h6></td>
@@ -125,7 +141,7 @@ function RewardPoints() {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="5">No reward products available</td>
+                          <td colSpan="5">No matching reward products</td>
                         </tr>
                       )}
                     </tbody>

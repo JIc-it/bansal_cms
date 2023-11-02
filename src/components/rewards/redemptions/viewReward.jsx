@@ -56,8 +56,3 @@ export default function ViewReward({open, data, setOpen}) {
         </Offcanvas>
     );
 }
-
-
-
-
-
