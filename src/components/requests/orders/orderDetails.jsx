@@ -23,7 +23,7 @@ const statusOffcanvas = {
     backgroundColor: '#F2F2F2',
 };
 
-export default function OrderDetails(props) {
+export default function OrderDetails({open, data, setOpen}) {
 
     const [order_data, setOrderData] = useState({
         transaction_id: '',
@@ -32,11 +32,11 @@ export default function OrderDetails(props) {
     useEffect(() => {
         setOrderData({
             ...order_data,
-            transaction_id: props.data.transaction_id,
+            transaction_id: data.transaction_id,
         });
-    }, [props.data.transaction_id]);
+    }, [data.transaction_id]);
 
-    const [showOffcanvas, setShowOffcanvas] = useState(props.open_view);
+    const [showOffcanvas, setShowOffcanvas] = useState(open);
 
     const handleCloseOffcanvas = () => {
         setShowOffcanvas(false);
@@ -44,9 +44,9 @@ export default function OrderDetails(props) {
             ...order_data,
             transaction_id:'',
         });
+        setOpen(null)
     }
     
-
     return (
         <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header closeButton>

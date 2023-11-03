@@ -26,11 +26,14 @@ const statusOffcanvas = {
 
 
 
-export default function LeadDetails(props) {
+export default function LeadDetails({ open, data, setOpen }) {
 
-    const [showOffcanvas, setShowOffcanvas] = useState(props.open_view);
+    const [showOffcanvas, setShowOffcanvas] = useState(open);
 
-    const handleCloseOffcanvas = () => setShowOffcanvas(false);
+    const handleCloseOffcanvas = () => {
+        setShowOffcanvas(false);
+        setOpen(null)
+    }
 
     return (
         <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
@@ -44,7 +47,7 @@ export default function LeadDetails(props) {
                 <h6>Transaction Details</h6>
                 <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">Pending</span><br></br>
                 <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">Accepted</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{props.data.transaction_id}</span><br></br>
+                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>

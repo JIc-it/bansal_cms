@@ -5,7 +5,7 @@ const rewardProductsURL = '/purchase/rewards/';
 const rewardProductCreateURL = '/purchase/rewards/';
 const rewardProductEditURL = '/purchase/rewards/';
 const rewardRedemptionURL = '/purchase/rewards/';
-
+const rewardProductTotalCountURL = '/purchase/rewards/'
 
 
 export const getRewardProductsRequest = () => {
@@ -42,6 +42,26 @@ export const getRedemptionRequest = () => {
     .then((response) => response.data)
     .catch((error) => {
       console.error('Error while fetching reward redemption:', error);
+      throw error;
+    });
+};
+
+export const getTotalRewardProducts = () => {
+  return axiosInstance
+    .get("/purchase/rewards/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};
+
+export const getTotalProductsRedeemed = () => {
+  return axiosInstance
+    .get("/redemption-history/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
       throw error;
     });
 };

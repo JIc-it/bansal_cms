@@ -89,7 +89,7 @@ export default function Contractor() {
               <div className="col-md-4 col-12 same-card">
                 <div className="card">
                   <div className="card-body depostit-card">
-                    <div className="depostit-card-media  style-1">
+                    <div className="depostit-card-media style-1">
                       <div>
                         <h6>Total Contractors</h6>
                         <br />

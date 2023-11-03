@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import OrderDetails from './orderDetails';
 import { getOrderRequest } from '../../../axiosHandle/requestHandle';
-
-
-
+import { getTotalOrderRequests } from '../../../axiosHandle/requestHandle';
+import { getOrderPendingRequests } from '../../../axiosHandle/requestHandle';
+import { getOrderAcceptedRequests } from '../../../axiosHandle/requestHandle';
+import { getOrderRejectedRequests } from '../../../axiosHandle/requestHandle';
 
 export default function OrderRequests() {
 
@@ -15,6 +16,12 @@ export default function OrderRequests() {
   const [order_data, setOrderData] = useState(null);
   // const [order_total, setOrderTotal] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [totalOrderRequests, setTotalOrderRequests] = useState(0);
+  const [totalPendingRequests, setTotalOrderPending] = useState(0);
+  const [totalAcceptedRequests, setTotalOrderAccepted] = useState(0);
+  const [totalRejectedRequests, setTotalOrderRejected] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
@@ -30,6 +37,87 @@ export default function OrderRequests() {
         console.error('Error fetching order data:', error);
       });
   }, []);
+
+  useEffect(() => {
+    getTotalOrderRequests()
+      .then((data) => {
+        console.log(data);
+        setTotalOrderRequests(data.total_orders_count);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getOrderPendingRequests()
+      .then((data) => {
+        console.log(data);
+        setTotalOrderPending(data.total_requests_count);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getOrderAcceptedRequests()
+      .then((data) => {
+        console.log(data);
+        setTotalOrderAccepted(data.total_requests_count);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getOrderRejectedRequests()
+      .then((data) => {
+        console.log(data);
+        setTotalOrderRejected(data.total_rejected_count);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
+
+  const exportToCSV = () => {
+    if (order_data) {
+      const header = ['Transaction id', 'Name', 'Unique ID', 'Role', 'Distributor Id', 'Date & Time', 'Points', 'Quantity'];
+      const csvData = order_data.map((rr_data) => {
+        return [rr_data.transaction_id, rr_data.name, rr_data.id, null, rr_data.distributor, rr_data.created_at, null, rr_data.quantity];
+      });
+
+      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Order_Requests.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
+  const totalPages = Math.ceil(order_data ? order_data.length / itemsPerPage : 1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = order_data
+    ? order_data.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
@@ -49,7 +137,7 @@ export default function OrderRequests() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                           <div>
                             <h6>Total Requests</h6><br />
-                            <h3>36</h3>
+                            <h3>{totalOrderRequests}</h3>
                           </div>
                         </div>
                       </div>
@@ -61,7 +149,7 @@ export default function OrderRequests() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                           <div>
                             <h6>Pending Requests</h6><br />
-                            <h3>12</h3>
+                            <h3>{totalPendingRequests}</h3>
                           </div>
                         </div>
                       </div>
@@ -73,7 +161,7 @@ export default function OrderRequests() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                           <div>
                             <h6>Accepted Requests</h6><br />
-                            <h3>12</h3>
+                            <h3>{totalAcceptedRequests}</h3>
                           </div>
                         </div>
                       </div>
@@ -85,7 +173,7 @@ export default function OrderRequests() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                           <div>
                             <h6>Rejected Requests</h6><br />
-                            <h3>12</h3>
+                            <h3>{totalRejectedRequests}</h3>
                           </div>
                         </div>
                       </div>
@@ -107,7 +195,7 @@ export default function OrderRequests() {
                       </div>
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
-                      <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button"><i className="fa-solid fa-file-export" /> Export</button>
+                      <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
                     </div>
                   </div>
                   <table id="list-tbl" class="table">
@@ -126,8 +214,8 @@ export default function OrderRequests() {
                     </thead>
                     <tbody>
 
-                      {order_data && order_data.length > 0 ? (
-                        order_data.map((order) => (
+                    {currentItems.length > 0 ? (
+                        currentItems.map((order) => (
                           <tr key={order.id}>
                             <td><h6>{order.transaction_id}</h6></td>
                             <td><h6>{order.name}</h6></td>
@@ -149,13 +237,23 @@ export default function OrderRequests() {
                       )}
                     </tbody>
                   </table>
+                  <div className="col-12">
+                    <div className="btn-group" style={{ float: 'right' }}>
+                      <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        Previous
+                      </button>&nbsp;
+                      <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        Next
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {selectedOrder && (<OrderDetails data={selectedOrder} open_view = {true} />)}
+      {selectedOrder && (<OrderDetails data={selectedOrder} open={selectedOrder} setOpen={setSelectedOrder} />)}
     </div>
   );
 }

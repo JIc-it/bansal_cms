@@ -1,7 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { editRewardProductRequest } from '../../../axiosHandle/rewardHandle';
+import { toast } from "react-toastify";
 
 const offcanvasStyle = {
     width: '365px',
@@ -12,6 +12,7 @@ const offcanvasStyle = {
     marginTop: 20,
     flexDirection: 'column',
 };
+
 export default function EditReward({ open, data, setOpen }) {
     const [credentials, setCredentials] = useState({
         title: data.title,
@@ -23,7 +24,7 @@ export default function EditReward({ open, data, setOpen }) {
     const handleUpdate = async () => {
         try {
             const { title, points, description, item_image } = credentials;
-            
+
             const f_data = new FormData();
             f_data.append('title', title);
             f_data.append('points', points);
@@ -37,9 +38,9 @@ export default function EditReward({ open, data, setOpen }) {
             console.log('Response from editRewardProductRequest:', response);
 
             if (response.data) {
-                window.alert('Reward product updated successfully!');
-                setShowOffcanvas(false);
-                setOpen(null);
+                toast.success("Reward product updated successfully!");
+                // Close the Offcanvas and clear the form
+                setOpen(false);
             } else {
                 console.error('Error while creating reward product:', response.error);
             }
@@ -48,22 +49,8 @@ export default function EditReward({ open, data, setOpen }) {
         }
     };
 
-    const [showOffcanvas, setShowOffcanvas] = useState(open);
-
-    const handleCloseOffcanvas = () => {
-        setShowOffcanvas(false);
-        setOpen(null)
-    }
-    // const handleCloseOffcanvas = () => {
-    //     setShowOffcanvas(false);
-    //     setOrderData({
-    //         ...order_data,
-    //         transaction_id:'',
-    //     });
-    //     setOpen(null)
-    // }
     return (
-        <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
+        <Offcanvas show={open} onHide={() => setOpen(false)} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
                 {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
             </Offcanvas.Header>
@@ -82,7 +69,7 @@ export default function EditReward({ open, data, setOpen }) {
                         onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>
-                    <img src={credentials.item_image} style={{ width: '150px', height: '150px' }} />
+                    <img src={credentials.item_image} style={{ width: '150px', height: '150px' }} alt="Product Image" />
                 </div>
                 <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
                     <div>
@@ -99,6 +86,3 @@ export default function EditReward({ open, data, setOpen }) {
         </Offcanvas>
     );
 }
-
-
-

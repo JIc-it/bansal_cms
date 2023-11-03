@@ -1,4 +1,34 @@
+import { getTotalRewardProducts } from "../../../axiosHandle/rewardHandle";
+import { getTotalProductsRedeemed } from "../../../axiosHandle/rewardHandle";
+import React, { useState, useEffect } from "react";
+
 export default function Cards() {
+
+    const [totalRewardProducts, setTotalRewardProducts] = useState(0);
+    const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
+
+    useEffect(() => {
+        getTotalRewardProducts()
+            .then((data) => {
+                console.log(data);
+                setTotalRewardProducts(data.count);
+            })
+            .catch((error) => {
+                console.error("Error fetching distributor data:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getTotalProductsRedeemed()
+            .then((data) => {
+                console.log(data);
+                setTotalProductsRedeemed(data.count);
+            })
+            .catch((error) => {
+                console.error("Error fetching distributor data:", error);
+            });
+    }, []);
+
     return (
         <div className="container">
             <div className="row">
@@ -25,7 +55,7 @@ export default function Cards() {
                                     <div className="depostit-card-media d-flex justify-content-between style-1">
                                         <div>
                                             <h6>Products Redeemed</h6><br />
-                                            <h3>5200</h3>
+                                            <h3>{totalProductsRedeemed}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +79,7 @@ export default function Cards() {
                                     <div className="depostit-card-media d-flex justify-content-between style-1">
                                         <div>
                                             <h6>Reward Products</h6><br />
-                                            <h3>12</h3>
+                                            <h3>{totalRewardProducts}</h3>
                                         </div>
                                     </div>
                                 </div>
