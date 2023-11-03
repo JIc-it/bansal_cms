@@ -73,3 +73,13 @@ export const createContractor = (data) => {
         throw error;
       });
   };
+
+  export const deleteContractor = (id) => {
+    console.log(id);
+    return axiosInstance.post(contractorsURL, id)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error('Error while creating reward product:', error);
+        throw error;
+      });
+  };

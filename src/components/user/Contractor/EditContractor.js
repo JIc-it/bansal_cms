@@ -19,7 +19,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function AddNewContractor({
+export default function EditContractor({
   open,
   setOpen,
   setIsContractorAdded,
@@ -161,7 +161,8 @@ export default function AddNewContractor({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-       </Offcanvas.Header>
+        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
+      </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Contractor Details</h5>
@@ -246,35 +247,7 @@ export default function AddNewContractor({
               <div className="error">{formik.errors.state}</div>
             ) : null}
           </div>
-          <h5 style={{ marginTop: 10 }}>Password</h5>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="text"
-              placeholder="Password"
-              name="password"
-              className="form-control form-control-sm"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.password && formik.errors.password ? (
-              <div className="error">{formik.errors.password}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="text"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              className="form-control form-control-sm"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-              <div className="error">{formik.errors.confirmPassword}</div>
-            ) : null}
-          </div>
+
           <button
             type="submit"
             className="btn btn-primary"

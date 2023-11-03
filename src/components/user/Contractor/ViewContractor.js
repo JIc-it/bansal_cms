@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
+import ViewContractorTransaction from "./ViewContractorTransaction";
+import AddPointsPopUp from "./AddPointsPopUp";
+import ContractorResetPassword from "./ContractorResetPassword";
+import EditContractor from "./EditContractor";
 
 const ViewContractor = () => {
   const id = useParams();
   console.log(id);
+  const [viewTransaction, setViewTransaction] = useState(false);
+  const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
+  const [openResetPassword, setOpenResetPassword] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
+        <div className="contractor-reset-password">
+          <div className="contractor-name">
+            Contractor/{" "}
+            <span style={{ fontWeight: 400, fontSize: "12px" }}>Name</span>
+          </div>
+          <div className="reset-buttons">
+            <button
+              className="btn bg-blue btn-sm"
+              type="button"
+              id="add-points-button"
+              onClick={() => {
+                setOpenResetPassword(true);
+              }}
+            >
+              Reset Password
+            </button>
+            <button
+              className="btn bg-blue btn-sm mx-2"
+              type="button"
+              id="export-button"
+              onClick={() => setOpenEdit(true)}
+            >
+              Edit Details
+            </button>
+          </div>
+        </div>
         <div className="row">
           <div className="col-md-3 col-12 same-card">
             <div className="card">
@@ -24,36 +58,23 @@ const ViewContractor = () => {
             </div>
           </div>
           <div className="col-md-4 col-12 same-card">
-            <div className="contractor-count-group">
-              <div className="contractor-count ">
-                {" "}
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Points</h6>
-                        <br />
-                        <h3>56780 pts</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="contractor-count">
-                {" "}
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Points</h6>
-                        <br />
-                        <h3>56780 pts</h3>
-                      </div>
+            {/* <div className="contractor-count-group"> */}
+            <div className="contractor-count ">
+              {" "}
+              <div className="card">
+                <div className="card-body depostit-card">
+                  <div className="depostit-card-media d-flex justify-content-between style-1">
+                    <div>
+                      <h6>Total Orders</h6>
+                      <br />
+                      <h3>56780 pts</h3>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* </div> */}
             <div className="contractor-count-detail">
               <div className="card">
                 <div className="card-body depostit-card">
@@ -91,10 +112,10 @@ const ViewContractor = () => {
           </div>
         </div>
         <div className="row " style={{ margin: "0 1px" }}>
-          <div className="card">
+          <div className="card " style={{ paddingLeft: 0 }}>
             <div className="card-body ">
               <div className="contractor-detail-heading">Transactions</div>
-              <div className="col-12">
+              <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
                     className="btn btn-primary btn-sm"
@@ -114,7 +135,7 @@ const ViewContractor = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-5">
+                <div className="col-5" style={{ paddingLeft: 0 }}>
                   <div
                     className="input-group mb-3"
                     style={{
@@ -171,21 +192,19 @@ const ViewContractor = () => {
                     </button>
                   </div>
                 </div>
-                <div className="col-5 text-end">
+                <div className="col-7 text-end contractor-grid-button">
                   <button
                     className="btn btn-primary btn-sm"
                     type="button"
                     id="add-points-button"
-                    // onClick={() => {
-                    //   setIsOpenAddContractor(true);
-                    // }}
+                    onClick={() => {
+                      setIsOpenAddPointsPopUp(true);
+                    }}
                   >
                     <i className="fa-regular fa-square-plus" /> Add Points
                   </button>
-                </div>
-                <div className="col-2">
                   <button
-                    className="btn btn-light btn-sm"
+                    className="btn btn-light btn-sm mx-2"
                     type="button"
                     id="export-button"
                     // onClick={exportToCSV}
@@ -230,27 +249,78 @@ const ViewContractor = () => {
                     <td>
                       <button className="btn  btn-sm">View Request</button>
                     </td>
-                    <td>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    <td onClick={() => setViewTransaction(true)}>
+                      <a
+                        className="btn btn-primary btn-sm"
+                        href="#"
+                        role="button"
                       >
-                        <path
-                          d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                          fill="#0F0F0F"
-                        />
-                        <path
-                          d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                          fill="#0F0F0F"
-                        />
-                        <path
-                          d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                          fill="#0F0F0F"
-                        />
-                      </svg>
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                  <tr key={"324243"}>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <button className="btn  btn-sm">View Request</button>
+                    </td>
+                    <td onClick={() => setViewTransaction(true)}>
+                      <a
+                        className="btn btn-primary btn-sm"
+                        href="#"
+                        role="button"
+                      >
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                  <tr key={"324243"}>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <h6>order.name</h6>
+                    </td>
+                    <td>
+                      <button className="btn  btn-sm">View Request</button>
+                    </td>
+                    <td onClick={() => setViewTransaction(true)}>
+                      <a
+                        className="btn btn-primary btn-sm"
+                        href="#"
+                        role="button"
+                      >
+                        View
+                      </a>
                     </td>
                   </tr>
                   {/* {props.data && props.data.length > 0 ? (
@@ -276,6 +346,22 @@ const ViewContractor = () => {
           </div>{" "}
         </div>
       </div>
+      {viewTransaction && (
+        <ViewContractorTransaction setOpen={setViewTransaction} />
+      )}
+      {isOpenAddPointsPopUp && (
+        <AddPointsPopUp
+          setOpen={setIsOpenAddPointsPopUp}
+          open={isOpenAddPointsPopUp}
+        />
+      )}
+      {openResetPassword && (
+        <ContractorResetPassword
+          open={openResetPassword}
+          setOpen={setOpenResetPassword}
+        />
+      )}
+      {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />}
     </div>
   );
 };

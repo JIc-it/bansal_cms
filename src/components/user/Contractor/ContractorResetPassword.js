@@ -19,7 +19,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function AddNewContractor({
+export default function ContractorResetPassword({
   open,
   setOpen,
   setIsContractorAdded,
@@ -41,6 +41,7 @@ export default function AddNewContractor({
       .then((data) => {
         setStateList(data.results);
       })
+
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
@@ -161,96 +162,15 @@ export default function AddNewContractor({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-       </Offcanvas.Header>
+        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
+      </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Contractor Details</h5>
+          <h5 style={{ marginTop: 10 }}>Reset Password</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"
-              placeholder="Name"
-              className="form-control form-control-sm"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.name && formik.errors.name ? (
-              <div className="error">{formik.errors.name}</div>
-            ) : null}
-          </div>
-
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className="form-control form-control-sm"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.email && formik.errors.email ? (
-              <div className="error">{formik.errors.email}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="number"
-              placeholder="Mobile"
-              name="mobile"
-              className="form-control form-control-sm"
-              value={formik.values.mobile}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.mobile && formik.errors.mobile ? (
-              <div className="error">{formik.errors.mobile}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <select
-              defaultValue=""
-              className=" w-100 form-control-sm form-control"
-              placeholder="District"
-              onChange={handleDistrictChange}
-            >
-              <option disabled={true} value="" id={"0"}>
-                District
-              </option>
-              {locationList &&
-                locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district_name}</option>;
-                })}
-            </select>
-            {formik.touched.district && formik.errors.district ? (
-              <div className="error">{formik.errors.district}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <select
-              defaultValue=""
-              className=" w-100 form-control-sm form-control"
-              placeholder="State"
-              onChange={handleStateChange}
-            >
-              <option disabled={true} value="" id={"0"}>
-                State
-              </option>
-              {stateList &&
-                stateList.map((ele, i) => {
-                  return <option id={ele.id}>{ele.state_name}</option>;
-                })}
-            </select>
-            {formik.touched.state && formik.errors.state ? (
-              <div className="error">{formik.errors.state}</div>
-            ) : null}
-          </div>
-          <h5 style={{ marginTop: 10 }}>Password</h5>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="text"
-              placeholder="Password"
+              placeholder="New Password"
               name="password"
               className="form-control form-control-sm"
               value={formik.values.password}
