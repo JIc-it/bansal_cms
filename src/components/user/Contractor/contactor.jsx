@@ -12,6 +12,8 @@ export default function Contractor() {
   const [isContractorAdded, setIsContractorAdded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUserCount, setTotalUserCount] = useState(0);
+  const [openRemoveOption, setOpenRemoveOption] = useState(false);
+  const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -77,6 +79,11 @@ export default function Contractor() {
 
   const handleViewContractor = (id) => {
     navigate(`/viewContractor/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log("deleted id", id);
+    console.log("deleted id state ", selectedIdForRemove);
   };
 
   return (
@@ -196,7 +203,10 @@ export default function Contractor() {
                         </button>
                       </div>
                     </div>
-                    <div className="col-5 text-end">
+                    <div
+                      className="col-5 text-end"
+                      style={{ paddingTop: "1.5rem" }}
+                    >
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
@@ -209,7 +219,7 @@ export default function Contractor() {
                         Contractor
                       </button>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2" style={{ paddingTop: "1.5rem" }}>
                       <button
                         className="btn btn-light btn-sm"
                         type="button"
@@ -227,9 +237,9 @@ export default function Contractor() {
                         <th>Unique id</th>
                         <th>Mobile</th>
                         <th>Location</th>
+                        <th>Points</th>
                         <th>Action</th>
-                        <th />
-                        <th />
+                        <th> </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -258,6 +268,43 @@ export default function Contractor() {
                               >
                                 View User
                               </a>
+                            </td>
+                            <td
+                              onClick={() => {
+                                setOpenRemoveOption(true);
+                                setSelectedIdForRemove(data.id);
+                              }}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {" "}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                              </svg>
+                              {openRemoveOption &&
+                                data.id === selectedIdForRemove && (
+                                  <div className="option-container">
+                                    <span onClick={() => handleDelete(data.id)}>
+                                      Remove
+                                    </span>
+                                  </div>
+                                )}
                             </td>
                           </tr>
                         ))
