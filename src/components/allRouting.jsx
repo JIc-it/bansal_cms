@@ -26,6 +26,7 @@ import Login from "./auth/login";
 import ForgotPassword from "./forgotPassword";
 import ViewContractor from "./user/Contractor/ViewContractor";
 import Distributors from "./user/Distributor/distributor";
+import ViewDistributorDetails from "./user/Distributor/ViewDistributorDetails";
 
 export default function AllRouting() {
   return (
@@ -58,6 +59,7 @@ export default function AllRouting() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/axios" element={<AxiosCRUDComponent />} />
         <Route path="/viewContractor/:id" element={<ViewContractor />} />
+        <Route path="/viewDistributor/:id" element={<ViewDistributorDetails />} />
       </Routes>
     </main>
   );

@@ -21,6 +21,7 @@
     "react-bootstrap": "^2.9.0",
     "react-chartjs-2": "^5.2.0",
     "react-cookie": "^6.1.1",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
     "react-dropdown-select": "^4.10.0",
