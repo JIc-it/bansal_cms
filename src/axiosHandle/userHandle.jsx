@@ -9,6 +9,8 @@ const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
 const getUserOrderURL = "/purchase/tmt_orders/user";
+const getUserRedemptionURL = "/purchase/redemption_history/user";
+const deleteContractorUrl = "/account/delete/user";
 
 export const getDistributorsRequest = () => {
   return axiosInstance
@@ -50,9 +52,15 @@ export const getSalePOCRequest = () => {
     });
 };
 
-export const getContractorsRequest = (searchData) => {
+export const getContractorsRequest = (searchData, filterCriteria) => {
   return axiosInstance
-    .get(contractorsURL, { params: { search: searchData } })
+    .get(contractorsURL, {
+      params: {
+        search: searchData,
+        points_from: filterCriteria.from,
+        points_to: filterCriteria.to,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching contractor request:", error);
@@ -115,6 +123,26 @@ export const handleUserResetPassword = (id, data) => {
 export const getUserOrders = (id) => {
   return axiosInstance
     .get(`${getUserOrderURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserRedemptionData = (id) => {
+  return axiosInstance
+    .get(`${getUserRedemptionURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const deleteContractorUser = (id) => {
+  return axiosInstance
+    .delete(`${deleteContractorUrl}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);

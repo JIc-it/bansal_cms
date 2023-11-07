@@ -1,28 +1,47 @@
 import React from "react";
 
-const FilterPopUp = () => {
+const FilterPopUp = ({
+  filterCriteria,
+  setFilterCriteria,
+  isFilter,
+  setIsFilter,
+  setOpenFilter,
+}) => {
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
       <span>By Points</span>
       <div className="filter-fields">
         <input
-          type="text"
+          type="number"
           placeholder="From"
           className="form-control form-control-sm"
           name="from"
-          //   value={formik.values.name}
-          //   onChange={formik.handleChange}
+          value={filterCriteria.from}
+          onChange={(e) => {
+            setFilterCriteria({ ...filterCriteria, from: e.target.value });
+          }}
           //   onBlur={formik.handleBlur}
         />
-        <span style={{fontWeight:'700',color:"#000",position:"relative",top:"5px"}}>-</span>
+        <span
+          style={{
+            fontWeight: "700",
+            color: "#000",
+            position: "relative",
+            top: "5px",
+          }}
+        >
+          -
+        </span>
         <input
-          type="text"
+          type="number"
           placeholder="To"
           className="form-control form-control-sm"
           name="to"
-          //   value={formik.values.name}
-          //   onChange={formik.handleChange}
+          value={filterCriteria.to}
+          onChange={(e) => {
+            setFilterCriteria({ ...filterCriteria, to: e.target.value });
+          }}
           //   onBlur={formik.handleBlur}
         />
       </div>
@@ -34,6 +53,10 @@ const FilterPopUp = () => {
           width: "100%",
           background: "#2B59C3",
           outline: "none",
+        }}
+        onClick={() => {
+          setOpenFilter(false);
+          setIsFilter(!isFilter);
         }}
       >
         Apply
@@ -47,6 +70,10 @@ const FilterPopUp = () => {
           marginTop: "10px",
           background: "#0F0F0F",
           outline: "none",
+        }}
+        onClick={() => {
+          setFilterCriteria({ from: "", to: "" });
+          setIsFilter(!isFilter);
         }}
       >
         Clear Filter

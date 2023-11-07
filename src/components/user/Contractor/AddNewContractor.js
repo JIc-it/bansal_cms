@@ -46,6 +46,8 @@ export default function AddNewContractor({
       });
   }, []);
 
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -66,8 +68,12 @@ export default function AddNewContractor({
         return value && value.id !== "0" && value.name !== "State";
       }
     ),
-
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        passwordRegex,
+        "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
+      ),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),

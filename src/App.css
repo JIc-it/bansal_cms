@@ -158,3 +158,64 @@
   grid-gap: 10px;
   padding: 10px 0;
 }
+
+.Processing-btn {
+  border-radius: 4px;
+  background: rgba(31, 134, 255, 0.2);
+  color: #1f86ff;
+}
+.Rejected-btn {
+  border-radius: 4px;
+  background: rgba(235, 28, 28, 0.2);
+  color: #eb1c1c;
+}
+.Accepted-btn {
+  border-radius: 4px;
+  background: rgba(24, 183, 88, 0.2);
+  color: #18b758;
+}
+
+.search-group {
+  display: flex;
+  margin-right: 10px;
+  border-radius: 5px !important;
+}
+.search-group input {
+  border: none;
+  flex: 1;
+}
+.search-group svg {
+  position: relative;
+  top: 4px;
+}
+
+.custom-input {
+  display: flex;
+  align-items: center;
+}
+
+.custom-input input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  /* width: 200px; */
+}
+
+.custom-input svg {
+  margin-left: 8px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.filter-popup-container .react-datepicker-wrapper {
+  border: 1px solid #ccc;
+  width: 100%;
+  display: flex;
+  border-radius: 0.5rem;
+  color: #6e6e6e;
+  margin: 10px 0;
+}
+.filter-popup-container .react-datepicker-wrapper input {
+  flex: 1;
+  border: none;
+}

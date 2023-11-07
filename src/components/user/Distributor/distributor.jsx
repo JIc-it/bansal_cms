@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { getDistributorsRequest } from "../../../axiosHandle/userHandle";
+import {
+  getDistributorsRequest,
+  getUserStatics,
+} from "../../../axiosHandle/userHandle";
 import AddNewDistributor from "./AddNewDistributor";
+import { useNavigate } from "react-router";
 
 export default function Distributors() {
-  const [user_data, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [isOpenAddDistributor, setIsOpenAddDistributor] = useState(false);
   const [isDistributorAdded, setIsDistributorAdded] = useState(false);
+  const [totalUserCount, setTotalUserCount] = useState(0);
 
   const handleDelete = (id) => {
     console.log("deleted id", id);
     console.log("deleted id state ", selectedIdForRemove);
   };
+
+  useEffect(() => {
+    getUserStatics("Distributor")
+      .then((data) => {
+        console.log(data);
+        setTotalUserCount(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
 
   useEffect(() => {
     getDistributorsRequest()
@@ -25,6 +42,31 @@ export default function Distributors() {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+
+  const exportToCSV = () => {
+    if (userData) {
+      const header = ["Name", "Unique ID", "Mobile", "Location"];
+      const csvData = userData.map((item) => {
+        return [
+          item.district_name,
+          item.user_id,
+          item.mobile,
+          item.district_name,
+        ];
+      });
+
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Distributor-List.csv";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
@@ -38,35 +80,35 @@ export default function Distributors() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
+                        <h6>Total Distributors</h6>
+                        <br />
+                        <h3>{totalUserCount.user_type_total}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 col-12 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>New Distributors in current Qtr</h6>
+                        <br />
+                        <h3>{totalUserCount.new_users_in_current_quarter}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 col-12 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
                         <h6>Total Users</h6>
                         <br />
-                        <h3>{user_total_data}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-12 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Admins</h6>
-                        <br />
-                        <h3>12</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-12 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>New Admins in current Qtr</h6>
-                        <br />
-                        <h3>12</h3>
+                        <h3>{totalUserCount.total_users}</h3>
                       </div>
                     </div>
                   </div>
@@ -95,21 +137,30 @@ export default function Distributors() {
                           paddingLeft: 15,
                         }}
                       >
-                        <input
-                          type="text"
-                          className="form-control"
-                          style={{ marginRight: 10 }}
-                          placeholder="Search..."
-                          aria-label="Search..."
-                          aria-describedby="search-button"
-                        />
-                        <button
-                          className="btn btn-dark"
-                          type="button"
-                          id="search-button"
-                        >
-                          <i className="fas fa-filter" />
-                        </button>
+                        <div className="search-group form-control">
+                          <input
+                            type="text"
+                            className=""
+                            style={{ marginRight: 10 }}
+                            placeholder="Search..."
+                            aria-label="Search..."
+                            aria-describedby="search-button"
+                          />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M9.58342 2.29199C5.55634 2.29199 2.29175 5.55658 2.29175 9.58366C2.29175 13.6107 5.55634 16.8753 9.58342 16.8753C13.6105 16.8753 16.8751 13.6107 16.8751 9.58366C16.8751 5.55658 13.6105 2.29199 9.58342 2.29199ZM1.04175 9.58366C1.04175 4.86623 4.86598 1.04199 9.58342 1.04199C14.3008 1.04199 18.1251 4.86623 18.1251 9.58366C18.1251 11.7174 17.3427 13.6684 16.0491 15.1655L18.7754 17.8917C19.0194 18.1358 19.0194 18.5315 18.7754 18.7756C18.5313 19.0197 18.1356 19.0197 17.8915 18.7756L15.1653 16.0494C13.6682 17.3429 11.7172 18.1253 9.58342 18.1253C4.86598 18.1253 1.04175 14.3011 1.04175 9.58366Z"
+                              fill="#525252"
+                            />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                     <div className="col-5 text-end">
@@ -130,6 +181,7 @@ export default function Distributors() {
                         className="btn btn-light btn-sm"
                         type="button"
                         id="export-button"
+                        onClick={exportToCSV}
                       >
                         <i className="fa-solid fa-file-export" /> Export
                       </button>
@@ -148,8 +200,8 @@ export default function Distributors() {
                       </tr>
                     </thead>
                     <tbody>
-                      {user_data && user_data.length > 0 ? (
-                        user_data.slice(0, 5).map((data) => (
+                      {userData && userData.length > 0 ? (
+                        userData.slice(0, 5).map((data) => (
                           <tr key={data.id}>
                             <td>
                               <h6>{data.name}</h6>
@@ -168,6 +220,9 @@ export default function Distributors() {
                                 className="btn btn-primary btn-sm"
                                 href="#"
                                 role="button"
+                                onClick={()=>{
+                                  navigate(`/viewDistributor/${data.id}`);
+                                }}
                               >
                                 View User
                               </a>

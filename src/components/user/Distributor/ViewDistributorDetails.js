@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import ViewContractorTransaction from "./ViewContractorTransaction";
-import AddPointsPopUp from "./AddPointsPopUp";
-import ContractorResetPassword from "./ContractorResetPassword";
-import EditContractor from "./EditContractor";
+// import ViewContractorTransaction from "./ViewContractorTransaction";
+// import AddPointsPopUp from "./AddPointsPopUp";
+// import ContractorResetPassword from "./ContractorResetPassword";
 import {
   getContractorsRequest,
   getUserOrders,
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
-import TransactionFilterPopUp from "./TransactionFilterPopUp";
+// import TransactionFilterPopUp from "./TransactionFilterPopUp";
 
-const ViewContractor = () => {
+const ViewDistributorDetails = () => {
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
@@ -23,7 +22,7 @@ const ViewContractor = () => {
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
-
+  console.log(userDatail);
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
       .then((data) => {
@@ -130,7 +129,7 @@ const ViewContractor = () => {
       <div className="container">
         <div className="contractor-reset-password">
           <div className="contractor-name">
-            Contractor/{" "}
+            Distributor/{" "}
             <span style={{ fontWeight: 400, fontSize: "12px" }}>
               {userData && userData.name}
             </span>
@@ -170,7 +169,7 @@ const ViewContractor = () => {
                     {userData && userData.name}
                   </div>
                   <div className="contractorid">
-                    contractor .
+                    Distributor .
                     <span className="error">
                       {userData && userData.user_id}
                     </span>{" "}
@@ -202,7 +201,7 @@ const ViewContractor = () => {
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
                     <div>
-                      <h6>Total Points</h6>
+                      <h6>Total Quantity</h6>
                       <br />
                       <h3>56780 pts</h3>
                     </div>
@@ -254,19 +253,6 @@ const ViewContractor = () => {
                     onClick={() => handleClickTrancationType("Orders")}
                   >
                     Orders
-                  </button>
-                  <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Redemptions"
-                        ? "btn-primary"
-                        : "btn-light"
-                    }`}
-                    type="button"
-                    id="add-points-button"
-                    style={{ marginLeft: 6 }}
-                    onClick={() => handleClickTrancationType("Redemptions")}
-                  >
-                    Redemptions
                   </button>
                 </div>
               </div>
@@ -349,7 +335,7 @@ const ViewContractor = () => {
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <TransactionFilterPopUp />}
+                  {/* {transactionFilterOpen && <TransactionFilterPopUp />} */}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   <button
@@ -373,7 +359,7 @@ const ViewContractor = () => {
                 </div>
               </div>
 
-              {seletedTranasactionType === "Orders" ? (
+              {/* {seletedTranasactionType === "Orders" ? (
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
                     <thead>
@@ -535,12 +521,12 @@ const ViewContractor = () => {
                     </tbody>
                   </table>
                 </div>
-              )}
+              )} */}
             </div>
           </div>{" "}
         </div>
       </div>
-      {viewTransaction && (
+      {/* {viewTransaction && (
         <ViewContractorTransaction setOpen={setViewTransaction} />
       )}
       {isOpenAddPointsPopUp && (
@@ -556,9 +542,9 @@ const ViewContractor = () => {
           userDatail={userDatail}
         />
       )}
-      {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />}
+      {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />} */}
     </div>
   );
 };
 
-export default ViewContractor;
+export default ViewDistributorDetails;
