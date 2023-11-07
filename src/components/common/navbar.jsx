@@ -54,16 +54,16 @@ export default function Navbar() {
                         <div className="collapse navbar-collapse justify-content-between">
                             <div className="header-left px-4">
                                 <form>
-                                    <div className="input-group search-area" style={{ width: '540px', borderRadius: '2px' }}>
-                                        <input type="text" className="form-control" placeholder="Search" />
-                                        <span className="input-group-text">
+                                    <div className="input-group search-area" >
+                                        {/* <input type="text" className="form-control" placeholder="Search" /> */}
+                                        {/* <span className="input-group-text">
                                             <button className="bg-transparent border-0">
                                                 <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="8.78605" cy="8.78605" r="8.23951" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
                                                     <path d="M14.5168 14.9447L17.7471 18.1667" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </button>
-                                        </span>
+                                        </span> */}
                                     </div>
                                 </form>
                             </div>

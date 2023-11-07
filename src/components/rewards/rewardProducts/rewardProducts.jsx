@@ -117,7 +117,7 @@ function RewardPoints() {
                           value={searchText}
                           onChange={(e) => setSearchText(e.target.value)}
                         />
-                        <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button>
+                        {/* <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button> */}
                       </div>
                     </div>
                     <div className="col-5 text-end">

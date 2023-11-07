@@ -6,7 +6,7 @@ const rewardProductCreateURL = '/purchase/rewards/';
 const rewardProductEditURL = '/purchase/rewards/';
 const rewardRedemptionURL = '/purchase/rewards/';
 const rewardProductTotalCountURL = '/purchase/rewards/'
-
+const redeemedviewURL = "/purchase/admin-pending-orders/";
 
 export const getRewardProductsRequest = () => {
   return axiosInstance.get(rewardProductsURL)
@@ -62,6 +62,27 @@ export const getTotalProductsRedeemed = () => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};
+
+export const getTotalRedeemedCount = () => {
+  return axiosInstance
+    .get("/purchase/admin-reward-otr/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};
+
+
+export const getLeadView = (searchData) => {
+  return axiosInstance
+    .get(redeemedviewURL, { params: { search: searchData } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching contractor request:", error);
       throw error;
     });
 };

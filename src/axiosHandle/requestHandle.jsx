@@ -4,8 +4,6 @@ import axiosInstance from "./authHandle";
 const orderRequestURL = '/purchase/admin-pending-orders/';
 const leadRequestURL = '/purchase/admin-pending-leads/';
 
-
-
 export const getOrderRequest = () => {
   return axiosInstance.get(orderRequestURL)
     .then((response) => response.data)
