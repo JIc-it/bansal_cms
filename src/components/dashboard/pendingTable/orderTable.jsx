@@ -15,9 +15,9 @@ export default function OrderTable(props) {
                 {props.data && props.data.length > 0 ? (
                     props.data.slice(0, 5).map((order) => (
                         <tr key={order.id}>
-                            <td><h6>{order.name}</h6></td>
-                            <td><h6>{order.transaction_id}</h6></td>
-                            <td><h6>{order.orderNumber}</h6></td>
+                            <td><h6>{order?.user?.name}</h6></td>
+                            <td><h6>{order?.user?.user_id}</h6></td>
+                            <td><h6>{order?.distributor?.user_id}</h6></td>
                             <td><h6>{order.quantity}</h6></td>
                             <td>
                                 <button className="btn btn-primary btn-sm">View Request</button>

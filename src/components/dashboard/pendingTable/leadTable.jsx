@@ -18,7 +18,7 @@ export default function LeadTable(props) {
                             <td><h6>{lead.name}</h6></td>
                             <td><h6>{lead.mobile_no}</h6></td>
                             <td><h6>{lead.referral_id}</h6></td>
-                            <td><h6>{lead.quantity}</h6></td>
+                            <td><h6>{lead.order}</h6></td>
                             <td>
                                 <button className="btn btn-primary btn-sm">View Request</button>
                             </td>

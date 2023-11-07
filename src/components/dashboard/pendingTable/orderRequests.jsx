@@ -21,8 +21,8 @@ export default function PendingOrderRequests() {
     useEffect(() => {
         getOrderRequest()
             .then((data) => {
-                setOrderData(data.pending_orders);
-                setOrderTotal(data.total_requests_count);
+                setOrderData(data.results);
+                setOrderTotal(data.count);
             })
             .catch((error) => {
                 console.error('Error fetching order data:', error);
