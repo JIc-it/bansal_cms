@@ -30,7 +30,8 @@ export default function OrderRequests() {
   useEffect(() => {
     getOrderRequest()
       .then((data) => {
-        setOrderData(data.pending_orders);
+        console.log(data);
+        setOrderData(data.total_rejected_count);
         // setOrderTotal(data.total_requests_count);
       })
       .catch((error) => {

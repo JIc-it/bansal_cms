@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://tmt.ainosaur.com';
+const API_BASE_URL = 'https://bansal.jicitsolution.com/';
 
 // const axiosInstance = axios.create({
 //     baseURL: API_BASE_URL,

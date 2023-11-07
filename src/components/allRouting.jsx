@@ -7,7 +7,6 @@ import OrderPoints from "./points/orders/pointsOrders";
 import LeadPoints from "./points/leads/pointsLeads";
 import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
-import Distributors from "./user/distributor";
 import Engineers from "./user/engineers";
 import Architects from "./user/architects";
 import SalesPocs from "./user/salesPocs";
@@ -26,6 +25,7 @@ import AxiosCRUDComponent from "./contractorAxios";
 import Login from "./auth/login";
 import ForgotPassword from "./forgotPassword";
 import ViewContractor from "./user/Contractor/ViewContractor";
+import Distributors from "./user/Distributor/distributor";
 
 export default function AllRouting() {
   return (

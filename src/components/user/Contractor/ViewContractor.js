@@ -1,24 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ViewContractorTransaction from "./ViewContractorTransaction";
 import AddPointsPopUp from "./AddPointsPopUp";
 import ContractorResetPassword from "./ContractorResetPassword";
 import EditContractor from "./EditContractor";
+import {
+  getContractorsRequest,
+  getUserOrders,
+} from "../../../axiosHandle/userHandle";
 
 const ViewContractor = () => {
-  const id = useParams();
-  console.log(id);
+  const userDatail = useParams();
+  const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
   const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [seletedTranasactionType, setSeletedTranasactionType] =
+    useState("Order");
+  const [transactionData, setTransactionData] = useState();
+
+  useEffect(() => {
+    getContractorsRequest()
+      .then((data) => {
+        let filteredData = data.results.find((item, i) => {
+          return item.id === userDatail.id;
+        });
+        setUserData(filteredData);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
+
+  const handleClickTrancationType = (type) => {
+    console.log(userDatail);
+    if (type === "Orders") {
+      getUserOrders(userData.id)
+        .then((data) => {
+          setTransactionData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    } else {
+    }
+  };
+  console.log(transactionData);
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
         <div className="contractor-reset-password">
           <div className="contractor-name">
             Contractor/{" "}
-            <span style={{ fontWeight: 400, fontSize: "12px" }}>Name</span>
+            <span style={{ fontWeight: 400, fontSize: "12px" }}>
+              {userData && userData.name}
+            </span>
           </div>
           <div className="reset-buttons">
             <button
@@ -47,11 +84,18 @@ const ViewContractor = () => {
               <div className="card-body depostit-card">
                 <div className="depostit-card-media justify-content-between style-1">
                   <div className="image-container-contractor">
-                    <div className="contractor-image">Ab</div>
+                    <div className="contractor-image">
+                      {userData && userData.name.slice(0, 2)}
+                    </div>
                   </div>
-                  <div className="contractor-name">Pratibha Seth</div>
+                  <div className="contractor-name">
+                    {userData && userData.name}
+                  </div>
                   <div className="contractorid">
-                    constractor <span className="error">.32142345</span>{" "}
+                    constractor{" "}
+                    <span className="error">
+                      .{userData && userData.user_id}
+                    </span>{" "}
                   </div>
                 </div>
               </div>
@@ -101,9 +145,13 @@ const ViewContractor = () => {
                       <span>Location</span>
                     </div>
                     <div className="user-email-details-data">
-                      <span>abahuja@gmail.com</span>
-                      <span>9456452346</span>
-                      <span>Bhopal, Madhya Pradesh</span>
+                      <span>{userData && userData.email}</span>
+                      <span>{userData && userData.mobile}</span>
+                      <span>{`${userData && userData.district_name}  ${
+                        userData && userData.state_name
+                          ? `, ${userData.state_name}`
+                          : ""
+                      }`}</span>
                     </div>
                   </div>
                 </div>
@@ -121,6 +169,7 @@ const ViewContractor = () => {
                     className="btn btn-primary btn-sm"
                     type="button"
                     id="add-points-button"
+                    onClick={() => handleClickTrancationType("Orders")}
                   >
                     Orders
                   </button>
@@ -129,6 +178,7 @@ const ViewContractor = () => {
                     type="button"
                     id="add-points-button"
                     style={{ marginLeft: 6 }}
+                    onClick={() => handleClickTrancationType("Redemptions")}
                   >
                     Redemptions
                   </button>
@@ -359,6 +409,7 @@ const ViewContractor = () => {
         <ContractorResetPassword
           open={openResetPassword}
           setOpen={setOpenResetPassword}
+          userDatail={userDatail}
         />
       )}
       {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />}

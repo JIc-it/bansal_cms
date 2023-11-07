@@ -93,8 +93,8 @@ export default function AddNewContractor({
             email: values.email,
             mobile: values.mobile,
             password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            district_name: values.district.id,
+            state_name: values.state.id,
           };
 
           const contractorData = await createContractor(data);
@@ -200,7 +200,13 @@ export default function AddNewContractor({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 10) {
+                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -219,7 +225,7 @@ export default function AddNewContractor({
               </option>
               {locationList &&
                 locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district_name}</option>;
+                  return <option id={item.id}>{item.district}</option>;
                 })}
             </select>
             {formik.touched.district && formik.errors.district ? (
@@ -238,7 +244,7 @@ export default function AddNewContractor({
               </option>
               {stateList &&
                 stateList.map((ele, i) => {
-                  return <option id={ele.id}>{ele.state_name}</option>;
+                  return <option id={ele.id}>{ele.state}</option>;
                 })}
             </select>
             {formik.touched.state && formik.errors.state ? (
@@ -284,7 +290,7 @@ export default function AddNewContractor({
               position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Confirm"}
+            {isLoading ? <Loader /> : "Add New Contractor"}
           </button>
         </div>
       </form>

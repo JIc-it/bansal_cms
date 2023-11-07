@@ -4,7 +4,10 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import {
+  createContractor,
+  handleUserResetPassword,
+} from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -22,8 +25,8 @@ const offcanvasStyle = {
 export default function ContractorResetPassword({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+
+  userDatail,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -47,28 +50,15 @@ export default function ContractorResetPassword({
       });
   }, []);
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
-    district: Yup.mixed().test(
-      "isDistrictSelected",
-      "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
-      }
-    ),
-    state: Yup.mixed().test(
-      "isStateSelected",
-      "state is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "State";
-      }
-    ),
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 
-    password: Yup.string().required("Password is required"),
+  const validationSchema = Yup.object({
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        passwordRegex,
+        "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
+      ),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -76,11 +66,6 @@ export default function ContractorResetPassword({
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      mobile: "",
-      district: { id: "0", name: "District" },
-      state: { id: "0", name: "state" },
       password: "",
       confirmPassword: "",
     },
@@ -90,26 +75,19 @@ export default function ContractorResetPassword({
       if (!isLoading) {
         try {
           const data = {
-            name: values.name,
-            email: values.email,
-            mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            new_password: values.password,
+            confirm_password: values.confirmPassword,
           };
 
-          const contractorData = await createContractor(data);
-          console.log(contractorData);
-          if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
-            toast.success("Contractor created successfully!");
+          const resetData = await handleUserResetPassword(userDatail.id, data);
+          console.log(resetData);
+          if (resetData) {
+            // setIsContractorAdded(!isContractorAdded);
+            toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
-            console.error(
-              "Error while creating Contractor:",
-              contractorData.error
-            );
+            console.error("Error while creating Contractor:", resetData.error);
             setIsLoading(false);
           }
           setIsLoading(false);

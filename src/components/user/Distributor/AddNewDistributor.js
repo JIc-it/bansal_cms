@@ -19,11 +19,11 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function EditContractor({
+export default function AddNewDistributor({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+  setIsDistributorAdded,
+  isDistributorAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -100,7 +100,7 @@ export default function EditContractor({
           const contractorData = await createContractor(data);
           console.log(contractorData);
           if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
+            setIsDistributorAdded(!isDistributorAdded);
             toast.success("Contractor created successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -160,9 +160,7 @@ export default function EditContractor({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Contractor Details</h5>
@@ -240,14 +238,42 @@ export default function EditContractor({
               </option>
               {stateList &&
                 stateList.map((ele, i) => {
-                  return <option id={ele.id}>{ele.state}</option>;
+                  return <option id={ele.id}>{ele.state_name}</option>;
                 })}
             </select>
             {formik.touched.state && formik.errors.state ? (
               <div className="error">{formik.errors.state}</div>
             ) : null}
           </div>
-
+          <h5 style={{ marginTop: 10 }}>Password</h5>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              placeholder="Password"
+              name="password"
+              className="form-control form-control-sm"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error">{formik.errors.password}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              className="form-control form-control-sm"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+              <div className="error">{formik.errors.confirmPassword}</div>
+            ) : null}
+          </div>
           <button
             type="submit"
             className="btn btn-primary"
@@ -258,7 +284,7 @@ export default function EditContractor({
               position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Confirm"}
+            {isLoading ? <Loader /> : "Add New Distributor"}
           </button>
         </div>
       </form>
