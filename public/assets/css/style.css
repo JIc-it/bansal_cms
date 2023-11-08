@@ -877,9 +877,11 @@ progress {
   .container, .container-sm, .container-md, .container-lg, .container-xl {
     max-width: 1400px; } }
 
-@media (min-width: 1440) {
+@media (min-width: 1440px) {
   .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    max-width: 1320px; } }
+    /* position: relative;
+    left: 50px; */
+    max-width: 1670px; } }
 
 :root {
   --bs-breakpoint-xs: 0;
