@@ -66,16 +66,15 @@ export default function OrderPoints() {
     }
   };
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
+    <div className="content-body" style={{ width: '82vw', marginLeft: 265 }}>
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">Order Requests</h5>
         </div>
-        <div className="row">
-          <div className="container">
+        <br></br>
             <div className="row">
-              <div className="col-xl-9 wid-100">
+              <div className="col-xl-12 wid-100">
                 <div className="row">
                   <div className="col-xl-3 col-sm-6 same-card">
                     <div className="card">
@@ -128,7 +127,6 @@ export default function OrderPoints() {
                 </div>
               </div>
             </div>
-          </div>
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">
@@ -197,7 +195,6 @@ export default function OrderPoints() {
               </div>
             </div>
           </div>
-        </div>
       </div>
       {selectedOrder && (<OrderDetails data={selectedOrder} open={selectedOrder} setOpen={setSelectedOrder} />)}
     </div>
