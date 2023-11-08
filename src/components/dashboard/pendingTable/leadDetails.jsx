@@ -23,14 +23,14 @@ const statusOffcanvas = {
     backgroundColor: '#F2F2F2',
 };
 
+export default function LeadDetails({open, data, setOpen}) {
 
+    const [showOffcanvas, setShowOffcanvas] = useState(open);
 
-
-export default function LeadDetails(props) {
-
-    const [showOffcanvas, setShowOffcanvas] = useState(props.open);
-
-    const handleCloseOffcanvas = () => setShowOffcanvas(false);
+    const handleCloseOffcanvas = () => {
+        setShowOffcanvas(false);
+        setOpen(null)
+    } 
 
     return (
         <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
@@ -42,36 +42,36 @@ export default function LeadDetails(props) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{props.data.admin_approval}</span><br></br>
-                <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{props.data.user_approval}</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{props.data.transaction_id}</span><br></br>
+                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
+                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Distributor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 235 }}>{props.data?.distributor?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{props.data?.distributor?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{props.data?.distributor?.district},{props.data?.distributor?.state}<span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{props.data?.distributor?.mobile}</span><br></br>
+                <span>Name :</span><span style={{ marginLeft: 235 }}>{data?.distributor?.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data?.distributor?.user_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 130 }}>{data?.distributor?.district},{data?.distributor?.state}<span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
+                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data?.distributor?.mobile}</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Contractor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 237 }}>{props.data?.user?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{props.data?.user?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{props.data?.user?.district},{props.data?.user?.state}<span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{props.data?.user?.mobile}</span><br></br>
+                <span>Name :</span><span style={{ marginLeft: 237 }}>{data?.user?.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data?.user?.user_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 130 }}>{data?.user?.district},{data?.user?.state}<span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
+                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data?.user?.mobile}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <span>Quantity</span>
-                            <h5>{props.data.quantity}</h5>
+                            <h5>{data.quantity}</h5>
                         </div>
                         <div className="divider-line"></div>
                         <div>
                             <span>Loyalty Points</span>
-                            <h5>{props.data.points}</h5>
+                            <h5>{data.points}</h5>
                         </div>
                     </div></h6>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>

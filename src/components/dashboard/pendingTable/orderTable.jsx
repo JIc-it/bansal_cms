@@ -6,7 +6,7 @@ export default function OrderTable(props) {
     const handleViewClick = (order) => {
         setSelectedLead(null);
         setSelectedLead(order);
-      };
+    };
 
     return (
         <>
@@ -21,7 +21,6 @@ export default function OrderTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-
                     {props.data && props.data.length > 0 ? (
                         props.data.slice(0, 5).map((order) => (
                             <tr key={order.id}>
@@ -41,7 +40,7 @@ export default function OrderTable(props) {
                     )}
                 </tbody>
             </table>
-            {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} />}
+            {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} setOpen={setSelectedLead} />}
         </>
     );
 }
