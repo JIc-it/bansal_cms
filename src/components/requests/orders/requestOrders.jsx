@@ -45,7 +45,7 @@ const [order_data, setOrderData] = useState([]);
     getOrderRequest()
       .then((data) => {
         console.log(data.pending_orders);
-        setOrderData(data.pending_orders);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -67,7 +67,7 @@ const [order_data, setOrderData] = useState([]);
     getOrderPendingRequests()
       .then((data) => {
         console.log(data);
-        setTotalOrderPending(data.total_requests_count);
+        setTotalOrderPending(data.count);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);

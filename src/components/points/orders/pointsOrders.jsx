@@ -21,12 +21,14 @@ export default function OrderPoints() {
   useEffect(() => {
     getOrderRequest()
       .then((data) => {
-        setOrderData(data.pending_orders);
+        setOrderData(data?.results);
       })
       .catch((error) => {
         console.error('Error fetching order data:', error);
       });
   }, []);
+
+  console.log(orderData);
 
   const totalPages = Math.ceil(orderData ? orderData.length / itemsPerPage : 1);
   const indexOfLastItem = currentPage * itemsPerPage;

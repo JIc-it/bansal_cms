@@ -50,7 +50,6 @@ export default function OrderDetails({open,data,setOpen}) {
         setOpen(null)
     }
     
-
     return (
         <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header closeButton>
