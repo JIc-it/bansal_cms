@@ -27,8 +27,8 @@ function Admins() {
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row">
-          <div className="col-xl-9 wid-100">
+        <div className="row" style={{marginLeft: '5px'}}>
+          <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-4 col-sm-7 same-card">
                 <div className="card">
@@ -70,8 +70,7 @@ function Admins() {
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="row">
+        <div className="row" style={{marginLeft: '15px'}}>
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">
@@ -130,7 +129,6 @@ function Admins() {
             </div>
           </div>
         </div>
-      </div>
       {selectedUser && <UserView data={selectedUser} open_view={true} />}
     </div>
   );

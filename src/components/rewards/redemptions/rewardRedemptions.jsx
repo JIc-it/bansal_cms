@@ -62,7 +62,7 @@ function Redemptions() {
   return (
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
       <div className="container">
-        <div className="row">
+        <div className="row" style={{marginLeft: '4px'}}>
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">

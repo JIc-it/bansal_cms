@@ -61,7 +61,7 @@ export default function QuarterlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>6000 qty</h4>
+                <h4>{props.data} qty</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">

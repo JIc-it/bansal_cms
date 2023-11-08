@@ -1,9 +1,15 @@
 import React from "react";
 
-const FilterPopUp = () => {
+const FilterPopUp = ({role,created_at,handledatechange,handlerolechange}) => {
     return (
         <div className="filter-popup-container">
             <div className="filter-heading">Filter</div>
+            <span>By Role</span>
+            <select className="form-control form-control-sm" onChange={(e)=>handlerolechange(e.target.value)} defaultValue={role}>
+                <option>Engineer</option>
+                <option>Contractor</option>
+                <option>Architect</option>
+            </select>
             <span>By Points</span>
             <div className="filter-fields">
                 <input
@@ -27,11 +33,14 @@ const FilterPopUp = () => {
             <input
                 type="date"
                 placeholder="Date"
-                className="form-control form-control-sm"
+                className="form-control form-control-sm mb-2"
                 name="to"
+                defaultValue={created_at}
+                onChange={(e)=>handledatechange(e.target.value)}
             />
             <button
-                type="submit"
+                type="button"
+                // onClick={()=>handlefilterorder(role,created_at)}
                 className="btn btn-primary"
                 style={{
                     flex: 1,

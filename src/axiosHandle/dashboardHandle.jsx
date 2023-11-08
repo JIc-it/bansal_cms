@@ -17,6 +17,18 @@ const engarcMonthlyURL = '/purchase/admin-monthly-others/';
 const distributorAllURL = '/purchase/admin-top-distributors/';
 const distributorMonthlyURL = '/purchase/admin-monthly-distributors/'; 
 
+const rewardProducts = 'purchase/admin-total-rewards/'; 
+const rejectedOrders = '/purchase/admin-orders-rejected/'; 
+const rejectedleads = '/purchase/admin-leads-rejected/'; 
+
+const monthlyOrders='purchase/admin-monthly-orders/'
+const quarterlyOrder='purchase/admin-quarterly-orders/'
+const yearlyOrder='purchase/admin-yearly-orders/'
+
+const projectstatus='purchase/admin-redeemed-rewards/'
+
+
+
 
 // Star Performer
 
@@ -131,3 +143,75 @@ export const getLeadRequest = () => {
       throw error;
     });
 };
+
+//admin-total-rewards
+export const getrewardproducts = () => {
+  return axiosInstance.get(rewardProducts)
+    .then((response) => response.data.total_rewards_count)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//rejected-orders
+export const getrejectedOrders = () => {
+  return axiosInstance.get(rejectedOrders)
+    .then((response) => response.data.total_rejected_count)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//rejected-leads
+export const getrejectedleads = () => {
+  return axiosInstance.get(rejectedleads)
+    .then((response) => response.data.total_rejected_count)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//monthly-orders
+export const getmonthlyorders = () => {
+  return axiosInstance.get(monthlyOrders)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//quarterly-orders
+export const getquarterlyorders = () => {
+  return axiosInstance.get(quarterlyOrder)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//yearly-orders
+export const getyearlyOrders = () => {
+  return axiosInstance.get(yearlyOrder)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//project-status
+export const getrewardredeemed = () => {
+  return axiosInstance.get(projectstatus)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+

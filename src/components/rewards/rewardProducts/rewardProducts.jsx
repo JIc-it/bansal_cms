@@ -94,8 +94,7 @@ function RewardPoints() {
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       <Cards />
-      <div className="container">
-        <div className="row">
+        <div className="row" style={{marginLeft: '15px'}}>
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">
@@ -237,7 +236,6 @@ function RewardPoints() {
             setOpen={setUpdateProduct}
           />
         )}
-      </div>
     </div>
   );
 }

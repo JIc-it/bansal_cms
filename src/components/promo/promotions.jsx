@@ -29,7 +29,7 @@ function Promotions() {
   return (
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
       <div className="container">
-        <div className="row">
+        <div className="row" style={{marginLeft: '4px'}}>
           <div className="mb-3">
             <h5 className="mb-0 ms-1">Promotions</h5>
           </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import OrderDetails from './orderDetails';
 import { getOrderRequest, 
   getTotalOrderRequests, 
@@ -25,11 +26,22 @@ const [order_data, setOrderData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [openFilter, setOpenFilter] = useState(false);
+  const [created_at,setCreatedAt]=useState(null)
+  const [points,setPoints]=useState(null)
+  const [role,setRole]=useState(null)
   
   const handleViewClick = (order) => {
     setSelectedOrder(order);
   };
-  
+
+  const handledatechange = (date) => {
+    setCreatedAt(date);
+  };
+
+  const handlerolechange = (role) => {
+    setRole(role);
+  };
+ 
   // useEffect(() => {
   //   getOrderRequest()
   //     .then((data) => {
@@ -44,8 +56,7 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderRequest()
       .then((data) => {
-        console.log(data.pending_orders);
-        setOrderData(data.pending_orders);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -55,7 +66,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getTotalOrderRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderRequests(data.total_orders_count);
       })
       .catch((error) => {
@@ -66,8 +76,7 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderPendingRequests()
       .then((data) => {
-        console.log(data);
-        setTotalOrderPending(data.total_requests_count);
+        setTotalOrderPending(data.count);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -77,7 +86,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderAcceptedRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderAccepted(data.total_requests_count);
       })
       .catch((error) => {
@@ -88,7 +96,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderRejectedRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderRejected(data.total_rejected_count);
       })
       .catch((error) => {
@@ -134,16 +141,17 @@ const [order_data, setOrderData] = useState([]);
   };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
+    <div className="content-body" style={{ width: '82vw', marginLeft: 265 }}>
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">Order Requests</h5>
         </div>
-        <div className="row">
-          <div className="container">
+        <br></br>
+        {/* <div className="row"> */}
+          {/* <div className="container"> */}
             <div className="row">
-              <div className="col-xl-9 wid-100">
+              <div className="col-xl-12 wid-100">
                 <div className="row">
                   <div className="col-xl-3 col-sm-6 same-card">
                     <div className="card">
@@ -196,7 +204,7 @@ const [order_data, setOrderData] = useState([]);
                 </div>
               </div>
             </div>
-          </div>
+          {/* </div> */}
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">
@@ -247,7 +255,7 @@ const [order_data, setOrderData] = useState([]);
                           </svg>
                         </button>
                       </div>
-                      {openFilter && <FilterPopUp />}
+                      {openFilter && <FilterPopUp role={role} created_at={created_at} handledatechange={handledatechange} handlerolechange={handlerolechange} />}
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
                       <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
@@ -306,7 +314,7 @@ const [order_data, setOrderData] = useState([]);
               </div>
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </div>
       {selectedOrder && (<OrderDetails data={selectedOrder} open={selectedOrder} setOpen={setSelectedOrder} />)}
     </div>
