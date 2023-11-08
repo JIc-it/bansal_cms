@@ -875,7 +875,7 @@ progress {
 
 @media (min-width: 1200px) {
   .container, .container-sm, .container-md, .container-lg, .container-xl {
-    max-width: 1140px; } }
+    max-width: 1260px; } }
 
 @media (min-width: 1440) {
   .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
@@ -6785,7 +6785,10 @@ textarea.form-control-lg {
   margin-right: auto !important; }
 
 .mb-0 {
-  margin-bottom: 0 !important; }
+  margin-bottom: 0 !important;
+  font-size: 19px;
+}
+  
 
 .mb-1 {
   margin-bottom: 0.25rem !important; }
@@ -9770,6 +9773,10 @@ h1, .h1, .h1, h2, .h2, .h2, h3, .h3, .h3, h4, .h4, .h4, h5, .h5, .h5, h6, .h6, .
 
   .content-body .container {
     margin-top: 6rem;
+}
+
+.content-body .container-new {
+  margin-top: 0rem;
 }
 
 .content-body .container-fluid, .content-body .container-sm, .content-body .container-md, .content-body .container-lg, .content-body .container-xl, .content-body .container-xxl {
