@@ -55,7 +55,7 @@ export default function Cards() {
 
     return (
         <div className="container">
-            <div className="row">
+            <div className="row" style={{marginLeft: '4px'}}>
                 <div className="col-xl-12 wid-100">
                     <div className="row">
                         <div className="col-xl-3 col-sm-6 same-card">

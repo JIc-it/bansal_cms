@@ -21,8 +21,8 @@ export default function SalesPocs() {
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row">
-          <div className="col-xl-9 wid-100">
+        <div className="row" style={{marginLeft: '5px'}}>
+          <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-4 col-sm-7 same-card">
                 <div className="card">
@@ -64,8 +64,7 @@ export default function SalesPocs() {
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="row">
+        <div className="row" style={{marginLeft: '15px'}}>
           <div className="col-xl-12">
             <div className="card">
               <div className="card-body p-0">
@@ -124,7 +123,6 @@ export default function SalesPocs() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };

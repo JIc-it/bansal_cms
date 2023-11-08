@@ -5,7 +5,7 @@ function PromotionsHistory() {
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
   {/* row */}
   <div className="container">
-    <div className="row">
+    <div className="row" style={{marginLeft: '5px'}}>
       <div className="col-xl-12">
         <div className="card">
           <div className="card-body p-0">
