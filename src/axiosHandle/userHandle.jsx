@@ -11,10 +11,16 @@ const userResetPasswordURL = "/account/password-reset";
 const getUserOrderURL = "/purchase/tmt_orders/user";
 const getUserRedemptionURL = "/purchase/redemption_history/user";
 const deleteContractorUrl = "/account/delete/user";
+const distributorOrderURL = "purchase/tmt_orders_dist/user";
+const getUserLeadsURL = "/purchase/leads/user";
 
-export const getDistributorsRequest = () => {
+export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
-    .get(distributorsURL)
+    .get(distributorsURL, {
+      params: {
+        search: searchUserData,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching engineers request:", error);
@@ -130,9 +136,29 @@ export const getUserOrders = (id) => {
     });
 };
 
+export const getUserLeads = (id) => {
+  return axiosInstance
+    .get(`${getUserLeadsURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
 export const getUserRedemptionData = (id) => {
   return axiosInstance
     .get(`${getUserRedemptionURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getDistributorOrders = (id) => {
+  return axiosInstance
+    .get(`${distributorOrderURL}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);
@@ -146,6 +172,26 @@ export const deleteContractorUser = (id) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const createDistributor = (data) => {
+  return axiosInstance
+    .post(distributorsURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating reward product:", error);
+      throw error;
+    });
+};
+
+export const createEngineer = (data) => {
+  return axiosInstance
+    .post(engineersURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating reward product:", error);
       throw error;
     });
 };

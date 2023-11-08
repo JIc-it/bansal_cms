@@ -1,84 +1,46 @@
 import React, { useState, useEffect } from "react";
 import {
   deleteContractorUser,
-  getDistributorsRequest,
-  getUserStatics,
+  getEngineersRequest,
 } from "../../../axiosHandle/userHandle";
-import AddNewDistributor from "./AddNewDistributor";
-import { useNavigate } from "react-router";
+import EngineersFilter from "./EngineersFilter";
+import AddNewEngineer from "./AddNewEngineer";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
-export default function Distributors() {
+export default function Engineers() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [isOpenAddEngineer, setIsOpenAddEngineer] = useState(false);
+  const [isEngineerAdded, setIsEngineerAdded] = useState(false);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
-  const [isOpenAddDistributor, setIsOpenAddDistributor] = useState(false);
-  const [isDistributorAdded, setIsDistributorAdded] = useState(false);
-  const [totalUserCount, setTotalUserCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchUserData, setSearchUserData] = useState("");
-
   const itemsPerPage = 10;
 
-  const handleDelete = (id) => {
-    deleteContractorUser(id)
-      .then((data) => {
-        setIsDistributorAdded(!isDistributorAdded);
-        toast.success("Deleted Succefully");
-        setOpenRemoveOption(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  };
-
   useEffect(() => {
-    getUserStatics("Distributor")
-      .then((data) => {
-        console.log(data);
-        setTotalUserCount(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    getDistributorsRequest(searchUserData)
+    getEngineersRequest()
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error);
+        console.error("Error fetching Engineer data:", error);
       });
-  }, [isDistributorAdded, searchUserData]);
+  }, [isEngineerAdded]);
 
-  const exportToCSV = () => {
-    if (userData) {
-      const header = ["Name", "Unique ID", "Mobile", "Location"];
-      const csvData = userData.map((item) => {
-        return [
-          item.district_name,
-          item.user_id,
-          item.mobile,
-          item.district_name,
-        ];
+  const handleDelete = (id) => {
+    deleteContractorUser(id)
+      .then((data) => {
+        setIsEngineerAdded(!isEngineerAdded);
+        toast.success("Deleted Succefully");
+        setOpenRemoveOption(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Engineer data:", error);
       });
-
-      const csvContent = [header, ...csvData]
-        .map((row) => row.join(","))
-        .join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Distributor-List.csv";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
   };
 
   const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
@@ -100,6 +62,33 @@ export default function Distributors() {
     }
   };
 
+  const exportToCSV = () => {
+    if (userData) {
+      const header = [
+        "Name",
+        "Unique ID",
+        "Mobile",
+        "Location",
+        "Leads",
+        "Points",
+      ];
+      const csvData = userData.map((item) => {
+        return [item.name, item.user_id, item.mobile, item.district_name];
+      });
+
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Engineer-List.csv";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
@@ -107,40 +96,40 @@ export default function Distributors() {
         <div className="row">
           <div className="col-xl-9 wid-100">
             <div className="row">
-              <div className="col-md-4 col-12 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Distributors</h6>
-                        <br />
-                        <h3>{totalUserCount.user_type_total}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-12 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>New Distributors in current Qtr</h6>
-                        <br />
-                        <h3>{totalUserCount.new_users_in_current_quarter}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-12 same-card">
+              <div className="col-xl-4 col-sm-7 same-card">
                 <div className="card">
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
                         <h6>Total Users</h6>
                         <br />
-                        <h3>{totalUserCount.total_users}</h3>
+                        <h3>{user_total_data}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-4 col-sm-7 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Total Admins</h6>
+                        <br />
+                        <h3>12</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-4 col-sm-7 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>New Admins in current Qtr</h6>
+                        <br />
+                        <h3>12</h3>
                       </div>
                     </div>
                   </div>
@@ -154,10 +143,10 @@ export default function Distributors() {
         <div className="row">
           <div className="col-xl-12">
             <div className="card">
-              <div className="card-body p-0">
+              <div className="card-body ">
                 <div className="table-responsive active-projects style-1">
                   <div className="tbl-caption">
-                    <h4 className="heading mb-0">Distributors</h4>
+                    <h4 className="heading mb-0">Engineers</h4>
                   </div>
                   <div className="row">
                     <div className="col-5">
@@ -177,9 +166,9 @@ export default function Distributors() {
                             placeholder="Search..."
                             aria-label="Search..."
                             aria-describedby="search-button"
-                            onChange={(e) => {
-                              setSearchUserData(e.target.value);
-                            }}
+                            // onChange={(e) => {
+                            //   setSearchUserData(e.target.value);
+                            // }}
                           />
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +185,49 @@ export default function Distributors() {
                             />
                           </svg>
                         </div>
+                        <button
+                          className="btn filter-button"
+                          type="button"
+                          id="search-button"
+                          onClick={() => {
+                            setOpenFilter(!openFilter);
+                          }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M7.70703 11.6663C9.08774 11.6663 10.207 12.7856 10.207 14.1663C10.207 15.5471 9.08774 16.6663 7.70703 16.6663C6.32632 16.6663 5.20703 15.5471 5.20703 14.1663C5.20703 12.7856 6.32632 11.6663 7.70703 11.6663Z"
+                              fill="#525252"
+                            />
+                            <path
+                              d="M11.8737 3.33301C10.493 3.33301 9.3737 4.4523 9.3737 5.83301C9.3737 7.21372 10.493 8.33301 11.8737 8.33301C13.2544 8.33301 14.3737 7.21372 14.3737 5.83301C14.3737 4.4523 13.2544 3.33301 11.8737 3.33301Z"
+                              fill="#525252"
+                            />
+                            <path
+                              d="M7.29036 5.17344C7.63554 5.17344 7.91536 5.45326 7.91536 5.79844C7.91536 6.14362 7.63554 6.42344 7.29036 6.42344L1.45703 6.42344C1.11185 6.42344 0.832031 6.14362 0.832031 5.79844C0.832031 5.45326 1.11185 5.17344 1.45703 5.17344H7.29036Z"
+                              fill="#525252"
+                            />
+                            <path
+                              d="M12.2904 13.5068C11.9452 13.5068 11.6654 13.7866 11.6654 14.1318C11.6654 14.477 11.9452 14.7568 12.2904 14.7568H18.1237C18.4689 14.7568 18.7487 14.477 18.7487 14.1318C18.7487 13.7866 18.4689 13.5068 18.1237 13.5068H12.2904Z"
+                              fill="#525252"
+                            />
+                            <path
+                              d="M0.832031 14.1318C0.832031 13.7866 1.11185 13.5068 1.45703 13.5068H3.1237C3.46888 13.5068 3.7487 13.7866 3.7487 14.1318C3.7487 14.477 3.46888 14.7568 3.1237 14.7568H1.45703C1.11185 14.7568 0.832031 14.477 0.832031 14.1318Z"
+                              fill="#525252"
+                            />
+                            <path
+                              d="M18.1237 5.17344C18.4689 5.17344 18.7487 5.45326 18.7487 5.79844C18.7487 6.14362 18.4689 6.42344 18.1237 6.42344L16.457 6.42344C16.1119 6.42344 15.832 6.14362 15.832 5.79844C15.832 5.45326 16.1119 5.17344 16.457 5.17344H18.1237Z"
+                              fill="#525252"
+                            />
+                          </svg>
+                        </button>
                       </div>
+                      {openFilter && <EngineersFilter />}
                     </div>
                     <div className="col-5 text-end">
                       <button
@@ -204,11 +235,11 @@ export default function Distributors() {
                         type="button"
                         id="add-points-button"
                         onClick={() => {
-                          setIsOpenAddDistributor(true);
+                          setIsOpenAddEngineer(true);
                         }}
                       >
                         <i className="fa-regular fa-square-plus" /> Add New
-                        Distributor
+                        Contractor
                       </button>
                     </div>
                     <div className="col-2">
@@ -229,9 +260,10 @@ export default function Distributors() {
                         <th>Unique id</th>
                         <th>Mobile</th>
                         <th>Location</th>
+                        {/* <th>Leads</th>
+                        <th>Points</th> */}
                         <th>Action</th>
-                        <th />
-                        <th />
+                        <th> </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -256,7 +288,7 @@ export default function Distributors() {
                                 href="#"
                                 role="button"
                                 onClick={() => {
-                                  navigate(`/viewDistributor/${data.id}`);
+                                  navigate(`/viewEngineer/${data.id}`);
                                 }}
                               >
                                 View User
@@ -333,12 +365,12 @@ export default function Distributors() {
           </div>
         </div>
       </div>
-      {isOpenAddDistributor && (
-        <AddNewDistributor
-          open={isOpenAddDistributor}
-          setOpen={setIsOpenAddDistributor}
-          setIsDistributorAdded={setIsDistributorAdded}
-          isDistributorAdded={isDistributorAdded}
+      {isOpenAddEngineer && (
+        <AddNewEngineer
+          open={isOpenAddEngineer}
+          setOpen={setIsOpenAddEngineer}
+          setIsEngineerAdded={setIsEngineerAdded}
+          isEngineerAdded={isEngineerAdded}
         />
       )}
     </div>
