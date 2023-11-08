@@ -32,8 +32,12 @@ export default function Profile() {
   return (
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
     {/* row */}
-    <div className="container-fluid">
-      <div className="row">
+    <div className="container">
+    <div className="d-flex justify-content-between align-items-center">
+          <h5 className="mb-0" style={{marginLeft: '15px'}}>Profile</h5>
+    </div>
+        <br></br>
+      <div className="row" style={{marginLeft: '4px'}}>
         <div className="col-xl-3 col-sm-6">
           <div className="card box-hover">
             <div className="card-body">
