@@ -61,7 +61,7 @@ export default function MonthlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>6000 mon</h4>
+                <h4>{props.data?.total_order_counts_current_year} mon</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">
