@@ -228,7 +228,7 @@ export default function Engineers() {
                     </div>
                     {openFilter && <EngineersFilter />}
                   </div>
-                  <div className="col-5 text-end">
+                  <div className="col-5 text-end" style={{ paddingTop: "1.5rem" }}>
                     <button
                       className="btn btn-primary btn-sm"
                       type="button"
@@ -241,7 +241,7 @@ export default function Engineers() {
                       Contractor
                     </button>
                   </div>
-                  <div className="col-2">
+                  <div className="col-2" style={{ paddingTop: "1.5rem" }}>
                     <button
                       className="btn btn-light btn-sm"
                       type="button"
