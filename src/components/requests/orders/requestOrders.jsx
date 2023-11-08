@@ -77,7 +77,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderAcceptedRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderAccepted(data.total_requests_count);
       })
       .catch((error) => {

@@ -1,7 +1,20 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import PieChart from '../pieChart';
+import { getrewardredeemed } from '../../axiosHandle/dashboardHandle';
 
 export default function ProjectStatus() {
+    const[redeeemed,setredeemed]=useState(0);
+
+        useEffect(() => {
+            getrewardredeemed()
+                .then((data) => {
+                    setredeemed(data?.total_redeemed_count);
+                })
+                .catch((error) => {
+                    console.error('Error fetching :', error);
+                });
+        }, []);
+ 
     return (
         <div className="card">
             <div className="card-header pb-0 border-0">
@@ -13,7 +26,7 @@ export default function ProjectStatus() {
                     <option value="Monthly">Monthly</option>
                 </select>
             </div>
-            <h4 style={{ marginLeft: "17px" }}>5200</h4>
+            <h4 style={{ marginLeft: "17px" }}>{redeeemed}</h4>
             <div className="card-body">
                 <div style={{ display: 'flex' }}>
                     <PieChart />

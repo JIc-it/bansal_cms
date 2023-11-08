@@ -1,5 +1,15 @@
+import { useState } from "react";
+import LeadDetails from "./leadDetails";
+
 export default function LeadTable(props) {
+    const [selectedLead, setSelectedLead] = useState(null);
+
+    const handleViewClick = (lead) => {
+        setSelectedLead(null);
+        setSelectedLead(lead);
+      };
     return (
+        <>
         <table id="list-tbl" class="table">
             <thead>
                 <tr>
@@ -20,7 +30,7 @@ export default function LeadTable(props) {
                             <td><h6>{lead.referral_id}</h6></td>
                             <td><h6>{lead.order}</h6></td>
                             <td>
-                                <button className="btn btn-primary btn-sm">View Request</button>
+                            <button className="btn btn-primary btn-sm" onClick={() => handleViewClick(lead)}>View Request</button>
                             </td>
                         </tr>
                     ))
@@ -31,6 +41,8 @@ export default function LeadTable(props) {
                 )}
             </tbody>
         </table>
+        {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} />}
+        </>
     );
 }
 
