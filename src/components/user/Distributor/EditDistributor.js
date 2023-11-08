@@ -4,12 +4,11 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, createDistributor } from "../../../axiosHandle/userHandle";
+import { createContractor } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
 import { toast } from "react-toastify";
-import { passwordRegex } from "../../../helper";
 
 const offcanvasStyle = {
   width: "365px",
@@ -20,11 +19,11 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function AddNewDistributor({
+export default function EditDistributor({
   open,
   setOpen,
-  setIsDistributorAdded,
-  isDistributorAdded,
+  setIsContractorAdded,
+  isContractorAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -68,12 +67,7 @@ export default function AddNewDistributor({
       }
     ),
 
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        passwordRegex,
-        "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
-      ),
+    password: Yup.string().required("Password is required"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -103,17 +97,17 @@ export default function AddNewDistributor({
             state_name: values.state,
           };
 
-          const distributorData = await createDistributor(data);
-          console.log(distributorData);
-          if (distributorData) {
-            setIsDistributorAdded(!isDistributorAdded);
+          const contractorData = await createContractor(data);
+          console.log(contractorData);
+          if (contractorData) {
+            setIsContractorAdded(!isContractorAdded);
             toast.success("Distributor created successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
             console.error(
               "Error while creating Distributor:",
-              distributorData.error
+              contractorData.error
             );
             setIsLoading(false);
           }
@@ -166,7 +160,9 @@ export default function AddNewDistributor({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      ></Offcanvas.Header>
+      >
+        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
+      </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Distributor Details</h5>
@@ -206,13 +202,7 @@ export default function AddNewDistributor({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                if (inputValue.length <= 10) {
-                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
-                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
-                }
-              }}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -231,7 +221,7 @@ export default function AddNewDistributor({
               </option>
               {locationList &&
                 locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district}</option>;
+                  return <option id={item.id}>{item.district_name}</option>;
                 })}
             </select>
             {formik.touched.district && formik.errors.district ? (
@@ -257,35 +247,7 @@ export default function AddNewDistributor({
               <div className="error">{formik.errors.state}</div>
             ) : null}
           </div>
-          <h5 style={{ marginTop: 10 }}>Password</h5>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="text"
-              placeholder="Password"
-              name="password"
-              className="form-control form-control-sm"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.password && formik.errors.password ? (
-              <div className="error">{formik.errors.password}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <input
-              type="text"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              className="form-control form-control-sm"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-              <div className="error">{formik.errors.confirmPassword}</div>
-            ) : null}
-          </div>
+
           <button
             type="submit"
             className="btn btn-primary"
@@ -296,7 +258,7 @@ export default function AddNewDistributor({
               position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Add New Distributor"}
+            {isLoading ? <Loader /> : "Confirm"}
           </button>
         </div>
       </form>

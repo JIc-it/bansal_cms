@@ -158,7 +158,7 @@ export default function Contractor() {
               <div className="card-body p-0">
                 <div className="table-responsive active-projects style-1">
                   <div className="tbl-caption">
-                    <h4 className="heading mb-0">Admins</h4>
+                    <h4 className="heading mb-0">Contractors</h4>
                   </div>
                   <div className="row">
                     <div className="col-5">
@@ -170,7 +170,7 @@ export default function Contractor() {
                           paddingLeft: 15,
                         }}
                       >
-                        <div className="search-group form-control" >
+                        <div className="search-group form-control">
                           <input
                             type="text"
                             className=""
@@ -360,24 +360,24 @@ export default function Contractor() {
                       )}
                     </tbody>
                   </table>
-                  <div className="col-12">
-                    <div className="btn-group" style={{ float: "right" }}>
-                      <button
-                        className="btn btn-light btn-sm"
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </button>
-                      &nbsp;
-                      <button
-                        className="btn btn-light btn-sm"
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                      </button>
-                    </div>
+                </div>
+                <div className="col-12 my-2">
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
                   </div>
                 </div>
               </div>

@@ -5,9 +5,16 @@ import { useParams } from "react-router";
 // import ContractorResetPassword from "./ContractorResetPassword";
 import {
   getContractorsRequest,
+  getDistributorOrders,
+  getDistributorsRequest,
   getUserOrders,
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
+import DistributorPassword from "./DistributorPassword";
+import EditDistributor from "./EditDistributor";
+import AddPointDistributorPoppUp from "./AddPointDistributorPoppUp";
+import ViewDistributorTransaction from "./ViewDistributorTransaction";
+import DistributorFilterPopUp from "./DistributorFilterPopUp";
 // import TransactionFilterPopUp from "./TransactionFilterPopUp";
 
 const ViewDistributorDetails = () => {
@@ -22,9 +29,12 @@ const ViewDistributorDetails = () => {
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const itemsPerPage = 10;
   console.log(userDatail);
   useEffect(() => {
-    getContractorsRequest("", { from: "", to: "" })
+    getDistributorsRequest()
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
           return item.id === userDatail.id;
@@ -40,8 +50,29 @@ const ViewDistributorDetails = () => {
     userData && handleUserOrderData();
   }, [userData]);
 
+  const totalPages = Math.ceil(
+    transactionData ? transactionData.length / itemsPerPage : 1
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = transactionData
+    ? transactionData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const handleUserOrderData = () => {
-    getUserOrders(userData.id)
+    getDistributorOrders(userData.id)
       .then((data) => {
         setTransactionData(data.results);
         setTotalOrder(data.total);
@@ -55,14 +86,6 @@ const ViewDistributorDetails = () => {
     setSeletedTranasactionType(type);
     if (type === "Orders") {
       handleUserOrderData();
-    } else {
-      getUserRedemptionData(userData.id)
-        .then((data) => {
-          setTransactionData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
     }
   };
   const exportToCSV = () => {
@@ -117,8 +140,8 @@ const ViewDistributorDetails = () => {
       a.href = url;
       a.download =
         seletedTranasactionType === "Orders"
-          ? "Contractor-Order-List.csv"
-          : "Contractor-Order-List.csv";
+          ? "Distributor-Order-List.csv"
+          : "Distributor-Order-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -335,7 +358,7 @@ const ViewDistributorDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  {/* {transactionFilterOpen && <TransactionFilterPopUp />} */}
+                  {transactionFilterOpen && <DistributorFilterPopUp />}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   <button
@@ -358,191 +381,128 @@ const ViewDistributorDetails = () => {
                   </button>
                 </div>
               </div>
+              <div className="table-responsive  active-projects">
+                <table id="list-tbl" class="table">
+                  <thead>
+                    <tr>
+                      <th>Transaction Id</th>
+                      <th>Distributor Name</th>
+                      <th>Distributor id</th>
+                      <th>Date & Time</th>
+                      <th>Points</th>
+                      <th>Quantity</th>
+                      <th>Status</th>
+                      <th> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems && currentItems.length > 0 ? (
+                      <>
+                        {currentItems.map((ele, i) => {
+                          return (
+                            <tr key={`transactionData-${i}`}>
+                              <td>
+                                <h6>{ele.transaction_id}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.distributor}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.distributor}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.updated_at}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.distributor}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.quantity}</h6>
+                              </td>
 
-              {/* {seletedTranasactionType === "Orders" ? (
-                <div className="table-responsive  active-projects">
-                  <table id="list-tbl" class="table">
-                    <thead>
-                      <tr>
-                        <th>Transaction Id</th>
-                        <th>Distributor Name</th>
-                        <th>Distributor id</th>
-                        <th>Date & Time</th>
-                        <th>Points</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
-                        <th> </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {transactionData && transactionData.length > 0 ? (
-                        <>
-                          {transactionData.map((ele, i) => {
-                            return (
-                              <tr key={`transactionData-${i}`}>
-                                <td>
-                                  <h6>{ele.transaction_id}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.updated_at}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
-
-                                <td>
-                                  <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
-                                  >
-                                    {ele.admin_approval === "Accepted" &&
+                              <td>
+                                <button
+                                  className={`btn  btn-sm ${
+                                    ele.admin_approval === "Accepted" &&
                                     ele.user_approval === "Accepted"
-                                      ? "Accepted"
+                                      ? "Accepted-btn"
                                       : ele.admin_approval === "Rejected" ||
                                         ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
-                                  </button>
-                                </td>
-                                <td onClick={() => setViewTransaction(true)}>
-                                  <a
-                                    className="btn btn-primary btn-sm"
-                                    href="#"
-                                    role="button"
-                                  >
-                                    View
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <tr>
-                          <td colSpan="5">No orders available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="table-responsive  active-projects">
-                  <table id="list-tbl" class="table">
-                    <thead>
+                                      ? "Rejected-btn"
+                                      : "Processing-btn"
+                                  }`}
+                                >
+                                  {ele.admin_approval === "Accepted" &&
+                                  ele.user_approval === "Accepted"
+                                    ? "Accepted"
+                                    : ele.admin_approval === "Rejected" ||
+                                      ele.user_approval === "Rejected"
+                                    ? "Rejected"
+                                    : "Processing"}
+                                </button>
+                              </td>
+                              <td onClick={() => setViewTransaction(true)}>
+                                <a
+                                  className="btn btn-primary btn-sm"
+                                  href="#"
+                                  role="button"
+                                >
+                                  View
+                                </a>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </>
+                    ) : (
                       <tr>
-                        <th>Transaction ID</th>
-                        <th>Reward</th>
-                        <th>Product ID</th>
-                        <th>Date & Time</th>
-                        <th>Status</th>
-                        <th> </th>
+                        <td colSpan="5">No orders available</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {transactionData && transactionData.length > 0 ? (
-                        <>
-                          {transactionData.map((ele, i) => {
-                            return (
-                              <tr key={`transactionData-${i}`}>
-                                <td>
-                                  <h6>{ele.transaction_id}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.created_at}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
-                                <td>
-                                  <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
-                                  >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
-                                  </button>
-                                </td>
-                                <td onClick={() => setViewTransaction(true)}>
-                                  <a
-                                    className="btn btn-primary btn-sm"
-                                    href="#"
-                                    role="button"
-                                  >
-                                    View
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <tr>
-                          <td colSpan="5">No orders available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+              <div className="col-12 my-2">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
                 </div>
-              )} */}
+              </div>
             </div>
           </div>{" "}
         </div>
       </div>
-      {/* {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} />
-      )}
-      {isOpenAddPointsPopUp && (
-        <AddPointsPopUp
-          setOpen={setIsOpenAddPointsPopUp}
-          open={isOpenAddPointsPopUp}
-        />
-      )}
       {openResetPassword && (
-        <ContractorResetPassword
+        <DistributorPassword
           open={openResetPassword}
           setOpen={setOpenResetPassword}
           userDatail={userDatail}
         />
       )}
-      {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />} */}
+      {openEdit && <EditDistributor open={openEdit} setOpen={setOpenEdit} />}
+      {isOpenAddPointsPopUp && (
+        <AddPointDistributorPoppUp
+          setOpen={setIsOpenAddPointsPopUp}
+          open={isOpenAddPointsPopUp}
+        />
+      )}
+      {viewTransaction && (
+        <ViewDistributorTransaction setOpen={setViewTransaction} />
+      )}
     </div>
   );
 };

@@ -4,7 +4,11 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, createDistributor } from "../../../axiosHandle/userHandle";
+import {
+  createContractor,
+  createDistributor,
+  createEngineer,
+} from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -20,11 +24,11 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function AddNewDistributor({
+export default function AddNewEngineer({
   open,
   setOpen,
-  setIsDistributorAdded,
-  isDistributorAdded,
+  setIsEngineerAdded,
+  isEngineerAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -103,17 +107,17 @@ export default function AddNewDistributor({
             state_name: values.state,
           };
 
-          const distributorData = await createDistributor(data);
-          console.log(distributorData);
-          if (distributorData) {
-            setIsDistributorAdded(!isDistributorAdded);
-            toast.success("Distributor created successfully!");
+          const enginneerData = await createEngineer(data);
+
+          if (enginneerData) {
+            setIsEngineerAdded(!isEngineerAdded);
+            toast.success("Engineer created successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
             console.error(
-              "Error while creating Distributor:",
-              distributorData.error
+              "Error while creating Engineer:",
+              enginneerData.error
             );
             setIsLoading(false);
           }
@@ -169,7 +173,7 @@ export default function AddNewDistributor({
       ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Distributor Details</h5>
+          <h5>Engineer Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"
@@ -296,7 +300,7 @@ export default function AddNewDistributor({
               position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Add New Distributor"}
+            {isLoading ? <Loader /> : "Add New Engineer"}
           </button>
         </div>
       </form>
