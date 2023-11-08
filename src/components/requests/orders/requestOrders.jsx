@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import OrderDetails from './orderDetails';
 import { getOrderRequest, 
   getTotalOrderRequests, 
@@ -25,11 +26,22 @@ const [order_data, setOrderData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [openFilter, setOpenFilter] = useState(false);
+  const [created_at,setCreatedAt]=useState(null)
+  const [points,setPoints]=useState(null)
+  const [role,setRole]=useState(null)
   
   const handleViewClick = (order) => {
     setSelectedOrder(order);
   };
-  
+
+  const handledatechange = (date) => {
+    setCreatedAt(date);
+  };
+
+  const handlerolechange = (role) => {
+    setRole(role);
+  };
+ 
   // useEffect(() => {
   //   getOrderRequest()
   //     .then((data) => {
@@ -44,7 +56,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderRequest()
       .then((data) => {
-        console.log(data.pending_orders);
         setOrderData(data.results);
       })
       .catch((error) => {
@@ -55,7 +66,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getTotalOrderRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderRequests(data.total_orders_count);
       })
       .catch((error) => {
@@ -66,7 +76,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderPendingRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderPending(data.count);
       })
       .catch((error) => {
@@ -87,7 +96,6 @@ const [order_data, setOrderData] = useState([]);
   useEffect(() => {
     getOrderRejectedRequests()
       .then((data) => {
-        console.log(data);
         setTotalOrderRejected(data.total_rejected_count);
       })
       .catch((error) => {
@@ -247,7 +255,7 @@ const [order_data, setOrderData] = useState([]);
                           </svg>
                         </button>
                       </div>
-                      {openFilter && <FilterPopUp />}
+                      {openFilter && <FilterPopUp role={role} created_at={created_at} handledatechange={handledatechange} handlerolechange={handlerolechange} />}
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
                       <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
