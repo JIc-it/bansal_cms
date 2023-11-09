@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
+  deleteContractorUser,
   getDistributorsRequest,
   getUserStatics,
 } from "../../../axiosHandle/userHandle";
 import AddNewDistributor from "./AddNewDistributor";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export default function Distributors() {
   const navigate = useNavigate();
@@ -15,10 +17,21 @@ export default function Distributors() {
   const [isOpenAddDistributor, setIsOpenAddDistributor] = useState(false);
   const [isDistributorAdded, setIsDistributorAdded] = useState(false);
   const [totalUserCount, setTotalUserCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchUserData, setSearchUserData] = useState("");
+
+  const itemsPerPage = 10;
 
   const handleDelete = (id) => {
-    console.log("deleted id", id);
-    console.log("deleted id state ", selectedIdForRemove);
+    deleteContractorUser(id)
+      .then((data) => {
+        setIsDistributorAdded(!isDistributorAdded);
+        toast.success("Deleted Succefully");
+        setOpenRemoveOption(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
   };
 
   useEffect(() => {
@@ -33,7 +46,7 @@ export default function Distributors() {
   }, []);
 
   useEffect(() => {
-    getDistributorsRequest()
+    getDistributorsRequest(searchUserData)
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
@@ -41,7 +54,7 @@ export default function Distributors() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, []);
+  }, [isDistributorAdded, searchUserData]);
 
   const exportToCSV = () => {
     if (userData) {
@@ -65,6 +78,25 @@ export default function Distributors() {
       a.download = "Distributor-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
+    }
+  };
+
+  const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = userData
+    ? userData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -125,7 +157,7 @@ export default function Distributors() {
               <div className="card-body p-0">
                 <div className="table-responsive active-projects style-1">
                   <div className="tbl-caption">
-                    <h4 className="heading mb-0">Admins</h4>
+                    <h4 className="heading mb-0">Distributors</h4>
                   </div>
                   <div className="row">
                     <div className="col-5">
@@ -145,6 +177,9 @@ export default function Distributors() {
                             placeholder="Search..."
                             aria-label="Search..."
                             aria-describedby="search-button"
+                            onChange={(e) => {
+                              setSearchUserData(e.target.value);
+                            }}
                           />
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +198,7 @@ export default function Distributors() {
                         </div>
                       </div>
                     </div>
-                    <div className="col-5 text-end">
+                    <div className="col-5 text-end" style={{ paddingTop: "1.5rem" }}>
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
@@ -176,7 +211,7 @@ export default function Distributors() {
                         Distributor
                       </button>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2" style={{ paddingTop: "1.5rem" }}>
                       <button
                         className="btn btn-light btn-sm"
                         type="button"
@@ -200,8 +235,8 @@ export default function Distributors() {
                       </tr>
                     </thead>
                     <tbody>
-                      {userData && userData.length > 0 ? (
-                        userData.slice(0, 5).map((data) => (
+                      {currentItems && currentItems.length > 0 ? (
+                        currentItems.map((data) => (
                           <tr key={data.id}>
                             <td>
                               <h6>{data.name}</h6>
@@ -220,7 +255,7 @@ export default function Distributors() {
                                 className="btn btn-primary btn-sm"
                                 href="#"
                                 role="button"
-                                onClick={()=>{
+                                onClick={() => {
                                   navigate(`/viewDistributor/${data.id}`);
                                 }}
                               >
@@ -273,6 +308,25 @@ export default function Distributors() {
                       )}
                     </tbody>
                   </table>
+                </div>
+                <div className="col-12 my-2">
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

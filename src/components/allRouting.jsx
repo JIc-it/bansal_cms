@@ -7,7 +7,7 @@ import OrderPoints from "./points/orders/pointsOrders";
 import LeadPoints from "./points/leads/pointsLeads";
 import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
-import Engineers from "./user/engineers";
+
 import Architects from "./user/architects";
 import SalesPocs from "./user/salesPocs";
 import Admins from "./user/admins";
@@ -27,6 +27,8 @@ import ForgotPassword from "./forgotPassword";
 import ViewContractor from "./user/Contractor/ViewContractor";
 import Distributors from "./user/Distributor/distributor";
 import ViewDistributorDetails from "./user/Distributor/ViewDistributorDetails";
+import Engineers from "./user/Engineers/engineers";
+import ViewEngineerDetails from "./user/Engineers/ViewEngineerDetails";
 
 export default function AllRouting() {
   return (
@@ -59,7 +61,11 @@ export default function AllRouting() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/axios" element={<AxiosCRUDComponent />} />
         <Route path="/viewContractor/:id" element={<ViewContractor />} />
-        <Route path="/viewDistributor/:id" element={<ViewDistributorDetails />} />
+        <Route
+          path="/viewDistributor/:id"
+          element={<ViewDistributorDetails />}
+        />
+        <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
       </Routes>
     </main>
   );
