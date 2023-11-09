@@ -2,7 +2,7 @@ import axiosInstance from "./authHandle";
 
 
 const orderRequestURL = '/purchase/admin-pending-orders/';
-const leadRequestURL = '/purchase/admin-pending-leads/';
+const leadRequestURL = '/purchase/admin-leads-points/';
 
 export const getOrderRequest = () => {
   return axiosInstance.get(orderRequestURL)

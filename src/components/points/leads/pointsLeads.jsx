@@ -205,12 +205,12 @@ export default function LeadPoints() {
                         currentItems.map((lead) => (
                           <tr key={lead.id}>
                             <td><h6>{lead.id}</h6></td>
-                            <td><h6>{lead.id}</h6></td>
-                            <td><h6>{null}</h6></td>
-                            <td><h6>{lead.id}</h6></td>
-                            <td><h6>{lead.id}</h6></td>
-                            <td><h6>{null}</h6></td>
-                            <td><h6>{lead.id}</h6></td>
+                            <td><h6>{lead.user.name}</h6></td>
+                            <td><h6>{lead.user.user_id}</h6></td>
+                            <td><h6>{lead.user.role}</h6></td>
+                            <td><h6>{lead.referral_id}</h6></td>
+                            <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6></td>
+                            <td><h6>{lead.points}</h6></td>
                             <td>
                               <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
                             </td>
