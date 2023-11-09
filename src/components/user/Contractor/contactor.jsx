@@ -5,7 +5,6 @@ import {
   getUserStatics,
 } from "../../../axiosHandle/userHandle";
 import AddNewContractor from "./AddNewContractor";
-import { getTotalUsersCount } from "../../../axiosHandle/commonServicesHandle";
 import { useNavigate } from "react-router";
 import FilterPopUp from "./FilterPopUp";
 import { toast } from "react-toastify";

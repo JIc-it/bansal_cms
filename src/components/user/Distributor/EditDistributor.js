@@ -221,7 +221,7 @@ export default function EditDistributor({
               </option>
               {locationList &&
                 locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district_name}</option>;
+                  return <option id={item.id}>{item.district}</option>;
                 })}
             </select>
             {formik.touched.district && formik.errors.district ? (

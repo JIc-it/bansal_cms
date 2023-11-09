@@ -8,7 +8,7 @@ import LeadPoints from "./points/leads/pointsLeads";
 import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
 
-import Architects from "./user/architects";
+
 import SalesPocs from "./user/Sales/salesPocs";
 // import Admins from "./user/admins";
 import Admins from "./user/Admin/admins"
@@ -30,6 +30,8 @@ import Distributors from "./user/Distributor/distributor";
 import ViewDistributorDetails from "./user/Distributor/ViewDistributorDetails";
 import Engineers from "./user/Engineers/engineers";
 import ViewEngineerDetails from "./user/Engineers/ViewEngineerDetails";
+import Architects from "./user/Architects/architects";
+import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 
@@ -72,6 +74,7 @@ export default function AllRouting() {
           element={<ViewDistributorDetails />}
         />
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
+        <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
       </Routes>
     </main>
   );

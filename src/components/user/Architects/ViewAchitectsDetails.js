@@ -2,22 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import {
+  getArchitectsRequest,
   getDistributorOrders,
-  getDistributorsRequest,
-  getEngineersRequest,
   getUserLeads,
   getUserOrders,
-  getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
-import ResetEngineerPassword from "./ResetEngineerPassword";
-import EditEngineer from "./EditEngineer";
-import ViewTransactionDetails from "./ViewTransactionDetails";
-import AddPointsPopUP from "./AddPointsPopUP";
-import EngineerFilterPopUP from "./EngineerFilterPopUP";
+import AddPointsPopuP from "./AddPointsPopuP";
+import ResetArchitectPassword from "./ResetArchitectPassword";
+import EditArchitect from "./EditArchitect";
+import ViewArchitectTransactionDetails from "./ViewArchitectTransactionDetails";
+import ArchitectTransactionPopUp from "./ArchitectTransactionPopUp";
 
-// import TransactionFilterPopUp from "./TransactionFilterPopUp";
-
-const ViewEngineerDetails = () => {
+const ViewAchitectsDetails = () => {
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
@@ -35,7 +31,7 @@ const ViewEngineerDetails = () => {
   console.log(userDatail);
 
   useEffect(() => {
-    getEngineersRequest()
+    getArchitectsRequest()
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
           return item.id === userDatail.id;
@@ -115,8 +111,8 @@ const ViewEngineerDetails = () => {
         seletedTranasactionType === "Orders"
           ? [
               "Transaction Id",
-              " Engineer Name",
-              " Engineer id",
+              " Distributor Name",
+              " Distributor id",
               "Date & Time",
               "Points",
               "Quantity",
@@ -161,8 +157,8 @@ const ViewEngineerDetails = () => {
       a.href = url;
       a.download =
         seletedTranasactionType === "Orders"
-          ? "Engineer-Order-List.csv"
-          : "Engineer-Order-List.csv";
+          ? "Architect-Order-List.csv"
+          : "Architect-Order-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -173,7 +169,7 @@ const ViewEngineerDetails = () => {
       <div className="container">
         <div className="contractor-reset-password">
           <div className="contractor-name">
-            Engineer/{" "}
+            Architect/{" "}
             <span style={{ fontWeight: 400, fontSize: "12px" }}>
               {userData && userData.name}
             </span>
@@ -213,7 +209,7 @@ const ViewEngineerDetails = () => {
                     {userData && userData.name}
                   </div>
                   <div className="contractorid">
-                    Engineer .
+                    Architect .
                     <span className="error">
                       {userData && userData.user_id}
                     </span>{" "}
@@ -403,7 +399,7 @@ const ViewEngineerDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <EngineerFilterPopUP />}
+                  {transactionFilterOpen && <ArchitectTransactionPopUp />}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
@@ -708,24 +704,24 @@ const ViewEngineerDetails = () => {
         </div>
       </div>
       {openResetPassword && (
-        <ResetEngineerPassword
+        <ResetArchitectPassword
           open={openResetPassword}
           setOpen={setOpenResetPassword}
           userDatail={userDatail}
         />
       )}
-      {openEdit && <EditEngineer open={openEdit} setOpen={setOpenEdit} />}
-      {viewTransaction && (
-        <ViewTransactionDetails setOpen={setViewTransaction} />
-      )}
       {isOpenAddPointsPopUp && (
-        <AddPointsPopUP
+        <AddPointsPopuP
           setOpen={setIsOpenAddPointsPopUp}
           open={isOpenAddPointsPopUp}
         />
+      )}
+      {openEdit && <EditArchitect open={openEdit} setOpen={setOpenEdit} />}
+      {viewTransaction && (
+        <ViewArchitectTransactionDetails setOpen={setViewTransaction} />
       )}
     </div>
   );
 };
 
-export default ViewEngineerDetails;
+export default ViewAchitectsDetails;

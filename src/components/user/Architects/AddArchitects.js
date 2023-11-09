@@ -4,26 +4,26 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { createArchitects } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
 import { toast } from "react-toastify";
+import { passwordRegex } from "../../../helper";
 
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
   flexDirection: "column",
 };
-export default function EditContractor({
+export default function AddArchitects({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+  setIsArchitectsAdded,
+  isArchitectsAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -67,7 +67,12 @@ export default function EditContractor({
       }
     ),
 
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        passwordRegex,
+        "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
+      ),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -97,17 +102,17 @@ export default function EditContractor({
             state_name: values.state,
           };
 
-          const contractorData = await createContractor(data);
-          console.log(contractorData);
-          if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
-            toast.success("Contractor created successfully!");
+          const enginneerData = await createArchitects(data);
+
+          if (enginneerData) {
+            setIsArchitectsAdded(!isArchitectsAdded);
+            toast.success("Architect created successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
             console.error(
-              "Error while creating Contractor:",
-              contractorData.error
+              "Error while creating Architect:",
+              enginneerData.error
             );
             setIsLoading(false);
           }
@@ -160,12 +165,10 @@ export default function EditContractor({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Contractor Details</h5>
+          <h5>Architect Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"
@@ -202,7 +205,13 @@ export default function EditContractor({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 10) {
+                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -247,7 +256,35 @@ export default function EditContractor({
               <div className="error">{formik.errors.state}</div>
             ) : null}
           </div>
-
+          <h5 style={{ marginTop: 10 }}>Password</h5>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              placeholder="Password"
+              name="password"
+              className="form-control form-control-sm"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error">{formik.errors.password}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              className="form-control form-control-sm"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+              <div className="error">{formik.errors.confirmPassword}</div>
+            ) : null}
+          </div>
           <button
             type="submit"
             className="btn btn-primary"
@@ -258,7 +295,7 @@ export default function EditContractor({
               position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Confirm"}
+            {isLoading ? <Loader /> : "Add New Architect"}
           </button>
         </div>
       </form>

@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-// import ViewContractorTransaction from "./ViewContractorTransaction";
-// import AddPointsPopUp from "./AddPointsPopUp";
-// import ContractorResetPassword from "./ContractorResetPassword";
+
 import {
-  getContractorsRequest,
   getDistributorOrders,
   getDistributorsRequest,
-  getUserOrders,
-  getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
 import DistributorPassword from "./DistributorPassword";
 import EditDistributor from "./EditDistributor";
 import AddPointDistributorPoppUp from "./AddPointDistributorPoppUp";
 import ViewDistributorTransaction from "./ViewDistributorTransaction";
 import DistributorFilterPopUp from "./DistributorFilterPopUp";
-// import TransactionFilterPopUp from "./TransactionFilterPopUp";
 
 const ViewDistributorDetails = () => {
   const userDatail = useParams();
@@ -30,9 +24,10 @@ const ViewDistributorDetails = () => {
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const itemsPerPage = 10;
   console.log(userDatail);
+  
   useEffect(() => {
     getDistributorsRequest()
       .then((data) => {

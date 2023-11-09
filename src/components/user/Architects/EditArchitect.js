@@ -19,7 +19,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function EditContractor({
+export default function EditArchitect({
   open,
   setOpen,
   setIsContractorAdded,
@@ -101,12 +101,12 @@ export default function EditContractor({
           console.log(contractorData);
           if (contractorData) {
             setIsContractorAdded(!isContractorAdded);
-            toast.success("Contractor created successfully!");
+            toast.success("Distributor created successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
             console.error(
-              "Error while creating Contractor:",
+              "Error while creating Distributor:",
               contractorData.error
             );
             setIsLoading(false);
@@ -165,7 +165,7 @@ export default function EditContractor({
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Contractor Details</h5>
+          <h5>Distributor Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"

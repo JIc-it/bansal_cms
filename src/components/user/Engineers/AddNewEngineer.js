@@ -4,11 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import {
-  createContractor,
-  createDistributor,
-  createEngineer,
-} from "../../../axiosHandle/userHandle";
+import { createEngineer } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
