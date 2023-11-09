@@ -29,7 +29,8 @@ const [order_data, setOrderData] = useState([]);
   const [created_at,setCreatedAt]=useState(null)
   const [points,setPoints]=useState(null)
   const [role,setRole]=useState(null)
-  
+  const [searchUserData, setSearchUserData] = useState("");
+
   const handleViewClick = (order) => {
     setSelectedOrder(order);
   };
@@ -42,16 +43,6 @@ const [order_data, setOrderData] = useState([]);
     setRole(role);
   };
  
-  // useEffect(() => {
-  //   getOrderRequest()
-  //     .then((data) => {
-  //       console.log(data);
-  //       setOrderData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching order data:', error);
-  //     });
-  // }, []);
 
   useEffect(() => {
     getOrderRequest()
@@ -102,6 +93,7 @@ const [order_data, setOrderData] = useState([]);
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+  
 
   const exportToCSV = () => {
     if (order_data) {
@@ -212,7 +204,16 @@ const [order_data, setOrderData] = useState([]);
                   <div className="row">
                     <div className="col-9">
                       <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                        <input type="text" className="form-control" style={{ marginRight: 10 }} placeholder="Search..." aria-label="Search..." aria-describedby="search-button" />
+                        <input type="text" 
+                        className="form-control" 
+                        style={{ marginRight: 10 }} 
+                        placeholder="Search..." 
+                        aria-label="Search..." 
+                        aria-describedby="search-button"
+                        onChange={(e) => {
+                          setSearchUserData(e.target.value);
+                        }}
+                         />
                         <button
                           className="btn filter-button"
                           type="button"
