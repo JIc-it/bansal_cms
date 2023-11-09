@@ -25,6 +25,10 @@ const monthlyOrders='purchase/admin-monthly-orders/'
 const quarterlyOrder='purchase/admin-quarterly-orders/'
 const yearlyOrder='purchase/admin-yearly-orders/'
 
+const monthlyQuantity='purchase/admin-monthly-quantity/'
+const quarterlyQuantity='purchase/admin-quarterly-quantity/'
+const yearlyQuantity='purchase/admin-yearly-quantity/'
+
 const projectstatus='purchase/admin-redeemed-rewards/'
 
 
@@ -197,6 +201,36 @@ export const getquarterlyorders = () => {
 //yearly-orders
 export const getyearlyOrders = () => {
   return axiosInstance.get(yearlyOrder)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//monthly-quantity
+export const getmonthlyquantity = () => {
+  return axiosInstance.get(monthlyQuantity)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//quarterly-quantity
+export const getquarterlyquantity = () => {
+  return axiosInstance.get(quarterlyQuantity)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//yearly-quantity
+export const getyearlyquantity = () => {
+  return axiosInstance.get(yearlyQuantity)
     .then((response) => response.data)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);

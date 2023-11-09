@@ -15,7 +15,6 @@ export default function PendingOrderRequests() {
     const [lead_data, setleadData] = useState(null);
     const [lead_total, setLeadTotal] = useState(null);
     const [active_table, setActiveTable] = useState('order');
-    const [count_total, setCountTotal] = useState(0);
 
 
     useEffect(() => {
@@ -32,8 +31,8 @@ export default function PendingOrderRequests() {
     useEffect(() => {
         getLeadRequest()
             .then((data) => {
-                setleadData(data.pending_leads);
-                setLeadTotal(data.total_requests_count);
+                setleadData(data.results);
+                setLeadTotal(data.count);
             })
             .catch((error) => {
                 console.error('Error fetching lead data:', error);
@@ -46,14 +45,12 @@ export default function PendingOrderRequests() {
             setOrderBtn(active_btn);
             setLeadBtn(inactive_btn);
             setActiveTable('order');
-            setCountTotal(order_total);
         }
         else {
             setTopName("Pending Lead Requests");
             setOrderBtn(inactive_btn);
             setLeadBtn(active_btn);
             setActiveTable('lead');
-            setCountTotal(lead_total);
         }
 
     }
@@ -72,7 +69,7 @@ export default function PendingOrderRequests() {
                                 <h5>{top_name}</h5>
                             </div>
                             <div style={{ marginLeft: 3 }}>
-                                <h4>{count_total}</h4>
+                                <h4>{active_table==='order'? order_total : lead_total}</h4>
                             </div>
                         </div>
                         {active_table === 'order' && <OrderTable data={order_data} />}

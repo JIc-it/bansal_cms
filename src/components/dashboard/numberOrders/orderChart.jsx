@@ -1,16 +1,19 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import BarChart from './barChart';
 import MonthlyChart from './monthly';
 import YearlyChart from './yearly';
 import QuarterlyChart from './quarterly';
-import { getmonthlyorders,getquarterlyorders,getyearlyOrders } from '../../../axiosHandle/dashboardHandle';
+import { getmonthlyorders, getquarterlyorders, getyearlyOrders, getmonthlyquantity, getquarterlyquantity, getyearlyquantity } from '../../../axiosHandle/dashboardHandle';
 
 
 export default function DashboardOrderChart() {
-    const[montlyorders,setMonthlyOrders]=useState(0)
-    const[quarterlyorders,setQuarterlyOrders]=useState(0)
-    const[orders,setYearlyOrders]=useState({})
+    const [montlyorders, setMonthlyOrders] = useState(null)
+    const [quarterlyorders, setQuarterlyOrders] = useState(null)
+    const [yearlyorders, setYearlyOrders] = useState(null)
+    const [montlyquantity, setMonthlyQuantity] = useState(null)
+    const [quarterlyquantity, setQuarterlyQuantity] = useState(null)
+    const [yearlyQuantity, setYearlyQuantity] = useState(null)
 
     const options = [
         { cutoutPercentage: 50 },
@@ -20,7 +23,8 @@ export default function DashboardOrderChart() {
     ];
 
     const [selectedInterval, setSelectedInterval] = useState('quarterly');
-    
+    const [selectedtype, setSelectedType] = useState('orders');
+
     const handleChange = (selectedOption) => {
         setSelectedInterval(selectedOption.value);
     };
@@ -38,21 +42,61 @@ export default function DashboardOrderChart() {
     useEffect(() => {
         getquarterlyorders()
             .then((data) => {
-                setQuarterlyOrders(data?.total_order_counts_current_year);
+                setQuarterlyOrders(data);
             })
             .catch((error) => {
                 console.error('Error fetching :', error);
             });
     }, []);
 
+    useEffect(() => {
+        getyearlyOrders()
+            .then((data) => {
+                setYearlyOrders(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching :', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getmonthlyquantity()
+            .then((data) => {
+                setMonthlyQuantity(data);
+                // console.log(data.total_quantity_current_year)
+            })
+            .catch((error) => {
+                console.error('Error fetching :', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getquarterlyquantity()
+            .then((data) => {
+                setQuarterlyQuantity(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching :', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getyearlyquantity()
+            .then((data) => {
+                setYearlyQuantity(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching :', error);
+            });
+    }, []);
 
     return (
         <div className="col-xl-6">
             <div className="card overflow-hidden">
                 <div className="card-header border-0 pb-0 flex-wrap">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button className="btn btn-primary btn-sm" type="button" id="add-points-button">Orders</button>
-                        <button className="btn btn-light btn-sm" type="button" id="add-points-button" style={{ marginLeft: 6 }}>Quantity</button>
+                        <button className={selectedtype === "orders" ? "btn btn-primary btn-sm" : "btn btn-light btn-sm"} type="button" id="add-points-button" onClick={() => setSelectedType("orders")}>Orders</button>
+                        <button className={selectedtype === "quantity" ? "btn btn-primary btn-sm" : "btn btn-light btn-sm"} type="button" id="add-points-button" style={{ marginLeft: 6 }} onClick={() => setSelectedType("quantity")}>Quantity</button>
                     </div>
                     <div>
                         <Select
@@ -63,10 +107,20 @@ export default function DashboardOrderChart() {
                         />
                     </div>
                 </div>
-                <h4 className="heading mb-2 mt-2" style={{ marginLeft: 15 }}>Total Number of Orders</h4>
-                {selectedInterval === 'monthly' && <MonthlyChart data={montlyorders}/>}
-                {selectedInterval === 'quarterly' && <QuarterlyChart data={quarterlyorders} />}
-                {selectedInterval === 'yearly' && <YearlyChart />}
+                {selectedtype === "orders" ?
+                    <>
+                        <h4 className="heading mb-2 mt-2" style={{ marginLeft: 15 }}>Total Number of Orders</h4>
+                        {selectedInterval === 'monthly' && <MonthlyChart data={montlyorders} />}
+                        {selectedInterval === 'quarterly' && <QuarterlyChart data={quarterlyorders} />}
+                        {selectedInterval === 'yearly' && <YearlyChart data={yearlyorders}/>}
+                    </> :
+                    <>
+                        <h4 className="heading mb-2 mt-2" style={{ marginLeft: 15 }}>Total Quantity Sold</h4>
+                        {selectedInterval === 'monthly' && <MonthlyChart data={montlyquantity} />}
+                        {selectedInterval === 'quarterly' && <QuarterlyChart data={quarterlyquantity} />}
+                        {selectedInterval === 'yearly' && <YearlyChart data={yearlyQuantity}/>}
+                    </>
+                }
             </div>
         </div>
     );

@@ -26,7 +26,7 @@ export default function EngArcAll() {
                             <th>Unique id</th>
                             <th>Mobile</th>
                             <th>Location</th>
-                            <th />
+                            <th>Points</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +38,7 @@ export default function EngArcAll() {
                                     <td><h6>{data.unique_id}</h6></td>
                                     <td><h6>{data.mobile}</h6></td>
                                     <td><h6>{data.district_name}</h6></td>
+                                    <td><h6>{data.points===null?0:data.points} pts</h6></td>
                                 </tr>
                             ))
                         ) : (

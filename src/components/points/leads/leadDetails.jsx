@@ -26,11 +26,14 @@ const statusOffcanvas = {
 
 
 
-export default function LeadDetails(props) {
+export default function LeadDetails({data, open, setOpen}) {
 
-    const [showOffcanvas, setShowOffcanvas] = useState(props.open_view);
+    const [showOffcanvas, setShowOffcanvas] = useState(open);
 
-    const handleCloseOffcanvas = () => setShowOffcanvas(false);
+    const handleCloseOffcanvas = () => {
+        setShowOffcanvas(false);
+        setOpen(null)
+    } 
 
     return (
         <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end" style={{ overflow: 'auto' }}>
@@ -42,24 +45,24 @@ export default function LeadDetails(props) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">Pending</span><br></br>
-                <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">Accepted</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{props.data.transaction_id}</span><br></br>
+                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
+                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
-                <h6>Distributor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 235 }}>Pratibha Seth</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>566565</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>127, KANCHAN VIHAR COLONY, <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>9899959595</span><br></br>
+                <h6>Leads Details</h6>
+                <span>Name :</span><span style={{ marginLeft: 235 }}>{data.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data.user_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.district}, <span style={{ marginLeft: 175 }}>{data.state}</span></span><br></br>
+                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.mobile}</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
-                <h6>Contractor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 237 }}>Mixer Grinder</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>566565</span><br></br>
+                <h6>Referrer Details</h6>
+                <span>Name :</span><span style={{ marginLeft: 237 }}>{data.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data.referral_id}</span><br></br>
                 <span>Address :</span><span style={{ marginLeft: 130 }}>127, KANCHAN VIHAR COLONY, <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span></span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>9899959595</span><br></br>
+                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.mobile_no}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>

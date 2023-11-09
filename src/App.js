@@ -8,6 +8,7 @@ import Login from "./components/auth/login";
 import ForgotPassword from "./components/forgotPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PromotionsHistory from "./components/promo/promotionsHistory";
 
 function App() {
   return (
@@ -46,6 +47,13 @@ function App() {
             </div>
           }
         />
+        <Route path="/promotionhistory/:id" element={
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <Navbar />
+              <SideMenu />
+              <PromotionsHistory/>
+            </div>
+          }/>
       </Routes>
     </div>
   );

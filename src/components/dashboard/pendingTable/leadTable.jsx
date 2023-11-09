@@ -41,7 +41,7 @@ export default function LeadTable(props) {
                 )}
             </tbody>
         </table>
-        {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} />}
+        {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} setOpen={setSelectedLead} />}
         </>
     );
 }
