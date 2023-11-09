@@ -26,6 +26,7 @@ export default function EngArcMonthly() {
                             <th>Unique id</th>
                             <th>Mobile</th>
                             <th>Location</th>
+                            <th>Points</th>
                             <th />
                         </tr>
                     </thead>
@@ -38,6 +39,7 @@ export default function EngArcMonthly() {
                                     <td><h6>{data.unique_id}</h6></td>
                                     <td><h6>{data.mobile}</h6></td>
                                     <td><h6>{data.district_name}</h6></td>
+                                    <td><h6>{data.points===null?0:data.points} pts</h6></td>
                                 </tr>
                             ))
                         ) : (

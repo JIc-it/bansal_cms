@@ -45,12 +45,12 @@ function Promotions() {
           <div className="mb-3">
             <h5 className="mb-0 ms-1">Promotions</h5>
           </div>
-          {adslisting.length > 0 && adslisting?.map((ads)=>
+          {adslisting.length > 0 && adslisting?.map((ads,index)=>
           <>
           <div className="col-xl-4 col-sm-7">
           <div className="card box-hover">
             <div className="card-header">
-              <h6 className="mb-0">Ad Spot - 01</h6>
+              <h6 className="mb-0">Ad Spot - {index+1}</h6>
               <a className="btn btn-primary btn-sm" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" onClick={handleOpenOffcanvas}>Update</a>
             </div>
             <div className="card-body">
@@ -68,7 +68,7 @@ function Promotions() {
               <div className="due-progress">
                 <div className="row">
                   <div className="col-md-6">
-                    <a href="/promotionhistory" style={{ color: 'blue', display: 'inline-block' }}>View History</a>
+                    <a href={`/promotionhistory/${ads.id}`} style={{ color: 'blue', display: 'inline-block' }}>View History</a>
                   </div>
                   <div className="col-md-6">
                     <div className="form-check form-switch" style={{ display: 'inline-block', marginLeft: 80 }}>

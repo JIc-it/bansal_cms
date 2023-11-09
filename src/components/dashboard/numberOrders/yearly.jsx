@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BarChart from './barChart';
 
 
 export default function YearlyChart(props) {
+    
+    
+    const yearslist = props.data.total_order_counts_by_year ? Object.keys(props.data.total_order_counts_by_year).map((dat) => dat) : Object.keys(props.data.total_quantity_by_year).map((dat) => dat)
+
+    const Contractorcount = props.data.order_counts_by_year ? props.data.order_counts_by_year.Contractor.map((dat) => dat.count) :
+        props.data.quantity_by_year.Contractor.map((dat) => dat.total_quantity)
+
+    const Engineercount = props.data.order_counts_by_year ? props.data.order_counts_by_year.Engineer.map((dat) => dat.count) :
+        props.data.quantity_by_year.Engineer.map((dat) => dat.total_quantity)
+
+    const Architectcount = props.data.order_counts_by_year ? props.data.order_counts_by_year.Architect.map((dat) => dat.count) :
+        props.data.quantity_by_year.Architect.map((dat) => dat.total_quantity)
+
     const chartOptions = {
         series: [
             {
                 name: 'Contactors',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 21, 30],
+                data: Contractorcount,
                 color: '#4169E1',
             },
             {
                 name: 'Engineers',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 12],
+                data: Engineercount,
                 color: '#191970',
             },
             {
                 name: 'Architects',
-                data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 10, 57],
+                data: Architectcount,
                 color: '#2E8B57',
             },
         ],
@@ -44,7 +57,7 @@ export default function YearlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: yearslist,
         },
         fill: {
             opacity: 1,
@@ -61,7 +74,7 @@ export default function YearlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>6000 yrl</h4>
+                <h4>{6000 } yrl</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">

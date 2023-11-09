@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BarChart from './barChart';
 
 
 export default function MonthlyChart(props) {
+    const total=props.data.total_order_counts_current_year? props.data.total_order_counts_current_year:props.data.total_quantity_current_year;
+    
     const chartOptions = {
         series: [
             {
                 name: 'Contactors',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 21, 30],
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 21, 30,43],
                 color: '#4169E1',
             },
             {
                 name: 'Engineers',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 12],
+                data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 12,70],
                 color: '#191970',
             },
             {
                 name: 'Architects',
-                data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 10, 57],
+                data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 10, 57,20],
                 color: '#2E8B57',
             },
         ],
@@ -44,7 +46,7 @@ export default function MonthlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         },
         fill: {
             opacity: 1,
@@ -61,7 +63,7 @@ export default function MonthlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>{props.data?.total_order_counts_current_year} mon</h4>
+                <h4>{total} mon</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">

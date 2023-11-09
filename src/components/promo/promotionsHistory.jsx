@@ -1,6 +1,22 @@
 import React from 'react';
+import { useParams } from 'react-router';
+import axiosInstance from '../../axiosHandle/authHandle';
+import { useState,useEffect } from 'react';
 
 function PromotionsHistory() {
+  const paramsid=useParams()
+  const [history,setHistory]=useState(null)
+
+  useEffect(()=>{
+    axiosInstance.get(`advertisement/ads_history/${paramsid.id}`)
+    .then((response) => setHistory(response.data.results))
+    .catch((error) => {
+      console.error('Error while fetching History:', error);
+      throw error;
+    });
+  },[])
+
+
   return (
     <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
   {/* row */}
@@ -36,7 +52,39 @@ function PromotionsHistory() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    {
+                      history?.map((data)=>
+                      <tr>
+                      <td>
+                        <h6><img src={data.ad_image} className="img-fluid" style={{height: 100, paddingRight: 10}} />
+                          Ad Name</h6>
+                      </td>
+                      <td>
+                        <div className="products">
+                          <div>
+                            <h6>{new Date(data.updated_at).toLocaleDateString('en-Us',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                          </div>	
+                        </div>
+                      </td>
+                      <td>
+                        <div className="products">
+                          <div>
+                            <h6>30</h6>
+                          </div>	
+                        </div>
+                      </td>
+                      <td>
+                        <span className={data.is_active===true?"badge badge-success light border-0" :"badge badge-danger light border-0"}>{data.is_active===true?"Active":"Inactive"}</span>
+                      </td>
+                      <td>
+                        <h6 align="center">...</h6>
+                      </td>
+                    </tr>
+                      )
+                    }
+              
+
+                    {/* <tr>
                       <td>
                         <h6><img src="https://images.wallpapersden.com/image/download/anime-naruto-hd-2023-ai_bW5mbGmUmZqaraWkpJRmbmdlrWZlbWU.jpg" className="img-fluid" style={{height: 50, paddingRight: 10}} />
                           Ad Name</h6>
@@ -113,33 +161,7 @@ function PromotionsHistory() {
                       <td>
                         <h6 align="center">...</h6>
                       </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6><img src="https://images.wallpapersden.com/image/download/anime-naruto-hd-2023-ai_bW5mbGmUmZqaraWkpJRmbmdlrWZlbWU.jpg" className="img-fluid" style={{height: 50, paddingRight: 10}} />
-                          Ad Name</h6>
-                      </td>
-                      <td>
-                        <div className="products">
-                          <div>
-                            <h6>09 AUG 2023, 06:00 Pm</h6>
-                          </div>	
-                        </div>
-                      </td>
-                      <td>
-                        <div className="products">
-                          <div>
-                            <h6>30</h6>
-                          </div>	
-                        </div>
-                      </td>
-                      <td>
-                        <span className="badge badge-success light border-0">Active</span>
-                      </td>
-                      <td>
-                        <h6 align="center">...</h6>
-                      </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
               </div>

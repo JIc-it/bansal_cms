@@ -9,7 +9,7 @@ export default function DistributorAll() {
     useEffect(() => {
         getDistributorAllRequest()
             .then((data) => {
-                setDistributorData(data.top_performers);
+                setDistributorData(data.top_distributors);
             })
             .catch((error) => {
                 console.error('Error fetching distributor data:', error);
