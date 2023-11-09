@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import {
-  getAllLocations,
-  getAllStates,
-} from "../../../axiosHandle/commonServicesHandle";
 import { createContractor } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,13 +23,10 @@ export default function AddPointsPopUp({
   isContractorAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [locationList, setLocationList] = useState();
-  const [stateList, setStateList] = useState();
-
   const validationSchema = Yup.object({
     points: Yup.string()
-    .required('Points is required')
-    .matches(/^\d{1,10}$/, 'Points must be up to 10 digits'), // Validation for up to 10 digits
+      .required("Points is required")
+      .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
   });
 
   const formik = useFormik({
@@ -77,8 +70,6 @@ export default function AddPointsPopUp({
     setOpen(false);
     setIsLoading(false);
   };
-
-
 
   return (
     <Offcanvas
@@ -125,7 +116,7 @@ export default function AddPointsPopUp({
               type="number"
               placeholder="Points"
               name="points"
-              maxLength={10} 
+              maxLength={10}
               className="form-control form-control-sm"
               value={formik.values.points}
               onChange={formik.handleChange}

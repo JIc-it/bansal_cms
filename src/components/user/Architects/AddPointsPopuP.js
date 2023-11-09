@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-
 import { createContractor } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -17,7 +16,7 @@ const offcanvasStyle = {
   flexDirection: "column",
 };
 
-export default function AddPointsPopUP({
+export default function AddPointsPopuP({
   open,
   setOpen,
   setIsContractorAdded,
@@ -89,7 +88,7 @@ export default function AddPointsPopUP({
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Distributor Details</h5>
+          <h5>Architect Details</h5>
           <div className=" depostit-card">
             <div className="depostit-card-media  style-1 ">
               <div

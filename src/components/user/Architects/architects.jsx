@@ -1,60 +1,85 @@
 import React, { useState, useEffect } from "react";
 import {
   deleteContractorUser,
-  getEngineersRequest,
+  getArchitectsRequest,
   getUserStatics,
 } from "../../../axiosHandle/userHandle";
-import EngineersFilter from "./EngineersFilter";
-import AddNewEngineer from "./AddNewEngineer";
+import ArchitectsFilter from "./ArchitectsFilter";
+import AddArchitects from "./AddArchitects";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 
-export default function Engineers() {
+function Architects() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [user_total_data, setUserTotalData] = useState(0);
+  const [totalUserCount, setTotalUserCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [openFilter, setOpenFilter] = useState(false);
-  const [isOpenAddEngineer, setIsOpenAddEngineer] = useState(false);
-  const [isEngineerAdded, setIsEngineerAdded] = useState(false);
+  const [isOpenAddArchitects, setIsOpenAddArchitects] = useState(false);
+  const [isArchitectsAdded, setIsArchitectsAdded] = useState(false);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalUserCount, setTotalUserCount] = useState(0);
-  const itemsPerPage = 10;
   const [searchUserData, setSearchUserData] = useState("");
+  const itemsPerPage = 10;
 
   useEffect(() => {
-    getEngineersRequest(searchUserData)
-      .then((data) => {
-        setUserData(data.results);
-        setUserTotalData(data.count);
-      })
-      .catch((error) => {
-        console.error("Error fetching Engineer data:", error);
-      });
-  }, [isEngineerAdded,searchUserData]);
-
-  useEffect(() => {
-    getUserStatics("Engineer")
+    getUserStatics("Architect")
       .then((data) => {
         console.log(data);
         setTotalUserCount(data);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error);
+        console.error("Error fetching Architect data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    getArchitectsRequest(searchUserData)
+      .then((data) => {
+        setUserData(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching Architect data:", error);
+      });
+  }, [isArchitectsAdded, searchUserData]);
 
   const handleDelete = (id) => {
     deleteContractorUser(id)
       .then((data) => {
-        setIsEngineerAdded(!isEngineerAdded);
+        setIsArchitectsAdded(!isArchitectsAdded);
         toast.success("Deleted Succefully");
         setOpenRemoveOption(false);
       })
       .catch((error) => {
-        console.error("Error fetching Engineer data:", error);
+        console.error("Error fetching Architect data:", error);
       });
+  };
+
+  const exportToCSV = () => {
+    if (userData) {
+      const header = [
+        "Name",
+        "Unique ID",
+        "Mobile",
+        "Location",
+        "Points",
+        "Leads",
+      ];
+      const csvData = userData.map((item) => {
+        return [item.name, item.user_id, item.mobile, item.district_name];
+      });
+
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Architects-List.csv";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
   };
 
   const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
@@ -76,38 +101,11 @@ export default function Engineers() {
     }
   };
 
-  const exportToCSV = () => {
-    if (userData) {
-      const header = [
-        "Name",
-        "Unique ID",
-        "Mobile",
-        "Location",
-        "Leads",
-        "Points",
-      ];
-      const csvData = userData.map((item) => {
-        return [item.name, item.user_id, item.mobile, item.district_name];
-      });
-
-      const csvContent = [header, ...csvData]
-        .map((row) => row.join(","))
-        .join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Engineer-List.csv";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
-  };
-
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row">
+        <div className="row" style={{ marginLeft: "4px" }}>
           <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-4 col-sm-7 same-card">
@@ -115,7 +113,7 @@ export default function Engineers() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Engineers</h6>
+                        <h6>Total Architects</h6>
                         <br />
                         <h3>{totalUserCount.user_type_total}</h3>
                       </div>
@@ -128,7 +126,7 @@ export default function Engineers() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>New Engineers in Current Qtr</h6>
+                        <h6>New Architects in Current Qtr</h6>
                         <br />
                         <h3>{totalUserCount.new_users_in_current_quarter}</h3>
                       </div>
@@ -156,20 +154,16 @@ export default function Engineers() {
       <div className="row" style={{ marginLeft: "15px" }}>
         <div className="col-xl-12">
           <div className="card">
-            <div className="card-body px-0">
+            <div className="card-body px-0 ">
               <div className="table-responsive active-projects style-1">
                 <div className="tbl-caption">
-                  <h4 className="heading mb-0">Engineers</h4>
+                  <h4 className="heading mb-0">Architects</h4>
                 </div>
                 <div className="row">
                   <div className="col-5">
                     <div
                       className="input-group mb-3"
-                      style={{
-                        maxWidth: 300,
-                        paddingTop: 15,
-                        paddingLeft: 15,
-                      }}
+                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
                       <div className="search-group form-control">
                         <input
@@ -240,7 +234,7 @@ export default function Engineers() {
                         </svg>
                       </button>
                     </div>
-                    {openFilter && <EngineersFilter />}
+                    {openFilter && <ArchitectsFilter />}
                   </div>
                   <div
                     className="col-5 text-end"
@@ -251,7 +245,7 @@ export default function Engineers() {
                       type="button"
                       id="add-points-button"
                       onClick={() => {
-                        setIsOpenAddEngineer(true);
+                        setIsOpenAddArchitects(true);
                       }}
                     >
                       <i className="fa-regular fa-square-plus" /> Add New
@@ -277,7 +271,7 @@ export default function Engineers() {
                       <th>Mobile</th>
                       <th>Location</th>
                       {/* <th>Leads</th>
-                        <th>Points</th> */}
+                      <th>Points</th> */}
                       <th>Action</th>
                       <th> </th>
                     </tr>
@@ -304,7 +298,7 @@ export default function Engineers() {
                               href="#"
                               role="button"
                               onClick={() => {
-                                navigate(`/viewEngineer/${data.id}`);
+                                navigate(`/viewArchitects/${data.id}`);
                               }}
                             >
                               View User
@@ -312,7 +306,7 @@ export default function Engineers() {
                           </td>
                           <td
                             onClick={() => {
-                              setOpenRemoveOption(true);
+                              setOpenRemoveOption(!openRemoveOption);
                               setSelectedIdForRemove(data.id);
                             }}
                             style={{ cursor: "pointer" }}
@@ -380,14 +374,16 @@ export default function Engineers() {
           </div>
         </div>
       </div>
-      {isOpenAddEngineer && (
-        <AddNewEngineer
-          open={isOpenAddEngineer}
-          setOpen={setIsOpenAddEngineer}
-          setIsEngineerAdded={setIsEngineerAdded}
-          isEngineerAdded={isEngineerAdded}
+      {isOpenAddArchitects && (
+        <AddArchitects
+          open={isOpenAddArchitects}
+          setOpen={setIsOpenAddArchitects}
+          setIsArchitectsAdded={setIsArchitectsAdded}
+          isArchitectsAdded={isArchitectsAdded}
         />
       )}
     </div>
   );
 }
+
+export default Architects;

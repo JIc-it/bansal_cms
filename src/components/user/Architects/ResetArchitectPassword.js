@@ -19,7 +19,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
-export default function ResetEngineerPassword({
+export default function ResetArchitectPassword({
   open,
   setOpen,
 

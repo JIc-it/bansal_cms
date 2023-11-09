@@ -38,9 +38,13 @@ export const getAdminsRequest = () => {
     });
 };
 
-export const getEngineersRequest = () => {
+export const getEngineersRequest = (searchUserData) => {
   return axiosInstance
-    .get(engineersURL)
+    .get(engineersURL, {
+      params: {
+        search: searchUserData,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching engineers request:", error);
@@ -74,12 +78,26 @@ export const getContractorsRequest = (searchData, filterCriteria) => {
     });
 };
 
-export const getArchitectsRequest = () => {
+export const getArchitectsRequest = (searchUserData) => {
   return axiosInstance
-    .get(architectsURL)
+    .get(architectsURL, {
+      params: {
+        search: searchUserData,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const createArchitects = (data) => {
+  return axiosInstance
+    .post(architectsURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating reward product:", error);
       throw error;
     });
 };

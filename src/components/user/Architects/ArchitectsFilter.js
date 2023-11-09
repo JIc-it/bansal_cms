@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DistributorFilterPopUp = (
+const ArchitectsFilter = (
   {
     //   filterCriteria,
     //   setFilterCriteria,
@@ -86,21 +86,42 @@ const DistributorFilterPopUp = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
-      <span>By Status</span>
-      <select
-        defaultValue=""
-        className=" w-100 form-control-sm form-control my-1"
-        placeholder="Status"
-        //   onChange={handleStateChange}
-      >
-        <option disabled={true} value="" id={"0"}>
-          Status
-        </option>
-        <option>Processing</option>
-        <option>Accepted</option>
-        <option>Rejected</option>
-      </select>
       <span>By Points</span>
+      <div className="filter-fields">
+        <input
+          type="number"
+          placeholder="From"
+          className="form-control form-control-sm"
+          name="from"
+          //   value={filterCriteria.from}
+          //   onChange={(e) => {
+          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
+          //   }}
+          //   onBlur={formik.handleBlur}
+        />
+        <span
+          style={{
+            fontWeight: "700",
+            color: "#000",
+            position: "relative",
+            top: "5px",
+          }}
+        >
+          -
+        </span>
+        <input
+          type="number"
+          placeholder="To"
+          className="form-control form-control-sm"
+          name="to"
+          //   value={filterCriteria.to}
+          //   onChange={(e) => {
+          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
+          //   }}
+          //   onBlur={formik.handleBlur}
+        />
+      </div>
+      <span>By Leads</span>
       <div className="filter-fields">
         <input
           type="number"
@@ -181,4 +202,4 @@ const DistributorFilterPopUp = (
   );
 };
 
-export default DistributorFilterPopUp;
+export default ArchitectsFilter;

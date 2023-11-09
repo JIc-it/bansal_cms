@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import {
-  getAllLocations,
-  getAllStates,
-} from "../../../axiosHandle/commonServicesHandle";
 import { createContractor } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,8 +23,6 @@ export default function AddPointDistributorPoppUp({
   isContractorAdded,
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [locationList, setLocationList] = useState();
-  const [stateList, setStateList] = useState();
 
   const validationSchema = Yup.object({
     points: Yup.string()
