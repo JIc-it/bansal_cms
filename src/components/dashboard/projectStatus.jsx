@@ -8,7 +8,7 @@ export default function ProjectStatus() {
         useEffect(() => {
             getrewardredeemed()
                 .then((data) => {
-                    setredeemed(data?.total_redeemed_count);
+                    setredeemed(data);
                 })
                 .catch((error) => {
                     console.error('Error fetching :', error);
@@ -26,10 +26,10 @@ export default function ProjectStatus() {
                     <option value="Monthly">Monthly</option>
                 </select>
             </div>
-            <h4 style={{ marginLeft: "17px" }}>{redeeemed}</h4>
+            <h4 style={{ marginLeft: "17px" }}>{redeeemed.total_redeemed_count}</h4>
             <div className="card-body">
                 <div style={{ display: 'flex' }}>
-                    <PieChart />
+                    <PieChart data={redeeemed}/>
                 </div>
             </div>
         </div>

@@ -1,23 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BarChart from './barChart';
 
 
 export default function QuarterlyChart(props) {
+
+    const total=props.data?.total_order_counts_current_year? props.data?.total_order_counts_current_year:props.data?.total_quantity_current_year
+
+    // const quartercount = props.data?.order_counts_by_quarter?
+    // props.data?.order_counts_by_quarter.Contractor.map((data)=>data.quarter): props.data?.quantity_by_quarter.Contractor.map((data)=>data.quarter);
+
+
+    const Contractorcount = props.data?.order_counts_by_quarter?
+    props.data?.order_counts_by_quarter.Contractor.map((data)=>data.count): props.data?.quantity_by_quarter.Contractor.map((data)=>data.total_quantity);
+
+    const Engineercount = props.data?.order_counts_by_quarter?
+    props.data?.order_counts_by_quarter.Engineer.map((data)=>data.count): props.data?.quantity_by_quarter.Engineer.map((data)=>data.total_quantity);
+
+    const Architectcount = props.data?.order_counts_by_quarter?
+    props.data?.order_counts_by_quarter.Architect.map((data)=>data.count): props.data?.quantity_by_quarter.Architect.map((data)=>data.total_quantity);
+
     const chartOptions = {
         series: [
             {
                 name: 'Contactors',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 21, 30],
+                data: Contractorcount,
                 color: '#4169E1',
             },
             {
                 name: 'Engineers',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 12],
+                data: Engineercount,
                 color: '#191970',
             },
             {
                 name: 'Architects',
-                data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 10, 57],
+                data: Architectcount,
                 color: '#2E8B57',
             },
         ],
@@ -44,7 +60,7 @@ export default function QuarterlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: ['Qtr1','Qtr2','Qtr3','Qtr4'],
         },
         fill: {
             opacity: 1,
@@ -61,7 +77,7 @@ export default function QuarterlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>{props.data} qty</h4>
+                <h4>{total} qty</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">
