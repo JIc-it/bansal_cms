@@ -9,8 +9,9 @@ import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
 
 import Architects from "./user/architects";
-import SalesPocs from "./user/salesPocs";
-import Admins from "./user/admins";
+import SalesPocs from "./user/Sales/salesPocs";
+// import Admins from "./user/admins";
+import Admins from "./user/Admin/admins"
 import Promotions from "./promo/promotions";
 import Redemptions from "./rewards/redemptions/rewardRedemptions";
 import ContractorDetails from "./contractorDashboard";
@@ -29,6 +30,8 @@ import Distributors from "./user/Distributor/distributor";
 import ViewDistributorDetails from "./user/Distributor/ViewDistributorDetails";
 import Engineers from "./user/Engineers/engineers";
 import ViewEngineerDetails from "./user/Engineers/ViewEngineerDetails";
+import ViewAdmin from "./user/Admin/ViewAdmin";
+import ViewSales from "./user/Sales/ViewSales";
 
 export default function AllRouting() {
   return (
@@ -61,6 +64,9 @@ export default function AllRouting() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/axios" element={<AxiosCRUDComponent />} />
         <Route path="/viewContractor/:id" element={<ViewContractor />} />
+        <Route path="/viewadmin/:id" element={<ViewAdmin />} />
+        <Route path="/viewsalespocs/:id" element={<ViewSales />} />
+
         <Route
           path="/viewDistributor/:id"
           element={<ViewDistributorDetails />}

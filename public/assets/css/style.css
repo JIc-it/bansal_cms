@@ -30455,7 +30455,7 @@ code {
     color-color: #6e6e6e; }
   .table th, .table td {
     border-color: #E6E6E6;
-    padding: 0.9375rem 0.625rem; }
+    padding: 0.3375rem 0.625rem; }
     [data-theme-version="dark"] .table th, [data-theme-version="dark"] .table td {
       border-color: #444444;
       color: #fff !important; }

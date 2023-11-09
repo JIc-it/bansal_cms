@@ -18,7 +18,7 @@ export default function LeadPoints() {
   useEffect(() => {
     getLeadRequest()
       .then((data) => {
-        setLeadData(data.pending_leads);
+        setLeadData(data.results);
       })
       .catch((error) => {
         console.error('Error fetching lead data:', error);
@@ -204,15 +204,15 @@ export default function LeadPoints() {
                       {currentItems.length > 0 ? (
                         currentItems.map((lead) => (
                           <tr key={lead.id}>
-                            <td><h6>{lead.transaction_id}</h6></td>
-                            <td><h6>{lead.name}</h6></td>
+                            <td><h6>{lead.id}</h6></td>
+                            <td><h6>{lead.id}</h6></td>
                             <td><h6>{null}</h6></td>
-                            <td><h6>{lead.distributor}</h6></td>
-                            <td><h6>{lead.created_at}</h6></td>
+                            <td><h6>{lead.id}</h6></td>
+                            <td><h6>{lead.id}</h6></td>
                             <td><h6>{null}</h6></td>
-                            <td><h6>{lead.quantity}</h6></td>
+                            <td><h6>{lead.id}</h6></td>
                             <td>
-                              <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>Submit</button>
+                              <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
                             </td>
                           </tr>
                         ))
@@ -238,7 +238,7 @@ export default function LeadPoints() {
             </div>
           </div>
       </div>
-      {selectedLead && <LeadDetails data={selectedLead} open_view={true} />}
+      {selectedLead && <LeadDetails data={selectedLead} open={true}  setOpen={setSelectedLead}/>}
     </div>
   );
 }
