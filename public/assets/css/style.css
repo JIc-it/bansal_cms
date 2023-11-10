@@ -2109,7 +2109,7 @@ textarea.form-control-lg {
   padding-right: 1.5em;
   padding-left: 0;
   text-align: right; }
-  .form-check-reverse .form-check-input {
+  .form-check-reverse  {
     float: right;
     margin-right: -1.5em;
     margin-left: 0; }
@@ -25095,7 +25095,7 @@ textarea.form-control {
   border-width: 1px;
   width: 1.25rem;
   height: 1.25rem;
-  border-color: #e7e7e7; }
+  border-color: #2b59c3; }
 
 .rtl .form-check-label:before, .rtl .form-check-label:after {
   right: -1.5rem !important;
@@ -32636,8 +32636,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .menu-title {
     display: none; } }
 
-.due-progress {
-  margin-bottom: 10px; }
+/* .due-progress {
+  margin-bottom: 10px; } */
 
 .show-more-btn:hover {
   padding-left: 3rem !important; }
