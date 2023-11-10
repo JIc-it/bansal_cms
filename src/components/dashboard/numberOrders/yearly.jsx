@@ -4,7 +4,9 @@ import BarChart from './barChart';
 
 export default function YearlyChart(props) {
     
-    
+    const yearlyvalues=props.data.total_order_counts_by_year ? Object.values(props.data.total_order_counts_by_year):  Object.values(props.data.total_quantity_by_year)
+    const reducepastfiveyear5data=yearlyvalues.reduce((total,acc)=>total+acc,0)
+
     const yearslist = props.data.total_order_counts_by_year ? Object.keys(props.data.total_order_counts_by_year).map((dat) => dat) : Object.keys(props.data.total_quantity_by_year).map((dat) => dat)
 
     const Contractorcount = props.data.order_counts_by_year ? props.data.order_counts_by_year.Contractor.map((dat) => dat.count) :
@@ -16,6 +18,7 @@ export default function YearlyChart(props) {
     const Architectcount = props.data.order_counts_by_year ? props.data.order_counts_by_year.Architect.map((dat) => dat.count) :
         props.data.quantity_by_year.Architect.map((dat) => dat.total_quantity)
 
+        
     const chartOptions = {
         series: [
             {
@@ -57,7 +60,7 @@ export default function YearlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: yearslist,
+            categories: yearslist
         },
         fill: {
             opacity: 1,
@@ -74,7 +77,7 @@ export default function YearlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>{6000 } yrl</h4>
+                <h4>{reducepastfiveyear5data} yrl</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">
