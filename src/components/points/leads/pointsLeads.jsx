@@ -211,6 +211,7 @@ export default function LeadPoints() {
                             <td><h6>{lead.referral_id}</h6></td>
                             <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6></td>
                             <td><h6>{lead.points}</h6></td>
+                            <td><h6>{lead.order}</h6></td>
                             <td>
                               <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
                             </td>
