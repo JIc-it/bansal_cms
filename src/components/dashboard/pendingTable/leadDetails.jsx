@@ -1,6 +1,6 @@
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import React, { useState } from 'react';
-import axiosInstance from '../../../axiosHandle/authHandle';
+import { updateOrderRequest,updateLeadRequest } from '../../../axiosHandle/dashboardHandle';
 
 const offcanvasStyle = {
     width: '365px',
@@ -34,27 +34,25 @@ export default function LeadDetails({open, data, setOpen}) {
     } 
 
     const handleorderrequest=async(req)=>{
-        await axiosInstance.put(`purchase/admin-order-confirm/${data.id}`,{action_type:req})
-            .then((res)=>{
-                if(res.status===200){
-                    window.location.reload()
-                }})
-            .catch((error) => {
-                console.error('Error while fetching:', error);
-                throw error;
-              });
+        await updateOrderRequest(data.id,{action_type:req}).then((res)=>{
+            if(res.status===200){
+                window.location.reload()
+            }})
+        .catch((error) => {
+            console.error('Error while fetching:', error);
+            throw error;
+          });            
     }
 
     const handleleadrequest=async(req)=>{
-        await axiosInstance.put(`purchase/admin-lead-confirm/${data.id}`,{action_type:req})
-            .then((res)=>{
-                if(res.status===200){
-                    window.location.reload()
-                }})
-            .catch((error) => {
-                console.error('Error while fetching:', error);
-                throw error;
-              });
+        await updateLeadRequest(data.id,{action_type:req}).then((res)=>{
+            if(res.status===200){
+                window.location.reload()
+            }})
+        .catch((error) => {
+            console.error('Error while fetching:', error);
+            throw error;
+          });           
     }
     const handlerequest=(req)=>{
 

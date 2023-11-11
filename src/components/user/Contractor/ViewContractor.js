@@ -7,6 +7,8 @@ import EditContractor from "./EditContractor";
 import {
   getContractorsRequest,
   getUserOrders,
+  getUserOrdersCounts,
+  getUserPointsCounts,
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
@@ -23,9 +25,17 @@ const ViewContractor = () => {
     useState("Orders");
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
+  const [data,setData]=useState();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+const handlepassdata=(data)=>{
+  setViewTransaction(true)
+  setData(data)
+}
+
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
@@ -44,7 +54,26 @@ const ViewContractor = () => {
     getUserOrders(userData.id)
       .then((data) => {
         setTransactionData(data.results);
-        setTotalOrder(data.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  const handleUserOrderCount = () => {
+    getUserOrdersCounts(userData.id)
+      .then((data) => {
+        setTotalOrder(data.total_orders);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  const handleUserPointCount = () => {
+    getUserPointsCounts(userData.id)
+      .then((data) => {
+        setTotalPoints(data.total_points);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -53,8 +82,12 @@ const ViewContractor = () => {
 
   useEffect(() => {
     userData && handleUserOrderData();
+    userData && handleUserOrderCount();
+    userData && handleUserPointCount();
+
   }, [userData]);
 
+ 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -148,6 +181,7 @@ const ViewContractor = () => {
       window.URL.revokeObjectURL(url);
     }
   };
+  
 
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
@@ -228,7 +262,7 @@ const ViewContractor = () => {
                     <div>
                       <h6>Total Points</h6>
                       <br />
-                      <h3>56780 pts</h3>
+                      <h3>{totalPoints} Pts</h3>
                     </div>
                   </div>
                 </div>
@@ -430,10 +464,10 @@ const ViewContractor = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.points}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.quantity}</h6>
@@ -460,11 +494,12 @@ const ViewContractor = () => {
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td >
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
                                     role="button"
+                                    onClick={() => handlepassdata(ele)}
                                   >
                                     View
                                   </a>
@@ -540,11 +575,12 @@ const ViewContractor = () => {
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td >
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
                                     role="button"
+                                    onClick={() => handlepassdata(ele)}
                                   >
                                     View
                                   </a>
@@ -586,7 +622,7 @@ const ViewContractor = () => {
         </div>
       </div>
       {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} />
+        <ViewContractorTransaction setOpen={setViewTransaction} data={data}/>
       )}
       {isOpenAddPointsPopUp && (
         <AddPointsPopUp

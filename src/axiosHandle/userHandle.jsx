@@ -9,6 +9,9 @@ const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
 const getUserOrderURL = "/purchase/tmt_orders/user";
+const getUserOrderCount = '/purchase/admin-userview-orders-counts';
+const getUserPointsCount = "/purchase/admin-userview-points-counts";
+const getUserLeadsCount = "/purchase/admin-userview-leads-counts";
 const getUserRedemptionURL = "/purchase/redemption_history/user";
 const deleteContractorUrl = "/account/delete/user";
 const distributorOrderURL = "purchase/tmt_orders_dist/user";
@@ -147,6 +150,36 @@ export const handleUserResetPassword = (id, data) => {
 export const getUserOrders = (id) => {
   return axiosInstance
     .get(`${getUserOrderURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserOrdersCounts = (id,data) => {
+  return axiosInstance
+    .get(`${getUserOrderCount}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserPointsCounts = (id) => {
+  return axiosInstance
+    .get(`${getUserPointsCount}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserLeadsCounts = (id) => {
+  return axiosInstance
+    .get(`${getUserLeadsCount}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);

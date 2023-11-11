@@ -150,7 +150,7 @@ function Admins() {
                           {/* <td>
                               <button className="btn btn-primary" onClick={() => handleViewClick(data)}>View User</button>
                             </td> */}
-                          <td onClick={() => handleViewAdmin(data)}>
+                          <td onClick={() => handleViewAdmin(data.id)}>
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"

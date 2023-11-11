@@ -8,6 +8,9 @@ const totalRequestsURL = '/purchase/admin-total-requests/';
 const orderRequestURL = '/purchase/admin-pending-orders/';
 const leadRequestURL = '/purchase/admin-pending-leads/';
 
+const orderconfirmURL='/purchase/admin-order-confirm/'
+const LeadconfirmURL='/purchase/admin-lead-confirm/'
+
 const contractorAllURL = '/purchase/admin-top-contractors/';
 const contractorsMonthlyURL = '/purchase/admin-monthly-contractors/'; 
 
@@ -139,11 +142,30 @@ export const getOrderRequest = () => {
 };
 
 
+export const updateOrderRequest = (id,pass) => {
+  return axiosInstance.put(orderconfirmURL+id,pass)
+    .then((response) => response)
+    .catch((error) => {
+      console.error('Error while fetching order request:', error);
+      throw error;
+    });
+};
+
+
 export const getLeadRequest = () => {
   return axiosInstance.get(leadRequestURL)
     .then((response) => response.data)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+export const updateLeadRequest = (id,pass) => {
+  return axiosInstance.put(LeadconfirmURL+id,pass)
+    .then((response) => response)
+    .catch((error) => {
+      console.error('Error while fetching order request:', error);
       throw error;
     });
 };

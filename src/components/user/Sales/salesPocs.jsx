@@ -146,7 +146,7 @@ export default function SalesPocs() {
                           {/* <td>
                               <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
                             </td> */}
-                          <td onClick={() => handleViewSales(data)}>
+                          <td onClick={() => handleViewSales(data.id)}>
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"

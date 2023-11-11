@@ -1,7 +1,7 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const ViewContractorTransaction = ({ open, setOpen }) => {
+const ViewContractorTransaction = ({ open, setOpen,data}) => {
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -54,7 +54,7 @@ const ViewContractorTransaction = ({ open, setOpen }) => {
           style={{ marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
         >
-          Pending
+          {data.admin_approval}
         </span>
         <br></br>
         <span>Distributor Status :</span>
@@ -62,14 +62,14 @@ const ViewContractorTransaction = ({ open, setOpen }) => {
           style={{ marginLeft: 168 }}
           className="badge badge-success light border-0"
         >
-          Accepted
+          {data.user_approval}
         </span>
         <br></br>
         <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>transaction_id</span>
+        <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
         <br></br>
         <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span>
+        <span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"})}</span>
         <br></br>
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
@@ -119,12 +119,12 @@ const ViewContractorTransaction = ({ open, setOpen }) => {
           >
             <div>
               <span>Quantity</span>
-              <h5>82 Tons</h5>
+              <h5>{data.quantity} Tons</h5>
             </div>
             <div className="divider-line"></div>
             <div>
               <span>Loyalty Points</span>
-              <h5>500Pts</h5>
+              <h5>{data.points} Pts</h5>
             </div>
           </div>
         </h6>

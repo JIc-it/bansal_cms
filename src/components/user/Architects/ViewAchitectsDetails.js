@@ -6,6 +6,9 @@ import {
   getDistributorOrders,
   getUserLeads,
   getUserOrders,
+  getUserOrdersCounts,
+  getUserPointsCounts,
+  getUserLeadsCounts
 } from "../../../axiosHandle/userHandle";
 import AddPointsPopuP from "./AddPointsPopuP";
 import ResetArchitectPassword from "./ResetArchitectPassword";
@@ -24,6 +27,8 @@ const ViewAchitectsDetails = () => {
     useState("Orders");
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [leadsgenerated,setLeadsGenerated]=useState(0)
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -42,10 +47,6 @@ const ViewAchitectsDetails = () => {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
-
-  useEffect(() => {
-    userData && handleUserOrderData();
-  }, [userData]);
 
   const totalPages = Math.ceil(
     transactionData ? transactionData.length / itemsPerPage : 1
@@ -72,18 +73,56 @@ const ViewAchitectsDetails = () => {
     getUserOrders(userData.id)
       .then((data) => {
         setTransactionData(data.results);
-        setTotalOrder(data.total);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
   };
 
+  const handleUserOrderCount = () => {
+    getUserOrdersCounts(userData.id)
+      .then((data) => {
+        setTotalOrder(data.total_orders);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  const handleUserPointCount = () => {
+    getUserPointsCounts(userData.id)
+      .then((data) => {
+        setTotalPoints(data.total_points);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  const handleUserLeadsCount = () => {
+    getUserLeadsCounts(userData.id)
+      .then((data) => {
+        setLeadsGenerated(data.total_leads);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  useEffect(() => {
+    userData && handleUserOrderData();
+    userData && handleUserOrderCount();
+    userData && handleUserPointCount();
+    userData && handleUserLeadsCount();
+
+  }, [userData]);
+
+
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
-    if (type === "Orders") {
-      handleUserOrderData();
-    }
+    // if (type === "Orders") {
+    //   handleUserOrderData();
+    // }
     if (type === "Redemptions") {
       getDistributorOrders(userData.id)
         .then((data) => {
@@ -220,9 +259,8 @@ const ViewAchitectsDetails = () => {
           </div>
           <div className="col-md-4 col-12 same-card">
             {/* <div className="contractor-count-group"> */}
-            <div className="contractor-count ">
-              {" "}
-              <div className="card">
+            <div className="d-flex justify-content-around">
+              <div className="card col-md-5">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
                     <div>
@@ -233,17 +271,32 @@ const ViewAchitectsDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
+           
 
             {/* </div> */}
+           
+              <div className="card col-md-5">
+                <div className="card-body depostit-card">
+                  <div className="depostit-card-media d-flex justify-content-between style-1">
+                    <div>
+                      <h6>Total Points</h6>
+                      <br />
+                      <h3>{totalPoints} Pts</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+
             <div className="contractor-count-detail">
               <div className="card">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
                     <div>
-                      <h6>Total Quantity</h6>
+                      <h6>Leads Generated</h6>
                       <br />
-                      <h3>56780 pts</h3>
+                      <h3>{leadsgenerated}</h3>
                     </div>
                   </div>
                 </div>
@@ -455,7 +508,7 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                  <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.points}</h6>

@@ -4,6 +4,8 @@ import { useParams } from "react-router";
 import {
   getDistributorOrders,
   getDistributorsRequest,
+  getUserOrdersCounts,
+  getUserPointsCounts
 } from "../../../axiosHandle/userHandle";
 import DistributorPassword from "./DistributorPassword";
 import EditDistributor from "./EditDistributor";
@@ -21,13 +23,14 @@ const ViewDistributorDetails = () => {
   const [seletedTranasactionType, setSeletedTranasactionType] =
     useState("Orders");
   const [transactionData, setTransactionData] = useState();
+  const [data,setData]=useState();
   const [totalOrder, setTotalOrder] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 10;
-  console.log(userDatail);
-  
+    
   useEffect(() => {
     getDistributorsRequest()
       .then((data) => {
@@ -41,9 +44,6 @@ const ViewDistributorDetails = () => {
       });
   }, []);
 
-  useEffect(() => {
-    userData && handleUserOrderData();
-  }, [userData]);
 
   const totalPages = Math.ceil(
     transactionData ? transactionData.length / itemsPerPage : 1
@@ -70,12 +70,38 @@ const ViewDistributorDetails = () => {
     getDistributorOrders(userData.id)
       .then((data) => {
         setTransactionData(data.results);
-        setTotalOrder(data.total);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
   };
+
+  const handleUserOrderCount = () => {
+    getUserOrdersCounts(userData.id)
+      .then((data) => {
+        setTotalOrder(data.total_orders);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  const handleUserPointCount = () => {
+    getUserPointsCounts(userData.id)
+      .then((data) => {
+        setTotalPoints(data.total_points);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+
+  useEffect(() => {
+    userData && handleUserOrderData();
+    userData && handleUserOrderCount();
+    userData && handleUserPointCount();
+
+  }, [userData]);
 
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
@@ -141,6 +167,12 @@ const ViewDistributorDetails = () => {
       window.URL.revokeObjectURL(url);
     }
   };
+
+
+  const handlepassdata=(data)=>{
+    setViewTransaction(true)
+    setData(data)
+  }
 
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
@@ -221,7 +253,7 @@ const ViewDistributorDetails = () => {
                     <div>
                       <h6>Total Quantity</h6>
                       <br />
-                      <h3>56780 pts</h3>
+                      <h3>{totalPoints}</h3>
                     </div>
                   </div>
                 </div>
@@ -406,10 +438,10 @@ const ViewDistributorDetails = () => {
                                 <h6>{ele.distributor}</h6>
                               </td>
                               <td>
-                                <h6>{ele.updated_at}</h6>
+                              <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                               </td>
                               <td>
-                                <h6>{ele.distributor}</h6>
+                                <h6>{ele.points}</h6>
                               </td>
                               <td>
                                 <h6>{ele.quantity}</h6>
@@ -436,11 +468,12 @@ const ViewDistributorDetails = () => {
                                     : "Processing"}
                                 </button>
                               </td>
-                              <td onClick={() => setViewTransaction(true)}>
+                              <td>
                                 <a
                                   className="btn btn-primary btn-sm"
                                   href="#"
                                   role="button"
+                                  onClick={() => handlepassdata(ele)}
                                 >
                                   View
                                 </a>
@@ -496,7 +529,7 @@ const ViewDistributorDetails = () => {
         />
       )}
       {viewTransaction && (
-        <ViewDistributorTransaction setOpen={setViewTransaction} />
+        <ViewDistributorTransaction setOpen={setViewTransaction} data={data}/>
       )}
     </div>
   );

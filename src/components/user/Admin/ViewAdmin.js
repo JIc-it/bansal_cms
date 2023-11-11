@@ -150,6 +150,7 @@ const ViewAdmin = () => {
     }
   };
 
+  console.log(totalOrder);
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
@@ -204,39 +205,8 @@ const ViewAdmin = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-4 col-12 same-card">
-            {/* <div className="contractor-count-group"> */}
-            <div className="contractor-count ">
-              {" "}
-              <div className="card">
-                <div className="card-body depostit-card">
-                  <div className="depostit-card-media d-flex justify-content-between style-1">
-                    <div>
-                      <h6>Total Orders</h6>
-                      <br />
-                      <h3>{totalOrder}</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* </div> */}
-            <div className="contractor-count-detail">
-              <div className="card">
-                <div className="card-body depostit-card">
-                  <div className="depostit-card-media d-flex justify-content-between style-1">
-                    <div>
-                      <h6>Total Points</h6>
-                      <br />
-                      <h3>56780 pts</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-5 col-12 same-card">
+         
+          <div className="col-md-9 col-12 same-card">
             <div className="card">
               <div className="card-body depostit-card">
                 <div class="user-card-heading"> Details</div>
@@ -428,7 +398,7 @@ const ViewAdmin = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -508,7 +478,7 @@ const ViewAdmin = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.created_at}</h6>
+                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
