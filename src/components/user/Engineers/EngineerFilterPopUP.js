@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 const EngineerFilterPopUP = (
   {
-    //   filterCriteria,
-    //   setFilterCriteria,
-    //   isFilter,
-    //   setIsFilter,
-    //   setOpenFilter,
+      handlefilterdata,handleUserOrderData
   }
 ) => {
   const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const customInput = (
     <div className="custom-input">
@@ -88,14 +79,11 @@ const EngineerFilterPopUP = (
       <div className="filter-heading">Filter</div>
       <span>By Status</span>
       <select
-        defaultValue=""
         className=" w-100 form-control-sm form-control my-1"
         placeholder="Status"
-        //   onChange={handleStateChange}
+          onChange={(e)=> handlefilterdata({status:e.target.value})}
       >
-        <option disabled={true} value="" id={"0"}>
-          Status
-        </option>
+       
         <option>Processing</option>
         <option>Accepted</option>
         <option>Rejected</option>
@@ -107,10 +95,9 @@ const EngineerFilterPopUP = (
           placeholder="From"
           className="form-control form-control-sm"
           name="from"
+          
           //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
+              onChange={(e)=>handlefilterdata({points_from:e.target.value})}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -128,10 +115,8 @@ const EngineerFilterPopUP = (
           placeholder="To"
           className="form-control form-control-sm"
           name="to"
-          //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
+          
+          onChange={(e)=>handlefilterdata({to:e.target.value})}
           //   onBlur={formik.handleBlur}
         />
       </div>
@@ -139,7 +124,14 @@ const EngineerFilterPopUP = (
       <br />
       <DatePicker
         selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        onChange={(date) => {
+          setSelectedDate(date);
+        var dateformat=new Date(date);
+        const day=dateformat.getDate()
+        const month=dateformat.getMonth() +1
+        const Year=dateformat.getFullYear()
+        handlefilterdata({date:`${Year}-${month}-${day}`})
+        }}
         customInput={customInput}
         dateFormat="dd/MM/yyyy" // Customize the date format
       />
@@ -153,15 +145,20 @@ const EngineerFilterPopUP = (
           background: "#2B59C3",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setOpenFilter(false);
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={()=>{
+          handleUserOrderData();
+          handlefilterdata({
+          search:"",
+          status:"",
+          points_from:0,
+          points_to:0,
+          date:""
+        });}}
       >
         Apply
       </button>
       <button
-        type="submit"
+        type="button"
         className="btn btn-primary"
         style={{
           flex: 1,
@@ -170,10 +167,9 @@ const EngineerFilterPopUP = (
           background: "#0F0F0F",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setFilterCriteria({ from: "", to: "" });
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={async()=>{
+          await handleUserOrderData()
+        }}
       >
         Clear Filter
       </button>

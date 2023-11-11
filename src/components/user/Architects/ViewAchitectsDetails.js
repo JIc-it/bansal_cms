@@ -32,8 +32,20 @@ const ViewAchitectsDetails = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [filterdata,setFilterdata]=useState({
+    search:"",
+    status:"",
+    points_from:0,
+    points_to:0,
+    date:""
+  })
+
   const itemsPerPage = 10;
-  console.log(userDatail);
+  function handlefilterdata(fields){
+    setFilterdata((prev) => {
+      return { ...prev, ...fields };
+    });
+  }
 
   useEffect(() => {
     getArchitectsRequest()
@@ -70,7 +82,7 @@ const ViewAchitectsDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id)
+    getUserOrders(userData.id,filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -452,7 +464,7 @@ const ViewAchitectsDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <ArchitectTransactionPopUp />}
+                  {transactionFilterOpen && <ArchitectTransactionPopUp handlefilterdata={handlefilterdata} handleUserOrderData={handleUserOrderData}/>}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (

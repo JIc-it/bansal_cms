@@ -147,9 +147,10 @@ export const handleUserResetPassword = (id, data) => {
     });
 };
 
-export const getUserOrders = (id) => {
+export const getUserOrders = (id,data) => {
   return axiosInstance
-    .get(`${getUserOrderURL}/${id}/`)
+    .get(`${getUserOrderURL}/${id}/`, 
+    { params: {search:data.search,status: data.status,point_from:data.point_from,point_to:data.point_to,date:data.date } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);
@@ -157,7 +158,7 @@ export const getUserOrders = (id) => {
     });
 };
 
-export const getUserOrdersCounts = (id,data) => {
+export const getUserOrdersCounts = (id) => {
   return axiosInstance
     .get(`${getUserOrderCount}/${id}/`)
     .then((response) => response.data)

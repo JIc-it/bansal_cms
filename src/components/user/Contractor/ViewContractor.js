@@ -26,6 +26,15 @@ const ViewContractor = () => {
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
+
+  const [filterdata,setFilterdata]=useState({
+    search:"",
+    status:"",
+    points_from:0,
+    points_to:0,
+    date:""
+  })
+
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [data,setData]=useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,6 +43,12 @@ const ViewContractor = () => {
 const handlepassdata=(data)=>{
   setViewTransaction(true)
   setData(data)
+}
+
+function handlefilterdata(fields){
+  setFilterdata((prev) => {
+    return { ...prev, ...fields };
+  });
 }
 
 
@@ -51,7 +66,7 @@ const handlepassdata=(data)=>{
   }, []);
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id)
+    getUserOrders(userData.id,filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -346,9 +361,7 @@ const handlepassdata=(data)=>{
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        // onChange={(e) => {
-                        //   setSearchUserData(e.target.value);
-                        // }}
+                        onChange={(e)=>handlefilterdata({search:e.target.value})}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -407,7 +420,7 @@ const handlepassdata=(data)=>{
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <TransactionFilterPopUp />}
+                  {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata} handleUserOrderData={handleUserOrderData}/>}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (

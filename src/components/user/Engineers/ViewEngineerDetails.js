@@ -34,8 +34,20 @@ const ViewEngineerDetails = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [filterdata,setFilterdata]=useState({
+    search:"",
+    status:"",
+    points_from:0,
+    points_to:0,
+    date:""
+  })
+
   const itemsPerPage = 10;
-  console.log(userDatail);
+  function handlefilterdata(fields){
+    setFilterdata((prev) => {
+      return { ...prev, ...fields };
+    });
+  }
 
   useEffect(() => {
     getEngineersRequest()
@@ -74,7 +86,7 @@ const ViewEngineerDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id)
+    getUserOrders(userData.id,filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -455,7 +467,7 @@ const ViewEngineerDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <EngineerFilterPopUP />}
+                  {transactionFilterOpen && <EngineerFilterPopUP handlefilterdata={handlefilterdata} handleUserOrderData={handleUserOrderData}/>}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
@@ -492,7 +504,7 @@ const ViewEngineerDetails = () => {
                         <th>Points</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -517,15 +529,8 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.points}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
                                   <h6>{ele.quantity}</h6>
                                 </td>
-
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
@@ -595,7 +600,7 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -672,7 +677,7 @@ const ViewEngineerDetails = () => {
                             return (
                               <tr key={`transactionData-${i}`}>
                                 <td>
-                                  <h6>{ele.transaction_id}</h6>
+                                  <h6>{ele.referral_id}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.name}</h6>
@@ -681,13 +686,13 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.mobile_no}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.quantity}</h6>
+                                  <h6>{ele.order}</h6>
                                 </td>
 
                                 <td>
