@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { createContractor, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -22,8 +22,10 @@ const offcanvasStyle = {
 export default function EditEngineer({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+  setIsUpdated,
+  isUpdated,
+  userId,
+  userData,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -52,36 +54,36 @@ export default function EditEngineer({
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
-    district: Yup.mixed().test(
-      "isDistrictSelected",
-      "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
-      }
-    ),
-    state: Yup.mixed().test(
-      "isStateSelected",
-      "state is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "State";
-      }
-    ),
+    // district: Yup.mixed().test(
+    //   "isDistrictSelected",
+    //   "District is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "District";
+    //   }
+    // ),
+    // state: Yup.mixed().test(
+    //   "isStateSelected",
+    //   "state is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "State";
+    //   }
+    // ),
 
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+    // password: Yup.string().required("Password is required"),
+    // confirmPassword: Yup.string()
+    //   .required("Confirm Password is required")
+    //   .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      mobile: "",
+      name: userData.name,
+      email: userData.email,
+      mobile: userData.mobile,
       district: { id: "0", name: "District" },
       state: { id: "0", name: "state" },
-      password: "",
-      confirmPassword: "",
+      // password: "",
+      // confirmPassword: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -92,15 +94,18 @@ export default function EditEngineer({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            district:
+              values.district.id != "0"
+                ? values.district.id
+                : userData?.district?.id,
+            state:
+              values.state.id != "0" ? values.state.id : userData?.state?.id,
           };
 
-          const contractorData = await createContractor(data);
+          const contractorData = await updateUser(userId, data);
           console.log(contractorData);
           if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
+            setIsUpdated(!isUpdated);
             toast.success("Distributor created successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -202,7 +207,13 @@ export default function EditEngineer({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 10) {
+                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -216,8 +227,8 @@ export default function EditEngineer({
               placeholder="District"
               onChange={handleDistrictChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                District
+              <option disabled={true} value="" id={userData?.district?.id}>
+                {userData?.district?.district}
               </option>
               {locationList &&
                 locationList.map((item, i) => {
@@ -235,8 +246,8 @@ export default function EditEngineer({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                State
+              <option disabled={true} id={userData?.state?.id}>
+                {userData?.state?.state}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {

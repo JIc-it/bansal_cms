@@ -4,7 +4,11 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import {
+  createContractor,
+  createUser,
+  updateUser,
+} from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -22,8 +26,10 @@ const offcanvasStyle = {
 export default function EditContractor({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+  setIsContractorUpdated,
+  isContractorUpdated,
+  userId,
+  userData,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -52,36 +58,29 @@ export default function EditContractor({
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
-    district: Yup.mixed().test(
-      "isDistrictSelected",
-      "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
-      }
-    ),
-    state: Yup.mixed().test(
-      "isStateSelected",
-      "state is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "State";
-      }
-    ),
-
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+    // district: Yup.mixed().test(
+    //   "isDistrictSelected",
+    //   "District is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "District";
+    //   }
+    // ),
+    // state: Yup.mixed().test(
+    //   "isStateSelected",
+    //   "state is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "State";
+    //   }
+    // ),
   });
-
+  console.log(userData);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      mobile: "",
+      name: userData.name,
+      email: userData.email,
+      mobile: userData.mobile,
       district: { id: "0", name: "District" },
       state: { id: "0", name: "state" },
-      password: "",
-      confirmPassword: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -92,18 +91,23 @@ export default function EditContractor({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            district:
+              values.district.id != "0"
+                ? values.district.id
+                : userData?.district?.id,
+            state:
+              values.state.id != "0" ? values.state.id : userData?.state?.id,
           };
 
-          const contractorData = await createContractor(data);
+          const contractorData = await updateUser(userId, data);
           console.log(contractorData);
           if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
-            toast.success("Contractor created successfully!");
-            setOpen(false);
+            console.log("Contractor updated successfully!");
+            setIsContractorUpdated(!isContractorUpdated);
+            toast.success("Contractor updated successfully!");
+            // handleCloseOffcanvas();
             setIsLoading(false);
+            setOpen(false);
           } else {
             console.error(
               "Error while creating Contractor:",
@@ -111,7 +115,7 @@ export default function EditContractor({
             );
             setIsLoading(false);
           }
-          setIsLoading(false);
+          // setIsLoading(false);
         } catch (err) {
           console.log(err);
           err.response.data.email && toast.error(err.response.data.email[0]);
@@ -202,7 +206,13 @@ export default function EditContractor({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 10) {
+                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -216,8 +226,8 @@ export default function EditContractor({
               placeholder="District"
               onChange={handleDistrictChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                District
+              <option disabled={true} value="" id={userData?.district?.id}>
+                {userData?.district?.district}
               </option>
               {locationList &&
                 locationList.map((item, i) => {
@@ -235,8 +245,8 @@ export default function EditContractor({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                State
+              <option disabled={true} id={userData?.state?.id}>
+                {userData?.state?.state}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {

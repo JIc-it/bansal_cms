@@ -9,13 +9,15 @@ const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
 const getUserOrderURL = "/purchase/tmt_orders/user";
-const getUserOrderCount = '/purchase/admin-userview-orders-counts';
+const getUserOrderCount = "/purchase/admin-userview-orders-counts";
 const getUserPointsCount = "/purchase/admin-userview-points-counts";
 const getUserLeadsCount = "/purchase/admin-userview-leads-counts";
 const getUserRedemptionURL = "/purchase/redemption_history/user";
 const deleteContractorUrl = "/account/delete/user";
 const distributorOrderURL = "purchase/tmt_orders_dist/user";
 const getUserLeadsURL = "/purchase/leads/user";
+const commonUserCreationURL = "/account/admin-create-user/";
+const commonUserUpdationnURL = "/account/admin-update-user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -142,18 +144,25 @@ export const handleUserResetPassword = (id, data) => {
     .patch(`${userResetPasswordURL}/${id}/`, data)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while reset password request:", error);
       throw error;
     });
 };
 
-export const getUserOrders = (id,data) => {
+export const getUserOrders = (id, data) => {
   return axiosInstance
-    .get(`${getUserOrderURL}/${id}/`, 
-    { params: {search:data.search,status: data.status,point_from:data.point_from,point_to:data.point_to,date:data.date } })
+    .get(`${getUserOrderURL}/${id}/`, {
+      params: {
+        search: data.search,
+        status: data.status,
+        point_from: data.point_from,
+        point_to: data.point_to,
+        date: data.date,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching order request:", error);
       throw error;
     });
 };
@@ -163,7 +172,7 @@ export const getUserOrdersCounts = (id) => {
     .get(`${getUserOrderCount}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching order request:", error);
       throw error;
     });
 };
@@ -173,7 +182,7 @@ export const getUserPointsCounts = (id) => {
     .get(`${getUserPointsCount}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching points request:", error);
       throw error;
     });
 };
@@ -183,7 +192,7 @@ export const getUserLeadsCounts = (id) => {
     .get(`${getUserLeadsCount}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching leads request:", error);
       throw error;
     });
 };
@@ -193,7 +202,7 @@ export const getUserLeads = (id) => {
     .get(`${getUserLeadsURL}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching leads request:", error);
       throw error;
     });
 };
@@ -203,7 +212,7 @@ export const getUserRedemptionData = (id) => {
     .get(`${getUserRedemptionURL}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching redemption request:", error);
       throw error;
     });
 };
@@ -213,7 +222,7 @@ export const getDistributorOrders = (id) => {
     .get(`${distributorOrderURL}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching ditributor request:", error);
       throw error;
     });
 };
@@ -223,7 +232,7 @@ export const deleteContractorUser = (id) => {
     .delete(`${deleteContractorUrl}/${id}/`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while fetching architects request:", error);
+      console.error("Error while fetching contractor request:", error);
       throw error;
     });
 };
@@ -233,7 +242,7 @@ export const createDistributor = (data) => {
     .post(distributorsURL, data)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while creating reward product:", error);
+      console.error("Error while creating ditributor:", error);
       throw error;
     });
 };
@@ -243,7 +252,31 @@ export const createEngineer = (data) => {
     .post(engineersURL, data)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while creating reward product:", error);
+      console.error("Error while creating engineer:", error);
+      throw error;
+    });
+};
+
+//////////////////common api for all user creation//////////////////////
+export const createUser = (data) => {
+  console.log(data);
+  return axiosInstance
+    .post(commonUserCreationURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
+      throw error;
+    });
+};
+
+//////////////////common api for all user edition//////////////////////
+export const updateUser = (id, data) => {
+  console.log(data);
+  return axiosInstance
+    .patch(`${commonUserUpdationnURL}/${id}/`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
       throw error;
     });
 };

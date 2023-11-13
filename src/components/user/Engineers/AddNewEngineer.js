@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createEngineer } from "../../../axiosHandle/userHandle";
+import { createEngineer, createUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -98,12 +98,14 @@ export default function AddNewEngineer({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            password1: values.password,
+            password2: values.confirmPassword,
+            district: values.district.id,
+            state: values.state.id,
+            role: "Engineer",
           };
 
-          const enginneerData = await createEngineer(data);
+          const enginneerData = await createUser(data);
 
           if (enginneerData) {
             setIsEngineerAdded(!isEngineerAdded);

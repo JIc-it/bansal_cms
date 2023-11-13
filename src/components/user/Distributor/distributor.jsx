@@ -198,7 +198,10 @@ export default function Distributors() {
                         </div>
                       </div>
                     </div>
-                    <div className="col-5 text-end" style={{ paddingTop: "1.5rem" }}>
+                    <div
+                      className="col-5 text-end"
+                      style={{ paddingTop: "1.5rem" }}
+                    >
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
@@ -218,7 +221,28 @@ export default function Distributors() {
                         id="export-button"
                         onClick={exportToCSV}
                       >
-                        <i className="fa-solid fa-file-export" /> Export
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
                       </button>
                     </div>
                   </div>
@@ -248,7 +272,10 @@ export default function Distributors() {
                               <h6>{data.mobile}</h6>
                             </td>
                             <td>
-                              <h6>{data.district_name}</h6>
+                              <h6>
+                                <span>{data.district?.district}</span>,
+                                <span>{data.state?.state}</span>
+                              </h6>
                             </td>
                             <td>
                               <a

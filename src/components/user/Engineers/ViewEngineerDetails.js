@@ -8,7 +8,9 @@ import {
   getUserLeads,
   getUserOrders,
   getUserRedemptionData,
-  getUserOrdersCounts,getUserPointsCounts,getUserLeadsCounts
+  getUserOrdersCounts,
+  getUserPointsCounts,
+  getUserLeadsCounts,
 } from "../../../axiosHandle/userHandle";
 import ResetEngineerPassword from "./ResetEngineerPassword";
 import EditEngineer from "./EditEngineer";
@@ -30,20 +32,20 @@ const ViewEngineerDetails = () => {
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
-  const [leadsgenerated,setLeadsGenerated]=useState(0)
+  const [leadsgenerated, setLeadsGenerated] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [filterdata,setFilterdata]=useState({
-    search:"",
-    status:"",
-    points_from:0,
-    points_to:0,
-    date:""
-  })
+  const [isUpdated, setIsUpdated] = useState(false);
+  const [filterdata, setFilterdata] = useState({
+    search: "",
+    status: "",
+    points_from: 0,
+    points_to: 0,
+    date: "",
+  });
 
   const itemsPerPage = 10;
-  function handlefilterdata(fields){
+  function handlefilterdata(fields) {
     setFilterdata((prev) => {
       return { ...prev, ...fields };
     });
@@ -60,9 +62,7 @@ const ViewEngineerDetails = () => {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, []);
-
-  
+  }, [isUpdated]);
 
   const totalPages = Math.ceil(
     transactionData ? transactionData.length / itemsPerPage : 1
@@ -86,7 +86,7 @@ const ViewEngineerDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id,filterdata)
+    getUserOrders(userData.id, filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -130,7 +130,6 @@ const ViewEngineerDetails = () => {
     userData && handleUserOrderCount();
     userData && handleUserPointCount();
     userData && handleUserLeadsCount();
-
   }, [userData]);
 
   console.log(transactionData);
@@ -287,10 +286,9 @@ const ViewEngineerDetails = () => {
                   </div>
                 </div>
               </div>
-           
 
-            {/* </div> */}
-           
+              {/* </div> */}
+
               <div className="card col-md-5">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
@@ -332,10 +330,8 @@ const ViewEngineerDetails = () => {
                     <div className="user-email-details-data">
                       <span>{userData && userData.email}</span>
                       <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData.district_name}  ${
-                        userData && userData.state_name
-                          ? `, ${userData.state_name}`
-                          : ""
+                      <span>{`${userData && userData?.district?.district} , ${
+                        userData && userData?.state?.state
                       }`}</span>
                     </div>
                   </div>
@@ -467,7 +463,12 @@ const ViewEngineerDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <EngineerFilterPopUP handlefilterdata={handlefilterdata} handleUserOrderData={handleUserOrderData}/>}
+                  {transactionFilterOpen && (
+                    <EngineerFilterPopUP
+                      handlefilterdata={handlefilterdata}
+                      handleUserOrderData={handleUserOrderData}
+                    />
+                  )}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
@@ -488,7 +489,28 @@ const ViewEngineerDetails = () => {
                     id="export-button"
                     onClick={exportToCSV}
                   >
-                    <i className="fa-solid fa-file-export" /> Export
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                        stroke="#0F0F0F"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                        stroke="#0F0F0F"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>{" "}
+                    Export
                   </button>
                 </div>
               </div>
@@ -523,7 +545,17 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <h6>{ele.points}</h6>
@@ -600,7 +632,17 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -686,7 +728,17 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.mobile_no}</h6>
                                 </td>
                                 <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -771,7 +823,16 @@ const ViewEngineerDetails = () => {
           userDatail={userDatail}
         />
       )}
-      {openEdit && <EditEngineer open={openEdit} setOpen={setOpenEdit} />}
+      {openEdit && (
+        <EditEngineer
+          open={openEdit}
+          setOpen={setOpenEdit}
+          userId={userDatail.id}
+          setIsUpdated={setIsUpdated}
+          isUpdated={isUpdated}
+          userData={userData}
+        />
+      )}
       {viewTransaction && (
         <ViewTransactionDetails setOpen={setViewTransaction} />
       )}

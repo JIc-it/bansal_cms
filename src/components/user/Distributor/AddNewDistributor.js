@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createDistributor } from "../../../axiosHandle/userHandle";
+import { createDistributor, createUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -98,12 +98,14 @@ export default function AddNewDistributor({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            password1: values.password,
+            password2: values.confirmPassword,
+            district: values.district.id,
+            state: values.state.id,
+            role: "Distributor",
           };
 
-          const distributorData = await createDistributor(data);
+          const distributorData = await createUser(data);
           console.log(distributorData);
           if (distributorData) {
             setIsDistributorAdded(!isDistributorAdded);

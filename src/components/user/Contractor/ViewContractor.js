@@ -26,31 +26,31 @@ const ViewContractor = () => {
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
+  const [isContractorUpdated, setIsContractorUpdated] = useState(false);
 
-  const [filterdata,setFilterdata]=useState({
-    search:"",
-    status:"",
-    points_from:0,
-    points_to:0,
-    date:""
-  })
+  const [filterdata, setFilterdata] = useState({
+    search: "",
+    status: "",
+    points_from: 0,
+    points_to: 0,
+    date: "",
+  });
 
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
-  const [data,setData]=useState();
+  const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-const handlepassdata=(data)=>{
-  setViewTransaction(true)
-  setData(data)
-}
+  const handlepassdata = (data) => {
+    setViewTransaction(true);
+    setData(data);
+  };
 
-function handlefilterdata(fields){
-  setFilterdata((prev) => {
-    return { ...prev, ...fields };
-  });
-}
-
+  function handlefilterdata(fields) {
+    setFilterdata((prev) => {
+      return { ...prev, ...fields };
+    });
+  }
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
@@ -63,10 +63,10 @@ function handlefilterdata(fields){
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, []);
+  }, [isContractorUpdated]);
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id,filterdata)
+    getUserOrders(userData.id, filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -99,10 +99,8 @@ function handlefilterdata(fields){
     userData && handleUserOrderData();
     userData && handleUserOrderCount();
     userData && handleUserPointCount();
-
   }, [userData]);
 
- 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -196,7 +194,6 @@ function handlefilterdata(fields){
       window.URL.revokeObjectURL(url);
     }
   };
-  
 
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
@@ -298,10 +295,8 @@ function handlefilterdata(fields){
                     <div className="user-email-details-data">
                       <span>{userData && userData.email}</span>
                       <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData.district_name}  ${
-                        userData && userData.state_name
-                          ? `, ${userData.state_name}`
-                          : ""
+                      <span>{`${userData && userData?.district?.district} , ${
+                        userData && userData?.state?.state
                       }`}</span>
                     </div>
                   </div>
@@ -361,7 +356,9 @@ function handlefilterdata(fields){
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        onChange={(e)=>handlefilterdata({search:e.target.value})}
+                        onChange={(e) =>
+                          handlefilterdata({ search: e.target.value })
+                        }
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -420,7 +417,12 @@ function handlefilterdata(fields){
                       </svg>
                     </button>
                   </div>
-                  {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata} handleUserOrderData={handleUserOrderData}/>}
+                  {transactionFilterOpen && (
+                    <TransactionFilterPopUp
+                      handlefilterdata={handlefilterdata}
+                      handleUserOrderData={handleUserOrderData}
+                    />
+                  )}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
@@ -441,7 +443,28 @@ function handlefilterdata(fields){
                     id="export-button"
                     onClick={exportToCSV}
                   >
-                    <i className="fa-solid fa-file-export" /> Export
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                        stroke="#0F0F0F"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                        stroke="#0F0F0F"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>{" "}
+                    Export
                   </button>
                 </div>
               </div>
@@ -477,7 +500,17 @@ function handlefilterdata(fields){
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <h6>{ele.points}</h6>
@@ -507,7 +540,7 @@ function handlefilterdata(fields){
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td >
+                                <td>
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
@@ -588,7 +621,7 @@ function handlefilterdata(fields){
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td >
+                                <td>
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
@@ -635,7 +668,7 @@ function handlefilterdata(fields){
         </div>
       </div>
       {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} data={data}/>
+        <ViewContractorTransaction setOpen={setViewTransaction} data={data} />
       )}
       {isOpenAddPointsPopUp && (
         <AddPointsPopUp
@@ -650,7 +683,16 @@ function handlefilterdata(fields){
           userDatail={userDatail}
         />
       )}
-      {openEdit && <EditContractor open={openEdit} setOpen={setOpenEdit} />}
+      {openEdit && (
+        <EditContractor
+          open={openEdit}
+          setOpen={setOpenEdit}
+          userId={userDatail.id}
+          setIsContractorUpdated={setIsContractorUpdated}
+          isContractorUpdated={isContractorUpdated}
+          userData={userData}
+        />
+      )}
     </div>
   );
 };

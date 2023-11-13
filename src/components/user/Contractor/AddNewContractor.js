@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { createUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -98,12 +98,14 @@ export default function AddNewContractor({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district.id,
-            state_name: values.state.id,
+            password1: values.password,
+            password2: values.confirmPassword,
+            district: values.district.id,
+            state: values.state.id,
+            role: "Contractor",
           };
 
-          const contractorData = await createContractor(data);
+          const contractorData = await createUser(data);
           console.log(contractorData);
           if (contractorData) {
             setIsContractorAdded(!isContractorAdded);

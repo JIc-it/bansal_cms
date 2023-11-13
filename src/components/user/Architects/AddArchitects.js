@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createArchitects } from "../../../axiosHandle/userHandle";
+import { createArchitects, createUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -97,12 +97,14 @@ export default function AddArchitects({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            password1: values.password,
+            password2: values.confirmPassword,
+            district: values.district.id,
+            state: values.state.id,
+            role: "Architect",
           };
 
-          const enginneerData = await createArchitects(data);
+          const enginneerData = await createUser(data);
 
           if (enginneerData) {
             setIsArchitectsAdded(!isArchitectsAdded);

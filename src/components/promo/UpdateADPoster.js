@@ -95,7 +95,7 @@ const UpdateADPoster = ({
       </Offcanvas.Header>
 
       <form onSubmit={formik.handleSubmit}>
-        <div style={offcanvasStyle}>
+        <div style={offcanvasStyle} className="update-promotion-container">
           <h5>Add Spot - 01</h5>
           <div>
             <div>
@@ -132,10 +132,30 @@ const UpdateADPoster = ({
                 />
                 <label
                   htmlFor="imageUpload"
-                  className="btn btn-secondary btn-sm"
+                  className="btn bg-blue btn-sm"
                   style={{ marginLeft: 106 }}
                 >
-                  Choose File
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M2 10C2 11.8856 2 12.8284 2.58579 13.4142C3.17157 14 4.11438 14 6 14H10C11.8856 14 12.8284 14 13.4142 13.4142C14 12.8284 14 11.8856 14 10"
+                      stroke="white"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M7.99967 10.6667V2M7.99967 2L10.6663 4.91667M7.99967 2L5.33301 4.91667"
+                      stroke="white"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span className="mx-1"> Choose File</span>
                 </label>
               </div>
             </div>

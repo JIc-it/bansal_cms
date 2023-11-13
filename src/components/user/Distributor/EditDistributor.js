@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { createContractor, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -22,8 +22,11 @@ const offcanvasStyle = {
 export default function EditDistributor({
   open,
   setOpen,
-  setIsContractorAdded,
-  isContractorAdded,
+  setIsUpdated,
+  isUpdated,
+  userDatail,
+  userId,
+  userData,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
@@ -52,32 +55,32 @@ export default function EditDistributor({
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
-    district: Yup.mixed().test(
-      "isDistrictSelected",
-      "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
-      }
-    ),
-    state: Yup.mixed().test(
-      "isStateSelected",
-      "state is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "State";
-      }
-    ),
+    // district: Yup.mixed().test(
+    //   "isDistrictSelected",
+    //   "District is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "District";
+    //   }
+    // ),
+    // state: Yup.mixed().test(
+    //   "isStateSelected",
+    //   "state is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "State";
+    //   }
+    // ),
 
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+    // password: Yup.string().required("Password is required"),
+    // confirmPassword: Yup.string()
+    //   .required("Confirm Password is required")
+    //   .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      mobile: "",
+      name: userData.name,
+      email: userData.email,
+      mobile: userData.mobile,
       district: { id: "0", name: "District" },
       state: { id: "0", name: "state" },
       password: "",
@@ -92,16 +95,18 @@ export default function EditDistributor({
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
+            district:
+              values.district.id != "0"
+                ? values.district.id
+                : userData?.district?.id,
+            state:
+              values.state.id != "0" ? values.state.id : userData?.state?.id,
           };
-
-          const contractorData = await createContractor(data);
+          const contractorData = await updateUser(userData.id, data);
           console.log(contractorData);
           if (contractorData) {
-            setIsContractorAdded(!isContractorAdded);
-            toast.success("Distributor created successfully!");
+            setIsUpdated(!isUpdated);
+            toast.success("Distributor updated successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
@@ -216,8 +221,8 @@ export default function EditDistributor({
               placeholder="District"
               onChange={handleDistrictChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                District
+              <option disabled={true} value="" id={userData?.district?.id}>
+                {userData?.district?.district}
               </option>
               {locationList &&
                 locationList.map((item, i) => {
@@ -235,8 +240,8 @@ export default function EditDistributor({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                State
+              <option disabled={true} id={userData?.state?.id}>
+                {userData?.state?.state}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {

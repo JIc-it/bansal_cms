@@ -10,7 +10,7 @@ function RewardPoints() {
   const [updateProduct, setUpdateProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const handleEditClick = (data) => {
     setUpdateProduct(data);
@@ -72,11 +72,18 @@ function RewardPoints() {
 
   const filteredItems = reward_product_data
     ? reward_product_data.filter((rw_data) => {
-      const searchableFields = [rw_data.title, rw_data.id, rw_data.points, rw_data.description];
-      return searchableFields.some((field) =>
-        (typeof field === 'string' && field.toLowerCase().includes(searchText.toLowerCase()))
-      );
-    })
+        const searchableFields = [
+          rw_data.title,
+          rw_data.id,
+          rw_data.points,
+          rw_data.description,
+        ];
+        return searchableFields.some(
+          (field) =>
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchText.toLowerCase())
+        );
+      })
     : [];
 
   const handleNextPage = () => {
@@ -94,148 +101,171 @@ function RewardPoints() {
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       <Cards />
-        <div className="row" style={{marginLeft: '15px'}}>
-          <div className="col-xl-12">
-            <div className="card">
-              <div className="card-body p-0">
-                <div className="table-responsive active-projects manage-client">
-                  <div className="tbl-caption">
-                    <h4 className="heading mb-0">Orders History</h4>
+      <div className="row" style={{ marginLeft: "15px" }}>
+        <div className="col-xl-12">
+          <div className="card">
+            <div className="card-body p-0">
+              <div className="table-responsive active-projects manage-client">
+                <div className="tbl-caption">
+                  <h4 className="heading mb-0">Orders History</h4>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    <div
+                      className="input-group mb-3"
+                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                    >
+                      {/* Step 3: Capture the search input */}
+                      <input
+                        type="text"
+                        className="form-control"
+                        style={{ marginRight: 10 }}
+                        placeholder="Search..."
+                        aria-label="Search..."
+                        aria-describedby="search-button"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                      />
+                      {/* <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button> */}
+                    </div>
                   </div>
-                  <div className="row">
-                    <div className="col-5">
-                      <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                        {/* Step 3: Capture the search input */}
-                        <input
-                          type="text"
-                          className="form-control"
-                          style={{ marginRight: 10 }}
-                          placeholder="Search..."
-                          aria-label="Search..."
-                          aria-describedby="search-button"
-                          value={searchText}
-                          onChange={(e) => setSearchText(e.target.value)}
+                  <div className="col-5 text-end">
+                    <button
+                      className="btn btn-primary btn-sm"
+                      type="button"
+                      id="add-product-button"
+                      onClick={() => handleCreateClick()}
+                    >
+                      <i className="fa-regular fa-square-plus" /> Add Reward
+                      Product
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <button
+                      className="btn btn-light btn-sm"
+                      type="button"
+                      id="export-button"
+                      onClick={exportToCSV}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                      >
+                        <path
+                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
                         />
-                        {/* <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button> */}
-                      </div>
-                    </div>
-                    <div className="col-5 text-end">
-                      <button
-                        className="btn btn-primary btn-sm"
-                        type="button"
-                        id="add-product-button"
-                        onClick={() => handleCreateClick()}
-                      >
-                        <i className="fa-regular fa-square-plus" /> Add Reward
-                        Product
-                      </button>
-                    </div>
-                    <div className="col-2">
-                      <button
-                        className="btn btn-light btn-sm"
-                        type="button"
-                        id="export-button"
-                        onClick={exportToCSV}
-                      >
-                        <i className="fa-solid fa-file-export" /> Export
-                      </button>
-                    </div>
+                        <path
+                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>{" "}
+                      Export
+                    </button>
                   </div>
-                  <table id="reports-tbl" className="table">
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Product ID</th>
-                        <th>Points</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Times Redeemed</th>
-                        <th>Action</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                      {filteredItems.length > 0 ? (
-                        filteredItems.map((rw_data) => (
-                          <tr key={rw_data.id}>
-                            <td>
-                              <h6>{rw_data.title}</h6>
-                            </td>
-                            <td>
-                              <h6>{rw_data.id}</h6>
-                            </td>
-                            <td>
-                              <h6>{rw_data.points}</h6>
-                            </td>
-                            <td>
-                              <h6>{rw_data.description}</h6>
-                            </td>
-                            <td>
-                              <h6>{null}</h6>
-                            </td>
-                            <td>
-                              <h6>{null}</h6>
-                            </td>
-                            <td>
-                              <h6>{rw_data.quantity}</h6>
-                            </td>
-                            <td>
-                              <button
-                                style={{ background: "blue" }}
-                                className="btn btn-primary btn-sm"
-                                onClick={() => handleEditClick(rw_data)}
-                              >
-                                Edit
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5">No matching reward products</td>
+                </div>
+                <table id="reports-tbl" className="table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Product ID</th>
+                      <th>Points</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Times Redeemed</th>
+                      <th>Action</th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredItems.length > 0 ? (
+                      filteredItems.map((rw_data) => (
+                        <tr key={rw_data.id}>
+                          <td>
+                            <h6>{rw_data.title}</h6>
+                          </td>
+                          <td>
+                            <h6>{rw_data.id}</h6>
+                          </td>
+                          <td>
+                            <h6>{rw_data.points}</h6>
+                          </td>
+                          <td>
+                            <h6>{rw_data.description}</h6>
+                          </td>
+                          <td>
+                            <h6>{null}</h6>
+                          </td>
+                          <td>
+                            <h6>{null}</h6>
+                          </td>
+                          <td>
+                            <h6>{rw_data.quantity}</h6>
+                          </td>
+                          <td>
+                            <button
+                              style={{ background: "blue" }}
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleEditClick(rw_data)}
+                            >
+                              Edit
+                            </button>
+                          </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                  <div className="col-12">
-                    <div className="btn-group" style={{ float: "right" }}>
-                      <button
-                        className="btn btn-light btn-sm"
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </button>
-                      &nbsp;
-                      <button
-                        className="btn btn-light btn-sm"
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                      </button>
-                    </div>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No matching reward products</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+                <div className="col-12">
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {createProduct && (
-          <AddReward
-            data={createProduct}
-            open={createProduct}
-            setOpen={setCreateProduct}
-          />
-        )}
-        {updateProduct && (
-          <EditReward
-            data={updateProduct}
-            open={updateProduct}
-            setOpen={setUpdateProduct}
-          />
-        )}
+      </div>
+      {createProduct && (
+        <AddReward
+          data={createProduct}
+          open={createProduct}
+          setOpen={setCreateProduct}
+        />
+      )}
+      {updateProduct && (
+        <EditReward
+          data={updateProduct}
+          open={updateProduct}
+          setOpen={setUpdateProduct}
+        />
+      )}
     </div>
   );
 }

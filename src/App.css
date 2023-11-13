@@ -244,11 +244,15 @@
   z-index: 1001;
 } */
 
-.card-footer .form-check-input:checked {
+.card-footer .form-check-input:checked,
+.update-promotion-container .form-check-input:checked {
   background-color: #2b59c3;
   border-color: #2b59c3;
 }
-.card-footer .form-check-input:checked {
+.card-footer .form-check-input:checked,
+.update-promotion-container .form-check-input:checked {
   background-color: #2b59c3 !important;
   border-color: #2b59c3 !important;
 }
+
+

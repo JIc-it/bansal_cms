@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { getAdminsRequest } from '../../../axiosHandle/userHandle';
-import UserView from '../userView';
-import AddNewAdmin from './AddNewAdmin';
+import React, { useState, useEffect } from "react";
+import { getAdminsRequest } from "../../../axiosHandle/userHandle";
+import UserView from "../userView";
+import AddNewAdmin from "./AddNewAdmin";
 import { useNavigate } from "react-router";
 function Admins() {
   const navigate = useNavigate();
@@ -21,23 +21,30 @@ function Admins() {
         setUserTotalData(data.count);
       })
       .catch((error) => {
-        console.error('Error fetching distributor data:', error);
+        console.error("Error fetching distributor data:", error);
       });
   }, []);
 
   const exportToCSV = () => {
     if (user_data) {
-      const header = ['Name', 'Unique ID', 'Mobile', 'Location'];
+      const header = ["Name", "Unique ID", "Mobile", "Location"];
       const csvData = user_data.map((rr_data) => {
-        return [rr_data.name, rr_data.user_id, rr_data.mobile, rr_data.district_name];
+        return [
+          rr_data.name,
+          rr_data.user_id,
+          rr_data.mobile,
+          rr_data.district_name,
+        ];
       });
 
-      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'Admins.csv';
+      a.download = "Admins.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -48,10 +55,10 @@ function Admins() {
   };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 245 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row" style={{ marginLeft: '5px' }}>
+        <div className="row" style={{ marginLeft: "5px" }}>
           <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-4 col-sm-7 same-card">
@@ -59,7 +66,8 @@ function Admins() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6><br />
+                        <h6>Total Users</h6>
+                        <br />
                         <h3>{user_total_data}</h3>
                       </div>
                     </div>
@@ -71,7 +79,8 @@ function Admins() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Admins</h6><br />
+                        <h6>Total Admins</h6>
+                        <br />
                         <h3>12</h3>
                       </div>
                     </div>
@@ -83,7 +92,8 @@ function Admins() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>New Admins in current Qtr</h6><br />
+                        <h6>New Admins in current Qtr</h6>
+                        <br />
                         <h3>12</h3>
                       </div>
                     </div>
@@ -94,7 +104,7 @@ function Admins() {
           </div>
         </div>
       </div>
-      <div className="row" style={{ marginLeft: '15px' }}>
+      <div className="row" style={{ marginLeft: "15px" }}>
         <div className="col-xl-12">
           <div className="card">
             <div className="card-body p-0">
@@ -104,9 +114,44 @@ function Admins() {
                 </div>
                 <div className="row">
                   <div className="col-5">
-                    <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                      <input type="text" className="form-control" style={{ marginRight: 10 }} placeholder="Search..." aria-label="Search..." aria-describedby="search-button" />
-                      <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button>
+                    <div
+                      className="input-group mb-3"
+                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                    >
+                      <div className="search-group form-control">
+                        <input
+                          type="text"
+                          className=""
+                          style={{ marginRight: 10 }}
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="search-button"
+                          // onChange={(e) => {
+                          //   setSearchUserData(e.target.value);
+                          // }}
+                        />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M9.58342 2.29199C5.55634 2.29199 2.29175 5.55658 2.29175 9.58366C2.29175 13.6107 5.55634 16.8753 9.58342 16.8753C13.6105 16.8753 16.8751 13.6107 16.8751 9.58366C16.8751 5.55658 13.6105 2.29199 9.58342 2.29199ZM1.04175 9.58366C1.04175 4.86623 4.86598 1.04199 9.58342 1.04199C14.3008 1.04199 18.1251 4.86623 18.1251 9.58366C18.1251 11.7174 17.3427 13.6684 16.0491 15.1655L18.7754 17.8917C19.0194 18.1358 19.0194 18.5315 18.7754 18.7756C18.5313 19.0197 18.1356 19.0197 17.8915 18.7756L15.1653 16.0494C13.6682 17.3429 11.7172 18.1253 9.58342 18.1253C4.86598 18.1253 1.04175 14.3011 1.04175 9.58366Z"
+                            fill="#525252"
+                          />
+                        </svg>
+                      </div>
+                      {/* <button
+                        className="btn btn-dark"
+                        type="button"
+                        id="search-button"
+                      >
+                        <i className="fas fa-filter" />
+                      </button> */}
                     </div>
                   </div>
                   <div className="col-5 text-end">
@@ -119,12 +164,39 @@ function Admins() {
                         setIsOpenAddAdmin(true);
                       }}
                     >
-                      <i className="fa-regular fa-square-plus" /> Add New
-                      Admin
+                      <i className="fa-regular fa-square-plus" /> Add New Admin
                     </button>
                   </div>
                   <div className="col-2">
-                    <button className="btn btn-light btn-sm" type="button" id="export-button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
+                    <button
+                      className="btn btn-light btn-sm"
+                      type="button"
+                      id="export-button"
+                      onClick={exportToCSV}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                      >
+                        <path
+                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>{" "}
+                      Export
+                    </button>
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -143,10 +215,18 @@ function Admins() {
                     {user_data && user_data.length > 0 ? (
                       user_data.slice(0, 5).map((data) => (
                         <tr key={data.id}>
-                          <td><h6>{data.name}</h6></td>
-                          <td><h6>{data.user_id}</h6></td>
-                          <td><h6>{data.mobile}</h6></td>
-                          <td><h6>{data.district_name}</h6></td>
+                          <td>
+                            <h6>{data.name}</h6>
+                          </td>
+                          <td>
+                            <h6>{data.user_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{data.mobile}</h6>
+                          </td>
+                          <td>
+                            <h6>{data.district_name}</h6>
+                          </td>
                           {/* <td>
                               <button className="btn btn-primary" onClick={() => handleViewClick(data)}>View User</button>
                             </td> */}
@@ -184,6 +264,6 @@ function Admins() {
       )}
     </div>
   );
-};
+}
 
 export default Admins;
