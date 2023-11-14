@@ -18,6 +18,8 @@ const distributorOrderURL = "purchase/tmt_orders_dist/user";
 const getUserLeadsURL = "/purchase/leads/user";
 const commonUserCreationURL = "/account/admin-create-user/";
 const commonUserUpdationnURL = "/account/admin-update-user";
+const commonUserAddPointsURL = "/purchase/admin-add-points";
+const commonUserRedemptionURL = "/purchase/redemption_history/user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -43,11 +45,22 @@ export const getAdminsRequest = () => {
     });
 };
 
-export const getEngineersRequest = (searchUserData) => {
+export const getEngineersRequest = (searchUserData, filterCriteria) => {
+  console.log(
+    filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
+  );
   return axiosInstance
     .get(engineersURL, {
       params: {
         search: searchUserData,
+        points_from: filterCriteria.pointsFrom,
+        points_to: filterCriteria.pointsTo,
+        leads_from: filterCriteria.leadsFrom,
+        leads_to: filterCriteria.leadsTo,
+        date:
+          filterCriteria.date === ""
+            ? ""
+            : new Date(filterCriteria.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)
@@ -83,11 +96,22 @@ export const getContractorsRequest = (searchData, filterCriteria) => {
     });
 };
 
-export const getArchitectsRequest = (searchUserData) => {
+export const getArchitectsRequest = (searchUserData, filterCriteria) => {
+  console.log(
+    filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
+  );
   return axiosInstance
     .get(architectsURL, {
       params: {
         search: searchUserData,
+        points_from: filterCriteria.pointsFrom,
+        points_to: filterCriteria.pointsTo,
+        leads_from: filterCriteria.leadsFrom,
+        leads_to: filterCriteria.leadsTo,
+        date:
+          filterCriteria.date === ""
+            ? ""
+            : new Date(filterCriteria.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)
@@ -280,3 +304,16 @@ export const updateUser = (id, data) => {
       throw error;
     });
 };
+
+///////////////add points for indivitual user//////////////
+export const addUserPoints = (id, data) => {
+  return axiosInstance
+    .post(`${commonUserAddPointsURL}/${id}/`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
+      throw error;
+    });
+};
+
+

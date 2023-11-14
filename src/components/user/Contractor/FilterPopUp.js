@@ -8,7 +8,10 @@ const FilterPopUp = ({
   setOpenFilter,
 }) => {
   return (
-    <div className="filter-popup-container">
+    <div
+      className="filter-popup-container"
+      style={{ left: "23rem", top: "9rem" }}
+    >
       <div className="filter-heading">Filter</div>
       <span>By Points</span>
       <div className="filter-fields">

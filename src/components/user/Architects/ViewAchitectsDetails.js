@@ -49,7 +49,13 @@ const ViewAchitectsDetails = () => {
   }
 
   useEffect(() => {
-    getArchitectsRequest()
+    getArchitectsRequest("", {
+      pointsFrom: "",
+      pointsTo: "",
+      leadsFrom: "",
+      leadsTo: "",
+      date: "",
+    })
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
           return item.id === userDatail.id;
@@ -535,10 +541,10 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.id}</h6>
                                 </td>
                                 <td>
                                   <h6>
@@ -557,10 +563,10 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.points}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.id}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.quantity}</h6>
@@ -628,24 +634,14 @@ const ViewAchitectsDetails = () => {
                                 <td>
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
                                 <td>
                                   <h6>{ele.updated_at}</h6>
                                 </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
                                 <td>
                                   <h6>{ele.quantity}</h6>
                                 </td>
@@ -723,9 +719,7 @@ const ViewAchitectsDetails = () => {
                                 <td>
                                   <h6>{ele.updated_at}</h6>
                                 </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
+                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
                                 <td>
                                   <h6>{ele.quantity}</h6>
                                 </td>
@@ -810,6 +804,11 @@ const ViewAchitectsDetails = () => {
         <AddPointsPopuP
           setOpen={setIsOpenAddPointsPopUp}
           open={isOpenAddPointsPopUp}
+          userId={userDatail.id}
+          setIsUpdated={setIsUpdated}
+          isUpdated={isUpdated}
+          userData={userData}
+          totalPoints={totalPoints}
         />
       )}
       {openEdit && (

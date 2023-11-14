@@ -17,7 +17,6 @@ const ViewDistributorDetails = () => {
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
-  const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [seletedTranasactionType, setSeletedTranasactionType] =
@@ -384,16 +383,7 @@ const ViewDistributorDetails = () => {
                   {transactionFilterOpen && <DistributorFilterPopUp />}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
-                  <button
-                    className="btn btn-primary btn-sm"
-                    type="button"
-                    id="add-points-button"
-                    onClick={() => {
-                      setIsOpenAddPointsPopUp(true);
-                    }}
-                  >
-                    <i className="fa-regular fa-square-plus" /> Add Points
-                  </button>
+                 
                   <button
                     className="btn btn-light btn-sm mx-2"
                     type="button"
@@ -449,10 +439,10 @@ const ViewDistributorDetails = () => {
                                 <h6>{ele.transaction_id}</h6>
                               </td>
                               <td>
-                                <h6>{ele.distributor}</h6>
+                                <h6>{ele.distributor?.name}</h6>
                               </td>
                               <td>
-                                <h6>{ele.distributor}</h6>
+                                <h6>{ele.distributor?.id}</h6>
                               </td>
                               <td>
                                 <h6>
@@ -560,12 +550,7 @@ const ViewDistributorDetails = () => {
           userData={userData}
         />
       )}
-      {isOpenAddPointsPopUp && (
-        <AddPointDistributorPoppUp
-          setOpen={setIsOpenAddPointsPopUp}
-          open={isOpenAddPointsPopUp}
-        />
-      )}
+     
       {viewTransaction && (
         <ViewDistributorTransaction setOpen={setViewTransaction} data={data} />
       )}

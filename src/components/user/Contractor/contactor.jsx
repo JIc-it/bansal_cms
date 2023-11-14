@@ -160,19 +160,22 @@ export default function Contractor() {
                     <h4 className="heading mb-0">Contractors</h4>
                   </div>
                   <div className="row">
-                    <div className="col-5">
+                    <div className="col-7 d-flex">
                       <div
                         className="input-group mb-3"
                         style={{
-                          maxWidth: 300,
                           paddingTop: 15,
                           paddingLeft: 15,
                         }}
                       >
-                        <div className="search-group form-control">
+                        <div
+                          className="search-group form-control"
+                          style={{ maxWidth: 300 }}
+                        >
                           <input
                             type="text"
                             className=""
+                            value={searchUserData}
                             style={{ marginRight: 10 }}
                             placeholder="Search..."
                             aria-label="Search..."
@@ -238,6 +241,17 @@ export default function Contractor() {
                             />
                           </svg>
                         </button>
+                        <button
+                          className="btn bg-blue mx-1"
+                          type="button"
+                          onClick={() => {
+                            setFilterCriteria({ from: "", to: "" });
+                            setSearchUserData("");
+                            setIsFilter(!isFilter);
+                          }}
+                        >
+                          Clear filter
+                        </button>
                       </div>
                       {openFilter && (
                         <FilterPopUp
@@ -250,7 +264,7 @@ export default function Contractor() {
                       )}
                     </div>
                     <div
-                      className="col-5 text-end"
+                      className="col-3 text-end"
                       style={{ paddingTop: "1.5rem" }}
                     >
                       <button
@@ -329,7 +343,7 @@ export default function Contractor() {
                               </h6>
                             </td>
                             <td>
-                              <h6>{data.points||0}</h6>
+                              <h6>{data.points || 0}</h6>
                             </td>
                             <td onClick={() => handleViewContractor(data.id)}>
                               <a

@@ -52,7 +52,13 @@ const ViewEngineerDetails = () => {
   }
 
   useEffect(() => {
-    getEngineersRequest()
+    getEngineersRequest("", {
+      points_from: "",
+      points_to: "",
+      leads_from: "",
+      leads_to: "",
+      date: "",
+    })
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
           return item.id === userDatail.id;
@@ -539,10 +545,10 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.distributor?.id}</h6>
                                 </td>
                                 <td>
                                   <h6>
@@ -840,6 +846,11 @@ const ViewEngineerDetails = () => {
         <AddPointsPopUP
           setOpen={setIsOpenAddPointsPopUp}
           open={isOpenAddPointsPopUp}
+          userId={userDatail.id}
+          setIsUpdated={setIsUpdated}
+          isUpdated={isUpdated}
+          userData={userData}
+          totalPoints={totalPoints}
         />
       )}
     </div>

@@ -2,27 +2,25 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const ArchitectsFilter = (
-  {
-    //   filterCriteria,
-    //   setFilterCriteria,
-    //   isFilter,
-    //   setIsFilter,
-    //   setOpenFilter,
-  }
-) => {
+const ArchitectsFilter = ({
+  filterCriteria,
+  setFilterCriteria,
+  isFilter,
+  setIsFilter,
+  setOpenFilter,
+}) => {
   const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const customInput = (
     <div className="custom-input">
       <input
         type="text"
         placeholder="date"
-        value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+        value={
+          filterCriteria.date
+            ? filterCriteria.date.toLocaleDateString("en-CA")
+            : ""
+        }
         readOnly
       />
       <svg
@@ -93,10 +91,13 @@ const ArchitectsFilter = (
           placeholder="From"
           className="form-control form-control-sm"
           name="from"
-          //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
+          value={filterCriteria.pointsFrom}
+          onChange={(e) => {
+            setFilterCriteria({
+              ...filterCriteria,
+              pointsFrom: e.target.value,
+            });
+          }}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -114,10 +115,13 @@ const ArchitectsFilter = (
           placeholder="To"
           className="form-control form-control-sm"
           name="to"
-          //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
+          value={filterCriteria.pointsTo}
+          onChange={(e) => {
+            setFilterCriteria({
+              ...filterCriteria,
+              pointsTo: e.target.value,
+            });
+          }}
           //   onBlur={formik.handleBlur}
         />
       </div>
@@ -127,11 +131,14 @@ const ArchitectsFilter = (
           type="number"
           placeholder="From"
           className="form-control form-control-sm"
-          name="from"
-          //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
+          name="leadsFrom"
+          value={filterCriteria.leadsFrom}
+          onChange={(e) => {
+            setFilterCriteria({
+              ...filterCriteria,
+              leadsFrom: e.target.value,
+            });
+          }}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -148,21 +155,23 @@ const ArchitectsFilter = (
           type="number"
           placeholder="To"
           className="form-control form-control-sm"
-          name="to"
-          //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
+          name="leadsTo"
+          value={filterCriteria.leadsTo}
+          onChange={(e) => {
+            setFilterCriteria({ ...filterCriteria, leadsTo: e.target.value });
+          }}
           //   onBlur={formik.handleBlur}
         />
       </div>
       <span>By Date</span>
       <br />
       <DatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        selected={filterCriteria.date}
+        onChange={(date) => {
+          setFilterCriteria({ ...filterCriteria, date: date });
+        }}
         customInput={customInput}
-        dateFormat="dd/MM/yyyy" // Customize the date format
+        dateFormat="yyyy-MM-dd" // Customize the date format
       />
 
       <button
@@ -174,10 +183,10 @@ const ArchitectsFilter = (
           background: "#2B59C3",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setOpenFilter(false);
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={() => {
+          setOpenFilter(false);
+          setIsFilter(!isFilter);
+        }}
       >
         Apply
       </button>
@@ -191,10 +200,16 @@ const ArchitectsFilter = (
           background: "#0F0F0F",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setFilterCriteria({ from: "", to: "" });
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={() => {
+          setFilterCriteria({
+            pointsFrom: "",
+            pointsTo: "",
+            leadsFrom: "",
+            leadsTo: "",
+            date: "",
+          });
+          setIsFilter(!isFilter);
+        }}
       >
         Clear Filter
       </button>

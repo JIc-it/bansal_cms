@@ -20,6 +20,14 @@ function Architects() {
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [searchUserData, setSearchUserData] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterCriteria, setFilterCriteria] = useState({
+    pointsFrom: "",
+    pointsTo: "",
+    leadsFrom: "",
+    leadsTo: "",
+    date: "",
+  });
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -34,14 +42,14 @@ function Architects() {
   }, []);
 
   useEffect(() => {
-    getArchitectsRequest(searchUserData)
+    getArchitectsRequest(searchUserData, filterCriteria)
       .then((data) => {
         setUserData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching Architect data:", error);
       });
-  }, [isArchitectsAdded, searchUserData]);
+  }, [isArchitectsAdded, searchUserData, isFilter]);
 
   const handleDelete = (id) => {
     deleteContractorUser(id)
@@ -160,12 +168,15 @@ function Architects() {
                   <h4 className="heading mb-0">Architects</h4>
                 </div>
                 <div className="row">
-                  <div className="col-5">
+                  <div className="col-7">
                     <div
                       className="input-group mb-3"
-                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                      style={{ paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className="search-group form-control">
+                      <div
+                        className="search-group form-control"
+                        style={{ maxWidth: 300 }}
+                      >
                         <input
                           type="text"
                           className=""
@@ -233,11 +244,36 @@ function Architects() {
                           />
                         </svg>
                       </button>
+                      <button
+                        className="btn bg-blue mx-1"
+                        type="button"
+                        onClick={() => {
+                          setFilterCriteria({
+                            pointsFrom: "",
+                            pointsTo: "",
+                            leadsFrom: "",
+                            leadsTo: "",
+                            date: "",
+                          });
+                          setSearchUserData("");
+                          setIsFilter(!isFilter);
+                        }}
+                      >
+                        Clear filter
+                      </button>
                     </div>
-                    {openFilter && <ArchitectsFilter />}
+                    {openFilter && (
+                      <ArchitectsFilter
+                        setFilterCriteria={setFilterCriteria}
+                        filterCriteria={filterCriteria}
+                        isFilter={isFilter}
+                        setIsFilter={setIsFilter}
+                        setOpenFilter={setOpenFilter}
+                      />
+                    )}
                   </div>
                   <div
-                    className="col-5 text-end"
+                    className="col-3 text-end"
                     style={{ paddingTop: "1.5rem" }}
                   >
                     <button
