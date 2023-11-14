@@ -3,8 +3,9 @@ import BarChart from './barChart';
 
 
 export default function MonthlyChart(props) {
-    const total=props.data.total_order_counts_current_year? props.data.total_order_counts_current_year:props.data.total_quantity_current_year;
-    
+   
+    const monthlyvalues=props.data.total_order_counts_by_month ? Object.values(props.data?.total_order_counts_by_month):  Object.values(props.data?.total_quantity_current_year)
+    const reduceallmonthdatas=monthlyvalues.reduce((total,acc)=>total+acc,0)  
 
     const getAbbreviatedMonth = (numericMonth) => {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -12,8 +13,11 @@ export default function MonthlyChart(props) {
         return months[index];
       };
 
-    // const monthlist = props.data.total_order_counts_by_month ? Object.keys(props.data.total_order_counts_by_month)?.map((dat) => getAbbreviatedMonth(dat)) 
-    // : Object?.keys(props.data?.total_quantity_current_year)?.map((dat) =>  getAbbreviatedMonth(dat))
+    let arraymonth=[]
+
+    props.data.total_order_counts_by_month ? Object.keys(props.data.total_order_counts_by_month)?.map((dat) => {return arraymonth.push([getAbbreviatedMonth(dat)])}) 
+    : Object?.keys(props.data?.total_quantity_current_year)?.map((dat) =>  {return arraymonth.push([getAbbreviatedMonth(dat)])})
+
 
     const Contractorcount = props.data?.order_counts_by_month?
     props.data?.order_counts_by_month.Contractor?.map((data)=>data.count): props.data?.quantity_by_month.Contractor?.map((data)=>data.total_quantity);
@@ -71,7 +75,7 @@ export default function MonthlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: arraymonth,
         },
         fill: {
             opacity: 1,
@@ -88,7 +92,7 @@ export default function MonthlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>{total} mon</h4>
+                <h4>{reduceallmonthdatas}</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">
