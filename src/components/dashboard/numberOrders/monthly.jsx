@@ -5,14 +5,30 @@ import BarChart from './barChart';
 export default function MonthlyChart(props) {
     const total=props.data.total_order_counts_current_year? props.data.total_order_counts_current_year:props.data.total_quantity_current_year;
     
+
+    const getAbbreviatedMonth = (numericMonth) => {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const index = parseInt(numericMonth, 10) - 1;
+        return months[index];
+      };
+
+    // const monthlist = props.data.total_order_counts_by_month ? Object.keys(props.data.total_order_counts_by_month)?.map((dat) => getAbbreviatedMonth(dat)) 
+    // : Object?.keys(props.data?.total_quantity_current_year)?.map((dat) =>  getAbbreviatedMonth(dat))
+
     const Contractorcount = props.data?.order_counts_by_month?
-    props.data?.order_counts_by_month.Contractor.map((data)=>data.count): props.data?.quantity_by_month.Contractor.map((data)=>data.total_quantity);
+    props.data?.order_counts_by_month.Contractor?.map((data)=>data.count): props.data?.quantity_by_month.Contractor?.map((data)=>data.total_quantity);
 
     const Engineercount = props.data?.order_counts_by_month?
-    props.data?.order_counts_by_month.Engineer.map((data)=>data.count): props.data?.quantity_by_month.Engineer.map((data)=>data.total_quantity);
+    props.data?.order_counts_by_month.Engineer?.map((data)=>data.count): props.data?.quantity_by_month.Engineer?.map((data)=>data.total_quantity);
 
     const Architectcount = props.data?.order_counts_by_month?
-    props.data?.order_counts_by_month.Architect.map((data)=>data.count): props.data?.quantity_by_month.Architect.map((data)=>data.total_quantity);
+    props.data?.order_counts_by_month.Architect?.map((data)=>data.count): props.data?.quantity_by_month.Architect?.map((data)=>data.total_quantity);
+
+
+    
+
+
+      
 
     const chartOptions = {
         series: [
@@ -55,7 +71,7 @@ export default function MonthlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         },
         fill: {
             opacity: 1,

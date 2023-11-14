@@ -6,34 +6,32 @@ export default function QuarterlyChart(props) {
 
     const total=props.data?.total_order_counts_current_year? props.data?.total_order_counts_current_year:props.data?.total_quantity_current_year
 
-    // const quartercount = props.data?.order_counts_by_quarter?
-    // props.data?.order_counts_by_quarter.Contractor.map((data)=>data.quarter): props.data?.quantity_by_quarter.Contractor.map((data)=>data.quarter);
+    // const quaterlylist = props.data?.total_order_counts_by_quarterly
+    // console.log(quaterlylist);
 
 
-    const Contractorcount = props.data?.order_counts_by_quarter?
-    props.data?.order_counts_by_quarter.Contractor.map((data)=>data.count): props.data?.quantity_by_quarter.Contractor.map((data)=>data.total_quantity);
+    // const Contractorcount = props.data?.order_counts_by_quarter? Object.values(props.data?.order_counts_by_quarter?.Contractor)?.map((data)=>{return data}): Object.values(props.data?.quantity_by_quarter?.Contractor)?.map((data)=>{return data})
 
-    const Engineercount = props.data?.order_counts_by_quarter?
-    props.data?.order_counts_by_quarter.Engineer.map((data)=>data.count): props.data?.quantity_by_quarter.Engineer.map((data)=>data.total_quantity);
+    // const Engineercount = props.data?.order_counts_by_quarter?Object.values(props.data?.order_counts_by_quarter?.Engineer)?.map((data)=>{return data}): Object.values(props.data?.quantity_by_quarter?.Engineer)?.map((data)=>{return data})
 
-    const Architectcount = props.data?.order_counts_by_quarter?
-    props.data?.order_counts_by_quarter.Architect.map((data)=>data.count): props.data?.quantity_by_quarter.Architect.map((data)=>data.total_quantity);
+    // const Architectcount = props.data?.order_counts_by_quarter?Object.values(props.data?.order_counts_by_quarter?.Architect)?.map((data)=>{return data}): Object.values(props.data?.quantity_by_quarter?.Architect)?.map((data)=>{return data})
 
+    
     const chartOptions = {
         series: [
             {
                 name: 'Contactors',
-                data: Contractorcount,
+                // data: Contractorcount,
                 color: '#4169E1',
             },
             {
                 name: 'Engineers',
-                data: Engineercount,
+                // data: Engineercount,
                 color: '#191970',
             },
             {
                 name: 'Architects',
-                data: Architectcount,
+                // data: Architectcount,
                 color: '#2E8B57',
             },
         ],
@@ -60,7 +58,7 @@ export default function QuarterlyChart(props) {
             colors: ['transparent'],
         },
         xaxis: {
-            categories: ['Qtr1','Qtr2','Qtr3','Qtr4'],
+            categories: ['Qtr1,Qtr2,Qtr3,Qtr4'],
         },
         fill: {
             opacity: 1,
