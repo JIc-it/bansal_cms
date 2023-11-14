@@ -2,7 +2,7 @@ import axiosInstance from "./authHandle";
 
 
 const orderRequestURL = '/purchase/admin-pending-orders/';
-const leadRequestURL = '/purchase/admin-leads-points/';
+const leadRequestURL = '/purchase/admin-pending-leads/';
 
 export const getOrderRequest = () => {
   return axiosInstance.get(orderRequestURL)
@@ -14,8 +14,12 @@ export const getOrderRequest = () => {
 };
 
 
-export const getLeadRequest = () => {
-  return axiosInstance.get(leadRequestURL)
+export const getLeadRequest = (data) => {
+  return axiosInstance.get(leadRequestURL,{params:{
+    search:data?.search,
+    role:data?.role,
+    date:data?.date
+  }})
     .then((response) => response.data)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);

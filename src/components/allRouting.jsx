@@ -68,7 +68,8 @@ export default function AllRouting() {
         <Route path="/viewContractor/:id" element={<ViewContractor />} />
         <Route path="/viewadmin/:id" element={<ViewAdmin />} />
         <Route path="/viewsalespocs/:id" element={<ViewSales />} />
-
+        
+        <Route path="/viewadmin" element={<ViewAdmin />} />
         <Route
           path="/viewDistributor/:id"
           element={<ViewDistributorDetails />}

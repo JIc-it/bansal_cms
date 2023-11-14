@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 // import ViewContractorTransaction from "./ViewContractorTransaction";
 // import AddPointsPopUp from "./AddPointsPopUp";
 import AdminResetPassword from "./AdminResetPassword";
 import EditAdmin from "./EditAdmin";
+import AdminUserViewOrders from "./adminUserViewOrders";
 
 import {
   getContractorsRequest,
@@ -15,18 +16,30 @@ import TransactionFilterPopUp from "./TransactionFilterPopUp";
 const ViewAdmin = () => {
   const userDatail = useParams();
   const [userData, setUserData] = useState();
-
   const [viewTransaction, setViewTransaction] = useState(false);
   const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [seletedTranasactionType, setSeletedTranasactionType] =
-    useState("Orders");
+  const [seletedTranasactionType, setSeletedTranasactionType] = useState("Orders");
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  // console.log(queryParams);
+
+  const [userDataParam, setUserDataParam] = useState({
+    id: queryParams.get('id'),
+    user_id: queryParams.get('user_id'),
+    name: queryParams.get('name'),
+    email: queryParams.get('email'),
+    mobile: queryParams.get('mobile'),
+    state: queryParams.get('state'),
+    district: queryParams.get('district')
+  });
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
@@ -96,42 +109,42 @@ const ViewAdmin = () => {
       const header =
         seletedTranasactionType === "Orders"
           ? [
-              "Transaction Id",
-              " Distributor Name",
-              " Distributor id",
-              "Date & Time",
-              "Points",
-              "Quantity",
-              "Status",
-            ]
+            "Transaction Id",
+            " Distributor Name",
+            " Distributor id",
+            "Date & Time",
+            "Points",
+            "Quantity",
+            "Status",
+          ]
           : [
-              "Transaction ID",
-              "Reward",
-              " Product ID",
-              "Date & Time",
-              "Status",
-            ];
+            "Transaction ID",
+            "Reward",
+            " Product ID",
+            "Date & Time",
+            "Status",
+          ];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
-              let status =
-                item.admin_approval === "Accepted" &&
+            let status =
+              item.admin_approval === "Accepted" &&
                 item.user_approval === "Accepted"
-                  ? "Accepted"
-                  : item.admin_approval === "Rejected" ||
-                    item.user_approval === "Rejected"
+                ? "Accepted"
+                : item.admin_approval === "Rejected" ||
+                  item.user_approval === "Rejected"
                   ? "Rejected"
                   : "Processing";
-              return [
-                item.transaction_id,
-                item.transaction_id,
-                item.distributor,
-                item.created_at,
-                item.created_at,
-                item.quantity,
-                status,
-              ];
-            })
+            return [
+              item.transaction_id,
+              item.transaction_id,
+              item.distributor,
+              item.created_at,
+              item.created_at,
+              item.quantity,
+              status,
+            ];
+          })
           : "";
 
       const csvContent = [header, ...csvData]
@@ -150,7 +163,7 @@ const ViewAdmin = () => {
     }
   };
 
-  console.log(totalOrder);
+  // console.log(totalOrder);
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
@@ -158,7 +171,7 @@ const ViewAdmin = () => {
           <div className="contractor-name">
             Admin/{" "}
             <span style={{ fontWeight: 400, fontSize: "12px" }}>
-              {userData && userData.name}
+              {userDataParam && userDataParam.name}
             </span>
           </div>
           <div className="reset-buttons">
@@ -189,23 +202,24 @@ const ViewAdmin = () => {
                 <div className="depostit-card-media justify-content-between style-1">
                   <div className="image-container-contractor">
                     <div className="contractor-image">
-                      {userData && userData.name.slice(0, 2)}
+                      {/* {userData && userData.name.slice(0, 2)} */}
+                      {userDataParam.name.slice(0, 2)}
                     </div>
                   </div>
                   <div className="contractor-name">
-                    {userData && userData.name}
+                    {userDataParam && userDataParam.name}
                   </div>
                   <div className="contractorid">
                     Admin .
                     <span className="error">
-                      {userData && userData.user_id}
+                      {userDataParam && userDataParam.user_id}
                     </span>{" "}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-         
+
           <div className="col-md-9 col-12 same-card">
             <div className="card">
               <div className="card-body depostit-card">
@@ -218,13 +232,13 @@ const ViewAdmin = () => {
                       <span>Location</span>
                     </div>
                     <div className="user-email-details-data">
-                      <span>{userData && userData.email}</span>
-                      <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData.district_name}  ${
-                        userData && userData.state_name
-                          ? `, ${userData.state_name}`
-                          : ""
-                      }`}</span>
+                      <span>{userDataParam && userDataParam.email}</span>
+                      <span>{userDataParam && userDataParam.mobile}</span>
+                      <span>
+                        {userDataParam && userDataParam.district}
+                        {userDataParam.state && ', '}
+                        {userDataParam && userDataParam.state ? userDataParam.state : '-'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -239,11 +253,10 @@ const ViewAdmin = () => {
               <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Orders"
+                    className={`btn btn-sm ${seletedTranasactionType === "Orders"
                         ? "btn-primary"
                         : "btn-light"
-                    }`}
+                      }`}
                     type="button"
                     id="add-points-button"
                     onClick={() => handleClickTrancationType("Orders")}
@@ -251,11 +264,10 @@ const ViewAdmin = () => {
                     Orders
                   </button>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Redemptions"
+                    className={`btn btn-sm ${seletedTranasactionType === "Redemptions"
                         ? "btn-primary"
                         : "btn-light"
-                    }`}
+                      }`}
                     type="button"
                     id="add-points-button"
                     style={{ marginLeft: 6 }}
@@ -368,87 +380,87 @@ const ViewAdmin = () => {
               </div>
 
               {seletedTranasactionType === "Orders" ? (
-                <div className="table-responsive  active-projects">
-                  <table id="list-tbl" class="table">
-                    <thead>
-                      <tr>
-                        <th>Transaction Id</th>
-                        <th>Distributor Name</th>
-                        <th>Distributor id</th>
-                        <th>Date & Time</th>
-                        <th>Points</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
-                        <th> </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentItems && currentItems.length > 0 ? (
-                        <>
-                          {currentItems.map((ele, i) => {
-                            return (
-                              <tr key={`transactionData-${i}`}>
-                                <td>
-                                  <h6>{ele.transaction_id}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
+                <AdminUserViewOrders id={queryParams.get('id')}/>
+                // <div className="table-responsive  active-projects">
+                //   <table id="list-tbl" class="table">
+                //     <thead>
+                //       <tr>
+                //         <th>Transaction Id</th>
+                //         <th>Distributor Name</th>
+                //         <th>Distributor id</th>
+                //         <th>Date & Time</th>
+                //         <th>Points</th>
+                //         <th>Quantity</th>
+                //         <th>Status</th>
+                //         <th> </th>
+                //       </tr>
+                //     </thead>
+                //     <tbody>
+                //       {currentItems && currentItems.length > 0 ? (
+                //         <>
+                //           {currentItems.map((ele, i) => {
+                //             return (
+                //               <tr key={`transactionData-${i}`}>
+                //                 <td>
+                //                   <h6>{ele.transaction_id}</h6>
+                //                 </td>
+                //                 <td>
+                //                   <h6>{ele.distributor}</h6>
+                //                 </td>
+                //                 <td>
+                //                   <h6>{ele.distributor}</h6>
+                //                 </td>
+                //                 <td>
+                //                   <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us', { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6>
+                //                 </td>
+                //                 <td>
+                //                   <h6>{ele.distributor}</h6>
+                //                 </td>
+                //                 <td>
+                //                   <h6>{ele.quantity}</h6>
+                //                 </td>
 
-                                <td>
-                                  <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
-                                  >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
-                                  </button>
-                                </td>
-                                <td onClick={() => setViewTransaction(true)}>
-                                  <a
-                                    className="btn btn-primary btn-sm"
-                                    href="#"
-                                    role="button"
-                                  >
-                                    View
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <tr>
-                          <td colSpan="5">No orders available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                //                 <td>
+                //                   <button
+                //                     className={`btn  btn-sm ${ele.admin_approval === "Accepted" &&
+                //                         ele.user_approval === "Accepted"
+                //                         ? "Accepted-btn"
+                //                         : ele.admin_approval === "Rejected" ||
+                //                           ele.user_approval === "Rejected"
+                //                           ? "Rejected-btn"
+                //                           : "Processing-btn"
+                //                       }`}
+                //                   >
+                //                     {ele.admin_approval === "Accepted" &&
+                //                       ele.user_approval === "Accepted"
+                //                       ? "Accepted"
+                //                       : ele.admin_approval === "Rejected" ||
+                //                         ele.user_approval === "Rejected"
+                //                         ? "Rejected"
+                //                         : "Processing"}
+                //                   </button>
+                //                 </td>
+                //                 <td onClick={() => setViewTransaction(true)}>
+                //                   <a
+                //                     className="btn btn-primary btn-sm"
+                //                     href="#"
+                //                     role="button"
+                //                   >
+                //                     View
+                //                   </a>
+                //                 </td>
+                //               </tr>
+                //             );
+                //           })}
+                //         </>
+                //       ) : (
+                //         <tr>
+                //           <td colSpan="5">No orders available</td>
+                //         </tr>
+                //       )}
+                //     </tbody>
+                //   </table>
+                // </div>
               ) : (
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
@@ -478,7 +490,7 @@ const ViewAdmin = () => {
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us',{month:"short",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us', { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -489,23 +501,22 @@ const ViewAdmin = () => {
 
                                 <td>
                                   <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
+                                    className={`btn  btn-sm ${ele.admin_approval === "Accepted" &&
+                                        ele.user_approval === "Accepted"
                                         ? "Accepted-btn"
                                         : ele.admin_approval === "Rejected" ||
                                           ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
+                                          ? "Rejected-btn"
+                                          : "Processing-btn"
+                                      }`}
                                   >
                                     {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
+                                      ele.user_approval === "Accepted"
                                       ? "Accepted"
                                       : ele.admin_approval === "Rejected" ||
                                         ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
+                                        ? "Rejected"
+                                        : "Processing"}
                                   </button>
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>

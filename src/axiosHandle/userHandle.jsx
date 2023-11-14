@@ -18,6 +18,7 @@ const distributorOrderURL = "purchase/tmt_orders_dist/user";
 const getUserLeadsURL = "/purchase/leads/user";
 const commonUserCreationURL = "/account/admin-create-user/";
 const commonUserUpdationnURL = "/account/admin-update-user";
+const adminUSerViewOrdersURL = "purchase/tmt_orders_admin/user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -277,6 +278,16 @@ export const updateUser = (id, data) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while creating user:", error);
+      throw error;
+    });
+};
+
+export const adminUSerViewOrdersRequest = (id, data) => {
+  return axiosInstance
+    .get(`${adminUSerViewOrdersURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
       throw error;
     });
 };

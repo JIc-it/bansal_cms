@@ -10,20 +10,41 @@ function Admins() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   const handleViewClick = (data) => {
+    console.log(data);
     setSelectedUser(data);
+  };
+  const [pagination, setPagination] = useState({
+    next: null,
+    previous: null,
+  });
+
+  const handlePaginationClick = (url) => {
+    getAdminsRequest(null, url)
+      .then(({ results, next, previous }) => {
+        setUserData(results);
+        setPagination({ next, previous });
+      })
+      .catch((error) => {
+        // Handle error
+      });
   };
 
   useEffect(() => {
-    getAdminsRequest()
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const data = await getAdminsRequest(searchValue); // Assuming getAdminsRequest accepts a search parameter
         setUserData(data.results);
         setUserTotalData(data.count);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  }, []);
+        setPagination({ next: data.next, previous: data.previous });
+      } catch (error) {
+        console.error('Error fetching distributor data:', error);
+      }
+    };
+
+    fetchData();
+  }, [searchValue]);
 
   const exportToCSV = () => {
     if (user_data) {
@@ -50,8 +71,27 @@ function Admins() {
     }
   };
 
-  const handleViewAdmin = (id) => {
-    navigate(`/viewadmin/${id}`);
+  // const handleViewAdmin = (id) => {
+  //   navigate(`/viewadmin/${id}`);
+  // };
+  const handleViewAdmin = (data) => {
+    // Convert the data object to a query string
+    console.log(data);
+    const data_value = {
+      id: data.id ? data.id : '',
+      user_id: data.user_id ? data.user_id : '',
+      name: data.name ? data.name : '',
+      email: data.email ? data.email : '',
+      mobile: data.mobile ? data.mobile : '',
+      state: data.state.state ? data.state.state : '',
+      district: data.district.district ? data.district.district : ''
+    };
+    console.log(data_value);
+    const queryString = Object.keys(data_value)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`)
+      .join('&');
+
+    navigate(`/viewadmin?${queryString}`);
   };
 
   return (
@@ -126,9 +166,10 @@ function Admins() {
                           placeholder="Search..."
                           aria-label="Search..."
                           aria-describedby="search-button"
-                          // onChange={(e) => {
-                          //   setSearchUserData(e.target.value);
-                          // }}
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+                            setSearchValue(inputValue);
+                          }}
                         />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -213,8 +254,9 @@ function Admins() {
                   </thead>
                   <tbody>
                     {user_data && user_data.length > 0 ? (
-                      user_data.slice(0, 5).map((data) => (
+                      user_data.map((data) => (
                         <tr key={data.id}>
+                          {console.log(data)}
                           <td>
                             <h6>{data.name}</h6>
                           </td>
@@ -225,12 +267,9 @@ function Admins() {
                             <h6>{data.mobile}</h6>
                           </td>
                           <td>
-                            <h6>{data.district_name}</h6>
+                            <h6>{data.district.district}, {data.state.state}</h6>
                           </td>
-                          {/* <td>
-                              <button className="btn btn-primary" onClick={() => handleViewClick(data)}>View User</button>
-                            </td> */}
-                          <td onClick={() => handleViewAdmin(data.id)}>
+                          <td onClick={() => handleViewAdmin(data)}>
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"
@@ -246,7 +285,30 @@ function Admins() {
                         <td colSpan="5">No user available</td>
                       </tr>
                     )}
+                    {user_data && user_data.length > 0 && (
+                      <tr>
+                        <td colSpan="5">
+                          {/* Pagination controls */}
+                          <button
+                            className="btn btn-light btn-sm"
+                            onClick={() => handlePaginationClick(pagination.previous)}
+                            disabled={!pagination.previous}
+                            style={{ marginRight: '10px' }}
+                          >
+                            Previous
+                          </button>
+                          <button
+                            className="btn btn-light btn-sm"
+                            onClick={() => handlePaginationClick(pagination.next)}
+                            disabled={!pagination.next}
+                          >
+                            Next
+                          </button>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
+
                 </table>
               </div>
             </div>
