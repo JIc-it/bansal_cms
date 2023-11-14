@@ -44,11 +44,22 @@ export const getAdminsRequest = () => {
     });
 };
 
-export const getEngineersRequest = (searchUserData) => {
+export const getEngineersRequest = (searchUserData, filterCriteria) => {
+  console.log(
+    filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
+  );
   return axiosInstance
     .get(engineersURL, {
       params: {
         search: searchUserData,
+        points_from: filterCriteria.pointsFrom,
+        points_to: filterCriteria.pointsTo,
+        leads_from: filterCriteria.leadsFrom,
+        leads_to: filterCriteria.leadsTo,
+        date:
+          filterCriteria.date === ""
+            ? ""
+            : new Date(filterCriteria.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)
@@ -84,11 +95,22 @@ export const getContractorsRequest = (searchData, filterCriteria) => {
     });
 };
 
-export const getArchitectsRequest = (searchUserData) => {
+export const getArchitectsRequest = (searchUserData, filterCriteria) => {
+  console.log(
+    filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
+  );
   return axiosInstance
     .get(architectsURL, {
       params: {
         search: searchUserData,
+        points_from: filterCriteria.pointsFrom,
+        points_to: filterCriteria.pointsTo,
+        leads_from: filterCriteria.leadsFrom,
+        leads_to: filterCriteria.leadsTo,
+        date:
+          filterCriteria.date === ""
+            ? ""
+            : new Date(filterCriteria.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)

@@ -22,9 +22,17 @@ export default function Engineers() {
   const [totalUserCount, setTotalUserCount] = useState(0);
   const itemsPerPage = 10;
   const [searchUserData, setSearchUserData] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterCriteria, setFilterCriteria] = useState({
+    pointsFrom: "",
+    pointsTo: "",
+    leadsFrom: "",
+    leadsTo: "",
+    date: "",
+  });
 
   useEffect(() => {
-    getEngineersRequest(searchUserData)
+    getEngineersRequest(searchUserData, filterCriteria)
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
@@ -32,7 +40,7 @@ export default function Engineers() {
       .catch((error) => {
         console.error("Error fetching Engineer data:", error);
       });
-  }, [isEngineerAdded, searchUserData]);
+  }, [isEngineerAdded, searchUserData, isFilter]);
 
   useEffect(() => {
     getUserStatics("Engineer")
@@ -162,16 +170,19 @@ export default function Engineers() {
                   <h4 className="heading mb-0">Engineers</h4>
                 </div>
                 <div className="row">
-                  <div className="col-5">
+                  <div className="col-7">
                     <div
                       className="input-group mb-3"
                       style={{
-                        maxWidth: 300,
+                        // maxWidth: 300,
                         paddingTop: 15,
                         paddingLeft: 15,
                       }}
                     >
-                      <div className="search-group form-control">
+                      <div
+                        className="search-group form-control"
+                        style={{ maxWidth: 300 }}
+                      >
                         <input
                           type="text"
                           className=""
@@ -179,6 +190,7 @@ export default function Engineers() {
                           placeholder="Search..."
                           aria-label="Search..."
                           aria-describedby="search-button"
+                          value={searchUserData}
                           onChange={(e) => {
                             setSearchUserData(e.target.value);
                           }}
@@ -239,11 +251,36 @@ export default function Engineers() {
                           />
                         </svg>
                       </button>
+                      <button
+                        className="btn bg-blue mx-1"
+                        type="button"
+                        onClick={() => {
+                          setFilterCriteria({
+                            pointsFrom: "",
+                            pointsTo: "",
+                            leadsFrom: "",
+                            leadsTo: "",
+                            date: "",
+                          });
+                          setSearchUserData("");
+                          setIsFilter(!isFilter);
+                        }}
+                      >
+                        Clear filter
+                      </button>
                     </div>
-                    {openFilter && <EngineersFilter />}
+                    {openFilter && (
+                      <EngineersFilter
+                        setFilterCriteria={setFilterCriteria}
+                        filterCriteria={filterCriteria}
+                        isFilter={isFilter}
+                        setIsFilter={setIsFilter}
+                        setOpenFilter={setOpenFilter}
+                      />
+                    )}
                   </div>
                   <div
-                    className="col-5 text-end"
+                    className="col-3 text-end"
                     style={{ paddingTop: "1.5rem" }}
                   >
                     <button

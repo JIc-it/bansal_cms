@@ -494,10 +494,10 @@ const ViewContractor = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor.name}</h6>
+                                  <h6>{ele.distributor?.name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor.user_id}</h6>
+                                  <h6>{ele.distributor?.user_id}</h6>
                                 </td>
                                 <td>
                                   <h6>
@@ -562,7 +562,7 @@ const ViewContractor = () => {
                     </tbody>
                   </table>
                 </div>
-              ) : (
+              ) : seletedTranasactionType === "Redemptions" ? (
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
                     <thead>
@@ -576,49 +576,28 @@ const ViewContractor = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {transactionData && transactionData.length > 0 ? (
+                      {currentItems && currentItems.length > 0 ? (
                         <>
-                          {transactionData.map((ele, i) => {
+                          {currentItems.map((ele, i) => {
                             return (
                               <tr key={`transactionData-${i}`}>
                                 <td>
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.product_name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.product_id}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.created_at}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
-
-                                <td>
                                   <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
+                                    className={`btn  btn-sm Accepted-btn`}
                                   >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
+                                    REDEEMED
                                   </button>
                                 </td>
                                 <td>
@@ -643,6 +622,8 @@ const ViewContractor = () => {
                     </tbody>
                   </table>
                 </div>
+              ) : (
+                ""
               )}
               <div className="col-12 my-2">
                 <div className="btn-group" style={{ float: "right" }}>
@@ -668,12 +649,22 @@ const ViewContractor = () => {
         </div>
       </div>
       {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} data={data} />
+        <ViewContractorTransaction
+          open={viewTransaction}
+          setOpen={setViewTransaction}
+          data={data}
+          seletedTranasactionType={seletedTranasactionType}
+        />
       )}
       {isOpenAddPointsPopUp && (
         <AddPointsPopUp
           setOpen={setIsOpenAddPointsPopUp}
           open={isOpenAddPointsPopUp}
+          userId={userDatail.id}
+          setIsContractorUpdated={setIsContractorUpdated}
+          isContractorUpdated={isContractorUpdated}
+          userData={userData}
+          totalPoints={totalPoints}
         />
       )}
       {openResetPassword && (
