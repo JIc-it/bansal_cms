@@ -77,7 +77,7 @@ export default function YearlyChart(props) {
     return (
         <>
             <div style={{ marginLeft: 16, marginTop: 10 }}>
-                <h4>{reducepastfiveyear5data} yrl</h4>
+                <h4>{reducepastfiveyear5data}</h4>
             </div>
             <BarChart chartOptions={chartOptions} />
             <div className="card-body p-0">
