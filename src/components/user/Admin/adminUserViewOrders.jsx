@@ -3,19 +3,19 @@ import { adminUSerViewOrdersRequest } from "../../../axiosHandle/userHandle";
 import ViewAdminTransaction from "./ViewAdminTransaction";
 
 export default function AdminUserViewOrders(props) {
-    const [orderData, setOrderData] = useState({});
+    const [orderData, setOrderData] = useState();
 
-console.log(orderData);
-    useEffect(() => {
+        useEffect(() => {
         adminUSerViewOrdersRequest(props.id)
             .then((data) => {
-                console.log(data);
                 setOrderData(data.results);
             })
             .catch((error) => {
-                console.error("Error fetching distributor data:", error);
+                console.error("Error fetching Admin data:", error);
             });
-    }, []);
+    }, [props.id]);
+
+
 
     const [viewTransaction, setViewTransaction] = useState(false);
     const [data, setData] = useState();
@@ -38,7 +38,7 @@ console.log(orderData);
                         <th>Points</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +55,9 @@ console.log(orderData);
                                         </td>
                                         <td>
                                             <h6>{data.user.role ? data.user.role : '-'}</h6>
+                                        </td>
+                                        <td>
+                                            <h6>{data.user?.user_id ? data.user?.user_id : '-'}</h6>
                                         </td>
                                         <td>
                                             <h6>{new Date(data.updated_at).toLocaleDateString('en-Us', { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6>
@@ -112,6 +115,7 @@ console.log(orderData);
           open={viewTransaction}
           setOpen={setViewTransaction}
           data={data}
+
         />
       )}
         </div>

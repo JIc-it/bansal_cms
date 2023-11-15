@@ -10,6 +10,7 @@ import {
   getContractorsRequest,
   getUserOrders,
   getUserRedemptionData,
+  adminPermissionViewRequest
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
 import ViewPermission from "./ViewPermission";
@@ -29,15 +30,26 @@ const ViewAdmin = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [filterdata, setFilterdata] = useState({
+    search: "",
+    status: "",
+    points_from: 0,
+    points_to: 0,
+    date: "",
+  });
+  
+const handlefilterdata=(field)=>{
+  setFilterdata((prev)=>{
+    return {
+      ...prev,...field
+    }
+  })
+}
 
-
-  const handlepassdata = (data) => {
-    setPermissionView(true);
-  //   setData(data);
-   };
+  
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  // console.log(queryParams);
+  
 
   const [userDataParam, setUserDataParam] = useState({
     id: queryParams.get('id'),
@@ -46,8 +58,15 @@ const ViewAdmin = () => {
     email: queryParams.get('email'),
     mobile: queryParams.get('mobile'),
     state: queryParams.get('state'),
-    district: queryParams.get('district')
+    district: queryParams.get('district'),
+    state_id:queryParams.get('state_id'),
+    district_id:queryParams.get('district_id')
   });
+
+  const handlepassdata = () => {
+    setPermissionView(true);
+   };
+
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
@@ -72,6 +91,19 @@ const ViewAdmin = () => {
         console.error("Error fetching distributor data:", error);
       });
   };
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    adminPermissionViewRequest(userDataParam.id)
+        .then((data) => {
+            setData(data?.permission);
+        })
+        .catch((error) => {
+            console.error("Error fetching distributor data:", error);
+        });
+}, [userDataParam.id]);
+
 
   useEffect(() => {
     userData && handleUserOrderData();
@@ -171,7 +203,6 @@ const ViewAdmin = () => {
     }
   };
 
-  // console.log(totalOrder);
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
@@ -304,6 +335,8 @@ const ViewAdmin = () => {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
+                        value={filterdata?.search}
+                        onChange={(e)=>handlefilterdata({search:e.target.value})}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +397,7 @@ const ViewAdmin = () => {
 
                     {/* <button className="btn btn-dark btn-sm">Clear Filter</button> */}
                   </div>
-                  {transactionFilterOpen && <TransactionFilterPopUp />}
+                  {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata}/>}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
                   <button
@@ -379,7 +412,7 @@ const ViewAdmin = () => {
               </div>
 
               {seletedTranasactionType === "Orders" ? (
-                <AdminUserViewOrders id={queryParams.get('id')}/>
+                <AdminUserViewOrders id={queryParams.get('id')} filterdata={filterdata}/>
                 // <div className="table-responsive  active-projects">
                 //   <table id="list-tbl" class="table">
                 //     <thead>
@@ -566,7 +599,7 @@ const ViewAdmin = () => {
       {permissionview && <ViewPermission
           open={permissionview}
           setOpen={setPermissionView}
-          // data={data}
+          data={data}
         />}
       {/* {viewTransaction && (
         <ViewContractorTransaction setOpen={setViewTransaction} />
@@ -581,10 +614,10 @@ const ViewAdmin = () => {
         <AdminResetPassword
           open={openResetPassword}
           setOpen={setOpenResetPassword}
-          userDatail={userDatail}
+          userDatail={queryParams.get('id')}
         />
       )}
-      {openEdit && <EditAdmin open={openEdit} setOpen={setOpenEdit} />}
+      {openEdit && <EditAdmin open={openEdit} setOpen={setOpenEdit} data={data} userdata={userDataParam}/>}
     </div>
   );
 };

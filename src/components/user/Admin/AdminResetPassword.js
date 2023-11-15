@@ -25,7 +25,6 @@ const offcanvasStyle = {
 export default function AdminResetPassword({
   open,
   setOpen,
-
   userDatail,
 }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -79,8 +78,7 @@ export default function AdminResetPassword({
             confirm_password: values.confirmPassword,
           };
 
-          const resetData = await handleUserResetPassword(userDatail.id, data);
-          console.log(resetData);
+          const resetData = await handleUserResetPassword(userDatail, data);
           if (resetData) {
             // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");

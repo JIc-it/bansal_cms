@@ -21,6 +21,9 @@ const commonUserUpdationnURL = "/account/admin-update-user";
 const adminUSerViewOrdersURL = "purchase/tmt_orders_admin/user";
 const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
+const adminpermissionviewURL="account/custom_permission/retrieve"
+const adminupdateuserURL="account/admin-update-user"
+const adminpermissionupdateuserURl="account/custom-permission"
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -336,7 +339,13 @@ export const updateUser = (id, data) => {
 
 export const adminUSerViewOrdersRequest = (id, data) => {
   return axiosInstance
-    .get(`${adminUSerViewOrdersURL}/${id}/`)
+    .get(`${adminUSerViewOrdersURL}/${id}/`,{params:{
+    search:data?.search,
+    status:data?.status,
+    points_from: data?.points_from,
+    points_to: data?.points_to,
+    date:data?.date,
+    }})
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -351,6 +360,41 @@ export const addUserPoints = (id, data) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while creating user:", error);
+      throw error;
+    });
+};
+
+
+export const adminPermissionViewRequest = (id) => {
+  return axiosInstance
+    .get(`${adminpermissionviewURL}/${id}/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
+export const adminupdateuser = (id,data) => {
+  console.log(`${adminupdateuserURL}/${id}/`, data);
+  return axiosInstance
+    .put(`${adminupdateuserURL}/${id}/`,data)
+    .then((response) => response)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
+
+export const adminpermissionupdateuser = (id,data) => {
+
+console.log(`${adminpermissionupdateuserURl}/${id}/`, data);
+  return axiosInstance
+    .put(`${adminpermissionupdateuserURl}/${id}/`,data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
       throw error;
     });
 };

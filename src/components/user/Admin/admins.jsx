@@ -84,7 +84,9 @@ function Admins() {
       email: data.email ? data.email : '',
       mobile: data.mobile ? data.mobile : '',
       state: data.state.state ? data.state.state : '',
-      district: data.district.district ? data.district.district : ''
+      district: data.district.district ? data.district.district : '',
+      state_id: data.state.id ? data.state.id : '',
+      district_id: data.district.id ? data.district.id : ''
     };
     console.log(data_value);
     const queryString = Object.keys(data_value)

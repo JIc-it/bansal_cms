@@ -9,6 +9,7 @@ const TransactionFilterPopUp = (
     //   isFilter,
     //   setIsFilter,
     //   setOpenFilter,
+    handlefilterdata
   }
 ) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -91,7 +92,7 @@ const TransactionFilterPopUp = (
         defaultValue=""
         className=" w-100 form-control-sm form-control my-1"
         placeholder="Status"
-        //   onChange={handleStateChange}
+          onChange={(e)=>handlefilterdata({status:e.target.value})}
       >
         <option disabled={true} value="" id={"0"}>
           Status
@@ -108,9 +109,9 @@ const TransactionFilterPopUp = (
           className="form-control form-control-sm"
           name="from"
           //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
+            onChange={(e) => {
+              handlefilterdata({points_from: e.target.value });
+            }}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -129,9 +130,9 @@ const TransactionFilterPopUp = (
           className="form-control form-control-sm"
           name="to"
           //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
+            onChange={(e) => {
+              handlefilterdata({points_to: e.target.value });
+            }}
           //   onBlur={formik.handleBlur}
         />
       </div>
@@ -139,7 +140,13 @@ const TransactionFilterPopUp = (
       <br />
       <DatePicker
         selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        onChange={(date) => {
+          const formatdate=new Date(date);
+          const Year=formatdate.getFullYear();
+          const Month=formatdate.getMonth() +1;
+          const Day=formatdate.getDate();
+          handlefilterdata({date:Year+"-"+Month+"-"+Day})
+        }}
         customInput={customInput}
         dateFormat="dd/MM/yyyy" // Customize the date format
       />
