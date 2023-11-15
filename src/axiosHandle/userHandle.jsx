@@ -19,6 +19,8 @@ const getUserLeadsURL = "/purchase/leads/user";
 const commonUserCreationURL = "/account/admin-create-user/";
 const commonUserUpdationnURL = "/account/admin-update-user";
 const adminUSerViewOrdersURL = "purchase/tmt_orders_admin/user";
+const commonUserAddPointsURL = "/purchase/admin-add-points";
+const commonUserRedemptionURL = "/purchase/redemption_history/user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -310,6 +312,18 @@ export const adminUSerViewOrdersRequest = (id, data) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
+
+///////////////add points for indivitual user//////////////
+export const addUserPoints = (id, data) => {
+  return axiosInstance
+    .post(`${commonUserAddPointsURL}/${id}/`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
       throw error;
     });
 };
