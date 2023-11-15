@@ -31,7 +31,10 @@ const FilterPopUp = ({handlefilterdata,handlefilter,setOpenFilter}) => {
             />
             <button
                 type="button"
-                onClick={()=>{handlefilter();handlefilterdata({search:"",role:"",date:""});setOpenFilter((prev)=>!prev)}}
+                onClick={()=>{
+                    handlefilter();
+                    handlefilterdata({search:"",role:"",date:""});
+                    setOpenFilter((prev)=>!prev)}}
                 className="btn btn-primary"
                 style={{
                     flex: 1,

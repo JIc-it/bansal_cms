@@ -36,6 +36,7 @@ import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 import HelpPage from "./Help/HelpPage";
 
+// import Help from "./help/help"
 export default function AllRouting() {
   return (
     <main className="w-100">
@@ -54,6 +55,7 @@ export default function AllRouting() {
         <Route path="/salespocs" element={<SalesPocs />} />
         <Route path="/admins" element={<Admins />} />
         <Route path="/promotions" element={<Promotions />} />
+        {/* <Route path="/faq" element={<Help />} /> */}
         <Route path="/redemptions" element={<Redemptions />} />
         <Route path="/ctrdetails" element={<ContractorDetails />} />
         <Route path="/actdetails" element={<ArchitectDetails />} />
