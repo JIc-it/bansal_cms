@@ -18,7 +18,8 @@ export const getLeadRequest = (data) => {
   return axiosInstance.get(leadRequestURL,{params:{
     search:data?.search,
     role:data?.role,
-    date:data?.date
+    date:data?.date,
+    status:data?.status
   }})
     .then((response) => response.data)
     .catch((error) => {
