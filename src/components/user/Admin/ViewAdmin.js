@@ -12,7 +12,7 @@ import {
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
-// import ViewPermission from "./viewPermission";
+import ViewPermission from "./ViewPermission";
 
 
 const ViewAdmin = () => {
@@ -563,11 +563,11 @@ const ViewAdmin = () => {
           </div>{" "}
         </div>
       </div>
-      {/* {permissionview && <ViewPermission
+      {permissionview && <ViewPermission
           open={permissionview}
           setOpen={setPermissionView}
           // data={data}
-        />} */}
+        />}
       {/* {viewTransaction && (
         <ViewContractorTransaction setOpen={setViewTransaction} />
       )}
