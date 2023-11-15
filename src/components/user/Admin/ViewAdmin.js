@@ -12,11 +12,14 @@ import {
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
+// import ViewPermission from "./viewPermission";
+
 
 const ViewAdmin = () => {
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
+  const [permissionview, setPermissionView] = useState(false);
   const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -27,6 +30,11 @@ const ViewAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+
+  const handlepassdata = (data) => {
+    setPermissionView(true);
+  //   setData(data);
+   };
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   // console.log(queryParams);
@@ -227,14 +235,15 @@ const ViewAdmin = () => {
                 <div className="depostit-card-media  style-1">
                   <div className="user-email-details">
                     <div className="user-email-details-property">
-                      <span>Email</span>
-                      <span>Mobile</span>
-                      <span>Location</span>
+                      <span className="fs-6">Email</span>
+                      <span className="fs-6">Mobile</span>
+                      <span className="fs-6">Location</span>
+                      <span className="fs-6 fw-bold">Permissions &nbsp;&nbsp; <button className="btn bg-blue btn-sm" onClick={()=>handlepassdata()}>View</button></span>
                     </div>
                     <div className="user-email-details-data">
-                      <span>{userDataParam && userDataParam.email}</span>
-                      <span>{userDataParam && userDataParam.mobile}</span>
-                      <span>
+                      <span className="fs-6">{userDataParam && userDataParam.email}</span>
+                      <span className="fs-6">{userDataParam && userDataParam.mobile}</span>
+                      <span className="fs-6">
                         {userDataParam && userDataParam.district}
                         {userDataParam.state && ', '}
                         {userDataParam && userDataParam.state ? userDataParam.state : '-'}
@@ -263,18 +272,18 @@ const ViewAdmin = () => {
                   >
                     Orders
                   </button>
-                  <button
-                    className={`btn btn-sm ${seletedTranasactionType === "Redemptions"
+                  {/* <button
+                    className={`btn btn-sm ${seletedTranasactionType === "Leads"
                         ? "btn-primary"
                         : "btn-light"
                       }`}
                     type="button"
                     id="add-points-button"
                     style={{ marginLeft: 6 }}
-                    onClick={() => handleClickTrancationType("Redemptions")}
+                    onClick={() => handleClickTrancationType("Leads")}
                   >
-                    Redemptions
-                  </button>
+                    Leads
+                  </button> */}
                 </div>
               </div>
               <div className="row">
@@ -312,7 +321,7 @@ const ViewAdmin = () => {
                       </svg>
                     </div>
                     <button
-                      className="btn filter-button"
+                      className="px-3 py-2 filter-button"
                       type="button"
                       id="search-button"
                       onClick={() => {
@@ -352,22 +361,12 @@ const ViewAdmin = () => {
                         />
                       </svg>
                     </button>
+
+                    {/* <button className="btn btn-dark btn-sm">Clear Filter</button> */}
                   </div>
                   {transactionFilterOpen && <TransactionFilterPopUp />}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
-                  {seletedTranasactionType === "Orders" && (
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddPointsPopUp(true);
-                      }}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add Points
-                    </button>
-                  )}
                   <button
                     className="btn btn-light btn-sm mx-2"
                     type="button"
@@ -564,6 +563,11 @@ const ViewAdmin = () => {
           </div>{" "}
         </div>
       </div>
+      {/* {permissionview && <ViewPermission
+          open={permissionview}
+          setOpen={setPermissionView}
+          // data={data}
+        />} */}
       {/* {viewTransaction && (
         <ViewContractorTransaction setOpen={setViewTransaction} />
       )}
