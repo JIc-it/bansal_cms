@@ -167,19 +167,19 @@ export default function LeadPoints() {
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
                       <div className='position-relative mx-2'>
-                      <input
-                        type="text"
-                        className="form-control"
-                        style={{ marginRight: 10 }}
-                        placeholder="Search..."
-                        aria-label="Search..."
-                        aria-describedby="search-button"
-                        value={filterdata.search}
-                        onChange={async(e) => {
-                          handlefilterdata({search:e.target.value});
-                          
-                        }}
-                      />
+                        <input
+                          type="text"
+                          className="form-control"
+                          style={{ marginRight: 10 }}
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="search-button"
+                          value={filterdata.search}
+                          onChange={async (e) => {
+                            handlefilterdata({ search: e.target.value });
+
+                          }}
+                        />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"

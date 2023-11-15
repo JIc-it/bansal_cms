@@ -18,18 +18,18 @@ export default function LeadRequests() {
   const [totalRejectedRequests, setRejectedRequests] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [istrue,setIstrue]=useState(false)
-  const [filterdata,setFilterdata]=useState({
-  search:"",
-  role:"",
-  date:""
+  const [istrue, setIstrue] = useState(false)
+  const [filterdata, setFilterdata] = useState({
+    search: "",
+    role: "",
+    date: ""
   })
 
   console.log(filterdata);
-  const handlefilterdata=(data)=>{
-    setFilterdata((prev)=>{
+  const handlefilterdata = (data) => {
+    setFilterdata((prev) => {
       return {
-        ...prev,...data
+        ...prev, ...data
       }
     })
   }
@@ -49,15 +49,15 @@ export default function LeadRequests() {
       });
   }, [filterdata.search]);
 
-const handlefilter=()=>{
-  getLeadRequest(filterdata)
-  .then((data) => {
-    setLeadData(data.results);
-  })
-  .catch((error) => {
-    console.error('Error fetching lead data:', error);
-  });
-}
+  const handlefilter = () => {
+    getLeadRequest(filterdata)
+      .then((data) => {
+        setLeadData(data.results);
+      })
+      .catch((error) => {
+        console.error('Error fetching lead data:', error);
+      });
+  }
 
 
   useEffect(() => {
@@ -106,9 +106,9 @@ const handlefilter=()=>{
 
   const exportToCSV = () => {
     if (lead_data) {
-      const header = ['Transaction id', 'Name','Mobile','Referred By', 'Date & Time', 'Points', 'Quantity'];
+      const header = ['Transaction id', 'Name', 'Mobile', 'Referred By', 'Date & Time', 'Points', 'Quantity'];
       const csvData = lead_data.map((rr_data) => {
-        return [rr_data.referral_id, rr_data.name, rr_data.mobile_no, rr_data?.user?.user_id,rr_data.updated_at, rr_data.points, rr_data.order];
+        return [rr_data.referral_id, rr_data.name, rr_data.mobile_no, rr_data?.user?.user_id, rr_data.updated_at, rr_data.points, rr_data.order];
       });
 
       const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
@@ -150,103 +150,102 @@ const handlefilter=()=>{
         </div>
         <br></br>
         {/* <div className="row"> */}
-          {/* <div className="container"> */}
+        {/* <div className="container"> */}
+        <div className="row">
+          <div className="col-xl-12 wid-100">
             <div className="row">
-              <div className="col-xl-12 wid-100">
-                <div className="row">
-                  <div className="col-xl-3 col-sm-6 same-card">
-                    <div className="card">
-                      <div className="card-body depostit-card">
-                        <div className="depostit-card-media d-flex justify-content-between style-1">
-                          <div>
-                            <h6>Total Requests</h6><br />
-                            <h3>{totalTotalRequests}</h3>
-                          </div>
-                        </div>
+              <div className="col-xl-3 col-sm-6 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Total Requests</h6><br />
+                        <h3>{totalTotalRequests}</h3>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-3 col-sm-6 same-card">
-                    <div className="card">
-                      <div className="card-body depostit-card">
-                        <div className="depostit-card-media d-flex justify-content-between style-1">
-                          <div>
-                            <h6>Pending Requests</h6><br />
-                            <h3>{totalPendingRequests}</h3>
-                          </div>
-                        </div>
+                </div>
+              </div>
+              <div className="col-xl-3 col-sm-6 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Pending Requests</h6><br />
+                        <h3>{totalPendingRequests}</h3>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-3 col-sm-6 same-card">
-                    <div className="card">
-                      <div className="card-body depostit-card">
-                        <div className="depostit-card-media d-flex justify-content-between style-1">
-                          <div>
-                            <h6>Accepted Requests</h6><br />
-                            <h3>{totalAcceptedRequests}</h3>
-                          </div>
-                        </div>
+                </div>
+              </div>
+              <div className="col-xl-3 col-sm-6 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Accepted Requests</h6><br />
+                        <h3>{totalAcceptedRequests}</h3>
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-3 col-sm-6 same-card">
-                    <div className="card">
-                      <div className="card-body depostit-card">
-                        <div className="depostit-card-media d-flex justify-content-between style-1">
-                          <div>
-                            <h6>Rejected Requests</h6><br />
-                            <h3>{totalRejectedRequests}</h3>
-                          </div>
-                        </div>
+                </div>
+              </div>
+              <div className="col-xl-3 col-sm-6 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Rejected Requests</h6><br />
+                        <h3>{totalRejectedRequests}</h3>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          {/* </div> */}
-          <div className="col-xl-12">
-            <div className="card">
-              <div className="card-body p-0">
-                <div className="table-responsive active-projects task-table">
-                  <div className="row">
+          </div>
+        </div>
+        {/* </div> */}
+        <div className="col-xl-12">
+          <div className="card">
+            <div className="card-body p-0">
+              <div className="table-responsive active-projects task-table">
+                <div className="row">
                   <div className="col-9">
                     <div
                       className="input-group mb-3"
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
-                     <div className='position-relative mx-2'>
-                     <input
-                        type="text"
-                        className="form-control"
-                        style={{ marginRight: 10 }}
-                        placeholder="Search..."
-                        aria-label="Search..."
-                        aria-describedby="search-button"
-                        value={filterdata.search}
-                        onChange={async(e) => {
-                          handlefilterdata({search:e.target.value});
-                          
-                        }}
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        style={{position:"absolute",top:"20%",right:"5%",cursor:"pointer"}}
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M9.58342 2.29199C5.55634 2.29199 2.29175 5.55658 2.29175 9.58366C2.29175 13.6107 5.55634 16.8753 9.58342 16.8753C13.6105 16.8753 16.8751 13.6107 16.8751 9.58366C16.8751 5.55658 13.6105 2.29199 9.58342 2.29199ZM1.04175 9.58366C1.04175 4.86623 4.86598 1.04199 9.58342 1.04199C14.3008 1.04199 18.1251 4.86623 18.1251 9.58366C18.1251 11.7174 17.3427 13.6684 16.0491 15.1655L18.7754 17.8917C19.0194 18.1358 19.0194 18.5315 18.7754 18.7756C18.5313 19.0197 18.1356 19.0197 17.8915 18.7756L15.1653 16.0494C13.6682 17.3429 11.7172 18.1253 9.58342 18.1253C4.86598 18.1253 1.04175 14.3011 1.04175 9.58366Z"
-                          fill="#525252"
+                      <div className='position-relative mx-2'>
+                        <input
+                          type="text"
+                          className="form-control"
+                          style={{ marginRight: 10 }}
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="search-button"
+                          value={filterdata.search}
+                          onChange={async (e) => {
+                            handlefilterdata({ search: e.target.value });
+                          }}
                         />
-                      </svg>
-                      
-                     </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M9.58342 2.29199C5.55634 2.29199 2.29175 5.55658 2.29175 9.58366C2.29175 13.6107 5.55634 16.8753 9.58342 16.8753C13.6105 16.8753 16.8751 13.6107 16.8751 9.58366C16.8751 5.55658 13.6105 2.29199 9.58342 2.29199ZM1.04175 9.58366C1.04175 4.86623 4.86598 1.04199 9.58342 1.04199C14.3008 1.04199 18.1251 4.86623 18.1251 9.58366C18.1251 11.7174 17.3427 13.6684 16.0491 15.1655L18.7754 17.8917C19.0194 18.1358 19.0194 18.5315 18.7754 18.7756C18.5313 19.0197 18.1356 19.0197 17.8915 18.7756L15.1653 16.0494C13.6682 17.3429 11.7172 18.1253 9.58342 18.1253C4.86598 18.1253 1.04175 14.3011 1.04175 9.58366Z"
+                            fill="#525252"
+                          />
+                        </svg>
+
+                      </div>
                       <button
                         className="px-3 py-2 filter-button"
                         type="button"
@@ -291,70 +290,70 @@ const handlefilter=()=>{
                     </div>
                     {openFilter && (
                       <FilterPopUp
-                      handlefilterdata={handlefilterdata}
-                      handlefilter={handlefilter}
-                      setOpenFilter={setOpenFilter}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                        handlefilterdata={handlefilterdata}
+                        handlefilter={handlefilter}
+                        setOpenFilter={setOpenFilter}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
-                    <div className="col-3" style={{ marginTop: 18 }}>
-                      <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
-                    </div>
+                  <div className="col-3" style={{ marginTop: 18 }}>
+                    <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
                   </div>
-                  <table id="list-tbl" class="table">
-                    <thead>
-                      <tr>
-                        <th>Transaction id</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Referred By</th>
-                        <th>Date & Time</th>
-                        <th>Points</th>
-                        <th>Quantity</th>
-                        <th className="text-end">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                </div>
+                <table id="list-tbl" class="table">
+                  <thead>
+                    <tr>
+                      <th>Transaction id</th>
+                      <th>Name</th>
+                      <th>Mobile</th>
+                      <th>Referred By</th>
+                      <th>Date & Time</th>
+                      <th>Points</th>
+                      <th>Quantity</th>
+                      <th className="text-end">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                      {currentItems.length > 0 ? (
-                        currentItems.map((lead) => (
-                          <tr key={lead.id}>
-                            <td><h6>{lead.referral_id}</h6></td>
-                            <td><h6>{lead.name}</h6></td>
-                            <td><h6>{lead.mobile_no}</h6></td>
-                            <td><h6>{lead?.user?.user_id}</h6></td>
-                            <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"})}</h6></td>
-                            <td><h6>{lead.points}</h6></td>
-                            <td><h6>{lead.order}</h6></td>
-                            <td>
-                              <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5">No leads available</td>
+                    {currentItems.length > 0 ? (
+                      currentItems.map((lead) => (
+                        <tr key={lead.id}>
+                          <td><h6>{lead.referral_id}</h6></td>
+                          <td><h6>{lead.name}</h6></td>
+                          <td><h6>{lead.mobile_no}</h6></td>
+                          <td><h6>{lead?.user?.user_id}</h6></td>
+                          <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US', { day: "2-digit", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</h6></td>
+                          <td><h6>{lead.points}</h6></td>
+                          <td><h6>{lead.order}</h6></td>
+                          <td>
+                            <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
+                          </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                  <div className="col-12">
-                    <div className="btn-group" style={{ float: 'right' }}>
-                      <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
-                        Previous
-                      </button>&nbsp;
-                      <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                        Next
-                      </button>
-                    </div>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No leads available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+                <div className="col-12">
+                  <div className="btn-group" style={{ float: 'right' }}>
+                    <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                      Previous
+                    </button>&nbsp;
+                    <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                      Next
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         {/* </div> */}
       </div>
       {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} setOpen={setSelectedLead} />}

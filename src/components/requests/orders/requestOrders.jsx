@@ -37,32 +37,14 @@ export default function OrderRequests() {
     role: "",
     date: ""
   })
+
+  console.log(filterdata);
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
         ...prev, ...data
       }
     })
-  }
-
-  // useEffect(() => {
-  //   getLeadRequest()
-  //     .then((data) => {
-  //       setLeadData(data.results);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching lead data:', error);
-  //     });
-  // }, [filterdata]);
-
-  const handlefilter = () => {
-    getLeadRequest(filterdata)
-      .then((data) => {
-        setLeadData(data.results);
-      })
-      .catch((error) => {
-        console.error('Error fetching lead data:', error);
-      });
   }
 
 
@@ -137,6 +119,16 @@ export default function OrderRequests() {
         console.error('Error fetching lead data:', error);
       });
   }, [filterdata.search]);
+
+  const handlefilter = () => {
+    getLeadRequest(filterdata)
+      .then((data) => {
+        setLeadData(data.results);
+      })
+      .catch((error) => {
+        console.error('Error fetching lead data:', error);
+      });
+  }
 
   const exportToCSV = () => {
     if (order_data) {
@@ -287,7 +279,6 @@ export default function OrderRequests() {
                           value={filterdata.search}
                           onChange={async (e) => {
                             handlefilterdata({ search: e.target.value });
-
                           }}
                         />
                         <svg
@@ -297,11 +288,6 @@ export default function OrderRequests() {
                           viewBox="0 0 20 20"
                           fill="none"
                           style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
-                          onClick={() => {
-                            if (filterdata.search.trim() !== "") {
-                              handlefilter(); setIstrue(true)
-                            }
-                          }}
                         >
                           <path
                             fill-rule="evenodd"
