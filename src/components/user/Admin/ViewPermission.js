@@ -42,8 +42,15 @@ const ViewPermission = ({
       </Offcanvas.Header>
       
         <>
-          <div style={offcanvasStyle}>
+          <div className="ms-4">
             <h4>Permission</h4>
+            <table>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </table>
           </div>
         </>
       

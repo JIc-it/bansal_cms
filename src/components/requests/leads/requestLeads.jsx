@@ -40,7 +40,7 @@ export default function LeadRequests() {
   };
 
   useEffect(() => {
-    getLeadRequest()
+    getLeadRequest(filterdata)
       .then((data) => {
         setLeadData(data.results);
       })
@@ -225,8 +225,9 @@ const handlefilter=()=>{
                         aria-label="Search..."
                         aria-describedby="search-button"
                         value={filterdata.search}
-                        onChange={(e) => {
+                        onChange={async(e) => {
                           handlefilterdata({search:e.target.value});
+                          
                         }}
                       />
                       <svg
@@ -236,11 +237,6 @@ const handlefilter=()=>{
                         viewBox="0 0 20 20"
                         fill="none"
                         style={{position:"absolute",top:"20%",right:"5%",cursor:"pointer"}}
-                        onClick={()=>{
-                          if(filterdata.search.trim()!==""){
-                            handlefilter();setIstrue(true)
-                          }
-                        }}
                       >
                         <path
                           fill-rule="evenodd"
