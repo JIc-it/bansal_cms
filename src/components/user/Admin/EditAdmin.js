@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Table } from "reactstrap";
 import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { adminupdateuser,adminpermissionupdateuser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -25,11 +26,16 @@ export default function EditAdmin({
   setOpen,
   setIsAdminAdded,
   isAdminAdded,
+  data,userdata
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
+  const queryParams_id = new URLSearchParams(window.location.search).get('id')
+  const [permission, setPermissions] = useState(data);
+  const navigate=useNavigate()
 
+  
   const initialPermissions = [
     {
       name: "Leads",
@@ -77,6 +83,7 @@ export default function EditAdmin({
       });
   }, []);
 
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -104,55 +111,56 @@ export default function EditAdmin({
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
+  
+console.log({permission:permission},"pass");
+
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      mobile: "",
-      district: { id: "0", name: "District" },
-      state: { id: "0", name: "state" },
-      password: "",
-      confirmPassword: "",
+      name: userdata.name,
+      email: userdata.email,
+      mobile: userdata.mobile,
+      district: userdata.district_id,
+      state:  userdata.state_id,
+
     },
-    validationSchema,
+    // validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
-      if (!isLoading) {
-        try {
-          const data = {
-            name: values.name,
-            email: values.email,
-            mobile: values.mobile,
-            password: values.password,
-            district_name: values.district,
-            state_name: values.state,
-          };
+      const datas = {
+        name: values.name,
+        email: values.email,
+        mobile: values.mobile,
+        district: values.district.id,
+        state: values.state.id,
+      };
 
-          const adminData = await createContractor(data);
-          console.log(adminData);
-          if (adminData) {
-            setIsAdminAdded(!isAdminAdded);
-            toast.success("Admin created successfully!");
-            setOpen(false);
-            setIsLoading(false);
-          } else {
-            console.error(
-              "Error while creating Admin:",
-              adminData.error
-            );
-            setIsLoading(false);
-          }
-          setIsLoading(false);
-        } catch (err) {
-          console.log(err);
-          err.response.data.email && toast.error(err.response.data.email[0]);
-          err.response.data.mobile && toast.error(err.response.data.mobile[0]);
-          setIsLoading(false);
-        }
+      
+      try {
+        
+        // await adminupdateuser(queryParams_id, datas).then((res)=>{
+        //   if(res.status===200){
+        //     toast.success("User Updated successfully!");
+        //     navigate("/admins")
+        //   }
+        // });
+        await adminpermissionupdateuser(queryParams_id,{permission:permission}).then((res)=>console.log(res));
+        // if (admindata) {
+        //   setIsAdminAdded(!isAdminAdded);
+        //   toast.success("User Updated successfully!");
+        //   setOpen(false);
+        // } else {
+        //   console.error("Error while creating Admin:");
+        // }
+      } catch (err) {
+        console.log(err);
+        err.response.data.email && toast.error(err.response.data.email[0]);
+        err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
-
+  
   const handleCloseOffcanvas = () => {
     setOpen(false);
     setIsLoading(false);
@@ -180,14 +188,18 @@ export default function EditAdmin({
     });
   };
 
-  const [permissions, setPermissions] = useState(initialPermissions);
+ 
 
-  const handleCheckboxChange = (index, option) => {
-    const updatedPermissions = [...permissions];
-    updatedPermissions[index][option] = !updatedPermissions[index][option];
-    setPermissions(updatedPermissions);
+  const handleCheckboxChange = (category, action) => {
+    setPermissions(prevPermissions => ({
+      ...prevPermissions,
+      [category]: {
+        ...prevPermissions[category],
+        [action]: !prevPermissions[category][action]
+      }
+    }));
   };
-  
+
   return (
     <Offcanvas
       show={open}
@@ -211,7 +223,7 @@ export default function EditAdmin({
               placeholder="Name"
               className="form-control form-control-sm"
               name="name"
-              value={formik.values.name}
+              defaultValue={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -250,7 +262,7 @@ export default function EditAdmin({
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              defaultValue=""
+              value={userdata.district_id}
               className=" w-100 form-control-sm form-control"
               placeholder="District"
               onChange={handleDistrictChange}
@@ -260,7 +272,7 @@ export default function EditAdmin({
               </option>
               {locationList &&
                 locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district_name}</option>;
+                  return <option id={item.id}>{item.district}</option>;
                 })}
             </select>
             {formik.touched.district && formik.errors.district ? (
@@ -269,7 +281,7 @@ export default function EditAdmin({
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              defaultValue=""
+              defaultValue={userdata.state_id}
               className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
@@ -292,45 +304,28 @@ export default function EditAdmin({
               <tr>
                 <th>Section</th>
                 <th>Create</th>
-                <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                <th>view</th>
               </tr>
             </thead>
             <tbody>
-              {permissions.map((permission, index) => (
-                <tr key={permission.name} className="text-center">
-                  <td>{permission.name}</td>
-                  <td style={{padding: '-0.0625rem 0.625rem'}}>
-                    <input
-                      type="checkbox"
-                      checked={permission.create}
-                      onChange={() => handleCheckboxChange(index, "create")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.view}
-                      onChange={() => handleCheckboxChange(index, "view")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.edit}
-                      onChange={() => handleCheckboxChange(index, "edit")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.delete}
-                      onChange={() => handleCheckboxChange(index, "delete")}
-                    />
-                  </td>
+
+              {Object.keys(permission)?.map(category => (
+                <tr key={category}>
+                  <td>{category.charAt(0).toUpperCase() + category.slice(1)}</td>
+                  {Object.keys(permission[category])?.sort().map(action => (
+                    <td className="text-center">
+                      <input
+                        type="checkbox"
+                        checked={permission[category][action]}
+                        onChange={() => handleCheckboxChange(category, action)}
+                      />
+                    </td>
+                  ))}
                 </tr>
               ))}
+
             </tbody>
           </Table>
           <button

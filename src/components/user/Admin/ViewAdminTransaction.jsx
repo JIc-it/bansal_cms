@@ -27,7 +27,7 @@ const ViewAdminTransaction = ({
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
   };
-console.log(data);
+  
   return (
     <Offcanvas
       show={true}
