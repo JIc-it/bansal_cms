@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { adminUSerViewOrdersRequest } from "../../../axiosHandle/userHandle";
+import ViewAdminTransaction from "./ViewAdminTransaction";
 
 export default function AdminUserViewOrders(props) {
     const [orderData, setOrderData] = useState({});
@@ -16,7 +17,12 @@ console.log(orderData);
             });
     }, []);
 
-
+    const [viewTransaction, setViewTransaction] = useState(false);
+    const [data, setData] = useState();
+    const handlepassdata = (data) => {
+        setViewTransaction(true);
+        setData(data);
+      };
 
     return (
 
@@ -85,6 +91,7 @@ console.log(orderData);
                                                 className="btn btn-primary btn-sm"
                                                 href="#"
                                                 role="button"
+                                                onClick={()=>handlepassdata(data)}
                                             >
                                                 View
                                             </a>
@@ -100,6 +107,13 @@ console.log(orderData);
                     )}
                 </tbody>
             </table>
+            {viewTransaction && (
+        <ViewAdminTransaction
+          open={viewTransaction}
+          setOpen={setViewTransaction}
+          data={data}
+        />
+      )}
         </div>
 
     );

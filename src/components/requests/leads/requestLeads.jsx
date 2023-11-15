@@ -47,7 +47,7 @@ export default function LeadRequests() {
       .catch((error) => {
         console.error('Error fetching lead data:', error);
       });
-  }, [filterdata]);
+  }, [filterdata.search]);
 
 const handlefilter=()=>{
   getLeadRequest(filterdata)
