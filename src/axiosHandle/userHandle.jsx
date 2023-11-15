@@ -174,15 +174,19 @@ export const handleUserResetPassword = (id, data) => {
     });
 };
 
-export const getUserOrders = (id, data) => {
+export const getUserOrders = (id, search, filterdata) => {
   return axiosInstance
     .get(`${getUserOrderURL}/${id}/`, {
       params: {
-        search: data.search,
-        status: data.status,
-        point_from: data.point_from,
-        point_to: data.point_to,
-        date: data.date,
+        search: search,
+        status: filterdata.status,
+        points_from: filterdata.points_from,
+        points_to: filterdata.points_to,
+
+        date:
+          filterdata.date === ""
+            ? ""
+            : new Date(filterdata.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)
@@ -232,9 +236,21 @@ export const getUserLeads = (id) => {
     });
 };
 
-export const getUserRedemptionData = (id) => {
+export const getUserRedemptionData = (id, search, filterdata) => {
   return axiosInstance
-    .get(`${getUserRedemptionURL}/${id}/`)
+    .get(`${getUserRedemptionURL}/${id}/`, {
+      params: {
+        search: search,
+        // status: filterdata.status,
+        // points_from: filterdata.points_from,
+        // points_to: filterdata.points_to,
+
+        date:
+          filterdata.date === ""
+            ? ""
+            : new Date(filterdata.date).toLocaleDateString("en-CA"),
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching redemption request:", error);
@@ -242,9 +258,21 @@ export const getUserRedemptionData = (id) => {
     });
 };
 
-export const getDistributorOrders = (id) => {
+export const getDistributorOrders = (id, search, filterdata) => {
   return axiosInstance
-    .get(`${distributorOrderURL}/${id}/`)
+    .get(`${distributorOrderURL}/${id}/`, {
+      params: {
+        search: search,
+        points_from: filterdata.points_from,
+        points_to: filterdata.points_to,
+        status: filterdata.status,
+        role: filterdata.role,
+        date:
+          filterdata.date === ""
+            ? ""
+            : new Date(filterdata.date).toLocaleDateString("en-CA"),
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching ditributor request:", error);
@@ -315,7 +343,6 @@ export const adminUSerViewOrdersRequest = (id, data) => {
       throw error;
     });
 };
-
 
 ///////////////add points for indivitual user//////////////
 export const addUserPoints = (id, data) => {

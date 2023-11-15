@@ -19,8 +19,7 @@ const ViewDistributorDetails = () => {
   const [viewTransaction, setViewTransaction] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [seletedTranasactionType, setSeletedTranasactionType] =
-    useState("Orders");
+
   const [transactionData, setTransactionData] = useState();
   const [data, setData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
@@ -28,8 +27,23 @@ const ViewDistributorDetails = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdated, setIsUpdated] = useState(false);
-
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterdata, setFilterdata] = useState({
+    role: "",
+    status: "",
+    points_from: "",
+    points_to: "",
+    date: "",
+  });
+  const [search, setSearch] = useState("");
+  console.log(filterdata);
   const itemsPerPage = 10;
+
+  function handlefilterdata(fields) {
+    setFilterdata((prev) => {
+      return { ...prev, ...fields };
+    });
+  }
 
   useEffect(() => {
     getDistributorsRequest()
@@ -66,7 +80,7 @@ const ViewDistributorDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getDistributorOrders(userData.id)
+    getDistributorOrders(userData.id, search, filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -96,59 +110,55 @@ const ViewDistributorDetails = () => {
   };
 
   useEffect(() => {
-    userData && handleUserOrderData();
     userData && handleUserOrderCount();
     userData && handleUserPointCount();
   }, [userData]);
 
-  const handleClickTrancationType = (type) => {
-    setSeletedTranasactionType(type);
-    if (type === "Orders") {
-      handleUserOrderData();
-    }
-  };
+  useEffect(() => {
+    userData && handleUserOrderData();
+  }, [userData, isFilter, search]);
+
   const exportToCSV = () => {
     if (transactionData) {
-      const header =
-        seletedTranasactionType === "Orders"
-          ? [
-              "Transaction Id",
-              " Distributor Name",
-              " Distributor id",
-              "Date & Time",
-              "Points",
-              "Quantity",
-              "Status",
-            ]
-          : [
-              "Transaction ID",
-              "Reward",
-              " Product ID",
-              "Date & Time",
-              "Status",
-            ];
-      const csvData =
-        seletedTranasactionType === "Orders"
-          ? transactionData.map((item) => {
-              let status =
-                item.admin_approval === "Accepted" &&
-                item.user_approval === "Accepted"
-                  ? "Accepted"
-                  : item.admin_approval === "Rejected" ||
-                    item.user_approval === "Rejected"
-                  ? "Rejected"
-                  : "Processing";
-              return [
-                item.transaction_id,
-                item.transaction_id,
-                item.distributor,
-                item.created_at,
-                item.created_at,
-                item.quantity,
-                status,
-              ];
-            })
-          : "";
+      const header = [
+        "Transaction Id",
+        "  Name",
+        " Role",
+        "Unique ID",
+        "Date & Time",
+        "Points",
+        "Quantity",
+        "Status",
+      ];
+      const csvData = transactionData.map((item) => {
+        let status =
+          item.admin_approval === "Accepted"
+            ? //  &&
+              // item.user_approval === "Accepted"
+              "Accepted"
+            : item.admin_approval === "Rejected"
+            ? //  ||
+              //   item.user_approval === "Rejected"
+              "Rejected"
+            : "Processing";
+
+        return [
+          item.transaction_id,
+          item.user?.name,
+          item.user?.role,
+          item.user?.user_id,
+          new Date(item.created_at).toLocaleDateString("en-Us", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          item.points,
+          item.quantity,
+          status,
+        ];
+      });
 
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
@@ -157,10 +167,7 @@ const ViewDistributorDetails = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download =
-        seletedTranasactionType === "Orders"
-          ? "Distributor-Order-List.csv"
-          : "Distributor-Order-List.csv";
+      a.download = "Distributor-Order-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -288,30 +295,28 @@ const ViewDistributorDetails = () => {
               <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Orders"
-                        ? "btn-primary"
-                        : "btn-light"
-                    }`}
+                    className={`btn btn-sm ${"btn-primary"}`}
                     type="button"
                     id="add-points-button"
-                    onClick={() => handleClickTrancationType("Orders")}
                   >
                     Orders
                   </button>
                 </div>
               </div>
               <div className="row">
-                <div className="col-5" style={{ paddingLeft: 0 }}>
+                <div className="col-7" style={{ paddingLeft: 0 }}>
                   <div
                     className="input-group mb-3"
                     style={{
-                      maxWidth: 300,
+                      // maxWidth: 300,
                       paddingTop: 15,
                       paddingLeft: 15,
                     }}
                   >
-                    <div className="search-group form-control">
+                    <div
+                      className="search-group form-control"
+                      style={{ maxWidth: 300 }}
+                    >
                       <input
                         type="text"
                         className=""
@@ -319,9 +324,11 @@ const ViewDistributorDetails = () => {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        // onChange={(e) => {
-                        //   setSearchUserData(e.target.value);
-                        // }}
+                        value={search}
+                        onChange={(e) => {
+                          setCurrentPage(1)
+                          setSearch(e.target.value);
+                        }}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -379,11 +386,39 @@ const ViewDistributorDetails = () => {
                         />
                       </svg>
                     </button>
+                    <button
+                      className="btn btn-dark mx-1"
+                      type="button"
+                      onClick={() => {
+                        setFilterdata({
+                          role: "",
+                          status: "",
+                          points_from: "",
+                          points_to: "",
+                          date: "",
+                        });
+                        setSearch("");
+                        setIsFilter(!isFilter);
+                      }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
-                  {transactionFilterOpen && <DistributorFilterPopUp />}
+                  {transactionFilterOpen && (
+                    <DistributorFilterPopUp
+                      handlefilterdata={handlefilterdata}
+                      handleUserOrderData={handleUserOrderData}
+                      filterdata={filterdata}
+                      isFilter={isFilter}
+                      setIsFilter={setIsFilter}
+                      transactionFilterOpen={transactionFilterOpen}
+                      setTransactionFilterOpen={setTransactionFilterOpen}
+                      setCurrentPage={setCurrentPage}
+                      setFilterdata={setFilterdata}
+                    />
+                  )}
                 </div>
-                <div className="col-7 text-end contractor-grid-button">
-                 
+                <div className="col-3 text-end contractor-grid-button">
                   <button
                     className="btn btn-light btn-sm mx-2"
                     type="button"
@@ -420,8 +455,9 @@ const ViewDistributorDetails = () => {
                   <thead>
                     <tr>
                       <th>Transaction Id</th>
-                      <th>Distributor Name</th>
-                      <th>Distributor id</th>
+                      <th> Name</th>
+                      <th>Role</th>
+                      <th>Unique ID</th>
                       <th>Date & Time</th>
                       <th>Points</th>
                       <th>Quantity</th>
@@ -439,14 +475,17 @@ const ViewDistributorDetails = () => {
                                 <h6>{ele.transaction_id}</h6>
                               </td>
                               <td>
-                                <h6>{ele.distributor?.name}</h6>
+                                <h6>{ele.user?.name}</h6>
                               </td>
                               <td>
-                                <h6>{ele.distributor?.id}</h6>
+                                <h6>{ele.user?.role}</h6>
+                              </td>
+                              <td>
+                                <h6>{ele.user?.user_id}</h6>
                               </td>
                               <td>
                                 <h6>
-                                  {new Date(ele.updated_at).toLocaleDateString(
+                                  {new Date(ele.created_at).toLocaleDateString(
                                     "en-Us",
                                     {
                                       month: "short",
@@ -468,21 +507,25 @@ const ViewDistributorDetails = () => {
                               <td>
                                 <button
                                   className={`btn  btn-sm ${
-                                    ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted-btn"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected-btn"
+                                    ele.admin_approval === "Accepted"
+                                      ? // &&
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted-btn"
+                                      : ele.admin_approval === "Rejected"
+                                      ? //  ||
+                                        //   ele.user_approval === "Rejected"
+                                        "Rejected-btn"
                                       : "Processing-btn"
                                   }`}
                                 >
-                                  {ele.admin_approval === "Accepted" &&
-                                  ele.user_approval === "Accepted"
-                                    ? "Accepted"
-                                    : ele.admin_approval === "Rejected" ||
-                                      ele.user_approval === "Rejected"
-                                    ? "Rejected"
+                                  {ele.admin_approval === "Accepted"
+                                    ? //  &&
+                                      // ele.user_approval === "Accepted"
+                                      "Accepted"
+                                    : ele.admin_approval === "Rejected"
+                                    ? // ||
+                                      //   ele.user_approval === "Rejected"
+                                      "Rejected"
                                     : "Processing"}
                                 </button>
                               </td>
@@ -550,9 +593,13 @@ const ViewDistributorDetails = () => {
           userData={userData}
         />
       )}
-     
+
       {viewTransaction && (
-        <ViewDistributorTransaction setOpen={setViewTransaction} data={data} />
+        <ViewDistributorTransaction
+          setOpen={setViewTransaction}
+          data={data}
+          userData={userData}
+        />
       )}
     </div>
   );

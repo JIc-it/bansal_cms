@@ -27,20 +27,24 @@ const ViewContractor = () => {
   const [totalOrder, setTotalOrder] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
   const [isContractorUpdated, setIsContractorUpdated] = useState(false);
-
+  const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
-    search: "",
     status: "",
-    points_from: 0,
-    points_to: 0,
+    points_from: "",
+    points_to: "",
     date: "",
   });
-
+  const [isFilter, setIsFilter] = useState(false);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
+  const [currentItems, setCurrentItems] = useState([]);
+  const totalPages = Math.ceil(
+    transactionData ? transactionData.length / itemsPerPage : 1
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const handlepassdata = (data) => {
     setViewTransaction(true);
     setData(data);
@@ -65,8 +69,29 @@ const ViewContractor = () => {
       });
   }, [isContractorUpdated]);
 
+  useEffect(() => {
+    if (seletedTranasactionType === "Orders") {
+      console.log(userDatail.id);
+      getUserOrders(userDatail.id, search, filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    } else {
+      getUserRedemptionData(userData.id, search, filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    }
+  }, [search, isFilter]);
+
   const handleUserOrderData = () => {
-    getUserOrders(userData.id, filterdata)
+    getUserOrders(userData.id, search, filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -106,15 +131,14 @@ const ViewContractor = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-  const totalPages = Math.ceil(
-    transactionData ? transactionData.length / itemsPerPage : 1
-  );
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems =
-    transactionData && transactionData.length > 0
-      ? transactionData.slice(indexOfFirstItem, indexOfLastItem)
-      : [];
+
+  useEffect(() => {
+    setCurrentItems(
+      transactionData && transactionData.length > 0
+        ? transactionData.slice(indexOfFirstItem, indexOfLastItem)
+        : []
+    );
+  }, [transactionData, indexOfFirstItem, indexOfLastItem]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -123,19 +147,23 @@ const ViewContractor = () => {
   };
 
   const handleClickTrancationType = (type) => {
+    setCurrentPage(1);
+    setSearch("");
     setSeletedTranasactionType(type);
+    setTransactionFilterOpen(false);
     if (type === "Orders") {
       handleUserOrderData();
     } else {
-      getUserRedemptionData(userData.id)
+      getUserRedemptionData(userData.id, search, filterdata)
         .then((data) => {
-          setTransactionData(data);
+          setTransactionData(data.results);
         })
         .catch((error) => {
           console.error("Error fetching distributor data:", error);
         });
     }
   };
+
   const exportToCSV = () => {
     if (transactionData) {
       const header =
@@ -169,15 +197,29 @@ const ViewContractor = () => {
                   : "Processing";
               return [
                 item.transaction_id,
-                item.transaction_id,
-                item.distributor,
-                item.created_at,
-                item.created_at,
+                item.distributor?.name,
+                item.distributor?.id,
+                new Date(item.created_at).toLocaleDateString("en-Us", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
                 item.quantity,
                 status,
               ];
             })
-          : "";
+          : transactionData.map((item) => {
+              let status = "REDEEMED";
+              return [
+                item.transaction_id,
+                item.product_name,
+                item.product_id,
+                item.created_at,
+                status,
+              ];
+            });
 
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
@@ -189,7 +231,7 @@ const ViewContractor = () => {
       a.download =
         seletedTranasactionType === "Orders"
           ? "Contractor-Order-List.csv"
-          : "Contractor-Order-List.csv";
+          : "Contractor-Redemption-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -319,7 +361,10 @@ const ViewContractor = () => {
                     }`}
                     type="button"
                     id="add-points-button"
-                    onClick={() => handleClickTrancationType("Orders")}
+                    onClick={() => {
+                      setCurrentPage(1);
+                      handleClickTrancationType("Orders");
+                    }}
                   >
                     Orders
                   </button>
@@ -332,23 +377,29 @@ const ViewContractor = () => {
                     type="button"
                     id="add-points-button"
                     style={{ marginLeft: 6 }}
-                    onClick={() => handleClickTrancationType("Redemptions")}
+                    onClick={() => {
+                      setCurrentPage(1);
+                      handleClickTrancationType("Redemptions");
+                    }}
                   >
                     Redemptions
                   </button>
                 </div>
               </div>
               <div className="row">
-                <div className="col-5" style={{ paddingLeft: 0 }}>
+                <div className="col-7" style={{ paddingLeft: 0 }}>
                   <div
                     className="input-group mb-3"
                     style={{
-                      maxWidth: 300,
+                      // maxWidth: 300,
                       paddingTop: 15,
                       paddingLeft: 15,
                     }}
                   >
-                    <div className="search-group form-control">
+                    <div
+                      className="search-group form-control"
+                      style={{ maxWidth: 300 }}
+                    >
                       <input
                         type="text"
                         className=""
@@ -356,9 +407,11 @@ const ViewContractor = () => {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        onChange={(e) =>
-                          handlefilterdata({ search: e.target.value })
-                        }
+                        value={search}
+                        onChange={(e) => {
+                          setCurrentPage(1)
+                          setSearch(e.target.value);
+                        }}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -416,15 +469,38 @@ const ViewContractor = () => {
                         />
                       </svg>
                     </button>
+                    <button
+                      className="btn btn-dark mx-1"
+                      type="button"
+                      onClick={() => {
+                        setFilterdata({
+                          status: "",
+                          points_from: "",
+                          points_to: "",
+                          date: "",
+                        });
+                        setSearch("");
+                        setIsFilter(!isFilter);
+                      }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
                   {transactionFilterOpen && (
                     <TransactionFilterPopUp
                       handlefilterdata={handlefilterdata}
                       handleUserOrderData={handleUserOrderData}
+                      filterdata={filterdata}
+                      seletedTranasactionType={seletedTranasactionType}
+                      isFilter={isFilter}
+                      setIsFilter={setIsFilter}
+                      transactionFilterOpen={transactionFilterOpen}
+                      setTransactionFilterOpen={setTransactionFilterOpen}
+                      setCurrentPage={setCurrentPage}
                     />
                   )}
                 </div>
-                <div className="col-7 text-end contractor-grid-button">
+                <div className="col-3 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
                     <button
                       className="btn btn-primary btn-sm"
@@ -502,7 +578,7 @@ const ViewContractor = () => {
                                 <td>
                                   <h6>
                                     {new Date(
-                                      ele.updated_at
+                                      ele.created_at
                                     ).toLocaleDateString("en-Us", {
                                       month: "short",
                                       day: "2-digit",
@@ -522,21 +598,25 @@ const ViewContractor = () => {
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
+                                      ele.admin_approval === "Accepted"
+                                        ? //  &&
+                                          // ele.user_approval === "Accepted"
+                                          "Accepted-btn"
+                                        : ele.admin_approval === "Rejected"
+                                        ? // ||
+                                          //   ele.user_approval === "Rejected"
+                                          "Rejected-btn"
                                         : "Processing-btn"
                                     }`}
                                   >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
+                                    {ele.admin_approval === "Accepted"
+                                      ? // &&
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted"
+                                      : ele.admin_approval === "Rejected"
+                                      ? // ||
+                                        //   ele.user_approval === "Rejected"
+                                        "Rejected"
                                       : "Processing"}
                                   </button>
                                 </td>
@@ -562,7 +642,7 @@ const ViewContractor = () => {
                     </tbody>
                   </table>
                 </div>
-              ) : seletedTranasactionType === "Redemptions" ? (
+              ) : (
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
                     <thead>
@@ -591,7 +671,18 @@ const ViewContractor = () => {
                                   <h6>{ele.product_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.created_at}</h6>
+                                  <h6>
+                                    {" "}
+                                    {new Date(
+                                      ele.created_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <button
@@ -622,8 +713,6 @@ const ViewContractor = () => {
                     </tbody>
                   </table>
                 </div>
-              ) : (
-                ""
               )}
               <div className="col-12 my-2">
                 <div className="btn-group" style={{ float: "right" }}>
@@ -653,6 +742,7 @@ const ViewContractor = () => {
           open={viewTransaction}
           setOpen={setViewTransaction}
           data={data}
+          userData={userData}
           seletedTranasactionType={seletedTranasactionType}
         />
       )}

@@ -2,27 +2,25 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DistributorFilterPopUp = (
-  {
-    //   filterCriteria,
-    //   setFilterCriteria,
-    //   isFilter,
-    //   setIsFilter,
-    //   setOpenFilter,
-  }
-) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
+const DistributorFilterPopUp = ({
+  handlefilterdata,
+  setFilterdata,
+  filterdata,
+  seletedTranasactionType,
+  isFilter,
+  setIsFilter,
+  transactionFilterOpen,
+  setTransactionFilterOpen,
+  setCurrentPage,
+}) => {
   const customInput = (
     <div className="custom-input">
       <input
         type="text"
         placeholder="date"
-        value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+        value={
+          filterdata.date ? filterdata.date.toLocaleDateString("en-CA") : ""
+        }
         readOnly
       />
       <svg
@@ -86,12 +84,26 @@ const DistributorFilterPopUp = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
+      <span>By Role</span>
+      <select
+        defaultValue=""
+        className=" w-100 form-control-sm form-control my-1"
+        placeholder="Status"
+        onChange={(e) => handlefilterdata({ role: e.target.value })}
+      >
+        <option disabled={true} value="" id={""}>
+          Role
+        </option>
+        <option>Contractor</option>
+        <option>Engineer</option>
+        <option>Architect</option>
+      </select>
       <span>By Status</span>
       <select
         defaultValue=""
         className=" w-100 form-control-sm form-control my-1"
         placeholder="Status"
-        //   onChange={handleStateChange}
+        onChange={(e) => handlefilterdata({ status: e.target.value })}
       >
         <option disabled={true} value="" id={"0"}>
           Status
@@ -106,11 +118,9 @@ const DistributorFilterPopUp = (
           type="number"
           placeholder="From"
           className="form-control form-control-sm"
-          name="from"
-          //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
+          name="points_from"
+          value={filterdata.points_from}
+          onChange={(e) => handlefilterdata({ points_from: e.target.value })}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -127,21 +137,21 @@ const DistributorFilterPopUp = (
           type="number"
           placeholder="To"
           className="form-control form-control-sm"
-          name="to"
-          //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
+          name="points_to"
+          value={filterdata.points_to}
+          onChange={(e) => handlefilterdata({ points_to: e.target.value })}
           //   onBlur={formik.handleBlur}
         />
       </div>
       <span>By Date</span>
       <br />
       <DatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        selected={filterdata.date}
+        onChange={(date) => {
+          handlefilterdata({ date: date });
+        }}
         customInput={customInput}
-        dateFormat="dd/MM/yyyy" // Customize the date format
+        dateFormat="yyyy-MM-dd" // Customize the date format
       />
 
       <button
@@ -153,10 +163,11 @@ const DistributorFilterPopUp = (
           background: "#2B59C3",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setOpenFilter(false);
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={() => {
+          setCurrentPage(1)
+          setTransactionFilterOpen(false);
+          setIsFilter(!isFilter);
+        }}
       >
         Apply
       </button>
@@ -170,10 +181,16 @@ const DistributorFilterPopUp = (
           background: "#0F0F0F",
           outline: "none",
         }}
-        // onClick={() => {
-        //   setFilterCriteria({ from: "", to: "" });
-        //   setIsFilter(!isFilter);
-        // }}
+        onClick={() => {
+          setFilterdata({
+            role: "",
+            status: "",
+            points_from: "",
+            points_to: "",
+            date: "",
+          });
+          setIsFilter(!isFilter);
+        }}
       >
         Clear Filter
       </button>

@@ -1,7 +1,13 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const ViewDistributorTransaction = ({ open, setOpen,data }) => {
+const ViewDistributorTransaction = ({
+  open,
+  setOpen,
+  data,
+  userData,
+  seletedTranasactionType,
+}) => {
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -35,122 +41,108 @@ const ViewDistributorTransaction = ({ open, setOpen,data }) => {
       <Offcanvas.Header closeButton>
         <Offcanvas.Title></Offcanvas.Title>
       </Offcanvas.Header>
-      <div style={offcanvasStyle}>
-        <h6
-          style={{
-            marginLeft: 140,
-            marginTop: 30,
-            marginBottom: 30,
-            fontSize: 60,
-          }}
-        >
-          SA
-        </h6>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Transaction Details</h6>
-        <span>Admin Status :</span>
-        <span
-          style={{ marginLeft: 200, color: "blue" }}
-          className="badge badge-primary light border-0"
-        >
-          {data.admin_approval}
-        </span>
-        <br></br>
-        <span>Distributor Status :</span>
-        <span
-          style={{ marginLeft: 168 }}
-          className="badge badge-success light border-0"
-        >
-          {data.user_approval}
-        </span>
-        <br></br>
-        <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
-        <br></br>
-        <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span>
-        <br></br>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 235 }}>Pratibha Seth</span>
-        <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
-        <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
-        </span>
-        <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
-        <br></br>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 237 }}>Mixer Grinder</span>
-        <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
-        <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
-        </span>
-        <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
-        <br></br>
-      </div>
-      <div>
-        <h6 style={statusOffcanvas}>
-          <div
+      <>
+        <div style={offcanvasStyle}>
+          <h6
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              marginLeft: 140,
+              marginTop: 30,
+              marginBottom: 30,
+              fontSize: 60,
             }}
           >
-            <div>
-              <span>Quantity</span>
-              <h5>{data.quantity} Tons</h5>
-            </div>
-            <div className="divider-line"></div>
-            <div>
-              <span>Loyalty Points</span>
-              <h5>{data.points} Pts</h5>
-            </div>
-          </div>
-        </h6>
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px",
-            marginLeft: "13px",
-            marginRight: "10px",
-          }}
-        >
-          <button
-            className="btn btn-success"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
+            {userData.name.slice(0, 2)}
+          </h6>
+        </div>
+        <div style={{ marginTop: 10, marginLeft: 20 }}>
+          <h6>Transaction Details</h6>
+          <span>Admin Status :</span>
+          <span
+            style={{ marginLeft: 168, color: "blue" }}
+            className="badge badge-primary light border-0"
           >
-            Accept
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
+            {data.admin_approval}
+          </span>
+          <br></br>
+          <span>Distributor Status :</span>
+          <span
+            style={{ marginLeft: 168 }}
+            className="badge badge-success light border-0"
           >
-            Reject
-          </button>
-        </div> */}
-      </div>
+            {data.user_approval}
+          </span>
+          <br></br>
+          <span>Transaction ID :</span>
+          <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+          <br></br>
+          <span>Date & Time :</span>
+          <span style={{ marginLeft: 150 }}>
+            {new Date(data.created_at).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+          <br></br>
+        </div>
+        <div style={{ marginTop: 10, marginLeft: 20 }}>
+          <h6>Distributor Details</h6>
+          <span>Name :</span>
+          <span style={{ marginLeft: 235 }}>{data.distributor?.name}</span>
+          <br></br>
+          <span>Unique ID :</span>
+          <span style={{ marginLeft: 250 }}>{data.distributor?.id}</span>
+          <br></br>
+          <span>Location :</span>
+          <span style={{ marginLeft: 130 }}>
+            {(data.distributor?.district, data.distributor?.state)}{" "}
+          </span>
+          <br></br>
+          <span>Mobile :</span>
+          <span style={{ marginLeft: 237 }}>{data.distributor?.mobile}</span>
+          <br></br>
+        </div>
+        <div style={{ marginTop: 10, marginLeft: 20 }}>
+          <h6>Contractor Details</h6>
+          <span>Name :</span>
+          <span style={{ marginLeft: 237 }}>{data.user?.name}</span>
+          <br></br>
+          <span>Unique ID :</span>
+          <span style={{ marginLeft: 250 }}>{data.user?.user_id}</span>
+          <br></br>
+          <span>Location :</span>
+          <span style={{ marginLeft: 130 }}>
+            {`${data.user?.district} , ${data.user?.state}`}{" "}
+          </span>
+          <br></br>
+          <span>Mobile :</span>
+          <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+          <br></br>
+        </div>
+        <div>
+          <h6 style={statusOffcanvas}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <span>Quantity</span>
+                <h5>{data.quantity} Tons</h5>
+              </div>
+              <div className="divider-line"></div>
+              <div>
+                <span>Loyalty Points</span>
+                <h5>{data.points} Pts</h5>
+              </div>
+            </div>
+          </h6>
+        </div>
+      </>
     </Offcanvas>
   );
 };
