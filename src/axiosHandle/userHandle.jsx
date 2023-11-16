@@ -428,7 +428,7 @@ export const createAdmin = (data) => {
 export const createSales = (data) => {
   return axiosInstance
     .post(salesprofilecreation, data,{
-      headers:{"Content-Type":"application/json",Accept:"*/*"}
+      headers:{"Content-Type":"application/json", Accept:"*/*"}
     })
     .then((response) => response.data)
     .catch((error) => {

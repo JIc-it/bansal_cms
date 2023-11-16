@@ -328,8 +328,16 @@ export default function LeadRequests() {
                           <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US', { day: "2-digit", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</h6></td>
                           <td><h6>{lead.points}</h6></td>
                           <td><h6>{lead.order}</h6></td>
-                          <td>
+                          {/* <td>
                             <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
+                          </td> */}
+                          <td>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleViewClick(lead)}
+                            >
+                              View
+                            </button>
                           </td>
                         </tr>
                       ))
