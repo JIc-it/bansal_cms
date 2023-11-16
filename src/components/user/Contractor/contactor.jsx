@@ -125,7 +125,7 @@ export default function Contractor() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media  style-1">
                       <div>
-                        <h6>New Admins in current Qtr</h6>
+                        <h6>New Contractors in current Qtr</h6>
                         <br />
                         <h3>{totalUserCount.new_users_in_current_quarter}</h3>
                       </div>
