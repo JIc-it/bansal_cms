@@ -170,7 +170,7 @@ export default function EditEngineer({
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Distributor Details</h5>
+          <h5>Engineer Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"

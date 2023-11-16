@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-const EngineerFilterPopUP = (
-  {
-      handlefilterdata,handleUserOrderData
-  }
-) => {
+const EngineerFilterPopUP = ({
+  handlefilterdata,
+  handleUserOrderData,
+  filterdata,
+  seletedTranasactionType,
+  isFilter,
+  setIsFilter,
+  transactionFilterOpen,
+  setTransactionFilterOpen,
+  setCurrentPage,
+}) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const customInput = (
@@ -13,7 +19,9 @@ const EngineerFilterPopUP = (
       <input
         type="text"
         placeholder="date"
-        value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+        value={
+          filterdata.date ? filterdata.date.toLocaleDateString("en-CA") : ""
+        }
         readOnly
       />
       <svg
@@ -77,63 +85,70 @@ const EngineerFilterPopUP = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
-      <span>By Status</span>
-      <select
-        className=" w-100 form-control-sm form-control my-1"
-        placeholder="Status"
-          onChange={(e)=> handlefilterdata({status:e.target.value})}
-      >
-       
-        <option>Processing</option>
-        <option>Accepted</option>
-        <option>Rejected</option>
-      </select>
-      <span>By Points</span>
-      <div className="filter-fields">
-        <input
-          type="number"
-          placeholder="From"
-          className="form-control form-control-sm"
-          name="from"
-          
-          //   value={filterCriteria.from}
-              onChange={(e)=>handlefilterdata({points_from:e.target.value})}
-          //   onBlur={formik.handleBlur}
-        />
-        <span
-          style={{
-            fontWeight: "700",
-            color: "#000",
-            position: "relative",
-            top: "5px",
-          }}
-        >
-          -
-        </span>
-        <input
-          type="number"
-          placeholder="To"
-          className="form-control form-control-sm"
-          name="to"
-          
-          onChange={(e)=>handlefilterdata({to:e.target.value})}
-          //   onBlur={formik.handleBlur}
-        />
-      </div>
+      {seletedTranasactionType != "Redemptions" && (
+        <>
+          <span>By Status</span>
+          <select
+            className=" w-100 form-control-sm form-control my-1"
+            placeholder="Status"
+            value={filterdata.status}
+            onChange={(e) => handlefilterdata({ status: e.target.value })}
+          >
+            <option disabled={true} value="" id={"0"}>
+              Status
+            </option>
+            <option>Processing</option>
+            <option>Accepted</option>
+            <option>Rejected</option>
+          </select>
+        </>
+      )}
+      {seletedTranasactionType === "Orders" && (
+        <>
+          <span>By Points</span>
+          <div className="filter-fields">
+            <input
+              type="number"
+              placeholder="From"
+              className="form-control form-control-sm"
+              name="points_from"
+              value={filterdata.points_from}
+              onChange={(e) =>
+                handlefilterdata({ points_from: e.target.value })
+              }
+              //   onBlur={formik.handleBlur}
+            />
+            <span
+              style={{
+                fontWeight: "700",
+                color: "#000",
+                position: "relative",
+                top: "5px",
+              }}
+            >
+              -
+            </span>
+            <input
+              type="number"
+              placeholder="To"
+              className="form-control form-control-sm"
+              name="points_to"
+              value={filterdata.points_to}
+              onChange={(e) => handlefilterdata({ points_to: e.target.value })}
+              //   onBlur={formik.handleBlur}
+            />
+          </div>
+        </>
+      )}
       <span>By Date</span>
       <br />
       <DatePicker
-        selected={selectedDate}
+        selected={filterdata.date}
         onChange={(date) => {
-          setSelectedDate(date);
-        var dateformat=new Date(date);
-        const day=dateformat.getDate()
-        const month=dateformat.getMonth() +1
-        const Year=dateformat.getFullYear()
-        handlefilterdata({date:`${Year}-${month}-${day}`})
+          handlefilterdata({ date: date });
         }}
         customInput={customInput}
-        dateFormat="dd/MM/yyyy" // Customize the date format
+        dateFormat="yyyy-MM-dd" // Customize the date format
       />
 
       <button
@@ -145,15 +160,16 @@ const EngineerFilterPopUP = (
           background: "#2B59C3",
           outline: "none",
         }}
-        onClick={()=>{
-          handleUserOrderData();
-          handlefilterdata({
-          search:"",
-          status:"",
-          points_from:0,
-          points_to:0,
-          date:""
-        });}}
+        onClick={() => {
+          setIsFilter(!isFilter);
+          setTransactionFilterOpen(false);
+          // handlefilterdata({
+          //   status: "",
+          //   points_from: 0,
+          //   points_to: 0,
+          //   date: "",
+          // });
+        }}
       >
         Apply
       </button>
@@ -167,8 +183,14 @@ const EngineerFilterPopUP = (
           background: "#0F0F0F",
           outline: "none",
         }}
-        onClick={async()=>{
-          await handleUserOrderData()
+        onClick={async () => {
+          setIsFilter(!isFilter);
+          handlefilterdata({
+            status: "",
+            points_from: 0,
+            points_to: 0,
+            date: "",
+          });
         }}
       >
         Clear Filter

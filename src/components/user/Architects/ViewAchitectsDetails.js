@@ -32,12 +32,11 @@ const ViewAchitectsDetails = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdated, setIsUpdated] = useState(false);
-
+  const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
-    search: "",
     status: "",
-    points_from: 0,
-    points_to: 0,
+    points_from: "",
+    points_to: "",
     date: "",
   });
 
@@ -89,7 +88,7 @@ const ViewAchitectsDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id, filterdata)
+    getUserOrders(userData.id, search, filterdata)
       .then((data) => {
         setTransactionData(data.results);
       })
@@ -404,9 +403,10 @@ const ViewAchitectsDetails = () => {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        // onChange={(e) => {
-                        //   setSearchUserData(e.target.value);
-                        // }}
+                        onChange={(e) => {
+                          setCurrentPage(1);
+                          setSearch(e.target.value);
+                        }}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

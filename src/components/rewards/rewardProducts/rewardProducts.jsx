@@ -23,12 +23,14 @@ function RewardPoints() {
   useEffect(() => {
     getRewardProductsRequest()
       .then((data) => {
-        setRewardProductData(data.results);
+        console.log(data);
+        setRewardProductData(data);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
   }, []);
+
   const exportToCSV = () => {
     if (reward_product_data) {
       const header = [

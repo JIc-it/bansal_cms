@@ -95,7 +95,7 @@ export default function AddPointsPopUP({
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Distributor Details</h5>
+          <h5>Engineer Details</h5>
           <div className=" depostit-card">
             <div className="depostit-card-media  style-1 ">
               <div

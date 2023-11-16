@@ -252,7 +252,7 @@ export default function Engineers() {
                         </svg>
                       </button>
                       <button
-                        className="btn bg-blue mx-1"
+                        className="btn btn-dark mx-1"
                         type="button"
                         onClick={() => {
                           setFilterCriteria({
@@ -292,7 +292,7 @@ export default function Engineers() {
                       }}
                     >
                       <i className="fa-regular fa-square-plus" /> Add New
-                      Contractor
+                      Engineer
                     </button>
                   </div>
                   <div className="col-2" style={{ paddingTop: "1.5rem" }}>
