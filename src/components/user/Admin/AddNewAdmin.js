@@ -5,7 +5,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor } from "../../../axiosHandle/userHandle";
+import { createAdmin } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -30,51 +30,34 @@ export default function AddNewAdmin({
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
 
-  const initialPermissions = [
-    {
-      name: "Leads",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Points",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Rewards",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Mobile",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    // {
-    //   name: "Menu 4",
-    //   create: false,
-    //   view: false,
-    //   edit: false,
-    //   delete: false,
-    // },
-    // {
-    //   name: "Menu 5",
-    //   create: false,
-    //   view: false,
-    //   edit: false,
-    //   delete: false,
-    // },
-  ];
+  const initialPermissions = {
+    "leads": {
+      "edit": false,
+      "view": false,
+      "create": false,
+      "delete": false
+  },
+  "mobile": {
+      "edit": false,
+      "view": false,
+      "create": false,
+      "delete": false
+  },
+  "points": {
+      "edit": false,
+      "view": false,
+      "create": false,
+      "delete": false
+  },
+  "rewards": {
+      "edit": false,
+      "view": false,
+      "create": false,
+      "delete": false
+  }
+};
 
+const [permissions, setPermissions] = useState(initialPermissions);
   useEffect(() => {
     getAllLocations()
       .then((data) => {
@@ -114,16 +97,17 @@ export default function AddNewAdmin({
         return value && value.id !== "0" && value.name !== "State";
       }
     ),
-    password: Yup.string()
+    password1: Yup.string()
       .required("Password is required")
       .matches(
         passwordRegex,
         "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
       ),
-    confirmPassword: Yup.string()
+    password2: Yup.string()
       .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+      .oneOf([Yup.ref("password1")], "Passwords must match"),
   });
+
 
   const formik = useFormik({
     initialValues: {
@@ -132,25 +116,29 @@ export default function AddNewAdmin({
       mobile: "",
       district: { id: "0", name: "District" },
       state: { id: "0", name: "state" },
-      password: "",
-      confirmPassword: "",
+      password1: "",
+      password2:"",
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
+  
       if (!isLoading) {
         try {
           const data = {
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password: values.password,
-            district_name: values.district.id,
-            state_name: values.state.id,
+            password1: values.password1,
+            password2: values.password2,
+            district: values.district.id,
+            state: values.state.id,
+            permission:permissions
           };
 
-          const adminData = await createContractor(data);
-          console.log(adminData);
+          
+          const adminData = await createAdmin(data);
+          
           if (adminData) {
             setIsAdminAdded(!isAdminAdded);
             toast.success("Admin created successfully!");
@@ -201,14 +189,18 @@ export default function AddNewAdmin({
     });
   };
 
-  const [permissions, setPermissions] = useState(initialPermissions);
+ 
 
-  const handleCheckboxChange = (index, option) => {
-    const updatedPermissions = [...permissions];
-    updatedPermissions[index][option] = !updatedPermissions[index][option];
-    setPermissions(updatedPermissions);
+  const handleCheckboxChange = (category, action) => {
+    setPermissions(prevPermissions => ({
+      ...prevPermissions,
+      [category]: {
+        ...prevPermissions[category],
+        [action]: !prevPermissions[category][action]
+      }
+    }));
   };
-
+  
   return (
     <Offcanvas
       show={open}
@@ -316,28 +308,28 @@ export default function AddNewAdmin({
             <input
               type="text"
               placeholder="Password"
-              name="password"
+              name="password1"
               className="form-control form-control-sm"
-              value={formik.values.password}
+              value={formik.values.password1}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.password && formik.errors.password ? (
-              <div className="error">{formik.errors.password}</div>
+            {formik.touched.password1 && formik.errors.password1 ? (
+              <div className="error">{formik.errors.password1}</div>
             ) : null}
           </div>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"
-              name="confirmPassword"
+              name="password2"
               placeholder="Confirm Password"
               className="form-control form-control-sm"
-              value={formik.values.confirmPassword}
+              value={formik.values.password2}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-              <div className="error">{formik.errors.confirmPassword}</div>
+            {formik.touched.password2 && formik.errors.password2 ? (
+              <div className="error">{formik.errors.password2}</div>
             ) : null}
           </div>
           <h5 style={{ marginTop: 10 }}>Permission</h5>
@@ -346,43 +338,24 @@ export default function AddNewAdmin({
               <tr>
                 <th>Section</th>
                 <th>Create</th>
-                <th>View</th>
-                <th>Edit</th>
                 <th>Delete</th>
+                <th>Edit</th>
+                <th>View</th>
               </tr>
             </thead>
             <tbody>
-              {permissions.map((permission, index) => (
-                <tr key={permission.name} className="text-center">
-                  <td>{permission.name}</td>
-                  <td style={{padding: '-0.0625rem 0.625rem'}}>
-                    <input
-                      type="checkbox"
-                      checked={permission.create}
-                      onChange={() => handleCheckboxChange(index, "create")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.view}
-                      onChange={() => handleCheckboxChange(index, "view")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.edit}
-                      onChange={() => handleCheckboxChange(index, "edit")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={permission.delete}
-                      onChange={() => handleCheckboxChange(index, "delete")}
-                    />
-                  </td>
+            {Object.keys(permissions)?.map(category => (
+                <tr key={category}>
+                  <td>{category.charAt(0).toUpperCase() + category.slice(1)}</td>
+                  {Object.keys(permissions[category])?.sort().map(action => (
+                    <td className="text-center">
+                      <input
+                        type="checkbox"
+                        checked={permissions[category][action]}
+                        onChange={() => handleCheckboxChange(category, action)}
+                      />
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

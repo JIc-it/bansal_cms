@@ -3,17 +3,20 @@ import { adminUSerViewOrdersRequest } from "../../../axiosHandle/userHandle";
 import ViewAdminTransaction from "./ViewAdminTransaction";
 
 export default function AdminUserViewOrders(props) {
+
+    console.log(props.filterdata);
     const [orderData, setOrderData] = useState();
 
         useEffect(() => {
-        adminUSerViewOrdersRequest(props.id)
+        adminUSerViewOrdersRequest(props.id,props.filterdata)
             .then((data) => {
                 setOrderData(data.results);
+                props.handlechangetransactiondata(data.results)
             })
             .catch((error) => {
                 console.error("Error fetching Admin data:", error);
             });
-    }, [props.id]);
+    }, []);
 
 
 

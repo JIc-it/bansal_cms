@@ -48,13 +48,14 @@ function Admins() {
 
   const exportToCSV = () => {
     if (user_data) {
-      const header = ["Name", "Unique ID", "Mobile", "Location"];
+      const header = ["Name", "Unique ID", "Mobile", "District","State"];
       const csvData = user_data.map((rr_data) => {
         return [
           rr_data.name,
           rr_data.user_id,
           rr_data.mobile,
-          rr_data.district_name,
+          rr_data.district?.district,
+          rr_data.state?.state
         ];
       });
 
@@ -83,10 +84,10 @@ function Admins() {
       name: data.name ? data.name : '',
       email: data.email ? data.email : '',
       mobile: data.mobile ? data.mobile : '',
-      state: data.state.state ? data.state.state : '',
-      district: data.district.district ? data.district.district : '',
-      state_id: data.state.id ? data.state.id : '',
-      district_id: data.district.id ? data.district.id : ''
+      state: data.state?.state ? data.state?.state : '',
+      district: data.district?.district ? data.district?.district : '',
+      state_id: data.state?.id ? data.state?.id : '',
+      district_id: data.district?.id ? data.district?.id : ''
     };
     console.log(data_value);
     const queryString = Object.keys(data_value)
@@ -258,7 +259,6 @@ function Admins() {
                     {user_data && user_data.length > 0 ? (
                       user_data.map((data) => (
                         <tr key={data.id}>
-                          {console.log(data)}
                           <td>
                             <h6>{data.name}</h6>
                           </td>
@@ -269,7 +269,7 @@ function Admins() {
                             <h6>{data.mobile}</h6>
                           </td>
                           <td>
-                            <h6>{data.district.district}, {data.state.state}</h6>
+                            <h6>{data.district?.district}, {data.state?.state}</h6>
                           </td>
                           <td onClick={() => handleViewAdmin(data)}>
                             <a

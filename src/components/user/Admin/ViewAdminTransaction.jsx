@@ -58,7 +58,7 @@ const ViewAdminTransaction = ({
             <h6>Transaction Details</h6>
             <span>Admin Status :</span>
             <span
-              style={{ marginLeft: 200, color: "blue" }}
+              style={{ marginLeft: 200, color: "blue",marginBottom:"5px"}}
               className="badge badge-primary light border-0"
             >
               {data.admin_approval}
@@ -73,7 +73,7 @@ const ViewAdminTransaction = ({
             </span>
             <br></br>
             <span>Transaction ID :</span>
-            <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+            <span style={{ marginLeft: 150 }}>{data.transaction_id}</span>
             <br></br>
             <span>Date & Time :</span>
             <span style={{ marginLeft: 150 }}>
@@ -93,7 +93,7 @@ const ViewAdminTransaction = ({
             <span style={{ marginLeft: 235 }}>{data?.distributor?.name}</span>
             <br></br>
             <span>Unique ID :</span>
-            <span style={{ marginLeft: 250 }}>{data?.distributor?.user_id}</span>
+            <span style={{ marginLeft: 200 }}>{data?.distributor?.user_id}</span>
             <br></br>
             <span>Location :</span>
             <span style={{ marginLeft: 130 }}>
@@ -111,7 +111,7 @@ const ViewAdminTransaction = ({
             <span style={{ marginLeft: 237 }}>{data?.user?.name}</span>
             <br></br>
             <span>Unique ID :</span>
-            <span style={{ marginLeft: 250 }}>{data?.user?.user_id}</span>
+            <span style={{ marginLeft: 200 }}>{data?.user?.user_id}</span>
             <br></br>
             <span>Location :</span>
             <span style={{ marginLeft: 130 }}>

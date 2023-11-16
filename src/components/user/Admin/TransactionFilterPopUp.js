@@ -87,6 +87,20 @@ const TransactionFilterPopUp = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
+      <span>Role</span>
+      <select
+        defaultValue=""
+        className=" w-100 form-control-sm form-control my-1"
+        placeholder="Status"
+          onChange={(e)=>handlefilterdata({role:e.target.value})}
+      >
+        <option disabled={true} value="" id={"0"}>
+          Role
+        </option>
+        <option>Contractor</option>
+        <option>Engineer</option>
+        <option>Architect</option>
+      </select>
       <span>By Status</span>
       <select
         defaultValue=""

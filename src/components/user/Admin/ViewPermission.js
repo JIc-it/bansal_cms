@@ -8,7 +8,6 @@ const ViewPermission = ({
   data
 }) => {
 
-  
 
   return (
     <Offcanvas
