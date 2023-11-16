@@ -351,7 +351,7 @@ const handlechangetransactiondata=(data)=>{
                         />
                       </svg>
                     </div>
-                    <button
+                    {/* <button
                       className="px-3 py-2 filter-button"
                       type="button"
                       id="search-button"
@@ -403,7 +403,7 @@ const handlechangetransactiondata=(data)=>{
                           // }}
                         >
                           Clear filter
-                        </button>
+                        </button> */}
                   </div>
                   {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata}/>}
                 </div>

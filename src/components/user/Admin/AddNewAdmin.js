@@ -144,6 +144,7 @@ const [permissions, setPermissions] = useState(initialPermissions);
             toast.success("Admin created successfully!");
             setOpen(false);
             setIsLoading(false);
+            window.location.reload()
           } else {
             console.error(
               "Error while creating Admin:",
