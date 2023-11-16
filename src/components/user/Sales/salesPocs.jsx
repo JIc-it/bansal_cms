@@ -167,16 +167,17 @@ export default function SalesPocs() {
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
                       <div className="search-group form-control">
-                        <input
+                      <input
                           type="text"
                           className=""
                           style={{ marginRight: 10 }}
                           placeholder="Search..."
                           aria-label="Search..."
                           aria-describedby="search-button"
-                          // onChange={(e) => {
-                          //   setSearchUserData(e.target.value);
-                          // }}
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+                            setSearchValue(inputValue);
+                          }}
                         />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

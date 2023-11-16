@@ -27,6 +27,7 @@ const adminprofilecreation = "account/create-admin/";
 const salesprofilecreation = "account/create-sales-poc/";
 const adminupdateuserURL = "account/admin-update-user";
 const adminpermissionupdateuserURl = "account/custom-permission";
+const salesupdateuserURL = "account/admin-update-user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -437,6 +438,17 @@ export const createSales = (data) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while creating reward product:", error);
+      throw error;
+    });
+};
+
+export const salesupdateuser = (id, data) => {
+  console.log(`${salesupdateuserURL}/${id}/`, data);
+  return axiosInstance
+    .put(`${salesupdateuserURL}/${id}/`, data)
+    .then((response) => response)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
       throw error;
     });
 };

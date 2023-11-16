@@ -102,7 +102,6 @@ export default function EditAdmin({
         state: values.state.id,
       };
 
-
       try {
         
         await adminupdateuser(queryParams_id, datas).then((res)=>{
