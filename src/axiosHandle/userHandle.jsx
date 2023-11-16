@@ -341,6 +341,7 @@ export const updateUser = (id, data) => {
 export const adminUSerViewOrdersRequest = (id, data) => {
   return axiosInstance
     .get(`${adminUSerViewOrdersURL}/${id}/`,{params:{
+    // role:data?.role,  
     search:data?.search,
     // status:data?.status,
     // points_from: data?.points_from,
@@ -390,7 +391,7 @@ export const adminupdateuser = (id,data) => {
 
 export const adminpermissionupdateuser = (id,data) => {
 
-console.log(`${adminpermissionupdateuserURl}/${id}/`, data);
+console.log(`${adminpermissionupdateuserURl}/${id}/`,{FormData:data});
   return axiosInstance
     .patch(`${adminpermissionupdateuserURl}/${id}/`,data)
     .then((response) => response.data)
