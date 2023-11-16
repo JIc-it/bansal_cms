@@ -31,6 +31,7 @@ const ViewAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [filterdata, setFilterdata] = useState({
+    role:"",
     search: "",
     status: "",
     points_from: 0,
@@ -46,7 +47,7 @@ const handlefilterdata=(field)=>{
   })
 }
 
-  
+  // console.log(filterdata);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   
@@ -81,8 +82,9 @@ const handlefilterdata=(field)=>{
       });
   }, []);
 
+  
   const handleUserOrderData = () => {
-    getUserOrders(userData.id)
+    getUserOrders(queryParams.get('id'))
       .then((data) => {
         setTransactionData(data.results);
         setTotalOrder(data.total);
@@ -92,8 +94,14 @@ const handlefilterdata=(field)=>{
       });
   };
 
+const handlechangetransactiondata=(data)=>{
+  setTransactionData(data)
+}
+
+
   const [data, setData] = useState();
 
+  console.log(userDataParam.id);
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
         .then((data) => {
@@ -130,6 +138,7 @@ const handlefilterdata=(field)=>{
     }
   };
 
+
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
     if (type === "Orders") {
@@ -146,24 +155,16 @@ const handlefilterdata=(field)=>{
   };
   const exportToCSV = () => {
     if (transactionData) {
-      const header =
-        seletedTranasactionType === "Orders"
-          ? [
+      const header =[
             "Transaction Id",
-            " Distributor Name",
-            " Distributor id",
+            " Name",
+            "Role",
+            " Unique_id",
             "Date & Time",
             "Points",
             "Quantity",
             "Status",
           ]
-          : [
-            "Transaction ID",
-            "Reward",
-            " Product ID",
-            "Date & Time",
-            "Status",
-          ];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
@@ -177,10 +178,11 @@ const handlefilterdata=(field)=>{
                   : "Processing";
             return [
               item.transaction_id,
-              item.transaction_id,
-              item.distributor,
-              item.created_at,
-              item.created_at,
+              item.user?.name,
+              item.user?.role,
+              item.user?.user_id,
+              item.updated_at,
+              item.points,
               item.quantity,
               status,
             ];
@@ -194,10 +196,7 @@ const handlefilterdata=(field)=>{
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download =
-        seletedTranasactionType === "Orders"
-          ? "Admin-Order-List.csv"
-          : "Admin-Order-List.csv";
+      a.download = "Admin-Order-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -322,12 +321,11 @@ const handlefilterdata=(field)=>{
                   <div
                     className="input-group mb-3"
                     style={{
-                      maxWidth: 300,
                       paddingTop: 15,
                       paddingLeft: 15,
                     }}
                   >
-                    <div className="search-group form-control">
+                    <div className="search-group form-control" style={{ maxWidth: 300}}>
                       <input
                         type="text"
                         className=""
@@ -353,7 +351,7 @@ const handlefilterdata=(field)=>{
                         />
                       </svg>
                     </div>
-                    <button
+                    {/* <button
                       className="px-3 py-2 filter-button"
                       type="button"
                       id="search-button"
@@ -395,7 +393,17 @@ const handlefilterdata=(field)=>{
                       </svg>
                     </button>
 
-                    {/* <button className="btn btn-dark btn-sm">Clear Filter</button> */}
+                    <button
+                          className="btn btn-dark mx-1"
+                          type="button"
+                          // onClick={() => {
+                          //   setFilterCriteria({ from: "", to: "" });
+                          //   setSearchUserData("");
+                          //   setIsFilter(!isFilter);
+                          // }}
+                        >
+                          Clear filter
+                        </button> */}
                   </div>
                   {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata}/>}
                 </div>
@@ -412,7 +420,7 @@ const handlefilterdata=(field)=>{
               </div>
 
               {seletedTranasactionType === "Orders" ? (
-                <AdminUserViewOrders id={queryParams.get('id')} filterdata={filterdata}/>
+                <AdminUserViewOrders id={queryParams.get('id')} filterdata={filterdata} handlechangetransactiondata={handlechangetransactiondata}/>
                 // <div className="table-responsive  active-projects">
                 //   <table id="list-tbl" class="table">
                 //     <thead>

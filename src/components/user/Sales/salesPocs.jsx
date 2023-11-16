@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
+// import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
 import AddNewAdmin from "./AddNewSales";
 import { useNavigate } from "react-router";
-
+import { getSalesRequest } from "../../../axiosHandle/userHandle";
 export default function SalesPocs() {
   const navigate = useNavigate();
   const [user_data, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [pagination, setPagination] = useState({
+    next: null,
+    previous: null,
+  });
+
   useEffect(() => {
-    getSalePOCRequest()
+    getSalesRequest()
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
@@ -19,6 +25,32 @@ export default function SalesPocs() {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+
+  const handlePaginationClick = (url) => {
+    getSalesRequest(null, url)
+      .then(({ results, next, previous }) => {
+        setUserData(results);
+        setPagination({ next, previous });
+      })
+      .catch((error) => {
+        // Handle error
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getSalesRequest(searchValue); // Assuming getAdminsRequest accepts a search parameter
+        setUserData(data.results);
+        setUserTotalData(data.count);
+        setPagination({ next: data.next, previous: data.previous });
+      } catch (error) {
+        console.error('Error fetching distributor data:', error);
+      }
+    };
+
+    fetchData();
+  }, [searchValue]);
 
   const exportToCSV = () => {
     if (user_data) {
@@ -45,8 +77,29 @@ export default function SalesPocs() {
     }
   };
 
-  const handleViewSales = (id) => {
-    navigate(`/viewsalespocs/${id}`);
+  // const handleViewSales = (id) => {
+  //   navigate(`/viewsalespocs/${id}`);
+  // };
+  const handleViewSales = (data) => {
+    // Convert the data object to a query string
+    console.log(data);
+    const data_value = {
+      id: data.id ? data.id : '',
+      user_id: data.user_id ? data.user_id : '',
+      name: data.name ? data.name : '',
+      email: data.email ? data.email : '',
+      mobile: data.mobile ? data.mobile : '',
+      state: data.state?.state ? data.state?.state : '',
+      district: data.district?.district ? data.district?.district : '',
+      state_id: data.state?.id ? data.state?.id : '',
+      district_id: data.district?.id ? data.district?.id : ''
+    };
+    console.log(data_value);
+    const queryString = Object.keys(data_value)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`)
+      .join('&');
+
+    navigate(`/viewsalespocs?${queryString}`);
   };
 
   return (
@@ -243,8 +296,8 @@ export default function SalesPocs() {
                     </tr>
                   </thead>
                   <tbody>
-                    {user_data && user_data.length > 0 ? (
-                      user_data.slice(0, 5).map((data) => (
+                  {user_data && user_data.length > 0 ? (
+                      user_data.map((data) => (
                         <tr key={data.id}>
                           <td>
                             <h6>{data.name}</h6>
@@ -261,7 +314,7 @@ export default function SalesPocs() {
                           {/* <td>
                               <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
                             </td> */}
-                          <td onClick={() => handleViewSales(data.id)}>
+                          <td onClick={() => handleViewSales(data)}>
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"

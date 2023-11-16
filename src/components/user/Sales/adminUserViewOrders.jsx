@@ -16,7 +16,7 @@ export default function AdminUserViewOrders(props) {
             .catch((error) => {
                 console.error("Error fetching Admin data:", error);
             });
-    }, [props.id,props.filterdata]);
+    }, []);
 
 
 

@@ -33,39 +33,29 @@ export default function EditAdmin({
   const [stateList, setStateList] = useState();
   const queryParams_id = new URLSearchParams(window.location.search).get('id')
   const [permission, setPermissions] = useState(data);
+  const passpermission={ permission: permission };
   const navigate=useNavigate()
 
+  const handleCheckboxChange = (category, action) => {
+    setPermissions(prevPermissions => ({
+      ...prevPermissions,
+      [category]: {
+        ...prevPermissions[category],
+        [action]: !prevPermissions[category][action]
+      }
+    }));
+  };
+
   
-  const initialPermissions = [
-    {
-      name: "Leads",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Points",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Rewards",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-    {
-      name: "Mobile",
-      create: false,
-      view: false,
-      edit: false,
-      delete: false,
-    },
-  ]
+  useEffect(() => {
+    adminpermissionupdateuser(queryParams_id,passpermission)
+      .then((res) => console.log(res)
+      )
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [queryParams_id, passpermission])
+
   useEffect(() => {
     getAllLocations()
       .then((data) => {
@@ -90,40 +80,18 @@ export default function EditAdmin({
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
-    district: Yup.mixed().test(
-      "isDistrictSelected",
-      "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
-      }
-    ),
-    state: Yup.mixed().test(
-      "isStateSelected",
-      "state is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "State";
-      }
-    ),
-
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
   });
-
-  
-console.log({permission:permission},"pass");
 
   const formik = useFormik({
     initialValues: {
       name: userdata.name,
       email: userdata.email,
       mobile: userdata.mobile,
-      district: userdata.district_id,
-      state:  userdata.state_id,
+      district: { id: userdata.district_id, name: userdata.district },
+      state: { id: userdata.state_id, name: userdata.state },
 
     },
-    // validationSchema,
+    validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
       const datas = {
@@ -134,23 +102,21 @@ console.log({permission:permission},"pass");
         state: values.state.id,
       };
 
-      
+
       try {
         
-        // await adminupdateuser(queryParams_id, datas).then((res)=>{
-        //   if(res.status===200){
-        //     toast.success("User Updated successfully!");
-        //     navigate("/admins")
-        //   }
-        // });
-        await adminpermissionupdateuser(queryParams_id,{permission:permission}).then((res)=>console.log(res));
-        // if (admindata) {
-        //   setIsAdminAdded(!isAdminAdded);
-        //   toast.success("User Updated successfully!");
-        //   setOpen(false);
-        // } else {
-        //   console.error("Error while creating Admin:");
-        // }
+        await adminupdateuser(queryParams_id, datas).then((res)=>{
+          if(res.status===200){
+            navigate("/admins")
+            toast.success("Admin Updated successfully!");
+            setIsAdminAdded(!isAdminAdded);
+          setOpen(false);
+          }
+          else {
+              console.error("Error while creating Admin:");
+            }
+        });
+        
       } catch (err) {
         console.log(err);
         err.response.data.email && toast.error(err.response.data.email[0]);
@@ -188,17 +154,6 @@ console.log({permission:permission},"pass");
     });
   };
 
- 
-
-  const handleCheckboxChange = (category, action) => {
-    setPermissions(prevPermissions => ({
-      ...prevPermissions,
-      [category]: {
-        ...prevPermissions[category],
-        [action]: !prevPermissions[category][action]
-      }
-    }));
-  };
 
   return (
     <Offcanvas
@@ -262,13 +217,13 @@ console.log({permission:permission},"pass");
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              value={userdata.district_id}
+              defaultValue={formik.values.district?.name}
               className=" w-100 form-control-sm form-control"
               placeholder="District"
               onChange={handleDistrictChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                District
+              <option selected value={formik.values?.district?.name} id={formik.values?.district?.id}>
+              {formik.values?.district?.name}
               </option>
               {locationList &&
                 locationList.map((item, i) => {
@@ -281,13 +236,13 @@ console.log({permission:permission},"pass");
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              defaultValue={userdata.state_id}
+              value={formik.values.state?.name}
               className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} value="" id={"0"}>
-                State
+              <option selected value={formik.values?.state?.name} id={formik.values?.state?.id}>
+              {formik.values?.state?.name}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {
@@ -304,8 +259,8 @@ console.log({permission:permission},"pass");
               <tr>
                 <th>Section</th>
                 <th>Create</th>
-                <th>Edit</th>
                 <th>Delete</th>
+                <th>Edit</th>
                 <th>view</th>
               </tr>
             </thead>
