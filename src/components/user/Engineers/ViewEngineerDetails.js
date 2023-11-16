@@ -36,13 +36,20 @@ const ViewEngineerDetails = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
-    search: "",
     status: "",
-    points_from: 0,
-    points_to: 0,
+    points_from: "",
+    points_to: "",
     date: "",
   });
+  const [data, setData] = useState();
+  const [isFilter, setIsFilter] = useState(false);
+
+  const handleOpenViewTransactionData = (data) => {
+    setViewTransaction(true);
+    setData(data);
+  };
 
   const itemsPerPage = 10;
   function handlefilterdata(fields) {
@@ -92,9 +99,29 @@ const ViewEngineerDetails = () => {
   };
 
   const handleUserOrderData = () => {
-    getUserOrders(userData.id, filterdata)
+    getUserOrders(userDatail.id, search, filterdata)
       .then((data) => {
         setTransactionData(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+  const getRedemptionData = () => {
+    getUserRedemptionData(userDatail.id, search, filterdata)
+      .then((data) => {
+        setTransactionData(data.results);
+        setTotalOrder(data.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
+  const getLeadsData = () => {
+    getUserLeads(userData.id, search, filterdata)
+      .then((data) => {
+        setTransactionData(data.results);
+        setTotalOrder(data.total);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -132,81 +159,139 @@ const ViewEngineerDetails = () => {
   };
 
   useEffect(() => {
+    if (seletedTranasactionType === "Orders") {
+      handleUserOrderData();
+    }
+    if (seletedTranasactionType === "Redemptions") {
+      getRedemptionData();
+    }
+    if (seletedTranasactionType === "Leads") {
+      getLeadsData();
+    }
+  }, [search, isFilter]);
+
+  useEffect(() => {
     userData && handleUserOrderData();
     userData && handleUserOrderCount();
     userData && handleUserPointCount();
     userData && handleUserLeadsCount();
   }, [userData]);
 
-  console.log(transactionData);
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
+    setCurrentPage(1);
+    setSearch("");
+
+    setTransactionFilterOpen(false);
+    handlefilterdata({
+      status: "",
+      points_from: 0,
+      points_to: 0,
+      date: "",
+    });
     if (type === "Orders") {
+      console.log("Orders");
       handleUserOrderData();
     }
     if (type === "Redemptions") {
-      getDistributorOrders(userData.id)
-        .then((data) => {
-          setTransactionData(data.results);
-          setTotalOrder(data.total);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
+      console.log("Redemptions");
+      getRedemptionData();
     }
     if (type === "Leads") {
-      getUserLeads(userData.id)
-        .then((data) => {
-          setTransactionData(data.results);
-          setTotalOrder(data.total);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
+      console.log("Leads");
+      getLeadsData();
     }
   };
+
   const exportToCSV = () => {
     if (transactionData) {
       const header =
         seletedTranasactionType === "Orders"
           ? [
               "Transaction Id",
-              " Engineer Name",
-              " Engineer id",
+              " Distributor Name",
+              " Distributor id",
               "Date & Time",
               "Points",
               "Quantity",
               "Status",
             ]
-          : [
-              "Transaction ID",
-              "Reward",
-              " Product ID",
-              "Date & Time",
-              "Status",
-            ];
+          : seletedTranasactionType === "Redemptions"
+          ? ["Transaction ID", "Reward", " Product ID", "Date & Time", "Status"]
+          : ["Name", "Mobile", "Date & Time", "Points", "Quantity", "Status"];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
               let status =
-                item.admin_approval === "Accepted" &&
-                item.user_approval === "Accepted"
-                  ? "Accepted"
-                  : item.admin_approval === "Rejected" ||
-                    item.user_approval === "Rejected"
-                  ? "Rejected"
+                item.admin_approval === "Accepted"
+                  ? // &&
+                    // item.user_approval === "Accepted"
+                    "Accepted"
+                  : item.admin_approval === "Rejected"
+                  ? // ||
+                    //   item.user_approval === "Rejected"
+                    "Rejected"
                   : "Processing";
               return [
                 item.transaction_id,
-                item.transaction_id,
-                item.Engineer,
-                item.created_at,
-                item.created_at,
+                item.distributor?.name,
+                item.distributor?.id,
+                new Date(item.created_at).toLocaleDateString("en-Us", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+                item.points,
                 item.quantity,
                 status,
               ];
             })
-          : "";
+          : seletedTranasactionType === "Redemptions"
+          ? transactionData.map((item) => {
+              let status = "REDEEMED";
+              return [
+                item.transaction_id,
+                item.product_name,
+                item.product_id,
+                new Date(item.created_at).toLocaleDateString("en-Us", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+
+                status,
+              ];
+            })
+          : transactionData.map((item) => {
+              let status =
+                item.admin_approval === "Accepted"
+                  ? // &&
+                    // item.user_approval === "Accepted"
+                    "Accepted"
+                  : item.admin_approval === "Rejected"
+                  ? // ||
+                    //   item.user_approval === "Rejected"
+                    "Rejected"
+                  : "Processing";
+              return [
+                item.transaction_id,
+                item.mobile_no,
+                new Date(item.created_at).toLocaleDateString("en-Us", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+                item.points,
+                item.quantity,
+                status,
+              ];
+            });
 
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
@@ -218,7 +303,9 @@ const ViewEngineerDetails = () => {
       a.download =
         seletedTranasactionType === "Orders"
           ? "Engineer-Order-List.csv"
-          : "Engineer-Order-List.csv";
+          : seletedTranasactionType === "Redemptions"
+          ? "Engineer-Redemption-List.csv"
+          : "Engineer-Lead-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -360,7 +447,15 @@ const ViewEngineerDetails = () => {
                     }`}
                     type="button"
                     id="add-points-button"
-                    onClick={() => handleClickTrancationType("Orders")}
+                    onClick={() => {
+                      handlefilterdata({
+                        status: "",
+                        points_from: 0,
+                        points_to: 0,
+                        date: "",
+                      });
+                      handleClickTrancationType("Orders");
+                    }}
                   >
                     Orders
                   </button>
@@ -372,7 +467,15 @@ const ViewEngineerDetails = () => {
                     } mx-2`}
                     type="button"
                     id="add-points-button"
-                    onClick={() => handleClickTrancationType("Redemptions")}
+                    onClick={() => {
+                      handlefilterdata({
+                        status: "",
+                        points_from: 0,
+                        points_to: 0,
+                        date: "",
+                      });
+                      handleClickTrancationType("Redemptions");
+                    }}
                   >
                     Redemptions
                   </button>
@@ -384,23 +487,33 @@ const ViewEngineerDetails = () => {
                     }`}
                     type="button"
                     id="add-points-button"
-                    onClick={() => handleClickTrancationType("Leads")}
+                    onClick={() => {
+                      handlefilterdata({
+                        status: "",
+                        points_from: 0,
+                        points_to: 0,
+                        date: "",
+                      });
+                      handleClickTrancationType("Leads");
+                    }}
                   >
                     Leads
                   </button>
                 </div>
               </div>
               <div className="row">
-                <div className="col-5" style={{ paddingLeft: 0 }}>
+                <div className="col-7" style={{ paddingLeft: 0 }}>
                   <div
                     className="input-group mb-3"
                     style={{
-                      maxWidth: 300,
                       paddingTop: 15,
                       paddingLeft: 15,
                     }}
                   >
-                    <div className="search-group form-control">
+                    <div
+                      className="search-group form-control"
+                      style={{ maxWidth: 300 }}
+                    >
                       <input
                         type="text"
                         className=""
@@ -408,9 +521,11 @@ const ViewEngineerDetails = () => {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        // onChange={(e) => {
-                        //   setSearchUserData(e.target.value);
-                        // }}
+                        value={search}
+                        onChange={(e) => {
+                          setCurrentPage(1);
+                          setSearch(e.target.value);
+                        }}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -468,15 +583,39 @@ const ViewEngineerDetails = () => {
                         />
                       </svg>
                     </button>
+                    <button
+                      className="btn btn-dark mx-1"
+                      type="button"
+                      onClick={() => {
+                        setCurrentPage(1);
+                        handlefilterdata({
+                          status: "",
+                          points_from: 0,
+                          points_to: 0,
+                          date: "",
+                        });
+                        setSearch("");
+                        setIsFilter(!isFilter);
+                      }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
                   {transactionFilterOpen && (
                     <EngineerFilterPopUP
                       handlefilterdata={handlefilterdata}
                       handleUserOrderData={handleUserOrderData}
+                      filterdata={filterdata}
+                      seletedTranasactionType={seletedTranasactionType}
+                      isFilter={isFilter}
+                      setIsFilter={setIsFilter}
+                      transactionFilterOpen={transactionFilterOpen}
+                      setTransactionFilterOpen={setTransactionFilterOpen}
+                      setCurrentPage={setCurrentPage}
                     />
                   )}
                 </div>
-                <div className="col-7 text-end contractor-grid-button">
+                <div className="col-3 text-end contractor-grid-button">
                   {seletedTranasactionType === "Orders" && (
                     <button
                       className="btn btn-primary btn-sm"
@@ -572,25 +711,33 @@ const ViewEngineerDetails = () => {
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
+                                      ele.admin_approval === "Accepted"
+                                        ? // &&
+                                          // ele.user_approval === "Accepted"
+                                          "Accepted-btn"
+                                        : ele.admin_approval === "Rejected"
+                                        ? // ||
+                                          //   ele.user_approval === "Rejected"
+                                          "Rejected-btn"
                                         : "Processing-btn"
                                     }`}
                                   >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
+                                    {ele.admin_approval === "Accepted"
+                                      ? //  &&
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted"
+                                      : ele.admin_approval === "Rejected"
+                                      ? //  ||
+                                        //   ele.user_approval === "Rejected"
+                                        "Rejected"
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td
+                                  onClick={() => {
+                                    handleOpenViewTransactionData(ele);
+                                  }}
+                                >
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
@@ -632,15 +779,15 @@ const ViewEngineerDetails = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele?.product_name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele?.product_id}</h6>
                                 </td>
                                 <td>
                                   <h6>
                                     {new Date(
-                                      ele.updated_at
+                                      ele.created_at
                                     ).toLocaleDateString("en-Us", {
                                       month: "short",
                                       day: "2-digit",
@@ -650,41 +797,19 @@ const ViewEngineerDetails = () => {
                                     })}
                                   </h6>
                                 </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.distributor}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
 
                                 <td>
                                   <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
+                                    className={`btn  btn-sm Accepted-btn`}
                                   >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
+                                    REDEEMED
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td
+                                  onClick={() => {
+                                    handleOpenViewTransactionData(ele);
+                                  }}
+                                >
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
@@ -747,7 +872,7 @@ const ViewEngineerDetails = () => {
                                   </h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.points || 0}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.order}</h6>
@@ -756,25 +881,33 @@ const ViewEngineerDetails = () => {
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
-                                        ? "Rejected-btn"
+                                      ele.admin_approval === "Accepted"
+                                        ? // &&
+                                          // ele.user_approval === "Accepted"
+                                          "Accepted-btn"
+                                        : ele.admin_approval === "Rejected"
+                                        ? //  ||
+                                          //   ele.user_approval === "Rejected"
+                                          "Rejected-btn"
                                         : "Processing-btn"
                                     }`}
                                   >
-                                    {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
-                                      ? "Accepted"
-                                      : ele.admin_approval === "Rejected" ||
-                                        ele.user_approval === "Rejected"
-                                      ? "Rejected"
+                                    {ele.admin_approval === "Accepted"
+                                      ? //  &&
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted"
+                                      : ele.admin_approval === "Rejected"
+                                      ? //  ||
+                                        //   ele.user_approval === "Rejected"
+                                        "Rejected"
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td
+                                  onClick={() => {
+                                    handleOpenViewTransactionData(ele);
+                                  }}
+                                >
                                   <a
                                     className="btn btn-primary btn-sm"
                                     href="#"
@@ -840,7 +973,12 @@ const ViewEngineerDetails = () => {
         />
       )}
       {viewTransaction && (
-        <ViewTransactionDetails setOpen={setViewTransaction} />
+        <ViewTransactionDetails
+          setOpen={setViewTransaction}
+          data={data}
+          userData={userData}
+          seletedTranasactionType={seletedTranasactionType}
+        />
       )}
       {isOpenAddPointsPopUp && (
         <AddPointsPopUP

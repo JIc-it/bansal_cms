@@ -105,7 +105,7 @@ const ViewDistributorTransaction = ({
           <br></br>
         </div>
         <div style={{ marginTop: 10, marginLeft: 20 }}>
-          <h6>Contractor Details</h6>
+          <h6>{`${data.user?.role} Details`}</h6>
           <span>Name :</span>
           <span style={{ marginLeft: 237 }}>{data.user?.name}</span>
           <br></br>

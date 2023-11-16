@@ -1,7 +1,13 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const ViewTransactionDetails = ({ open, setOpen }) => {
+const ViewTransactionDetails = ({
+  open,
+  setOpen,
+  data,
+  userData,
+  seletedTranasactionType,
+}) => {
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -23,6 +29,29 @@ const ViewTransactionDetails = ({ open, setOpen }) => {
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
   };
+
+  const apiResponseAddressString =
+    seletedTranasactionType === "Redemptions" && data.selected_address;
+
+  // Convert the string to a JavaScript object
+  const changedAddress =
+    seletedTranasactionType === "Redemptions" &&
+    JSON.parse(
+      apiResponseAddressString.replace(/None/g, "null").replace(/'/g, '"')
+    );
+  console.log(changedAddress);
+  // Create a new object with the desired format
+  const formattedAddress = seletedTranasactionType === "Redemptions" && {
+    name: changedAddress.name,
+    mobile: changedAddress.mobile,
+    address_1: changedAddress.address_1,
+    address_2: changedAddress.address_2,
+    pincode: changedAddress.pincode,
+    city: changedAddress.city,
+    state_name: changedAddress.state_name,
+    land_mark: changedAddress.land_mark,
+  };
+
   return (
     <Offcanvas
       show={true}
@@ -35,122 +64,283 @@ const ViewTransactionDetails = ({ open, setOpen }) => {
       <Offcanvas.Header closeButton>
         <Offcanvas.Title></Offcanvas.Title>
       </Offcanvas.Header>
-      <div style={offcanvasStyle}>
-        <h6
-          style={{
-            marginLeft: 140,
-            marginTop: 30,
-            marginBottom: 30,
-            fontSize: 60,
-          }}
-        >
-          SA
-        </h6>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Transaction Details</h6>
-        <span>Admin Status :</span>
-        <span
-          style={{ marginLeft: 200, color: "blue" }}
-          className="badge badge-primary light border-0"
-        >
-          Pending
-        </span>
-        <br></br>
-        <span>Distributor Status :</span>
-        <span
-          style={{ marginLeft: 168 }}
-          className="badge badge-success light border-0"
-        >
-          Accepted
-        </span>
-        <br></br>
-        <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>transaction_id</span>
-        <br></br>
-        <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span>
-        <br></br>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 235 }}>Pratibha Seth</span>
-        <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
-        <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
-        </span>
-        <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
-        <br></br>
-      </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 237 }}>Mixer Grinder</span>
-        <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
-        <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
-        </span>
-        <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
-        <br></br>
-      </div>
-      <div>
-        <h6 style={statusOffcanvas}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <span>Quantity</span>
-              <h5>82 Tons</h5>
-            </div>
-            <div className="divider-line"></div>
-            <div>
-              <span>Loyalty Points</span>
-              <h5>500Pts</h5>
-            </div>
+      {seletedTranasactionType === "Orders" ? (
+        <>
+          <div style={offcanvasStyle}>
+            <h6
+              style={{
+                marginLeft: 140,
+                marginTop: 30,
+                marginBottom: 30,
+                fontSize: 60,
+              }}
+            >
+              {userData.name.slice(0, 2)}
+            </h6>
           </div>
-        </h6>
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px",
-            marginLeft: "13px",
-            marginRight: "10px",
-          }}
-        >
-          <button
-            className="btn btn-success"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-          >
-            Accept
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-          >
-            Reject
-          </button>
-        </div> */}
-      </div>
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Transaction Details</h6>
+            <span>Admin Status :</span>
+            <span
+              style={{ marginLeft: 168, color: "blue" }}
+              className="badge badge-primary light border-0"
+            >
+              {data.admin_approval}
+            </span>
+            <br></br>
+            <span>Distributor Status :</span>
+            <span
+              style={{ marginLeft: 168 }}
+              className="badge badge-success light border-0"
+            >
+              {data.user_approval}
+            </span>
+            <br></br>
+            <span>Transaction ID :</span>
+            <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+            <br></br>
+            <span>Date & Time :</span>
+            <span style={{ marginLeft: 150 }}>
+              {new Date(data.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+            <br></br>
+          </div>
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Distributor Details</h6>
+            <span>Name :</span>
+            <span style={{ marginLeft: 235 }}>{data.distributor?.name}</span>
+            <br></br>
+            <span>Unique ID :</span>
+            <span style={{ marginLeft: 250 }}>{data.distributor?.id}</span>
+            <br></br>
+            <span>Location :</span>
+            <span style={{ marginLeft: 130 }}>
+              {(data.distributor?.district, data.distributor?.state)}{" "}
+            </span>
+            <br></br>
+            <span>Mobile :</span>
+            <span style={{ marginLeft: 237 }}>{data.distributor?.mobile}</span>
+            <br></br>
+          </div>
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Engineer Details</h6>
+            <span>Name :</span>
+            <span style={{ marginLeft: 237 }}>{data.user?.name}</span>
+            <br></br>
+            <span>Unique ID :</span>
+            <span style={{ marginLeft: 250 }}>{data.user?.user_id}</span>
+            <br></br>
+            <span>Location :</span>
+            <span style={{ marginLeft: 130 }}>
+              {`${data.user?.district} , ${data.user?.state}`}{" "}
+            </span>
+            <br></br>
+            <span>Mobile :</span>
+            <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+            <br></br>
+          </div>
+          <div>
+            <h6 style={statusOffcanvas}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <span>Quantity</span>
+                  <h5>{data.quantity} Tons</h5>
+                </div>
+                <div className="divider-line"></div>
+                <div>
+                  <span>Loyalty Points</span>
+                  <h5>{data.points} Pts</h5>
+                </div>
+              </div>
+            </h6>
+          </div>
+        </>
+      ) : seletedTranasactionType === "Redemptions" ? (
+        <>
+          <div style={offcanvasStyle}>
+            <h6
+              style={{
+                marginLeft: 140,
+                marginTop: 30,
+                marginBottom: 30,
+                fontSize: 60,
+              }}
+            >
+              {userData.name.slice(0, 2)}
+            </h6>
+          </div>
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Transaction Details</h6>
+            <span> Status :</span>
+            <span
+              style={{ marginLeft: 200, color: "blue" }}
+              className="badge badge-success light border-0"
+            >
+              REDEEMED
+            </span>
+            <br />
+            <span>Transaction ID :</span>
+            <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+            <br></br>
+            <span>Date & Time :</span>
+            <span style={{ marginLeft: 150 }}>
+              {new Date(data.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+            <br></br>
+            <span> ID Type:</span>
+            <span style={{ marginLeft: 190 }}>
+              {data?.id_verification?.id_type}
+            </span>
+            <br></br>
+            <span> ID Number :</span>
+            <span style={{ marginLeft: 190 }}>
+              {data?.id_verification?.id_number}
+            </span>
+            <br></br>
+            <span>Address :</span>
+            <span
+              style={{ marginLeft: 190 }}
+            >{`${formattedAddress.address_1} , ${formattedAddress.address_2}`}</span>
+            <br></br>
+          </div>
+          <hr />
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Buyer Details</h6>
+            <span>Name :</span>
+            <span style={{ marginLeft: 235 }}>{data.user?.name}</span>
+            <br></br>
+            <span>Unique ID :</span>
+            <span style={{ marginLeft: 250 }}>{data.user?.user_id}</span>
+            <br></br>
+
+            <span>Mobile :</span>
+            <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+            <br></br>
+          </div>
+          <hr />
+          <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <h6>Reward Details</h6>
+            <span>Name :</span>
+            <span style={{ marginLeft: 237 }}>{data?.product_name}</span>
+            <br></br>
+            <span>Product ID :</span>
+            <span style={{ marginLeft: 250 }}>{data?.product_id}</span>
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={offcanvasStyle}>
+            <h6
+              style={{
+                marginLeft: 140,
+                marginTop: 30,
+                marginBottom: 30,
+                fontSize: 60,
+              }}
+            >
+              {userData.name.slice(0, 2)}
+            </h6>
+          </div>
+
+          <div style={{ marginTop: 10 }}>
+           <div style={{marginLeft: 20}}>
+           <h6>Transaction Details</h6>
+            <span>Admin Status :</span>
+            <span
+              style={{ marginLeft: 200, color: "blue" }}
+              className="badge badge-success light border-0"
+            >
+              {data?.admin_approval}
+            </span>
+            <br />
+            <span>Transaction ID :</span>
+            <span style={{ marginLeft: 190 }}>{data?.transaction_id}</span>
+            <br></br>
+            <span>Date & Time :</span>
+            <span style={{ marginLeft: 150 }}>
+              {new Date(data?.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+
+           </div>
+            <hr />
+            <div style={{ marginTop: 10, marginLeft: 20 }}>
+              <h6>Lead Details</h6>
+              <span>Name :</span>
+              <span style={{ marginLeft: 235 }}>{data?.name}</span>
+              <br></br>
+              <span>Mobile:</span>
+              <span style={{ marginLeft: 250 }}>{data?.mobile_no}</span>
+              <br></br>
+
+              <span>Site Location :</span>
+              <span style={{ marginLeft: 237 }}>{data?.site_location}</span>
+              <br></br>
+            </div>
+            <hr />
+            <div style={{ marginTop: 10, marginLeft: 20 }}>
+              <h6>referrer Details</h6>
+              <span>Name :</span>
+              <span style={{ marginLeft: 237 }}>{data?.user?.name}</span>
+              <br></br>
+              <span>Unique ID :</span>
+              <span style={{ marginLeft: 250 }}>{data?.referral_id}</span>
+              <br></br>
+              <span>Location :</span>
+              <span
+                style={{ marginLeft: 250 }}
+              >{`${data?.user?.district} , ${data?.user?.state}`}</span>
+              <br></br>
+              <span>Mobile :</span>
+              <span style={{ marginLeft: 250 }}>{data?.user?.mobile}</span>
+            </div>
+            <div>
+            <h6 style={statusOffcanvas}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <span>Quantity</span>
+                  <h5>{data.order} Tons</h5>
+                </div>
+                <div className="divider-line"></div>
+                <div>
+                  <span>Loyalty Points</span>
+                  <h5>{data.points} Pts</h5>
+                </div>
+              </div>
+            </h6>
+          </div>
+          </div>
+        </>
+      )}
     </Offcanvas>
   );
 };

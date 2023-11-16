@@ -10,10 +10,8 @@ const TransactionFilterPopUp = ({
   handlefilterdata,
   setTransactionFilterOpen,
   transactionFilterOpen,
-  setCurrentPage
+  setCurrentPage,
 }) => {
-  
-
   const customInput = (
     <div className="custom-input">
       <input
@@ -95,7 +93,9 @@ const TransactionFilterPopUp = ({
             onChange={(e) => handlefilterdata({ status: e.target.value })}
             value={filterdata.status}
           >
-            <option>Status</option>
+            <option disabled={true} value="" id={"0"}>
+              Status
+            </option>
             <option>Processing</option>
             <option>Accepted</option>
             <option>Rejected</option>
@@ -111,7 +111,7 @@ const TransactionFilterPopUp = ({
               placeholder="From"
               className="form-control form-control-sm"
               name="from"
-              value={filterdata.points_from}
+              value={filterdata.points_from || ""}
               onChange={(e) =>
                 handlefilterdata({ points_from: e.target.value })
               }
@@ -160,7 +160,7 @@ const TransactionFilterPopUp = ({
           outline: "none",
         }}
         onClick={() => {
-          setCurrentPage(1)
+          setCurrentPage(1);
           // handleUserOrderData();
           // handlefilterdata({
           //   search: "",
@@ -195,7 +195,6 @@ const TransactionFilterPopUp = ({
             date: "",
           });
           setIsFilter(!isFilter);
-          
         }}
       >
         Clear Filter

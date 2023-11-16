@@ -22,11 +22,11 @@ const commonUserUpdationnURL = "/account/admin-update-user";
 const adminUSerViewOrdersURL = "purchase/tmt_orders_admin/user";
 const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
-const adminpermissionviewURL="account/custom_permission/retrieve"
-const adminprofilecreation="account/create-admin/"
-const salesprofilecreation="account/create-sales-poc/"
-const adminupdateuserURL="account/admin-update-user"
-const adminpermissionupdateuserURl="account/custom-permission"
+const adminpermissionviewURL = "account/custom_permission/retrieve";
+const adminprofilecreation = "account/create-admin/";
+const salesprofilecreation = "account/create-sales-poc/";
+const adminupdateuserURL = "account/admin-update-user";
+const adminpermissionupdateuserURl = "account/custom-permission";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -44,7 +44,7 @@ export const getDistributorsRequest = (searchUserData) => {
 
 export const getAdminsRequest = (search) => {
   return axiosInstance
-    .get(adminsURL,{params:{search:search}})
+    .get(adminsURL, { params: { search: search } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching engineers request:", error);
@@ -54,7 +54,7 @@ export const getAdminsRequest = (search) => {
 
 export const getSalesRequest = (search) => {
   return axiosInstance
-    .get(salepocURL,{params:{search:search}})
+    .get(salepocURL, { params: { search: search } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching engineers request:", error);
@@ -94,8 +94,6 @@ export const getEngineersRequest = (searchUserData, filterCriteria) => {
       throw error;
     });
 };
-
-
 
 export const getContractorsRequest = (searchData, filterCriteria) => {
   return axiosInstance
@@ -242,9 +240,19 @@ export const getUserLeadsCounts = (id) => {
     });
 };
 
-export const getUserLeads = (id) => {
+export const getUserLeads = (id, search, filterdata) => {
   return axiosInstance
-    .get(`${getUserLeadsURL}/${id}/`)
+    .get(`${getUserLeadsURL}/${id}/`, {
+      params: {
+        search: search,
+        status: filterdata.status,
+
+        date:
+          filterdata.date === ""
+            ? ""
+            : new Date(filterdata.date).toLocaleDateString("en-CA"),
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching leads request:", error);
@@ -257,9 +265,6 @@ export const getUserRedemptionData = (id, search, filterdata) => {
     .get(`${getUserRedemptionURL}/${id}/`, {
       params: {
         search: search,
-        // status: filterdata.status,
-        // points_from: filterdata.points_from,
-        // points_to: filterdata.points_to,
 
         date:
           filterdata.date === ""
@@ -352,14 +357,16 @@ export const updateUser = (id, data) => {
 
 export const adminUSerViewOrdersRequest = (id, data) => {
   return axiosInstance
-    .get(`${adminUSerViewOrdersURL}/${id}/`,{params:{
-    // role:data?.role,  
-    search:data?.search,
-    // status:data?.status,
-    // points_from: data?.points_from,
-    // points_to: data?.points_to,
-    // date:data?.date,
-    }})
+    .get(`${adminUSerViewOrdersURL}/${id}/`, {
+      params: {
+        // role:data?.role,
+        search: data?.search,
+        // status:data?.status,
+        // points_from: data?.points_from,
+        // points_to: data?.points_to,
+        // date:data?.date,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -378,7 +385,6 @@ export const addUserPoints = (id, data) => {
     });
 };
 
-
 export const adminPermissionViewRequest = (id) => {
   return axiosInstance
     .get(`${adminpermissionviewURL}/${id}/`)
@@ -389,10 +395,10 @@ export const adminPermissionViewRequest = (id) => {
     });
 };
 
-export const adminupdateuser = (id,data) => {
+export const adminupdateuser = (id, data) => {
   console.log(`${adminupdateuserURL}/${id}/`, data);
   return axiosInstance
-    .put(`${adminupdateuserURL}/${id}/`,data)
+    .put(`${adminupdateuserURL}/${id}/`, data)
     .then((response) => response)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -400,12 +406,10 @@ export const adminupdateuser = (id,data) => {
     });
 };
 
-
-export const adminpermissionupdateuser = (id,data) => {
-
-console.log(`${adminpermissionupdateuserURl}/${id}/`,{FormData:data});
+export const adminpermissionupdateuser = (id, data) => {
+  console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
   return axiosInstance
-    .patch(`${adminpermissionupdateuserURl}/${id}/`,data)
+    .patch(`${adminpermissionupdateuserURl}/${id}/`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -415,8 +419,8 @@ console.log(`${adminpermissionupdateuserURl}/${id}/`,{FormData:data});
 
 export const createAdmin = (data) => {
   return axiosInstance
-    .post(adminprofilecreation, data,{
-      headers:{"Content-Type":"application/json",Accept:"*/*"}
+    .post(adminprofilecreation, data, {
+      headers: { "Content-Type": "application/json", Accept: "*/*" },
     })
     .then((response) => response.data)
     .catch((error) => {

@@ -296,7 +296,7 @@
   font-size: 18px;
   padding: 5px 10px;
 }
-.help-container table th td{
+.help-container table th td {
   text-align: center !important;
 }
 .help-container tr {
@@ -328,4 +328,15 @@
 /* bottom-right border-radius */
 .admin-table tr:last-child td:last-child {
   border-bottom-right-radius: 6px;
+}
+
+.reward-redemption-reject,
+.reward-redemption-reject:hover {
+  background: #eb1c1c;
+  color: #fff;
+}
+.reward-redemption-success,
+.reward-redemption-success:hover {
+  background: #18b758;
+  color: #fff;
 }
