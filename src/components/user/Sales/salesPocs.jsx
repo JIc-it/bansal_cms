@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
+// import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
 import AddNewAdmin from "./AddNewSales";
 import { useNavigate } from "react-router";
-
+import { getSalesRequest } from "../../../axiosHandle/userHandle";
 export default function SalesPocs() {
   const navigate = useNavigate();
   const [user_data, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [pagination, setPagination] = useState({
+    next: null,
+    previous: null,
+  });
+
   useEffect(() => {
-    getSalePOCRequest()
+    getSalesRequest()
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
@@ -19,6 +25,32 @@ export default function SalesPocs() {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+
+  const handlePaginationClick = (url) => {
+    getSalesRequest(null, url)
+      .then(({ results, next, previous }) => {
+        setUserData(results);
+        setPagination({ next, previous });
+      })
+      .catch((error) => {
+        // Handle error
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getSalesRequest(searchValue); // Assuming getAdminsRequest accepts a search parameter
+        setUserData(data.results);
+        setUserTotalData(data.count);
+        setPagination({ next: data.next, previous: data.previous });
+      } catch (error) {
+        console.error('Error fetching distributor data:', error);
+      }
+    };
+
+    fetchData();
+  }, [searchValue]);
 
   const exportToCSV = () => {
     if (user_data) {

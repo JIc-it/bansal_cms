@@ -774,7 +774,7 @@ const handlechangetransactiondata=(data)=>{
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Admin-Order-List.csv";
+      a.download = "Sales-Order-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -785,7 +785,7 @@ const handlechangetransactiondata=(data)=>{
       <div className="container">
         <div className="contractor-reset-password">
           <div className="contractor-name">
-            Admin/{" "}
+            Sales POC/{" "}
             <span style={{ fontWeight: 400, fontSize: "12px" }}>
               {userDataParam && userDataParam.name}
             </span>

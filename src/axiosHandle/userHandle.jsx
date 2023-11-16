@@ -5,6 +5,7 @@ const architectsURL = "/account/create-architect/";
 const salepocURL = "/account/create-sales-poc/";
 const engineersURL = "/account/create-engineer/";
 const adminsURL = "/account/create-admin/";
+// const salessURL = "/account/create-sales-poc/";
 const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
@@ -23,6 +24,7 @@ const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
 const adminpermissionviewURL="account/custom_permission/retrieve"
 const adminprofilecreation="account/create-admin/"
+const salesprofilecreation="account/create-sales-poc/"
 const adminupdateuserURL="account/admin-update-user"
 const adminpermissionupdateuserURl="account/custom-permission"
 
@@ -50,6 +52,24 @@ export const getAdminsRequest = (search) => {
     });
 };
 
+export const getSalesRequest = (search) => {
+  return axiosInstance
+    .get(salepocURL,{params:{search:search}})
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching engineers request:", error);
+      throw error;
+    });
+};
+// export const getSalePOCRequest = () => {
+//   return axiosInstance
+//     .get(salepocURL)
+//     .then((response) => response.data)
+//     .catch((error) => {
+//       console.error("Error while fetching sale poc request:", error);
+//       throw error;
+//     });
+// };
 export const getEngineersRequest = (searchUserData, filterCriteria) => {
   console.log(
     filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
@@ -75,15 +95,7 @@ export const getEngineersRequest = (searchUserData, filterCriteria) => {
     });
 };
 
-export const getSalePOCRequest = () => {
-  return axiosInstance
-    .get(salepocURL)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error while fetching sale poc request:", error);
-      throw error;
-    });
-};
+
 
 export const getContractorsRequest = (searchData, filterCriteria) => {
   return axiosInstance
@@ -403,6 +415,18 @@ console.log(`${adminpermissionupdateuserURl}/${id}/`, data);
 export const createAdmin = (data) => {
   return axiosInstance
     .post(adminprofilecreation, data,{
+      headers:{"Content-Type":"application/json",Accept:"*/*"}
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating reward product:", error);
+      throw error;
+    });
+};
+
+export const createSales = (data) => {
+  return axiosInstance
+    .post(salesprofilecreation, data,{
       headers:{"Content-Type":"application/json",Accept:"*/*"}
     })
     .then((response) => response.data)
