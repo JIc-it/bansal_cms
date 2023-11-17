@@ -439,30 +439,55 @@ export default function AddNewSales({
   const [stateList, setStateList] = useState();
 
   const initialPermissions = {
-    "leads": {
+    "Orders Requests": {
       "edit": false,
       "view": false,
       "create": false,
       "delete": false
   },
-  "mobile": {
+    "Leads Requests": {
       "edit": false,
       "view": false,
       "create": false,
       "delete": false
   },
-  "points": {
+  "Points Leads": {
+    "edit": false,
+    "view": false,
+    "create": false,
+    "delete": false
+},
+"Reward Products": {
+  "edit": false,
+  "view": false,
+  "create": false,
+  "delete": false
+},
+  "Redemptions": {
       "edit": false,
       "view": false,
       "create": false,
       "delete": false
   },
-  "rewards": {
-      "edit": false,
-      "view": false,
-      "create": false,
-      "delete": false
-  }
+  "Redemption Window": {
+    "edit": false,
+    "view": false,
+    "create": false,
+    "delete": false
+},
+"Users": {
+  "edit": false,
+  "view": false,
+  "create": false,
+  "delete": false
+},
+"Promotions": {
+  "edit": false,
+  "view": false,
+  "create": false,
+  "delete": false
+},
+  
 };
 
 const [permissions, setPermissions] = useState(initialPermissions);
@@ -537,8 +562,8 @@ const [permissions, setPermissions] = useState(initialPermissions);
             name: values.name,
             email: values.email,
             mobile: values.mobile,
-            password1: values.password1,
-            password2: values.password2,
+            pasword: values.password1,
+            confirm_password: values.password2,
             district: values.district.id,
             state: values.state.id,
             permission:permissions
@@ -773,12 +798,13 @@ const [permissions, setPermissions] = useState(initialPermissions);
             className="btn btn-primary"
             style={{
               flex: 1,
-              width: "93%",
-              bottom: "1rem",
-              position: "absolute",
+              width: "100%",
+              marginTop:20
+              // bottom: "1rem",
+              // position: "absolute",
             }}
           >
-            {isLoading ? <Loader /> : "Add New Sales"}
+            {isLoading ? <Loader /> : "Add New Sales POC"}
           </button>
         </div>
       </form>
