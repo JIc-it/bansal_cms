@@ -6,55 +6,57 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { adminupdateuser,adminpermissionupdateuser } from "../../../axiosHandle/userHandle";
+import {
+  adminupdateuser,
+  adminpermissionupdateuser,
+} from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
 import { toast } from "react-toastify";
 
 const offcanvasStyle = {
-  width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
-  marginLeft: 18,
-  marginTop: 20,
+  padding: "18px",
   flexDirection: "column",
 };
+
 export default function EditAdmin({
   open,
   setOpen,
   setIsAdminAdded,
   isAdminAdded,
-  data,userdata
+  data,
+  userdata,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
-  const queryParams_id = new URLSearchParams(window.location.search).get('id')
+  const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
-  const passpermission={ permission: permission };
-  const navigate=useNavigate()
+  const passpermission = { permission: permission };
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (category, action) => {
-    setPermissions(prevPermissions => ({
+    setPermissions((prevPermissions) => ({
       ...prevPermissions,
       [category]: {
         ...prevPermissions[category],
-        [action]: !prevPermissions[category][action]
-      }
+        [action]: !prevPermissions[category][action],
+      },
     }));
   };
 
-  
   useEffect(() => {
-    adminpermissionupdateuser(queryParams_id,passpermission)
-      .then((res) => console.log(res)
-      )
+    adminpermissionupdateuser(queryParams_id, passpermission)
+      .then((res) => console.log(res))
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [queryParams_id, passpermission])
+  }, [queryParams_id, passpermission]);
+
+console.log(permission);
 
   useEffect(() => {
     getAllLocations()
@@ -73,7 +75,6 @@ export default function EditAdmin({
       });
   }, []);
 
-
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -89,7 +90,6 @@ export default function EditAdmin({
       mobile: userdata.mobile,
       district: { id: userdata.district_id, name: userdata.district },
       state: { id: userdata.state_id, name: userdata.state },
-
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -103,19 +103,16 @@ export default function EditAdmin({
       };
 
       try {
-        
-        await adminupdateuser(queryParams_id, datas).then((res)=>{
-          if(res.status===200){
-            navigate("/admins")
+        await adminupdateuser(queryParams_id, datas).then((res) => {
+          if (res.status === 200) {
+            // navigate("/admins");
             toast.success("Admin Updated successfully!");
             setIsAdminAdded(!isAdminAdded);
-          setOpen(false);
+            setOpen(false);
+          } else {
+            console.error("Error while creating Admin:");
           }
-          else {
-              console.error("Error while creating Admin:");
-            }
         });
-        
       } catch (err) {
         console.log(err);
         err.response.data.email && toast.error(err.response.data.email[0]);
@@ -125,7 +122,7 @@ export default function EditAdmin({
       }
     },
   });
-  
+
   const handleCloseOffcanvas = () => {
     setOpen(false);
     setIsLoading(false);
@@ -153,22 +150,22 @@ export default function EditAdmin({
     });
   };
 
-
   return (
     <Offcanvas
       show={open}
       onHide={handleCloseOffcanvas}
       placement="end"
       style={{ overflow: "auto" }}
+      className="admin-permisiion-offcanvas"
     >
       <Offcanvas.Header
-        style={{ marginLeft: 345 }}
+        // style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
       >
         {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} style={{ overflowY: "auto" }}>
         <div style={offcanvasStyle}>
           <h5>Admin Details</h5>
           <div style={{ marginTop: 7 }}>
@@ -221,8 +218,12 @@ export default function EditAdmin({
               placeholder="District"
               onChange={handleDistrictChange}
             >
-              <option selected value={formik.values?.district?.name} id={formik.values?.district?.id}>
-              {formik.values?.district?.name}
+              <option
+                selected
+                value={formik.values?.district?.name}
+                id={formik.values?.district?.id}
+              >
+                {formik.values?.district?.name}
               </option>
               {locationList &&
                 locationList.map((item, i) => {
@@ -240,8 +241,12 @@ export default function EditAdmin({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option selected value={formik.values?.state?.name} id={formik.values?.state?.id}>
-              {formik.values?.state?.name}
+              <option
+                selected
+                value={formik.values?.state?.name}
+                id={formik.values?.state?.id}
+              >
+                {formik.values?.state?.name}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {
@@ -258,38 +263,39 @@ export default function EditAdmin({
               <tr>
                 <th>Section</th>
                 <th>Create</th>
+                <th>Update</th>
+                <th>Action</th>
                 <th>Delete</th>
-                <th>Edit</th>
-                <th>view</th>
               </tr>
             </thead>
             <tbody>
-
-              {Object.keys(permission)?.map(category => (
+              {Object.keys(permission)?.map((category) => (
                 <tr key={category}>
-                  <td>{category.charAt(0).toUpperCase() + category.slice(1)}</td>
-                  {Object.keys(permission[category])?.sort().map(action => (
-                    <td className="text-center">
-                      <input
-                        type="checkbox"
-                        checked={permission[category][action]}
-                        onChange={() => handleCheckboxChange(category, action)}
-                      />
-                    </td>
-                  ))}
+                  <td>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </td>
+                  {Object.keys(permission[category])
+                    ?.sort()
+                    .map((action) => (
+                      <td className="text-center">
+                        <input
+                          type="checkbox"
+                          checked={permission[category][action]}
+                          onChange={() =>
+                            handleCheckboxChange(category, action)
+                          }
+                        />
+                      </td>
+                    ))}
                 </tr>
               ))}
-
             </tbody>
           </Table>
           <button
             type="submit"
             className="btn btn-primary"
             style={{
-              flex: 1,
-              width: "93%",
-              bottom: "1rem",
-              position: "absolute",
+              width: "100%",
             }}
           >
             {isLoading ? <Loader /> : "Confirm"}

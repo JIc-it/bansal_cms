@@ -340,3 +340,12 @@
   background: #18b758;
   color: #fff;
 }
+
+.admin-permisiion-offcanvas {
+  width: 31.8rem !important;
+  padding-bottom: 1rem !important;
+}
+.admin-permisiion-offcanvas .offcanvas-header {
+  display: flex;
+  justify-content: end;
+}

@@ -31,16 +31,16 @@ export default function Cards() {
             });
     }, []);
 
-    useEffect(() => {
-        getTotalProductsRedeemed()
-            .then((data) => {
-                console.log(data);
-                setTotalProductsRedeemed(data.count);
-            })
-            .catch((error) => {
-                console.error("Error fetching distributor data:", error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     getTotalProductsRedeemed()
+    //         .then((data) => {
+    //             console.log(data);
+    //             setTotalProductsRedeemed(data.count);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching distributor data:", error);
+    //         });
+    // }, []);
 
     useEffect(() => {
         getTotalRedeemedCount()

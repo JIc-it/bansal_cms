@@ -72,21 +72,22 @@ function RewardPoints() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const filteredItems = reward_product_data
-    ? reward_product_data.filter((rw_data) => {
-        const searchableFields = [
-          rw_data.title,
-          rw_data.id,
-          rw_data.points,
-          rw_data.description,
-        ];
-        return searchableFields.some(
-          (field) =>
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchText.toLowerCase())
-        );
-      })
-    : [];
+  const filteredItems =
+    reward_product_data && reward_product_data.length > 0
+      ? reward_product_data.filter((rw_data) => {
+          const searchableFields = [
+            rw_data.title,
+            rw_data.id,
+            rw_data.points,
+            rw_data.description,
+          ];
+          return searchableFields.some(
+            (field) =>
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchText.toLowerCase())
+          );
+        })
+      : [];
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {

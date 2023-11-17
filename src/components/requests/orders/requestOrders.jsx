@@ -7,7 +7,7 @@ import {
   getOrderPendingRequests,
   getOrderAcceptedRequests,
   getOrderRejectedRequests,
-  getLeadRequest
+  getLeadRequest,
 } from "../../../axiosHandle/requestHandle";
 
 import FilterPopUp from "./FilterPopUp";
@@ -31,22 +31,23 @@ export default function OrderRequests() {
   const [points, setPoints] = useState(null);
   const [role, setRole] = useState(null);
   const [searchUserData, setSearchUserData] = useState("");
-  const [istrue, setIstrue] = useState(false)
+  const [istrue, setIstrue] = useState(false);
   const [filterdata, setFilterdata] = useState({
     search: "",
     role: "",
-    date: ""
-  })
+    date: "",
+  });
+  const [hasUpdate, setHasUpdate] = useState(false);
 
   console.log(filterdata);
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
-        ...prev, ...data
-      }
-    })
-  }
-
+        ...prev,
+        ...data,
+      };
+    });
+  };
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
@@ -68,7 +69,7 @@ export default function OrderRequests() {
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, []);
+  }, [hasUpdate]);
 
   useEffect(() => {
     getTotalOrderRequests()
@@ -116,7 +117,7 @@ export default function OrderRequests() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
   }, [filterdata.search]);
 
@@ -126,9 +127,9 @@ export default function OrderRequests() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
-  }
+  };
 
   const exportToCSV = () => {
     if (order_data) {
@@ -268,7 +269,7 @@ export default function OrderRequests() {
                       className="input-group mb-3"
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className='position-relative mx-2'>
+                      <div className="position-relative mx-2">
                         <input
                           type="text"
                           className="form-control"
@@ -287,7 +288,12 @@ export default function OrderRequests() {
                           height="20"
                           viewBox="0 0 20 20"
                           fill="none"
-                          style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
+                          style={{
+                            position: "absolute",
+                            top: "20%",
+                            right: "5%",
+                            cursor: "pointer",
+                          }}
                         >
                           <path
                             fill-rule="evenodd"
@@ -296,7 +302,6 @@ export default function OrderRequests() {
                             fill="#525252"
                           />
                         </svg>
-
                       </div>
                       <button
                         className="px-3 py-2 filter-button"
@@ -345,9 +350,9 @@ export default function OrderRequests() {
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
@@ -472,6 +477,8 @@ export default function OrderRequests() {
           data={selectedOrder}
           open={selectedOrder}
           setOpen={setSelectedOrder}
+          hasUpdate={hasUpdate}
+          setHasUpdate={setHasUpdate}
         />
       )}
     </div>

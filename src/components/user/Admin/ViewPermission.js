@@ -1,14 +1,8 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-
-const ViewPermission = ({
-  open,
-  setOpen,
-  data
-}) => {
-
-
+const ViewPermission = ({ open, setOpen, data }) => {
+  console.log(data);
   return (
     <Offcanvas
       show={true}
@@ -21,54 +15,302 @@ const ViewPermission = ({
       <Offcanvas.Header closeButton>
         <Offcanvas.Title></Offcanvas.Title>
       </Offcanvas.Header>
-      
-        <>
-          <div className="ms-4">
-            <h4>Permission</h4>
-            <div>
-            <table className="admin-table">
-              <tbody>
+
+      <div className="ms-4">
+        <h4>Permission</h4>
+        <div>
+          <table className="admin-table mx-2">
+            <tbody>
               <tr>
-              <th>Section</th>
-              <th className="text-center">Create</th>
-              <th  className="text-center">View</th>
-              <th  className="text-center">Edit</th>
-              <th  className="text-center">Delete</th>
+                <th>Section</th>
+                <th className="text-center">Create</th>
+                <th className="text-center">Update</th>
+                <th className="text-center">Action</th>
+                <th className="text-center">Delete</th>
               </tr>
               <tr>
-                <td>Leads</td>
-                <td  className="text-center"><input type="checkbox" checked={data?.leads?.create} value={data?.leads?.create}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.leads?.view} value={data?.leads?.view}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.leads?.edit} value={data?.leads?.edit}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.leads?.delete} value={data?.leads?.delete}/></td>
+                <td>Order requests</td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.order_requests?.create}
+                    value={data?.order_requests?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.order_requests?.update}
+                    value={data?.order_requests?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.order_requests?.action}
+                    value={data?.order_requests?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.order_requests?.delete}
+                    value={data?.order_requests?.delete}
+                  />
+                </td>
               </tr>
               <tr>
-              <td>Points</td>
-              <td  className="text-center"><input type="checkbox" checked={data?.points?.create} value={data?.points?.create}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.points?.view} value={data?.points?.view}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.points?.edit} value={data?.points?.edit}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.points?.delete} value={data?.points?.delete}/></td>
+                <td>Lead requests </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.lead_requests?.create}
+                    value={data?.lead_requests?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.lead_requests?.update}
+                    value={data?.lead_requests?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.lead_requests?.action}
+                    value={data?.lead_requests?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.lead_requests?.delete}
+                    value={data?.lead_requests?.delete}
+                  />
+                </td>
               </tr>
               <tr>
-              <td>Rewards</td>
-              <td  className="text-center"><input type="checkbox" checked={data?.rewards?.create} value={data?.rewards?.create}/></td>
-                <td  className="text-center"><input type="checkbox"  checked={data?.rewards?.view} value={data?.rewards?.view}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.rewards?.edit} value={data?.rewards?.edit}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.rewards?.delete} value={data?.rewards?.delete}/></td>
+                <td>Points orders </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_orders?.create}
+                    value={data?.points_orders?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_orders?.update}
+                    value={data?.points_orders?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_orders?.action}
+                    value={data?.points_orders?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_orders?.delete}
+                    value={data?.points_orders?.delete}
+                  />
+                </td>
               </tr>
               <tr>
-              <td>Mobile</td>
-              <td  className="text-center"><input type="checkbox" checked={data?.mobile?.create} value={data?.mobile?.create}/></td>
-                <td  className="text-center"><input type="checkbox" checked={data?.mobile?.view} value={data?.mobile?.view}/></td>
-                <td className="text-center"><input type="checkbox" checked={data?.mobile?.edit} value={data?.mobile?.edit}/></td>
-                <td className="text-center"><input type="checkbox" checked={data?.mobile?.delete} value={data?.mobile?.delete}/></td>
+                <td>Points leads </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_leads?.create}
+                    value={data?.points_leads?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_leads?.update}
+                    value={data?.points_leads?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_leads?.action}
+                    value={data?.points_leads?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.points_leads?.delete}
+                    value={data?.points_leads?.delete}
+                  />
+                </td>
               </tr>
-              </tbody>
-            </table>
-            </div>
-          </div>
-        </>
-      
+              <tr>
+                <td>Reward products </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.reward_products?.create}
+                    value={data?.reward_products?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.reward_products?.update}
+                    value={data?.reward_products?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.reward_products?.action}
+                    value={data?.reward_products?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.reward_products?.delete}
+                    value={data?.reward_products?.delete}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Redemptions </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.redemptions?.create}
+                    value={data?.redemptions?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.redemptions?.update}
+                    value={data?.redemptions?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.redemptions?.action}
+                    value={data?.redemptions?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.redemptions?.delete}
+                    value={data?.redemptions?.delete}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Redemptions window </td>
+                <td className="text-center">
+                  {/* <input
+                    type="checkbox"
+                    checked={data?.redemptions_window?.create}
+                    value={data?.redemptions_window?.create}
+                  /> */}
+                </td>
+                <td className="text-center">
+                  {/* <input
+                    type="checkbox"
+                    checked={data?.redemptions_window?.update}
+                    value={data?.redemptions_window?.update}
+                  /> */}
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.redemptions_window?.action}
+                    value={data?.redemptions_window?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  {/* <input
+                    type="checkbox"
+                    checked={data?.redemptions_window?.delete}
+                    value={data?.redemptions_window?.delete}
+                  /> */}
+                </td>
+              </tr>
+              <tr>
+                <td>Users </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.users?.create}
+                    value={data?.users?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.users?.update}
+                    value={data?.users?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.users?.action}
+                    value={data?.users?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.users?.delete}
+                    value={data?.users?.delete}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Promotions </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.promotions?.create}
+                    value={data?.promotions?.create}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.promotions?.update}
+                    value={data?.promotions?.update}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.promotions?.action}
+                    value={data?.promotions?.action}
+                  />
+                </td>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    checked={data?.promotions?.delete}
+                    value={data?.promotions?.delete}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Offcanvas>
   );
 };

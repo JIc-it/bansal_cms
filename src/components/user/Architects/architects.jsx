@@ -285,7 +285,7 @@ function Architects() {
                       }}
                     >
                       <i className="fa-regular fa-square-plus" /> Add New
-                      Contractor
+                      Architect
                     </button>
                   </div>
                   <div className="col-2" style={{ paddingTop: "1.5rem" }}>
