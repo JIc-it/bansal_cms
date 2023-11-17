@@ -14,7 +14,8 @@ const Login = () => {
     password: '',
   });
 
-
+  const [showPassword, setShowPassword] = useState(false);
+  console.log("showPassword",showPassword)
   const handleLogin = () => {
     try {
       const { email, password } = credentials;
@@ -97,17 +98,21 @@ const Login = () => {
                 </div>
                 <div className="mb-4 position-relative">
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     id="dz-password"
                     className="form-control"
                     value={credentials.password}
                     onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                     placeholder="Password"
                   />
-                  <span className="show-pass eye">
+                  <span onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)', cursor: 'pointer' }}>
+                  {showPassword ? (
+                   <i class="fa fa-eye" aria-hidden="true"></i>
+                  ) : (
                     <i className="fa fa-eye-slash" />
-                    <i className="fa fa-eye" />
-                  </span>
+                  )}
+                </span>
                 </div>
                 <div className="form-row d-flex justify-content-between mt-4 mb-2">
                   {/* Other form elements if needed */}
