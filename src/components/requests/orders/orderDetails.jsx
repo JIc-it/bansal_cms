@@ -97,16 +97,19 @@ export default function OrderDetails({
           SA
         </h6>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24 }}>
         <h6>Transaction Details</h6>
-        <span>Admin Status :</span>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <span style={{flex:1}}>Admin Status :</span>
         <span
-          style={{ marginLeft: 200, color: "blue" }}
+          style={{ justifyContent:'center',marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
         >
           {data.admin_approval}
         </span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Distributor Status :</span>
         <span
           style={{ marginLeft: 168 }}
@@ -115,51 +118,72 @@ export default function OrderDetails({
           {data.user_approval}
         </span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 14,marginBottom:12,marginTop:12 }}>
         <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>{order_data.transaction_id}</span>
+        <span style={{ marginLeft: 114 }}>{order_data.transaction_id}</span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>
+        <span style={{ marginLeft: 88 }}>
           {new Date(data.updated_at).toLocaleString("es-cl", { hour12: true })}
         </span>
         <br></br>
+        </div>
         {/* <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br> */}
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24 }}>
         <h6>Distributor Details</h6>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
         <span>Name :</span>
         <span style={{ marginLeft: 235 }}>{data?.distributor?.name}</span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>{data?.distributor?.user_id}</span>
+        <span style={{ marginLeft: 186 }}>{data?.distributor?.user_id}</span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          {data?.distributor?.district}
-          <span style={{ marginLeft: 175 }}>{data?.distributor?.state}</span>
+        <span style={{ marginLeft: 110 }}>
+          {data?.distributor?.district},
+          <span >{data?.distributor?.state}</span>
         </span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>{data?.distributor?.mobile}</span>
+        <span style={{ marginLeft: 200 }}>{data?.distributor?.mobile}</span>
         <br></br>
+        </div>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24, }}>
         <h6>Contractor Details</h6>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Name :</span>
-        <span style={{ marginLeft: 237 }}>{data?.user?.name}</span>
+        <span style={{ marginLeft: 259 }}>{data?.user?.name}</span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>{data?.user?.user_id}</span>
+        <span style={{ marginLeft: 187 }}>{data?.user?.user_id}</span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          {data?.user?.district}
-          <span style={{ marginLeft: 175 }}>{data?.user?.state}</span>
+        <span style={{ marginLeft: 112 }}>
+          {data?.user?.district},
+          <span >{data?.user?.state}</span>
         </span>
         <br></br>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24,marginBottom:12,marginTop:12 }}>
         <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>{data?.user?.mobile}</span>
+        <span style={{ marginLeft: 204 }}>{data?.user?.mobile}</span>
         <br></br>
+        </div>
       </div>
       <div>
         <h6 style={statusOffcanvas}>

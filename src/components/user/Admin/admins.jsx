@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAdminsRequest } from "../../../axiosHandle/userHandle";
+import { getAdminsRequest, getSalePOCCount } from "../../../axiosHandle/userHandle";
 import UserView from "../userView";
 import AddNewAdmin from "./AddNewAdmin";
 import { useNavigate } from "react-router";
@@ -11,6 +11,9 @@ function Admins() {
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [new_users_in_current_quarter,setnew_users_in_current_quarter]=useState('')
+  const [total_users,settotal_users]=useState('')
+  const [user_type_total,setuser_type_total]=useState('')
   const handleViewClick = (data) => {
     console.log(data);
     setSelectedUser(data);
@@ -45,7 +48,18 @@ function Admins() {
 
     fetchData();
   }, [searchValue]);
-
+  useEffect(() => {
+  getSalePOCCount("Admin")
+  .then((data) => {
+    console.log("getSalePOCCount data",data)
+    setnew_users_in_current_quarter(data.new_users_in_current_quarter)
+    settotal_users(data.total_users)
+    setuser_type_total(data.user_type_total)
+  })
+  .catch((error) => {
+    console.error("Error fetching distributor data:", error);
+  });
+  },[])
   const exportToCSV = () => {
     if (user_data) {
       const header = ["Name", "Unique ID", "Mobile", "District","State"];
@@ -109,22 +123,9 @@ function Admins() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
-                        <br />
-                        <h3>{user_total_data}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-sm-7 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
                         <h6>Total Admins</h6>
                         <br />
-                        <h3>12</h3>
+                        <h3>{user_type_total}</h3>
                       </div>
                     </div>
                   </div>
@@ -137,7 +138,20 @@ function Admins() {
                       <div>
                         <h6>New Admins in current Qtr</h6>
                         <br />
-                        <h3>12</h3>
+                        <h3>{new_users_in_current_quarter}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-4 col-sm-7 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>Total Users</h6>
+                        <br />
+                        <h3>{total_users}</h3>
                       </div>
                     </div>
                   </div>
