@@ -11,6 +11,7 @@ function RewardPoints() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchText, setSearchText] = useState("");
+  const [isUpdated, setisUpdated] = useState(false);
 
   const handleEditClick = (data) => {
     setUpdateProduct(data);
@@ -24,12 +25,12 @@ function RewardPoints() {
     getRewardProductsRequest()
       .then((data) => {
         console.log(data);
-        setRewardProductData(data);
+        setRewardProductData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, []);
+  }, [isUpdated]);
 
   const exportToCSV = () => {
     if (reward_product_data) {
@@ -260,6 +261,8 @@ function RewardPoints() {
           data={createProduct}
           open={createProduct}
           setOpen={setCreateProduct}
+          isUpdated={isUpdated}
+          setisUpdated={setisUpdated}
         />
       )}
       {updateProduct && (
