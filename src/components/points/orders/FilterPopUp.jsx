@@ -1,34 +1,113 @@
 import React from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const FilterPopUp = ({handlefilterdata,handlefilter,setOpenFilter}) => {
-    return (
-        <div className="filter-popup-container w-25">
-            <div className="filter-heading">Filter</div>
-            <span>By Role</span>
-            <select className="form-control form-control-sm" 
-            onChange={(e)=>handlefilterdata({role:e.target.value})}
-             >
-                <option value="">Role</option>
-                <option>Engineer</option>
-                <option>Contractor</option>
-                <option>Architect</option>
-            </select>
-            <span>By Status</span>
-            <select className="form-control form-control-sm" 
-            onChange={(e)=>handlefilterdata({status:e.target.value})}
-             >
-                <option value="">status</option>
-                <option>Processing</option>
-                <option>Accepted</option>
-                <option>Rejected</option>
-            </select>
-            <span>By Points</span>
+const FilterPopUp = ({
+  handlefilterdata,
+  handlefilter,
+  setOpenFilter,
+  isFilter,
+  setIsFilter,
+  filterdata,
+}) => {
+  const customInput = (
+    <div className="custom-input">
+      <input
+        type="text"
+        placeholder="date"
+        value={
+          filterdata.date ? filterdata.date.toLocaleDateString("en-CA") : ""
+        }
+        readOnly
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          d="M1.66602 9.99967C1.66602 6.85698 1.66602 5.28563 2.64233 4.30932C3.61864 3.33301 5.18999 3.33301 8.33268 3.33301H11.666C14.8087 3.33301 16.3801 3.33301 17.3564 4.30932C18.3327 5.28563 18.3327 6.85698 18.3327 9.99967V11.6663C18.3327 14.809 18.3327 16.3804 17.3564 17.3567C16.3801 18.333 14.8087 18.333 11.666 18.333H8.33268C5.18999 18.333 3.61864 18.333 2.64233 17.3567C1.66602 16.3804 1.66602 14.809 1.66602 11.6663V9.99967Z"
+          stroke="#525252"
+          stroke-width="1.5"
+        />
+        <path
+          d="M5.83398 3.33301V2.08301"
+          stroke="#525252"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+        <path
+          d="M14.166 3.33301V2.08301"
+          stroke="#525252"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+        <path
+          d="M2.08398 7.5H17.9173"
+          stroke="#525252"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+        <path
+          d="M15.0007 14.1667C15.0007 14.6269 14.6276 15 14.1673 15C13.7071 15 13.334 14.6269 13.334 14.1667C13.334 13.7064 13.7071 13.3333 14.1673 13.3333C14.6276 13.3333 15.0007 13.7064 15.0007 14.1667Z"
+          fill="#525252"
+        />
+        <path
+          d="M15.0007 10.8333C15.0007 11.2936 14.6276 11.6667 14.1673 11.6667C13.7071 11.6667 13.334 11.2936 13.334 10.8333C13.334 10.3731 13.7071 10 14.1673 10C14.6276 10 15.0007 10.3731 15.0007 10.8333Z"
+          fill="#525252"
+        />
+        <path
+          d="M10.8327 14.1667C10.8327 14.6269 10.4596 15 9.99935 15C9.53911 15 9.16602 14.6269 9.16602 14.1667C9.16602 13.7064 9.53911 13.3333 9.99935 13.3333C10.4596 13.3333 10.8327 13.7064 10.8327 14.1667Z"
+          fill="#525252"
+        />
+        <path
+          d="M10.8327 10.8333C10.8327 11.2936 10.4596 11.6667 9.99935 11.6667C9.53911 11.6667 9.16602 11.2936 9.16602 10.8333C9.16602 10.3731 9.53911 10 9.99935 10C10.4596 10 10.8327 10.3731 10.8327 10.8333Z"
+          fill="#525252"
+        />
+        <path
+          d="M6.66667 14.1667C6.66667 14.6269 6.29357 15 5.83333 15C5.3731 15 5 14.6269 5 14.1667C5 13.7064 5.3731 13.3333 5.83333 13.3333C6.29357 13.3333 6.66667 13.7064 6.66667 14.1667Z"
+          fill="#525252"
+        />
+        <path
+          d="M6.66667 10.8333C6.66667 11.2936 6.29357 11.6667 5.83333 11.6667C5.3731 11.6667 5 11.2936 5 10.8333C5 10.3731 5.3731 10 5.83333 10C6.29357 10 6.66667 10.3731 6.66667 10.8333Z"
+          fill="#525252"
+        />
+      </svg>
+    </div>
+  );
+  return (
+    <div className="filter-popup-container w-25">
+      <div className="filter-heading">Filter</div>
+      <span>By Role</span>
+      <select
+        className="form-control form-control-sm"
+        onChange={(e) => handlefilterdata({ role: e.target.value })}
+      >
+        <option value="">Role</option>
+        <option>Engineer</option>
+        <option>Contractor</option>
+        <option>Architect</option>
+      </select>
+      <span>By Status</span>
+      <select
+        className="form-control form-control-sm"
+        onChange={(e) => handlefilterdata({ status: e.target.value })}
+      >
+        <option value="">status</option>
+        <option>Processing</option>
+        <option>Accepted</option>
+        <option>Rejected</option>
+      </select>
+      <span>By Points</span>
       <div className="filter-fields">
         <input
           type="number"
           placeholder="From"
           className="form-control form-control-sm"
-          name="from"
+          name="points_from"
+          onChange={(e) => handlefilterdata({ points_from: e.target.value })}
           //   onBlur={formik.handleBlur}
         />
         <span
@@ -45,58 +124,66 @@ const FilterPopUp = ({handlefilterdata,handlefilter,setOpenFilter}) => {
           type="number"
           placeholder="To"
           className="form-control form-control-sm"
-          name="to"
+          name="points_to"
+          onChange={(e) => handlefilterdata({ points_to: e.target.value })}
           //   onBlur={formik.handleBlur}
         />
       </div>
-            <span>By Date</span>
-            <input
-                type="date"
-                placeholder="Date"
-                className="form-control form-control-sm mb-2"
-                name="to"
-                // defaultValue={created_at}
-                onChange={(e)=>{
-                    const formatdate=new Date(e.target.value);
-                    const Year=formatdate.getFullYear();
-                    const month=formatdate.getMonth() +1;
-                    const day=formatdate.getDate();
-
-                    handlefilterdata({date:Year+"-"+month+"-"+day})
-                }}
-            />
-            <button
-                type="button"
-                onClick={()=>{handlefilter();handlefilterdata({search:"",role:"",date:""});setOpenFilter((prev)=>!prev)}}
-                className="btn btn-primary"
-                style={{
-                    flex: 1,
-                    width: "100%",
-                    background: "#2B59C3",
-                    outline: "none",
-                }}
-            >
-                Apply
-            </button>
-            <button
-                type="button"
-                className="btn btn-primary"
-                style={{
-                    flex: 1,
-                    width: "100%",
-                    marginTop: "10px",
-                    background: "#0F0F0F",
-                    outline: "none",
-                }}
-                onClick={()=>{
-                    handlefilter();
-                    setOpenFilter((prev)=>!prev)
-                }}
-            >
-                Clear Filter
-            </button>
-        </div>
-    );
+      <span>By Date</span>
+      <br />
+      <DatePicker
+        selected={filterdata.date}
+        onChange={(date) => {
+          handlefilterdata({ date: date });
+        }}
+        customInput={customInput}
+        dateFormat="yyyy-MM-dd" // Customize the date format
+      />
+      <br />
+      <button
+        type="button"
+        onClick={() => {
+          // handlefilter();
+          // handlefilterdata({ search: "", role: "", date: "" });
+          setOpenFilter((prev) => !prev);
+          setIsFilter(!isFilter);
+        }}
+        className="btn btn-primary"
+        style={{
+          flex: 1,
+          width: "100%",
+          background: "#2B59C3",
+          outline: "none",
+        }}
+      >
+        Apply
+      </button>
+      <button
+        type="button"
+        className="btn btn-primary"
+        style={{
+          flex: 1,
+          width: "100%",
+          marginTop: "10px",
+          background: "#0F0F0F",
+          outline: "none",
+        }}
+        onClick={() => {
+          handlefilterdata({
+            status: "",
+            role: "",
+            date: "",
+            points_from: "",
+            points_to: "",
+          });
+          setIsFilter(!isFilter);
+          //   setOpenFilter((prev) => !prev);
+        }}
+      >
+        Clear Filter
+      </button>
+    </div>
+  );
 };
 
 export default FilterPopUp;

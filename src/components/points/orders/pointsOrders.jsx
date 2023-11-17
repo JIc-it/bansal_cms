@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import OrderDetails from './orderDetails';
-import { getOrderRequest } from '../../../axiosHandle/requestHandle';
-import { getLeadRequest } from '../../../axiosHandle/requestHandle';
-import FilterPopUp from './FilterPopUp';
+import React, { useState, useEffect } from "react";
+import OrderDetails from "./orderDetails";
+import { getOrderRequest } from "../../../axiosHandle/requestHandle";
+import { getLeadRequest } from "../../../axiosHandle/requestHandle";
+import FilterPopUp from "./FilterPopUp";
+import { getOrderPoint } from "../../../axiosHandle/pointsHandle";
 export default function OrderPoints() {
-
   function formatDate(isoDate) {
     const date = new Date(isoDate);
     return date.toLocaleString();
@@ -15,27 +15,30 @@ export default function OrderPoints() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
   const [openFilter, setOpenFilter] = useState(false);
-  const [istrue, setIstrue] = useState(false)
+  const [istrue, setIstrue] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
-    search: "",
+    points_from: "",
+    points_to: "",
     role: "",
     date: "",
-    status: ""
-  })
+    status: "",
+  });
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
   };
 
   useEffect(() => {
-    getOrderRequest()
+    getOrderPoint(search, filterdata)
       .then((data) => {
         setOrderData(data?.results);
       })
       .catch((error) => {
-        console.error('Error fetching order data:', error);
+        console.error("Error fetching order data:", error);
       });
-  }, []);
+  }, [search, isFilter]);
 
   console.log(orderData);
 
@@ -45,19 +48,42 @@ export default function OrderPoints() {
   const currentItems = orderData
     ? orderData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
+    
   const exportToCSV = () => {
     if (orderData) {
-      const header = ['Transaction Id', 'Name', 'Unique Id', 'Role', 'Distributor Id', 'Date & Time', 'Points', 'Quantity'];
-      const csvData = orderData.map((rr_data) => {
-        return [rr_data.transaction_id, rr_data.name, rr_data.id, null, null, rr_data.created_at, null, rr_data.quantity];
+      const header = [
+        "Transaction id",
+        "Name",
+        "Role",
+        "Unique Id",
+        "Distributor Id",
+        "Date & Time",
+        "Points",
+        "Quantity",
+        "Status",
+      ];
+      const csvData = orderData.map((order) => {
+        return [
+          order.transaction_id,
+          order.user?.name,
+          order.user?.role,
+          order.user?.user_id,
+          order.distributor?.user_id,
+          formatDate(order.created_at),
+          order.points,
+          order.quantity,
+          order.admin_approval,
+        ];
       });
 
-      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'Order_Request.csv';
+      a.download = "Order_Points.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -77,11 +103,11 @@ export default function OrderPoints() {
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
-        ...prev, ...data
-      }
-    })
-  }
-
+        ...prev,
+        ...data,
+      };
+    });
+  };
 
   const handlefilter = () => {
     getLeadRequest(filterdata)
@@ -89,18 +115,18 @@ export default function OrderPoints() {
         setOrderData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
-  }
+  };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 265 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 265 }}>
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Order Requests</h5>
+          <h5 className="mb-0">Order History</h5>
         </div>
-        <br></br>
+        {/* <br></br>
         <div className="row">
           <div className="col-xl-12 wid-100">
             <div className="row">
@@ -154,18 +180,25 @@ export default function OrderPoints() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="col-xl-12">
           <div className="card">
             <div className="card-body p-0">
               <div className="table-responsive active-projects task-table">
                 <div className="row">
-                <div className="col-9">
+                  <div className="col-9 ">
                     <div
                       className="input-group mb-3"
-                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                      style={{
+                        // maxWidth: 300,
+                        paddingTop: 15,
+                        paddingLeft: 15,
+                      }}
                     >
-                      <div className='position-relative mx-2'>
+                      <div
+                        className="position-relative mx-2"
+                        style={{ maxWidth: 300 }}
+                      >
                         <input
                           type="text"
                           className="form-control"
@@ -173,10 +206,10 @@ export default function OrderPoints() {
                           placeholder="Search..."
                           aria-label="Search..."
                           aria-describedby="search-button"
-                        // value={filterdata.search}
-                        // onChange={(e) => {
-                        //   handlefilterdata({search:e.target.value});
-                        // }}
+                          value={search}
+                          onChange={(e) => {
+                            setSearch(e.target.value);
+                          }}
                         />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -184,10 +217,16 @@ export default function OrderPoints() {
                           height="20"
                           viewBox="0 0 20 20"
                           fill="none"
-                          style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
+                          style={{
+                            position: "absolute",
+                            top: "20%",
+                            right: "5%",
+                            cursor: "pointer",
+                          }}
                           onClick={() => {
                             if (filterdata.search.trim() !== "") {
-                              handlefilter(); setIstrue(true)
+                              handlefilter();
+                              setIstrue(true);
                             }
                           }}
                         >
@@ -198,7 +237,6 @@ export default function OrderPoints() {
                             fill="#525252"
                           />
                         </svg>
-
                       </div>
                       <button
                         className="px-3 py-2 filter-button"
@@ -241,20 +279,49 @@ export default function OrderPoints() {
                           />
                         </svg>
                       </button>
+                      <button
+                        className="btn btn-dark mx-1"
+                        // style={{height:'2.5rem'}}
+                        type="button"
+                        onClick={() => {
+                          setFilterdata({
+                            points_from: "",
+                            points_to: "",
+                            role: "",
+                            date: "",
+                            status: "",
+                          });
+                          setSearch("");
+                          setIsFilter(!isFilter);
+                        }}
+                      >
+                        Clear filter
+                      </button>
                     </div>
+
                     {openFilter && (
                       <FilterPopUp
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        setIsFilter={setIsFilter}
+                        isFilter={isFilter}
+                        filterdata={filterdata}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
-                    <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button"><i className="fa-solid fa-file-export" onClick={exportToCSV} /> Export</button>
+                    <button
+                      style={{ marginLeft: 135 }}
+                      className="btn btn-light btn-sm"
+                      type="button"
+                      onClick={exportToCSV}
+                    >
+                      <i className="fa-solid fa-file-export" /> Export
+                    </button>
                   </div>
                 </div>
                 <table id="list-tbl" class="table">
@@ -262,12 +329,13 @@ export default function OrderPoints() {
                     <tr>
                       <th>Transaction id</th>
                       <th>Name</th>
-                      <th>Unique id</th>
                       <th>Role</th>
+                      <th>Unique id</th>
                       <th>Distributor id</th>
                       <th>Date &amp; Time</th>
                       <th>Points</th>
                       <th>Quantity</th>
+                      <th>Status</th>
                       <th className="text-end">Action</th>
                     </tr>
                   </thead>
@@ -275,16 +343,62 @@ export default function OrderPoints() {
                     {currentItems.length > 0 ? (
                       currentItems.map((order) => (
                         <tr key={order.id}>
-                          <td><h6>{order.transaction_id}</h6></td>
-                          <td><h6>{order.name}</h6></td>
-                          <td><h6>{order.distributor_id}</h6></td>
-                          <td><h6>{null}</h6></td>
-                          <td><h6>{null}</h6></td>
-                          <td><h6>{formatDate(order.created_at)}</h6></td>
-                          <td><h6>{null}</h6></td>
-                          <td><h6>{order.quantity}</h6></td>
                           <td>
-                            <button className="btn btn-primary btn-sm" onClick={() => handleViewClick(order)}>View</button>
+                            <h6>{order.transaction_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.user?.name}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.user?.role}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.user?.user_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.distributor?.user_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{formatDate(order.created_at)}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.points || 0}</h6>
+                          </td>
+                          <td>
+                            <h6>{order.quantity}</h6>
+                          </td>
+                          <td>
+                            <button
+                              className={`btn  btn-sm ${
+                                order.admin_approval === "Accepted"
+                                  ? // &&
+                                    // order.user_approval === "Accepted"
+                                    "Accepted-btn"
+                                  : order.admin_approval === "Rejected"
+                                  ? // ||
+                                    //   order.user_approval === "Rejected"
+                                    "Rejected-btn"
+                                  : "Processing-btn"
+                              }`}
+                            >
+                              {order.admin_approval === "Accepted"
+                                ? // &&
+                                  // order.user_approval === "Accepted"
+                                  "Accepted"
+                                : order.admin_approval === "Rejected"
+                                ? // ||
+                                  //   order.user_approval === "Rejected"
+                                  "Rejected"
+                                : "Processing"}
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleViewClick(order)}
+                            >
+                              View
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -296,11 +410,20 @@ export default function OrderPoints() {
                   </tbody>
                 </table>
                 <div className="col-12">
-                  <div className="btn-group" style={{ float: 'right' }}>
-                    <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
                       Previous
-                    </button>&nbsp;
-                    <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
                       Next
                     </button>
                   </div>
@@ -310,8 +433,13 @@ export default function OrderPoints() {
           </div>
         </div>
       </div>
-      {selectedOrder && (<OrderDetails data={selectedOrder} open={selectedOrder} setOpen={setSelectedOrder} />)}
+      {selectedOrder && (
+        <OrderDetails
+          data={selectedOrder}
+          open={selectedOrder}
+          setOpen={setSelectedOrder}
+        />
+      )}
     </div>
   );
 }
-

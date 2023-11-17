@@ -102,8 +102,8 @@ export default function LeadPoints() {
           <h5 className="mb-0">Lead Requests</h5>
         </div>
         <br></br>
-        <div className="row">
-          <div className="col-xl-12 wid-100">
+        {/* <div className="row"> */}
+          {/* <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-3 col-sm-6 same-card">
                 <div className="card">
@@ -154,8 +154,8 @@ export default function LeadPoints() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
         <div className="col-xl-12">
           <div className="card">
             <div className="card-body p-0">
@@ -301,7 +301,7 @@ export default function LeadPoints() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5">No leads available</td>
+                        <td colSpan="9">No leads available</td>
                       </tr>
                     )}
                   </tbody>
