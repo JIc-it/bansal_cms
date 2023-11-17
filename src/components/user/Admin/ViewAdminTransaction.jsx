@@ -55,7 +55,7 @@ const ViewAdminTransaction = ({
             </h6>
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
-            <h6>Transaction Details</h6>
+            <h6></h6>
             <span>Admin Status :</span>
             <span
               style={{ marginLeft: 200, color: "blue",marginBottom:"5px"}}

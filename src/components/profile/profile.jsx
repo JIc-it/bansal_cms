@@ -10,18 +10,19 @@ export default function Profile() {
     mobile: '',
     district_name:'',
   });
-
+console.log("profile",profile_data)
 
   useEffect(() => {
     getProfileRequest()
       .then((data) => {
+        console.log("data",data)
         setProfileData((prevData) => ({
           ...prevData,
           name: data.name,
           user_id: data.user_id,
           email: data.email,
           mobile: data.mobile,
-          district_name: data.district_name,
+          district_name: data.district,
         }));
       })
       .catch((error) => {

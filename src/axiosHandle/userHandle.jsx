@@ -334,7 +334,7 @@ export const createEngineer = (data) => {
 
 //////////////////common api for all user creation//////////////////////
 export const createUser = (data) => {
-  console.log(data);
+  console.log("createUser",data);
   return axiosInstance
     .post(commonUserCreationURL, data)
     .then((response) => response.data)

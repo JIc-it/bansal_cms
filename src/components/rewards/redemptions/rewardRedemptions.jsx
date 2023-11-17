@@ -22,7 +22,7 @@ function Redemptions() {
     date: "",
     status: "",
   });
-
+console.log("reward_redemption_data",reward_redemption_data)
   useEffect(() => {
     getRedemptionRequest()
       .then((data) => {

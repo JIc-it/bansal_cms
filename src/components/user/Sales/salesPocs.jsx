@@ -248,7 +248,7 @@ export default function SalesPocs() {
                       }}
                     >
                       <i className="fa-regular fa-square-plus" /> Add New
-                      Contractor
+                      Sales POC's
                     </button>
                   </div>
 
