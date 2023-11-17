@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from "react-router-dom";
+import { getProfileRequest } from '../../axiosHandle/profileHandle';
 
 const options = [
     'one', 'two', 'three'
@@ -24,6 +25,31 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 const defaultOption = options[0];
 
 export default function Navbar() {
+    const [profile_data, setProfileData] = useState({
+        name: '',
+        user_id: '',
+        email: '',
+        mobile: '',
+        district_name:'',
+      });
+      console.log("profile_data",profile_data)
+    useEffect(() => {
+        getProfileRequest()
+          .then((data) => {
+            console.log(" getProfileRequest data",data)
+            setProfileData((prevData) => ({
+              ...prevData,
+              name: data.name,
+              user_id: data.user_id,
+              email: data.email,
+              mobile: data.mobile,
+              district_name: data.district,
+            }));
+          })
+          .catch((error) => {
+            console.error('Error fetching profile:', error);
+          });
+      }, []);
 
     return (
         <>
@@ -88,11 +114,11 @@ export default function Navbar() {
                                             <a className="nav-link py-4" href="/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <div className="header-info2 d-flex align-items-center">
                                                     <div className="header-media">
-                                                        <img src="/assets/images/profile.jpg" alt="" />
+                                                        <img src="/assets/images/avatar.png" alt="" />
                                                     </div>
                                                     <div className="header-info">
-                                                        <h6 style={{ color: '#000' }}>Johanna Fleming</h6>
-                                                        <p style={{ color: '#000' }}>info@gmail.com</p>
+                                                        <h6 style={{ color: '#000' }}>{profile_data.name}</h6>
+                                                        <p style={{ color: '#000' }}>{profile_data.email}</p>
                                                     </div>
                                                 </div>
                                             </a>

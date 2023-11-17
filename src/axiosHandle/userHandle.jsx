@@ -6,6 +6,7 @@ const salepocURL = "/account/create-sales-poc/";
 const engineersURL = "/account/create-engineer/";
 const adminsURL = "/account/create-admin/";
 // const salessURL = "/account/create-sales-poc/";
+const createUserURL="account/admin-create-user/"
 const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
@@ -24,10 +25,11 @@ const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
 const adminpermissionviewURL = "account/custom_permission/retrieve";
 const adminprofilecreation = "account/create-admin/";
-const salesprofilecreation = "account/create-sales-poc/";
+const salesprofilecreation = "account/admin-create-user/";
 const adminupdateuserURL = "account/admin-update-user";
 const adminpermissionupdateuserURl = "account/custom-permission";
 const salesupdateuserURL = "account/admin-update-user";
+const userStatusUrl="account/api/users/user_stats/?role="
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -62,15 +64,25 @@ export const getSalesRequest = (search) => {
       throw error;
     });
 };
-// export const getSalePOCRequest = () => {
-//   return axiosInstance
-//     .get(salepocURL)
-//     .then((response) => response.data)
-//     .catch((error) => {
-//       console.error("Error while fetching sale poc request:", error);
-//       throw error;
-//     });
-// };
+export const getSalePOCCount = (role) => {
+console.log("role",userStatusUrl+role)
+  return axiosInstance
+    .get(userStatusUrl + role)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching sale poc request:", error);
+      throw error;
+    });
+};
+const addSales=(data)=>{
+  return axiosInstance
+    .post(createUserURL)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching add sale poc request:", error);
+      throw error;
+    });
+}
 export const getEngineersRequest = (searchUserData, filterCriteria) => {
   console.log(
     filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
@@ -431,6 +443,7 @@ export const createAdmin = (data) => {
 };
 
 export const createSales = (data) => {
+  console.log("createSales data",data)
   return axiosInstance
     .post(salesprofilecreation, data,{
       headers:{"Content-Type":"application/json", Accept:"*/*"}
