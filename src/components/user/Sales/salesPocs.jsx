@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
 import AddNewAdmin from "./AddNewSales";
 import { useNavigate } from "react-router";
-import { getSalesRequest } from "../../../axiosHandle/userHandle";
+import { getSalePOCCount, getSalesRequest } from "../../../axiosHandle/userHandle";
 export default function SalesPocs() {
   const navigate = useNavigate();
   const [user_data, setUserData] = useState(null);
@@ -14,12 +14,25 @@ export default function SalesPocs() {
     next: null,
     previous: null,
   });
-
+  const [new_users_in_current_quarter,setnew_users_in_current_quarter]=useState('')
+  const [total_users,settotal_users]=useState('')
+  const [user_type_total,setuser_type_total]=useState('')
+  const role="Staff"
   useEffect(() => {
     getSalesRequest()
       .then((data) => {
         setUserData(data.results);
         setUserTotalData(data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+      getSalePOCCount(role)
+      .then((data) => {
+        console.log("getSalePOCCount data",data)
+        setnew_users_in_current_quarter(data.new_users_in_current_quarter)
+        settotal_users(data.total_users)
+        setuser_type_total(data.user_type_total)
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -114,35 +127,35 @@ export default function SalesPocs() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
+                        <h6>Total Sales POCs</h6>
+                        <br />
+                        <h3>{user_type_total}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-4 col-sm-7 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
+                        <h6>New Sales POC's in current Qtr</h6>
+                        <br />
+                        <h3>{new_users_in_current_quarter}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-4 col-sm-7 same-card">
+                <div className="card">
+                  <div className="card-body depostit-card">
+                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                      <div>
                         <h6>Total Users</h6>
                         <br />
-                        <h3>{user_total_data}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-sm-7 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Admins</h6>
-                        <br />
-                        <h3>12</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-sm-7 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>New Admins in current Qtr</h6>
-                        <br />
-                        <h3>12</h3>
+                        <h3>{total_users}</h3>
                       </div>
                     </div>
                   </div>
@@ -158,7 +171,7 @@ export default function SalesPocs() {
             <div className="card-body p-0">
               <div className="table-responsive active-projects style-1">
                 <div className="tbl-caption">
-                  <h4 className="heading mb-0">Sales POCs</h4>
+                  <h4 className="heading mb-0">Total Users</h4>
                 </div>
                 <div className="row">
                   <div className="col-5">
@@ -292,8 +305,7 @@ export default function SalesPocs() {
                       <th>Mobile</th>
                       <th>Location</th>
                       <th>Action</th>
-                      <th />
-                      <th />
+                     
                     </tr>
                   </thead>
                   <tbody>
@@ -310,7 +322,7 @@ export default function SalesPocs() {
                             <h6>{data.mobile}</h6>
                           </td>
                           <td>
-                            <h6>{data.district_name}</h6>
+                            <h6>{data.district.district}</h6>
                           </td>
                           {/* <td>
                               <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
