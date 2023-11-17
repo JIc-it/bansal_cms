@@ -622,7 +622,7 @@ const ViewContractor = () => {
                                 </td>
                                 <td>
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                     onClick={() => handlepassdata(ele)}
@@ -693,7 +693,7 @@ const ViewContractor = () => {
                                 </td>
                                 <td>
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                     onClick={() => handlepassdata(ele)}

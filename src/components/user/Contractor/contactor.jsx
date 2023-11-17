@@ -347,7 +347,7 @@ export default function Contractor() {
                             </td>
                             <td onClick={() => handleViewContractor(data.id)}>
                               <a
-                                className="btn btn-primary btn-sm"
+                                className="btn bg-blue btn-sm"
                                 href="#"
                                 role="button"
                               >

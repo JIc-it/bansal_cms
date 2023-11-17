@@ -595,7 +595,7 @@ const ViewAchitectsDetails = () => {
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >
@@ -669,7 +669,7 @@ const ViewAchitectsDetails = () => {
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >
@@ -747,7 +747,7 @@ const ViewAchitectsDetails = () => {
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >

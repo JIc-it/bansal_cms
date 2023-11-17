@@ -739,7 +739,7 @@ const ViewEngineerDetails = () => {
                                   }}
                                 >
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >
@@ -811,7 +811,7 @@ const ViewEngineerDetails = () => {
                                   }}
                                 >
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >
@@ -909,7 +909,7 @@ const ViewEngineerDetails = () => {
                                   }}
                                 >
                                   <a
-                                    className="btn btn-primary btn-sm"
+                                    className="btn bg-blue btn-sm"
                                     href="#"
                                     role="button"
                                   >
