@@ -280,18 +280,18 @@ export default function SideMenu() {
                 </MenuItem>
                 <MenuItem
                     icon={<HelpOutlinedIcon />}
-                    className={`menu-item ${isMenuItemActive("/faq") ? "active" : ""}`}
+                    className={`menu-item ${isMenuItemActive("/help-faq") ? "active" : ""}`}
                     onClick={() => toggle()}
                     style={{
-                        backgroundColor: isMenuItemActive("/faq")
+                        backgroundColor: isMenuItemActive("/help-faq")
                             ? "#B22222"
                             : "transparent",
-                        color: isMenuItemActive("/faq") ? "white" : "inherit",
+                        color: isMenuItemActive("/help-faq") ? "white" : "inherit",
                         marginTop: "20px",
                         marginLeft: "10px",
                     }}
                 >
-                    <Link to="/faqnew" style={{ color: "white" }}>
+                    <Link to="/help-faq" style={{ color: "white" }}>
                         Help
                     </Link>
                 </MenuItem>

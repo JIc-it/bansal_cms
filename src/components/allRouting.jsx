@@ -38,6 +38,8 @@ import ViewSales from "./user/Sales/ViewSales";
 // import HelpPage from "./Help/HelpPage";
 import Faq from "./help/faqpage";
 // import Help from "./help/help"
+import PromotionsFaq from "./promo-help/promotions-help";
+import PromotionsHistoryHelp from "./promo-help/promotionsHistory";
 export default function AllRouting() {
   return (
     <main className="w-100">
@@ -82,7 +84,7 @@ export default function AllRouting() {
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
         {/* <Route path="/help" element={<HelpPage />} /> */}
         <Route path="/faqnew" element={<Faq />} />
-        
+        <Route path="help-faq" element={<PromotionsHistoryHelp /> }/>
       </Routes>
     </main>
   );
