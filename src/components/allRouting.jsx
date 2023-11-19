@@ -82,6 +82,7 @@ export default function AllRouting() {
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
         {/* <Route path="/help" element={<HelpPage />} /> */}
         <Route path="/faqnew" element={<Faq />} />
+        
       </Routes>
     </main>
   );
