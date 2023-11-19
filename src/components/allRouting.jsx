@@ -36,7 +36,7 @@ import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 // import HelpPage from "./Help/HelpPage";
 // import HelpPage from "./Help/HelpPage";
-import Faq from "./help/faq";
+import Faq from "./help/faqpage";
 // import Help from "./help/help"
 export default function AllRouting() {
   return (
