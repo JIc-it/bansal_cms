@@ -9,6 +9,7 @@ import ForgotPassword from "./components/forgotPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PromotionsHistory from "./components/promo/promotionsHistory";
+import Footer from "./components/common/footer";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Navbar />
               <SideMenu />
               <AllRouting />
+              <Footer />
             </div>
           }
         />
@@ -52,6 +54,7 @@ function App() {
               <Navbar />
               <SideMenu />
               <PromotionsHistory/>
+              <Footer />
             </div>
           }/>
       </Routes>

@@ -203,7 +203,7 @@ export default function AddNewEngineer({
           </div>
           <div style={{ marginTop: 7 }}>
             <input
-              type="number"
+              type="text"
               placeholder="Mobile"
               name="mobile"
               className="form-control form-control-sm"

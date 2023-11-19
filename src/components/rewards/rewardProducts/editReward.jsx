@@ -19,11 +19,12 @@ export default function EditReward({ open, data, setOpen }) {
         points: data.points,
         description: data.description,
         item_image: data.item_image,
+        image_name: data.image_name,
     });
 
     const handleUpdate = async () => {
         try {
-            const { title, points, description, item_image } = credentials;
+            const { title, points, description, item_image, image_name } = credentials;
 
             const f_data = new FormData();
             f_data.append('title', title);
@@ -32,6 +33,7 @@ export default function EditReward({ open, data, setOpen }) {
             f_data.append('item_image', item_image);
             f_data.append('is_active', true);
             f_data.append('thumbnail_image', item_image);
+            f_data.append('image_name', image_name);
 
             const response = await editRewardProductRequest(f_data, data.id);
 
@@ -61,7 +63,7 @@ export default function EditReward({ open, data, setOpen }) {
                         onChange={(e) => setCredentials({ ...credentials, title: e.target.value })} placeholder='Product Name' />
                 </div>
                 <div style={{ marginTop: 20 }}>
-                    <input type="number" className="form-control" value={credentials.points}
+                    <input type="text" className="form-control" value={credentials.points}
                         onChange={(e) => setCredentials({ ...credentials, points: e.target.value })} placeholder='Points' />
                 </div>
                 <div style={{ marginTop: 20 }}>
@@ -69,14 +71,27 @@ export default function EditReward({ open, data, setOpen }) {
                         onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>
-                    <img src={credentials.item_image} style={{ width: '150px', height: '150px' }} alt="Product Image" />
+                    <img src={credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
                 </div>
                 <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         <label>Product Photo (140*140)</label>
                         <input type="file" id="imageUpload" style={{ display: 'none' }}
                             onChange={(e) => setCredentials({ ...credentials, item_image: e.target.files[0] })} />
-                        <label htmlFor="imageUpload" className="btn btn-secondary btn-sm" style={{ marginLeft: 106 }}>Choose File</label>
+                        <label htmlFor="imageUpload" className="btn btn-secondary btn-sm" style={{ marginLeft: 106 }}>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 10C2 11.8856 2 12.8284 2.58579 13.4142C3.17157 14 4.11438 14 6 14H10C11.8856 14 12.8284 14 13.4142 13.4142C14 12.8284 14 11.8856 14 10" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M7.99967 10.6667V2M7.99967 2L10.6663 4.91667M7.99967 2L5.33301 4.91667" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>&nbsp;&nbsp;
+                            Upload</label>
+                    </div>
+                </div>
+
+                <div>
+                    <h6>Status</h6><br />
+                    <div className="form-check form-switch" style={{ position: 'relative', bottom: '35px', float: 'inline-end' }}>
+                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">In Active</label>
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
                     </div>
                 </div>
             </div>

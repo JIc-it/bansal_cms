@@ -83,7 +83,7 @@ export default function MonthlyChart(props) {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return '$ ' + val + ' thousands';
+                    return val ;
                 },
             },
         },

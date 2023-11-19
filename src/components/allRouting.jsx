@@ -34,9 +34,9 @@ import Architects from "./user/Architects/architects";
 import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
-import HelpPage from "./Help/HelpPage";
 // import HelpPage from "./Help/HelpPage";
-
+// import HelpPage from "./Help/HelpPage";
+import Faq from "./help/faq";
 // import Help from "./help/help"
 export default function AllRouting() {
   return (
@@ -56,7 +56,6 @@ export default function AllRouting() {
         <Route path="/salespocs" element={<SalesPocs />} />
         <Route path="/admins" element={<Admins />} />
         <Route path="/promotions" element={<Promotions />} />
-        {/* <Route path="/faq" element={<Help />} /> */}
         <Route path="/redemptions" element={<Redemptions />} />
         <Route path="/ctrdetails" element={<ContractorDetails />} />
         <Route path="/actdetails" element={<ArchitectDetails />} />
@@ -81,7 +80,8 @@ export default function AllRouting() {
         />
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
-        <Route path="/help" element={<HelpPage />} />
+        {/* <Route path="/help" element={<HelpPage />} /> */}
+        <Route path="/faq" element={<Faq />} />
       </Routes>
     </main>
   );

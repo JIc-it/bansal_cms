@@ -82,7 +82,7 @@ const ViewTransactionDetails = ({
             <h6>Transaction Details</h6>
             <span>Admin Status :</span>
             <span
-              style={{ marginLeft: 168, color: "blue" }}
+              style={{ marginLeft: 168, color: "blue",  padding: '5px' }}
               className="badge badge-primary light border-0"
             >
               {data.admin_approval}
@@ -90,14 +90,14 @@ const ViewTransactionDetails = ({
             <br></br>
             <span>Distributor Status :</span>
             <span
-              style={{ marginLeft: 168 }}
+              style={{ marginLeft: 145, padding: '5px' }}
               className="badge badge-success light border-0"
             >
               {data.user_approval}
             </span>
             <br></br>
             <span>Transaction ID :</span>
-            <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+            <span style={{ marginLeft: 140 }}>{data.transaction_id}</span>
             <br></br>
             <span>Date & Time :</span>
             <span style={{ marginLeft: 150 }}>
@@ -117,10 +117,10 @@ const ViewTransactionDetails = ({
             <span style={{ marginLeft: 235 }}>{data.distributor?.name}</span>
             <br></br>
             <span>Unique ID :</span>
-            <span style={{ marginLeft: 250 }}>{data.distributor?.id}</span>
+            <span style={{ marginLeft: 30 }}>{data.distributor?.id}</span>
             <br></br>
             <span>Location :</span>
-            <span style={{ marginLeft: 130 }}>
+            <span style={{ marginLeft: 190 }}>
               {(data.distributor?.district, data.distributor?.state)}{" "}
             </span>
             <br></br>
@@ -134,7 +134,7 @@ const ViewTransactionDetails = ({
             <span style={{ marginLeft: 237 }}>{data.user?.name}</span>
             <br></br>
             <span>Unique ID :</span>
-            <span style={{ marginLeft: 250 }}>{data.user?.user_id}</span>
+            <span style={{ marginLeft: 210 }}>{data.user?.user_id}</span>
             <br></br>
             <span>Location :</span>
             <span style={{ marginLeft: 130 }}>
@@ -152,6 +152,7 @@ const ViewTransactionDetails = ({
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  padding: '15px'
                 }}
               >
                 <div>

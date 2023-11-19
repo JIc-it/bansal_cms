@@ -23,13 +23,29 @@ function Redemptions() {
     status: "",
   });
 
+  // useEffect(() => {
+  //   getRedemptionRequest()
+  //     .then((data) => {
+  //       setRedemptionData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching lead data:", error);
+  //     });
+  // }, [isUpdated]);
+
   useEffect(() => {
+    console.log("Fetching redemption data...");
     getRedemptionRequest()
       .then((data) => {
-        setRedemptionData(data);
+        console.log("Redemption data received:", data);
+        if (Array.isArray(data)) {
+          setRedemptionData(data);
+        } else {
+          setRedemptionData([]);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching lead data:", error);
+        console.error("Error fetching redemption data:", error);
       });
   }, [isUpdated]);
 
@@ -291,7 +307,7 @@ function Redemptions() {
                             <td>
                               <h6>{item?.status}</h6>
                             </td>
-                            <td>
+                            {/* <td>
                               <button
                                 style={{ background: "blue" }}
                                 className="btn btn-primary btn-sm"
@@ -299,7 +315,15 @@ function Redemptions() {
                               >
                                 View
                               </button>
-                            </td>
+                            </td> */}
+                              <td>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleViewClick(item)}
+                            >
+                              View
+                            </button>
+                          </td>
                           </tr>
                         ))
                       ) : (

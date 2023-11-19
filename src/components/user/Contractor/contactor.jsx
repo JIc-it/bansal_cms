@@ -104,8 +104,8 @@ export default function Contractor() {
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row">
-          <div className="col-xl-9 wid-100">
+        <div className="row" style={{position: 'relative', left: '15px'}}>
+          <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-md-4 col-12 same-card">
                 <div className="card">
@@ -150,7 +150,7 @@ export default function Contractor() {
           </div>
         </div>
       </div>
-      <div className="container my-0">
+      <div className="container"  style={{ marginLeft: "15px", marginTop: '0' }}>
         <div className="row">
           <div className="col-xl-12">
             <div className="card">

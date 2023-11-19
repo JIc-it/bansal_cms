@@ -4,7 +4,7 @@ const FilterPopUp = ({handlefilterdata,handlefilter,setOpenFilter}) => {
     return (
         <div className="filter-popup-container w-25">
             <div className="filter-heading">Filter</div>
-            <span>By Role</span>
+            <span>By Buyer</span>
             <select className="form-control form-control-sm" 
             onChange={(e)=>handlefilterdata({role:e.target.value})}
              >

@@ -121,7 +121,7 @@ export default function QuarterlyChart(props) {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return '$ ' + val + ' thousands';
+                    return + val;
                 },
             },
         },

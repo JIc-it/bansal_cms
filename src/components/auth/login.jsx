@@ -81,7 +81,7 @@ const Login = () => {
               </h4>
             </div>
           </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 mx-auto align-self-center">
+          <div className="col-lg-4 col-md-12 col-sm-12 mx-auto align-self-center">
             <div className="login-form">
               <form action="https://w3crm.dexignzone.com/xhtml/index.html">
                 <div className="mb-4">
@@ -123,7 +123,7 @@ const Login = () => {
                   </button>
                 </div>
                 <div className="mb-4">
-                  <a href="/forgotpassword" className="btn-link text-primary" style={{ marginLeft: '390px' }}>
+                  <a href="/forgotpassword" className="btn-link text-primary" style={{ marginLeft: '280px' }}>
                     Forgot Password?
                   </a>
                 </div>

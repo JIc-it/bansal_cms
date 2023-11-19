@@ -134,6 +134,7 @@ export default function AddReward({
           <textarea
             rows="4"
             className="form-control"
+            maxLength={50}
             onChange={(e) => {
               setCredentials({ ...credentials, description: e.target.value });
               setErrors({ ...errors, description: "" });
