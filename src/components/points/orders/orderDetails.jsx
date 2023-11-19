@@ -57,9 +57,9 @@ export default function OrderDetails({data, open, setOpen}) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                <span>Admin Status :</span><span style={{ marginLeft: 190, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                 <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{order_data.transaction_id}</span><br></br>
+                <span>Transaction ID :</span><span style={{ marginLeft: 160 }}>{order_data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleString("es-cl",{hour12:true})}</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
@@ -72,13 +72,13 @@ export default function OrderDetails({data, open, setOpen}) {
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Contractor Details</h6>
                 <span>Name :</span><span style={{ marginLeft: 237 }}>{data?.user?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data?.user?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{data?.user?.district}, <span style={{ marginLeft: 175 }}>{data?.user?.state}</span></span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 215 }}>{data?.user?.user_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 145 }}>{data?.user?.district}, {data?.user?.state}</span><br></br>
                 <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data?.user?.mobile}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px' }}>
                         <div>
                             <span>Quantity</span>
                             <h5>{data.quantity}</h5>

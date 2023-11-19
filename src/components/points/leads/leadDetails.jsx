@@ -45,7 +45,7 @@ export default function LeadDetails({data, open, setOpen}) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                <span>Admin Status :</span><span style={{ marginLeft: 190, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                 <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
                 <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span><br></br>
@@ -53,20 +53,20 @@ export default function LeadDetails({data, open, setOpen}) {
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Leads Details</h6>
                 <span>Name :</span><span style={{ marginLeft: 235 }}>{data.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data.referral_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.site_location}, <span style={{ marginLeft: 175 }}></span></span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 195 }}>{data.referral_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.site_location}, </span><br></br>
                 <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.mobile_no}</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Referrer Details</h6>
                 <span>Name :</span><span style={{ marginLeft: 237 }}>{data.user.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data.user.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.user.district}<span style={{ marginLeft: 175 }}>{data.user.state}</span></span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 215 }}>{data.user.user_id}</span><br></br>
+                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.user.district}, {data.user.state}</span><br></br>
                 <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.user.mobile}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px' }}>
                         <div>
                             <span>Quantity</span>
                             <h5>{data.order} Tons</h5>

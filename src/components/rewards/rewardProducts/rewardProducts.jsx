@@ -194,7 +194,15 @@ function RewardPoints() {
                       filteredItems.map((rw_data) => (
                         <tr key={rw_data.id}>
                           <td>
-                            <h6>{rw_data.title}</h6>
+                            <h6>
+                            <img
+                                  src={rw_data.item_image}
+                                  className="img-fluid"
+                                  width={60}
+                                  height={60}
+                                  style={{ paddingRight: 10 }}
+                                />
+                            {rw_data.title}</h6>
                           </td>
                           <td>
                             <h6>{rw_data.id}</h6>

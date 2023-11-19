@@ -62,7 +62,7 @@ export default function LeadDetails({ open, data, setOpen }) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 200, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                <span>Admin Status :</span><span style={{ marginLeft: 190, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                 <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
                 <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"})}</span><br></br>
@@ -71,13 +71,13 @@ export default function LeadDetails({ open, data, setOpen }) {
                 <h6>Lead Details</h6>
                 <span>Name :</span><span style={{ marginLeft: 235 }}>{data?.name}</span><br></br>
                 <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.mobile_no}</span><br></br>
-                <span>Site Location :</span><span style={{ marginLeft: 130 }}>{data.site_location}<span style={{ marginLeft: 175 }}></span></span><br></br>
+                <span>Site Location :</span><span style={{ marginLeft: 70 }}>{data.site_location}<span style={{ marginLeft: 175 }}></span></span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Referrer Details</h6>
                 <span>Name :</span><span style={{ marginLeft: 237 }}>{data?.user?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250 }}>{data.user?.user_id}</span><br></br>
-                <span>Location :</span><span style={{ marginLeft: 130 }}>{data?.user?.district} &nbsp;,&nbsp;{data?.user?.state}</span><br></br>
+                <span>Unique ID :</span><span style={{ marginLeft: 216 }}>{data.user?.user_id}</span><br></br>
+                <span>Location :</span><span style={{ marginLeft: 200 }}>{data?.user?.district} &nbsp;,&nbsp;{data?.user?.state}</span><br></br>
                 <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.user?.mobile}</span><br></br>
             </div>
             <div>
