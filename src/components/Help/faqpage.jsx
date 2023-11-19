@@ -1,6 +1,6 @@
 import React from 'react'
 import Accordion from 'react-bootstrap/Accordion';
-const faq = () => {
+const FaqPage = () => {
     return (
         <div style={{ width: '82vw', marginLeft: 265, marginTop: '90px' }}>
             <h4>FAQs</h4>
@@ -235,4 +235,4 @@ const faq = () => {
     )
 }
 
-export default faq
+export default FaqPage
