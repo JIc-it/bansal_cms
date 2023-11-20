@@ -34,10 +34,7 @@ export default function LeadDetails({open, data, setOpen}) {
     } 
 
     const handleorderrequest=async(req)=>{
-        await updateOrderRequest(data.id,{action_type:req}).then((res)=>{
-            if(res.status===200){
-                window.location.reload()
-            }})
+        await updateOrderRequest(data.id,{action_type:req}).then((res)=>res)
         .catch((error) => {
             console.error('Error while fetching:', error);
             throw error;
@@ -45,10 +42,7 @@ export default function LeadDetails({open, data, setOpen}) {
     }
 
     const handleleadrequest=async(req)=>{
-        await updateLeadRequest(data.id,{action_type:req}).then((res)=>{
-            if(res.status===200){
-                window.location.reload()
-            }})
+        await updateLeadRequest(data.id,{action_type:req}).then((res)=>res)
         .catch((error) => {
             console.error('Error while fetching:', error);
             throw error;

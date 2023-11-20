@@ -35,7 +35,9 @@ export default function EditAdmin({
   const [stateList, setStateList] = useState();
   const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
-  const passpermission = { permission: permission };
+  let passpermission = { permission: permission };
+  // const keys=permission && Object.keys(permission?.users)
+  // console.log(keys.sort((a,b)=>a-b?1:-1).reverse());
   const navigate = useNavigate();
 
   const handleCheckboxChange = (category, action) => {
@@ -48,15 +50,20 @@ export default function EditAdmin({
     }));
   };
 
-  useEffect(() => {
-    adminpermissionupdateuser(queryParams_id, passpermission)
+  const handlepermissionchange=(id,data)=>{
+    adminpermissionupdateuser(id, data)
       .then((res) => console.log(res))
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [queryParams_id, passpermission]);
+  }
 
-console.log(permission);
+  // useEffect(() => {
+    
+  // }, [queryParams_id, passpermission]);
+
+console.log(passpermission,"permission");
+
 
   useEffect(() => {
     getAllLocations()
@@ -101,6 +108,8 @@ console.log(permission);
         district: values.district.id,
         state: values.state.id,
       };
+
+       handlepermissionchange(queryParams_id,passpermission)
 
       try {
         await adminupdateuser(queryParams_id, datas).then((res) => {
@@ -262,10 +271,10 @@ console.log(permission);
             <thead className="text-center">
               <tr>
                 <th>Section</th>
-                <th>Create</th>
-                <th>Update</th>
                 <th>Action</th>
+                <th>Create</th>
                 <th>Delete</th>
+                <th>Update</th>
               </tr>
             </thead>
             <tbody>

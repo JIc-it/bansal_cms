@@ -143,7 +143,7 @@ export const getOrderRequest = () => {
 
 
 export const updateOrderRequest = (id,pass) => {
-  return axiosInstance.put(orderconfirmURL+id,pass)
+  return axiosInstance.put(`${orderconfirmURL}${id}/`,pass)
     .then((response) => response)
     .catch((error) => {
       console.error('Error while fetching order request:', error);

@@ -8,6 +8,7 @@ import AdminUserViewOrders from "./adminUserViewOrders";
 
 import {
   getContractorsRequest,
+  getUserLeads,
   getUserOrders,
   getUserRedemptionData,
   adminPermissionViewRequest
@@ -93,6 +94,16 @@ const handlefilterdata=(field)=>{
         console.error("Error fetching distributor data:", error);
       });
   };
+  const handleUserLeadData = () => {
+    getUserLeads(queryParams.get('id'))
+      .then((data) => {
+        setTransactionData(data.results);
+        setTotalOrder(data.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
 
 const handlechangetransactiondata=(data)=>{
   setTransactionData(data)
@@ -101,7 +112,7 @@ const handlechangetransactiondata=(data)=>{
 
   const [data, setData] = useState();
 
-  console.log(userDataParam.id);
+  console.log(userDataParam?.id);
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
         .then((data) => {
@@ -115,6 +126,7 @@ const handlechangetransactiondata=(data)=>{
 
   useEffect(() => {
     userData && handleUserOrderData();
+    userData && handleUserLeadData();
   }, [userData]);
 
   const handleNextPage = () => {
@@ -144,7 +156,7 @@ const handlechangetransactiondata=(data)=>{
     if (type === "Orders") {
       handleUserOrderData();
     } else {
-      getUserRedemptionData(userData.id)
+      getUserRedemptionData(userData?.id)
         .then((data) => {
           setTransactionData(data);
         })
@@ -302,7 +314,7 @@ const handlechangetransactiondata=(data)=>{
                   >
                     Orders
                   </button>
-                  {/* <button
+                  <button
                     className={`btn btn-sm ${seletedTranasactionType === "Leads"
                         ? "btn-primary"
                         : "btn-light"
@@ -313,7 +325,7 @@ const handlechangetransactiondata=(data)=>{
                     onClick={() => handleClickTrancationType("Leads")}
                   >
                     Leads
-                  </button> */}
+                  </button>
                 </div>
               </div>
               <div className="row">

@@ -26,7 +26,7 @@ export default function PendingOrderRequests() {
             .catch((error) => {
                 console.error('Error fetching order data:', error);
             });
-    }, []);
+    }, [order_data]);
 
     useEffect(() => {
         getLeadRequest()
@@ -37,7 +37,7 @@ export default function PendingOrderRequests() {
             .catch((error) => {
                 console.error('Error fetching lead data:', error);
             });
-    }, []);
+    }, [lead_data]);
 
     const toggleTableData=(type)=>{
         if (type==='order'){
