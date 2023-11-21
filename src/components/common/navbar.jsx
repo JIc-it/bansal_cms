@@ -125,7 +125,7 @@ export default function Navbar() {
                                    <div onClick={() => setShowNotifications(true)}>
                                    
                                         <Notification />
-                                        <div style={{position:'absolute',top:-10,left:28,color:'#B1292C',fontSize:15,backgroundColor:'white',width:20,textAlign:'center',borderRadius:50}}>
+                                        <div style={{position:'absolute',top:-10,left:28,color:'#B1292C',fontSize:15,backgroundColor:'white',width:20,textAlign:'center',borderRadius:50,marginRight:50}}>
                                         <span>{count}</span>
                                        </div>
                                         </div>

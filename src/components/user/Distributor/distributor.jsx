@@ -156,7 +156,7 @@ export default function Distributors() {
             <div className="card">
               <div className="card-body p-0">
                 <div className="table-responsive active-projects style-1">
-                  <div className="tbl-caption">
+                  <div style={{paddingTop:40}} className="tbl-caption">
                     <h4 className="heading mb-0">Distributors</h4>
                   </div>
                   <div className="row">
@@ -246,7 +246,7 @@ export default function Distributors() {
                       </button>
                     </div>
                   </div>
-                  <table id="empoloyees-tblwrapper" className="table">
+                  <table style={{paddingLeft:20}} id="empoloyees-tblwrapper" className="table">
                     <thead>
                       <tr>
                         <th>Name</th>
@@ -258,11 +258,11 @@ export default function Distributors() {
                         <th />
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                       {currentItems && currentItems.length > 0 ? (
                         currentItems.map((data) => (
-                          <tr key={data.id}>
-                            <td>
+                          <tr   key={data.id}>
+                            <td >
                               <h6>{data.name}</h6>
                             </td>
                             <td>
@@ -277,7 +277,7 @@ export default function Distributors() {
                                 <span>{data.state?.state}</span>
                               </h6>
                             </td>
-                            <td>
+                            <td  style={{width:8,paddingRight:0}} >
                               <a
                                 className="btn bg-blue btn-sm"
                                 href="#"
@@ -294,7 +294,7 @@ export default function Distributors() {
                                 setOpenRemoveOption(true);
                                 setSelectedIdForRemove(data.id);
                               }}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",padding:0,paddingRight:28}}
                             >
                               {" "}
                               <svg

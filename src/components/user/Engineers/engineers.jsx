@@ -367,7 +367,7 @@ export default function Engineers() {
                           <td>
                             <h6>{data.points || 0}</h6>
                           </td>
-                          <td>
+                          <td style={{width:8,paddingRight:0}}>
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -384,7 +384,7 @@ export default function Engineers() {
                               setOpenRemoveOption(true);
                               setSelectedIdForRemove(data.id);
                             }}
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer",padding:0,paddingRight:28 }}
                           >
                             {" "}
                             <svg
