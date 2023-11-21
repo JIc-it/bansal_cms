@@ -22,9 +22,11 @@ function RewardPoints() {
   };
 
   useEffect(() => {
+    console.log("Fetching reward product data...");
+
     getRewardProductsRequest()
       .then((data) => {
-        console.log(data);
+        console.log("Fetched data:", data);
         setRewardProductData(data.results);
       })
       .catch((error) => {
@@ -48,8 +50,8 @@ function RewardPoints() {
           rr_data.id,
           rr_data.points,
           rr_data.description,
-          null,
-          null,
+          rr_data.is_active,
+          rr_data.times_redeemed,
           rr_data.quantity,
         ];
       });
@@ -81,6 +83,8 @@ function RewardPoints() {
           rw_data.id,
           rw_data.points,
           rw_data.description,
+          rw_data.is_active,
+          rw_data.times_redeemed,
         ];
         return searchableFields.some(
           (field) =>
@@ -195,17 +199,17 @@ function RewardPoints() {
                         <tr key={rw_data.id}>
                           <td>
                             <h6>
-                            <img
-                                  src={rw_data.item_image}
-                                  className="img-fluid"
-                                  width={60}
-                                  height={60}
-                                  style={{ paddingRight: 10 }}
-                                />
-                            {rw_data.title}</h6>
+                              <img
+                                src={rw_data.item_image}
+                                className="img-fluid"
+                                width={60}
+                                height={60}
+                                style={{ paddingRight: 10 }}
+                              />
+                              {rw_data.title}</h6>
                           </td>
                           <td>
-                            <h6>{rw_data.id}</h6>
+                            <h6>{rw_data.reward_id}</h6>
                           </td>
                           <td>
                             <h6>{rw_data.points}</h6>
@@ -214,10 +218,10 @@ function RewardPoints() {
                             <h6>{rw_data.description}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{rw_data.is_active}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{rw_data.times_redeemed}</h6>
                           </td>
                           <td>
                             <h6>{rw_data.quantity}</h6>

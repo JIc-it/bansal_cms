@@ -39,8 +39,8 @@ export default function PendingOrderRequests() {
             });
     }, []);
 
-    const toggleTableData=(type)=>{
-        if (type==='order'){
+    const toggleTableData = (type) => {
+        if (type === 'order') {
             setTopName("Pending Order Requests");
             setOrderBtn(active_btn);
             setLeadBtn(inactive_btn);
@@ -61,53 +61,20 @@ export default function PendingOrderRequests() {
                 <div className="card-body p-0">
                     <div className="table-responsive active-projects task-table">
                         <div className="container-fluid">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{ display: 'flex' }}>
                                 <button className={order_btn} type="button" onClick={() => toggleTableData('order')}>Orders</button>
-                                <button className={lead_btn} type="button"  onClick={() => toggleTableData('lead')} style={{ marginLeft: 6 }}>Leads</button>
+                                <button className={lead_btn} type="button" onClick={() => toggleTableData('lead')} style={{ marginLeft: 6 }}>Leads</button>
+                                <a href='/orderrequests' style={{ marginLeft: 380, color: 'blue', cursor: 'pointer' }}>View All</a>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-2 mt-2">
                                 <h5>{top_name}</h5>
                             </div>
                             <div style={{ marginLeft: 3 }}>
-                                <h4>{active_table==='order'? order_total : lead_total}</h4>
+                                <h4>{active_table === 'order' ? order_total : lead_total}</h4>
                             </div>
                         </div>
                         {active_table === 'order' && <OrderTable data={order_data} />}
                         {active_table === 'lead' && <LeadTable data={lead_data} />}
-                        {/* <table id="list-tbl" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Unique id</th>
-                                    <th>Distributor id</th>
-                                    <th>Quantity</th>
-                                    <th className="text-end">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            {order_data && order_data.length > 0 ? (
-                               order_data.slice(0, 5).map((order) => (
-                                    <tr key={order.id}>
-                                    <td><h6>{order.name}</h6></td>
-                                    <td><h6>{order.transaction_id}</h6></td>
-                                    <td><h6>{order.orderNumber}</h6></td>
-                                    <td><h6>{order.quantity}</h6></td>
-                                    <td>
-                                        <button className="btn btn-primary">Submit</button>
-                                    </td>
-                                    </tr>
-                                ))
-                                ) : (
-                                <tr>
-                                    <td colSpan="5">No orders available</td>
-                                </tr>
-                                )}
-
-                                
-
-                            </tbody>
-                        </table> */}
                     </div>
                 </div>
             </div>

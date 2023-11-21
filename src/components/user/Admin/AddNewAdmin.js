@@ -27,7 +27,22 @@ export default function AddNewAdmin({
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
 
-  const initialPermissions = {
+  // const initialPermissions = {
+  //   order_requests: {
+  //     create: false,
+  //     update: false,
+  //     action: false,
+  //     delete: false,
+  //   },
+  //   lead_requests: {
+  //     create: false,
+  //     update: false,
+  //     action: false,
+  //     delete: false,
+  //   },
+  // };
+
+  const [permissions, setPermissions] = useState({
     order_requests: {
       create: false,
       update: false,
@@ -65,10 +80,7 @@ export default function AddNewAdmin({
       delete: false,
     },
     redemptions_window: {
-      // create: false,
-      // update: false,
       action: false,
-      // delete: false,
     },
     users: {
       create: false,
@@ -82,9 +94,10 @@ export default function AddNewAdmin({
       action: false,
       delete: false,
     },
-  };
+  });
 
-  const [permissions, setPermissions] = useState(initialPermissions);
+
+  // const [permissions, setPermissions] = useState(initialPermissions);
   useEffect(() => {
     getAllLocations()
       .then((data) => {

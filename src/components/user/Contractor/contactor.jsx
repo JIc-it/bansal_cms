@@ -345,7 +345,7 @@ export default function Contractor() {
                             <td>
                               <h6>{data.points || 0}</h6>
                             </td>
-                            <td onClick={() => handleViewContractor(data.id)}>
+                            <td onClick={() => handleViewContractor(data.id)} style={{width:8,paddingRight:0}}>
                               <a
                                 className="btn bg-blue btn-sm"
                                 href="#"
@@ -359,7 +359,7 @@ export default function Contractor() {
                                 setOpenRemoveOption(true);
                                 setSelectedIdForRemove(data.id);
                               }}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",padding:0,paddingRight:28 }}
                             >
                               {" "}
                               <svg

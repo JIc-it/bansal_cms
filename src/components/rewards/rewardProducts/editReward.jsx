@@ -13,7 +13,7 @@ const offcanvasStyle = {
     flexDirection: 'column',
 };
 
-export default function EditReward({ open, data, setOpen }) {
+export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
     const [credentials, setCredentials] = useState({
         title: data.title,
         points: data.points,
@@ -35,13 +35,17 @@ export default function EditReward({ open, data, setOpen }) {
             f_data.append('thumbnail_image', item_image);
             f_data.append('image_name', image_name);
 
-            const response = await editRewardProductRequest(f_data, data.id);
+            const response = await editRewardProductRequest(data.id, f_data);
 
             console.log('Response from editRewardProductRequest:', response);
+            console.log(response,"response");
 
-            if (response.data) {
+            if (response) {
                 toast.success("Reward product updated successfully!");
-                // Close the Offcanvas and clear the form
+
+                if (refreshDataTable && typeof refreshDataTable === 'function') {
+                    refreshDataTable();
+                }
                 setOpen(false);
             } else {
                 console.error('Error while creating reward product:', response.error);

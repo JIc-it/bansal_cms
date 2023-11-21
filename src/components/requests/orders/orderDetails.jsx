@@ -192,6 +192,7 @@ export default function OrderDetails({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              padding: '15px'
             }}
           >
             <div>

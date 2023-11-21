@@ -31,6 +31,7 @@ export const getLeadRequest = (data) => {
     });
 };
 
+
 export const getTotalRequests = () => {
   return axiosInstance
     .get("/purchase/admin-total-leads/")

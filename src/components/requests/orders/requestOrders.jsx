@@ -410,22 +410,23 @@ export default function OrderRequests() {
                             <h6>{order.transaction_id}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{order?.user?.name}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{order?.user?.user_id}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{order?.user?.role}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{order?.distributor?.user_id}</h6>
                           </td>
+                          {/* {data?.distributor?.name} */}
                           <td>
                             <h6>{formatDate(order.created_at)}</h6>
                           </td>
                           <td>
-                            <h6>{null}</h6>
+                            <h6>{order.points}</h6>
                           </td>
                           <td>
                             <h6>{order.quantity}</h6>

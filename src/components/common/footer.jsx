@@ -69,7 +69,7 @@ export default function Footer() {
                 </a>
             </div>
             <div className="header" style={{
-                height: '70px',
+                height: '30px',
                 position: 'fixed',
                 bottom: '0',
                 left: '0',
@@ -79,7 +79,7 @@ export default function Footer() {
                     <nav className="navbar navbar-expand">
                         <div className="collapse navbar-collapse justify-content-between">
                             <div className="header-left px-4">
-                             <p style={{position: 'relative', left: '1070px', fontSize: '14px', fontWeight: '500'}}>Powered BY <a href='https://www.jicitsolution.com/' target='_blank' style={{fontSize: '14px', fontWeight: '500'}}>JIC It Solution</a> </p>
+                             <p style={{position: 'relative', left: '1070px', fontSize: '14px', fontWeight: '500', top: '10px'}}>Powered BY <a href='https://www.jicitsolution.com/' target='_blank' style={{fontSize: '14px', fontWeight: '500'}}>JIC It Solution</a> </p>
                             </div>
                             
                         </div>

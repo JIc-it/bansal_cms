@@ -25,12 +25,13 @@ const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
 const adminpermissionviewURL = "account/custom_permission/retrieve";
 const adminprofilecreation = "account/create-admin/";
-const salesprofilecreation = "account/admin-create-user/";
+const salesprofilecreation = "account/create-sales-poc/";
 const adminupdateuserURL = "account/admin-update-user";
 const adminpermissionupdateuserURl = "account/custom-permission";
 const salesupdateuserURL = "account/admin-update-user";
 const userStatusUrl="account/api/users/user_stats/?role="
-
+const purchaseNotification="/purchase/admin-notifications/"
+const deleteNotification='/purchase/notification-read/'
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
     .get(distributorsURL, {
@@ -74,6 +75,7 @@ console.log("role",userStatusUrl+role)
       throw error;
     });
 };
+
 const addSales=(data)=>{
   return axiosInstance
     .post(createUserURL)
@@ -465,3 +467,24 @@ export const salesupdateuser = (id, data) => {
       throw error;
     });
 };
+
+export const NotificationList=async ()=>{
+  try {
+    const response = await axiosInstance
+      .get(purchaseNotification);
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching Notification List request:", error);
+    throw error;
+  }
+}
+export const NotificationDelete=async ()=>{
+  try {
+    const response = await axiosInstance
+      .post(deleteNotification);
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching Notification Delete List request:", error);
+    throw error;
+  }
+}

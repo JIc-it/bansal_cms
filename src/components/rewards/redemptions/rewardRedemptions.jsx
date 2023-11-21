@@ -9,13 +9,15 @@ function Redemptions() {
     setselectedRedemption(data);
   };
 
-  const [reward_redemption_data, setRedemptionData] = useState(null);
+  const [reward_redemption_data, setRedemptionData] = useState([]);
   const [selectedRedemption, setselectedRedemption] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [openFilter, setOpenFilter] = useState(false);
   const [istrue, setIstrue] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [search, setSearch] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
   const [filterdata, setFilterdata] = useState({
     search: "",
     role: "",
@@ -23,31 +25,15 @@ function Redemptions() {
     status: "",
   });
 
-  // useEffect(() => {
-  //   getRedemptionRequest()
-  //     .then((data) => {
-  //       setRedemptionData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching lead data:", error);
-  //     });
-  // }, [isUpdated]);
-
   useEffect(() => {
-    console.log("Fetching redemption data...");
-    getRedemptionRequest()
+    getRedemptionRequest(search, filterdata)
       .then((data) => {
-        console.log("Redemption data received:", data);
-        if (Array.isArray(data)) {
-          setRedemptionData(data);
-        } else {
-          setRedemptionData([]);
-        }
+        setRedemptionData(data.results); // Ensure data is an array or default to an empty array
       })
       .catch((error) => {
-        console.error("Error fetching redemption data:", error);
+        console.error("Error fetching lead data:", error);
       });
-  }, [isUpdated]);
+  }, [isUpdated, search, isFilter]);
 
   const handlefilter = () => {
     getLeadRequest(filterdata)
@@ -58,6 +44,7 @@ function Redemptions() {
         console.error("Error fetching lead data:", error);
       });
   };
+
 
   const exportToCSV = () => {
     if (reward_redemption_data) {
@@ -164,7 +151,10 @@ function Redemptions() {
                           paddingLeft: 15,
                         }}
                       >
-                        <div className="position-relative mx-2">
+                        <div
+                          className="position-relative mx-2"
+                          style={{ maxWidth: 300 }}
+                        >
                           <input
                             type="text"
                             className="form-control"
@@ -172,9 +162,9 @@ function Redemptions() {
                             placeholder="Search..."
                             aria-label="Search..."
                             aria-describedby="search-button"
-                            value={filterdata.search}
-                            onChange={async (e) => {
-                              handlefilterdata({ search: e.target.value });
+                            value={search}
+                            onChange={(e) => {
+                              setSearch(e.target.value);
                             }}
                           />
                           <svg
@@ -251,9 +241,6 @@ function Redemptions() {
                           handlefilterdata={handlefilterdata}
                           handlefilter={handlefilter}
                           setOpenFilter={setOpenFilter}
-                          // created_at={created_at}
-                          // handledatechange={handledatechange}
-                          // handlerolechange={handlerolechange}
                         />
                       )}
                     </div>
@@ -316,14 +303,14 @@ function Redemptions() {
                                 View
                               </button>
                             </td> */}
-                              <td>
-                            <button
-                              className="btn btn-primary btn-sm"
-                              onClick={() => handleViewClick(item)}
-                            >
-                              View
-                            </button>
-                          </td>
+                            <td>
+                              <button
+                                className="btn btn-primary btn-sm"
+                                onClick={() => handleViewClick(item)}
+                              >
+                                View
+                              </button>
+                            </td>
                           </tr>
                         ))
                       ) : (

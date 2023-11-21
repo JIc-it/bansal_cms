@@ -5,10 +5,11 @@ import PendingOrderRequests from "./pendingTable/orderRequests";
 import TopStartPerformers from "./topStar/topStartPerformers";
 import ItemCounts from "./itemCounts";
 import ProjectStatus from "./projectStatus";
+// import "./Dashboard.css"; // Import your custom CSS file
 
 function Dashboard() {
   return (
-    <div className="content-body" style={{ marginLeft: 245 }}>
+    <div className="content-body" style={{ marginLeft: 245, overflowY: 'auto', maxHeight: '100vh' }}>
       <div className="container">
         <div className="row">
           <div className="col-xl-12 wid-100">
@@ -28,4 +29,5 @@ function Dashboard() {
     </div>
   );
 }
+
 export default Dashboard;

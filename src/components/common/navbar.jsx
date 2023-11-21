@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from "react-router-dom";
 import { getProfileRequest } from '../../axiosHandle/profileHandle';
-
+import { NotificationList } from '../../axiosHandle/userHandle';
+import Notification from '../../assets/notification';
+import NotificationsOpen from './notifications';
 const options = [
     'one', 'two', 'three'
 ];
-
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
@@ -30,26 +31,43 @@ export default function Navbar() {
         user_id: '',
         email: '',
         mobile: '',
-        district_name:'',
-      });
-      console.log("profile_data",profile_data)
+        district_name: '',
+    });
+    console.log("profile_data", profile_data)
     useEffect(() => {
         getProfileRequest()
-          .then((data) => {
-            console.log(" getProfileRequest data",data)
-            setProfileData((prevData) => ({
-              ...prevData,
-              name: data.name,
-              user_id: data.user_id,
-              email: data.email,
-              mobile: data.mobile,
-              district_name: data.district,
-            }));
-          })
-          .catch((error) => {
-            console.error('Error fetching profile:', error);
-          });
-      }, []);
+            .then((data) => {
+                console.log(" getProfileRequest data", data)
+                setProfileData((prevData) => ({
+                    ...prevData,
+                    name: data.name,
+                    user_id: data.user_id,
+                    email: data.email,
+                    mobile: data.mobile,
+                    district_name: data.district,
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching profile:', error);
+            });
+    }, []);
+    const [message, setMessage] = useState('')
+    const [count, setCount] = useState(0)
+    const [dataList, setDataList] = useState([])
+    const [showNotifications, setShowNotifications] = useState(false);
+    useEffect(() => {
+        NotificationList()
+            .then((data) => {
+                console.log("data", data)
+                setCount(data.count);
+                setMessage(data.results.message);
+                setDataList(data.results);
+            })
+            .catch((error) => {
+                console.error('Error fetching profile:', error);
+            });
+
+    }, [showNotifications]);
 
     return (
         <>
@@ -108,6 +126,13 @@ export default function Navbar() {
                                         <a className="all-notification" href="/">See all notifications <i className="ti-arrow-end"></i></a>
                                     </div>
                                 </li>
+                                <div onClick={() => setShowNotifications(true)} style={{position: 'relative', top: '15px',}}>
+
+                                    <Notification />
+                                    <div style={{ position: 'absolute', top: -10, left: 28, color: '#B1292C', fontSize: 15, backgroundColor: 'white', width: 20, textAlign: 'center', borderRadius: 50 }}>
+                                        <span>{count}</span>
+                                    </div>
+                                </div>
                                 <li className="nav-item ps-3">
                                     <Dropdown>
                                         <Dropdown.Toggle as={CustomToggle}>
@@ -133,6 +158,7 @@ export default function Navbar() {
                             </ul>
                         </div>
                     </nav>
+                    {showNotifications && <NotificationsOpen dataList={dataList} open={showNotifications} setOpen={setShowNotifications} />}
                 </div>
             </div>
         </>

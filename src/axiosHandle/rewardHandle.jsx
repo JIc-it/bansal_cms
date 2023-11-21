@@ -29,7 +29,8 @@ export const createRewardProductRequest = (data) => {
     });
 };
 
-export const editRewardProductRequest = (data, id) => {
+export const editRewardProductRequest = (id, data) => {
+  console.log(data);
   return axiosInstance
     .patch(rewardProductEditURL + id, data)
     .then((response) => response.data)
