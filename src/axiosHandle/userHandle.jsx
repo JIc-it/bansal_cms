@@ -66,7 +66,6 @@ export const getSalesRequest = (search) => {
     });
 };
 export const getSalePOCCount = (role) => {
-console.log("role",userStatusUrl+role)
   return axiosInstance
     .get(userStatusUrl + role)
     .then((response) => response.data)
@@ -422,9 +421,9 @@ export const adminupdateuser = (id, data) => {
 };
 
 export const adminpermissionupdateuser = (id, data) => {
-  console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
+  // console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
   return axiosInstance
-    .patch(`${adminpermissionupdateuserURl}/${id}/`, data)
+    .patch(`${adminpermissionupdateuserURl}/${id}/`,data)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
