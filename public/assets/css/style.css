@@ -11053,6 +11053,7 @@ svg.pulse-svg {
 .notification_dropdown .dropdown-menu-end {
   min-width: 18.5rem;
   padding: 1rem 0 0rem;
+  margin-top:20;
   top: 100%; }
   .notification_dropdown .dropdown-menu-end.style-1 {
     min-width: 18.5rem; }
@@ -11061,7 +11062,10 @@ svg.pulse-svg {
   .notification_dropdown .dropdown-menu-end .notification_title {
     background: var(--primary);
     color: #fff;
-    padding: 0.625rem 1.25rem; }
+    padding: 0.625rem 1.25rem; };
+    .notification{
+       margin-top:10
+    };
     .notification_dropdown .dropdown-menu-end .notification_title h5, .notification_dropdown .dropdown-menu-end .notification_title .h5 {
       color: #fff;
       margin-bottom: 0.1875rem; }

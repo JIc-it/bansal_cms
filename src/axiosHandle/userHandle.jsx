@@ -30,7 +30,8 @@ const adminupdateuserURL = "account/admin-update-user";
 const adminpermissionupdateuserURl = "account/custom-permission";
 const salesupdateuserURL = "account/admin-update-user";
 const userStatusUrl="account/api/users/user_stats/?role="
-
+const purchaseNotification="/purchase/admin-notifications/"
+const deleteNotification='/purchase/notification-read/'
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
     .get(distributorsURL, {
@@ -68,7 +69,8 @@ export const getSalePOCCount = (role) => {
 console.log("role",userStatusUrl+role)
   return axiosInstance
     .get(userStatusUrl + role)
-    .then((response) => response.data)
+    .then((response) => 
+    response.data)
     .catch((error) => {
       console.error("Error while fetching sale poc request:", error);
       throw error;
@@ -465,3 +467,23 @@ export const salesupdateuser = (id, data) => {
       throw error;
     });
 };
+export const NotificationList=async ()=>{
+  try {
+    const response = await axiosInstance
+      .get(purchaseNotification);
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching Notification List request:", error);
+    throw error;
+  }
+}
+export const NotificationDelete=async ()=>{
+  try {
+    const response = await axiosInstance
+      .post(deleteNotification);
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching Notification Delete List request:", error);
+    throw error;
+  }
+}

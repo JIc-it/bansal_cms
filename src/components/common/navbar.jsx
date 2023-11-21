@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from "react-router-dom";
 import { getProfileRequest } from '../../axiosHandle/profileHandle';
+import Notification from '../../assets/Images/icons/notification';
+import NotificationsOpen from './notificatins';
+import { NotificationList } from '../../axiosHandle/userHandle';
+
 
 const options = [
     'one', 'two', 'three'
@@ -32,7 +36,12 @@ export default function Navbar() {
         mobile: '',
         district_name:'',
       });
-      console.log("profile_data",profile_data)
+      const [nav,setNav]=useState(false)
+      const [showNotifications, setShowNotifications] = useState(false);
+      const [message,setMessage]=useState('')
+      const [count,setCount]=useState(0)
+      const [dataList,setDataList]=useState([])
+      console.log('showNotifications',showNotifications)
     useEffect(() => {
         getProfileRequest()
           .then((data) => {
@@ -50,7 +59,19 @@ export default function Navbar() {
             console.error('Error fetching profile:', error);
           });
       }, []);
-
+      useEffect(() => {
+        NotificationList()
+            .then((data) => {
+                console.log("data", data)
+                setCount(data.count);
+                setMessage(data.results.message);
+                setDataList(data.results);
+            })
+            .catch((error) => {
+                console.error('Error fetching profile:', error);
+            });
+    
+}, [showNotifications]);
     return (
         <>
             <div className="nav-header" style={{
@@ -94,19 +115,33 @@ export default function Navbar() {
                                 </form>
                             </div>
                             <ul className="navbar-nav header-right">
-                                <li className="nav-item dropdown notification_dropdown">
+                                <li  className="notification" style={{position:'relative',top:15}}>
                                     {/* <a className="nav-link" href="/" role="button" data-bs-toggle="dropdown" style={{ marginTop: "14px" }}>
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
                                             <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </a> */}
-                                    <div className="dropdown-menu dropdown-menu-end">
+                                   <div onClick={() => setShowNotifications(true)}>
+                                   
+                                        <Notification />
+                                        <div style={{position:'absolute',top:-10,left:28,color:'#B1292C',fontSize:15,backgroundColor:'white',width:20,textAlign:'center',borderRadius:50}}>
+                                        <span>{count}</span>
+                                       </div>
+                                        </div>
+                                                <div className="dropdown-menu dropdown-menu-end">
+                                   
                                         <div id="DZ_W_Notification1" className="widget-media dz-scroll p-3" style={{ height: '380px' }}>
                                             {/* Notification items go here */}
+                                           
                                         </div>
                                         <a className="all-notification" href="/">See all notifications <i className="ti-arrow-end"></i></a>
+                                      
                                     </div>
+                                    <div className='nav-item dropdown notification_dropdown'>
+`                                        
+                                    </div>
+                                  
                                 </li>
                                 <li className="nav-item ps-3">
                                     <Dropdown>
@@ -117,6 +152,7 @@ export default function Navbar() {
                                                         <img src="/assets/images/avatar.png" alt="" />
                                                     </div>
                                                     <div className="header-info">
+                                                  
                                                         <h6 style={{ color: '#000' }}>{profile_data.name}</h6>
                                                         <p style={{ color: '#000' }}>{profile_data.email}</p>
                                                     </div>
@@ -133,7 +169,10 @@ export default function Navbar() {
                             </ul>
                         </div>
                     </nav>
+                    {showNotifications && <NotificationsOpen dataList={dataList} open={showNotifications} setOpen={setShowNotifications} />}
                 </div>
+                
+             
             </div>
         </>
     );
