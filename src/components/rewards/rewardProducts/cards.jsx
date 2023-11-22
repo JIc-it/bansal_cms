@@ -35,7 +35,7 @@ export default function Cards() {
         getTotalProductsRedeemed()
             .then((data) => {
                 console.log(data);
-                setTotalProductsRedeemed(data.count);
+                setTotalProductsRedeemed(data.total_rewards_count);
             })
             .catch((error) => {
                 console.error("Error fetching distributor data:", error);

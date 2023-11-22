@@ -63,7 +63,7 @@ export const getTotalRewardProducts = () => {
 
 export const getTotalProductsRedeemed = () => {
   return axiosInstance
-    .get("/purchase/redemption-history/")
+    .get("/purchase/admin-total-rewards/")
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching lead request:", error);

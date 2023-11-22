@@ -338,8 +338,8 @@ const ViewTransactionDetails = ({
               <span style={{ marginLeft: 250 }}>{data?.user?.mobile}</span>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
-            <h6>Comments</h6>
-            <span style={{ marginLeft: 237 }}>{data.comments}</span>
+            <h6>Comments :</h6>
+            <span style={{ marginLeft: 85 }}>{data.comments}</span>
           </div>
             <div>
             <h6 style={statusOffcanvas}>
