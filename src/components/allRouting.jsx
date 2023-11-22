@@ -39,7 +39,7 @@ import ViewSales from "./user/Sales/ViewSales";
 // import HelpPage from "./Help/HelpPage";
 // import HelpPage from "./Help/HelpPage";
 
-import FaqPage from "./help/faqpage";
+
 
 export default function AllRouting() {
   return (
@@ -83,8 +83,8 @@ export default function AllRouting() {
         />
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
-        {/* <Route path="/help" element={<HelpPage />} /> */}
-        <Route path="/help-faq" element={<FaqPage />} />
+        {/* <Route path="/help" element={<HelpPage />} />
+        <Route path="/help-faq" element={<FaqPage />} /> */}
       </Routes>
     </main>
   );

@@ -360,7 +360,7 @@ function Architects() {
                           <td>
                             <h6>{data.points || 0}</h6>
                           </td>
-                          <td>
+                          <td style={{width:100,paddingRight:0}}>
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -377,7 +377,7 @@ function Architects() {
                               setOpenRemoveOption(!openRemoveOption);
                               setSelectedIdForRemove(data.id);
                             }}
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer",padding:0,paddingRight:28 }}
                           >
                             {" "}
                             <svg

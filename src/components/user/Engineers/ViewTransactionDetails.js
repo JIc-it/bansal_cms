@@ -80,7 +80,10 @@ const ViewTransactionDetails = ({
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Transaction Details</h6>
-            <span>Admin Status :</span>
+            {
+              data.accepted_by.role==='Admin'?
+              <>
+               <span>Admin Status :</span>
             <span
               style={{ marginLeft: 168, color: "blue",  padding: '5px' }}
               className="badge badge-primary light border-0"
@@ -88,6 +91,19 @@ const ViewTransactionDetails = ({
               {data.admin_approval}
             </span>
             <br></br>
+              </>:
+              <>
+              <span>Sales POC Status :</span>
+            <span
+              style={{ marginLeft: 168, color: "blue",  padding: '5px' }}
+              className="badge badge-primary light border-0"
+            >
+              {data.admin_approval}
+            </span>
+            <br></br>
+              </>
+            }
+           
             <span>Distributor Status :</span>
             <span
               style={{ marginLeft: 145, padding: '5px' }}
@@ -109,6 +125,9 @@ const ViewTransactionDetails = ({
                 minute: "2-digit",
               })}
             </span>
+            <br></br>
+            <span>Accepted By :</span>
+            <span style={{ marginLeft: 130 }}>{data.accepted_by?.email}</span>
             <br></br>
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
