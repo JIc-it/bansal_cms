@@ -1,7 +1,8 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const ViewArchitectTransactionDetails = ({ open, setOpen }) => {
+const ViewArchitectTransactionDetails = ({ open, setOpen,itemData }) => {
+  console.log("ViewArchitectTransactionDetails",itemData)
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -49,64 +50,136 @@ const ViewArchitectTransactionDetails = ({ open, setOpen }) => {
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>Transaction Details</h6>
-        <span>Admin Status :</span>
-        <span
+        
+          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:30}}>
+          <span>Admin Status :</span>
+    
+    <span
+      className={`btn  btn-sm ${
+        itemData.admin_approval === "Accepted" &&
+        itemData.user_approval === "Accepted"
+          ? "Accepted-btn"
+          : itemData.admin_approval === "Rejected" ||
+          itemData.user_approval === "Rejected"
+          ? "Rejected-btn"
+          : "Processing-btn"
+      }`}
+    >
+      {itemData.admin_approval === "Accepted"
+        ? "Accepted"
+        : itemData.admin_approval === "Rejected" 
+        ? "Rejected"
+        : "Processing"}
+    </span>
+          </div>
+        {/* <span
           style={{ marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
         >
-          Pending
-        </span>
+          {itemData.admin_approval}
+        </span> */}
         <br></br>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:0,marginBottom:10}}>
         <span>Distributor Status :</span>
-        <span
+        <span style={{marginLeft:80}}
+                className={`btn  btn-sm ${
+                  itemData.admin_approval === "Accepted" &&
+                  itemData.user_approval === "Accepted"
+                    ? "Accepted-btn"
+                    : itemData.admin_approval === "Rejected" ||
+                    itemData.user_approval === "Rejected"
+                    ? "Rejected-btn"
+                    : "Processing-btn"
+                }`}
+              >
+                {itemData.admin_approval === "Accepted" &&
+                itemData.user_approval === "Accepted"
+                  ? "Accepted"
+                  : itemData.admin_approval === "Rejected" ||
+                  itemData.user_approval === "Rejected"
+                  ? "Rejected"
+                  : "Processing"}
+              </span>
+        {/* <span
           style={{ marginLeft: 168 }}
           className="badge badge-success light border-0"
         >
-          Accepted
+          {itemData.user_approval}
+        </span> */}
+        <br></br>
+        
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',marginBottom:10}}>
+        <span  style={{flex:'2'}}>Transaction ID :</span>
+        <span  style={{flex:'2'}}>{itemData.transaction_id}</span>
+        <br></br>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:30,marginBottom:10}}>
+        <span  style={{flex:'2'}}>Date & Time :</span>
+        <span >
+        {new Date(itemData.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
         </span>
+       
         <br></br>
-        <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>transaction_id</span>
-        <br></br>
-        <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span>
-        <br></br>
+        </div>
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 235 }}>Pratibha Seth</span>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Name :</span>
+        <span style={{flex:'2'}}>{itemData.distributor.name}</span>
         <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Unique ID :</span>
+        <span style={{flex:'2'}}>{itemData.distributor.user_id}</span>
         <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Address :</span>
+        <span style={{flex:'2' }}>
+          {itemData.distributor.district},{" "}
+          <span >{itemData.distributor.state}</span>
         </span>
         <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Mobile :</span>
+        <span style={{flex:'2'}}>{itemData.distributor.mobile}</span>
         <br></br>
+        </div>
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
-        <h6>Distributor Details</h6>
-        <span>Name :</span>
-        <span style={{ marginLeft: 237 }}>Mixer Grinder</span>
+        <h6>{itemData.user.role} Details</h6>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Name :</span>
+        <span style={{flex:'2'}}>{itemData.user.name}</span>
         <br></br>
-        <span>Unique ID :</span>
-        <span style={{ marginLeft: 250 }}>566565</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Unique ID :</span>
+        <span style={{flex:'2'}}>{itemData.user.user_id}</span>
         <br></br>
-        <span>Address :</span>
-        <span style={{ marginLeft: 130 }}>
-          127, KANCHAN VIHAR COLONY,{" "}
-          <span style={{ marginLeft: 175 }}>NIRANJANPUR ROAD INDORE MP</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Address :</span>
+        <span style={{flex:'2'}}>
+          {itemData.user.district},{" "}
+          <span > {itemData.user.state}</span>
         </span>
         <br></br>
-        <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>9899959595</span>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <span style={{flex:'2'}}>Mobile :</span>
+        <span style={{flex:'2'}}>{itemData.user.mobile}</span>
         <br></br>
+        </div>
       </div>
       <div>
         <h6 style={statusOffcanvas}>
@@ -117,14 +190,14 @@ const ViewArchitectTransactionDetails = ({ open, setOpen }) => {
               alignItems: "center",
             }}
           >
-            <div>
+            <div style={{padding:20}}>
               <span>Quantity</span>
-              <h5>82 Tons</h5>
+              <h5>{itemData.quantity} Tons</h5>
             </div>
             <div className="divider-line"></div>
-            <div>
+            <div style={{padding:20}}>
               <span>Loyalty Points</span>
-              <h5>500Pts</h5>
+              <h5>{itemData.points}Pts</h5>
             </div>
           </div>
         </h6>
