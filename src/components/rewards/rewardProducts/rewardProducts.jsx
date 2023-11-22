@@ -190,7 +190,6 @@ function RewardPoints() {
                       <th>Status</th>
                       <th>Times Redeemed</th>
                       <th>Action</th>
-                      <th />
                     </tr>
                   </thead>
                   <tbody>
@@ -218,14 +217,25 @@ function RewardPoints() {
                             <h6>{rw_data.description}</h6>
                           </td>
                           <td>
-                            <h6>{rw_data.is_active}</h6>
+                            <h6>{rw_data.is_active ? "Active" : "Inactive"}</h6>
                           </td>
+                          {/* <td>
+                            <button
+                              style={{
+                                backgroundColor: rw_data.is_active ? '#d2eadb' : 'red',
+                                color: 'white', // Set text color to white for better visibility
+                              }}
+                              className="btn btn-sm"
+                            >
+                              {rw_data.is_active ? 'Active' : 'Inactive'}
+                            </button>
+                          </td> */}
                           <td>
                             <h6>{rw_data.times_redeemed}</h6>
                           </td>
-                          <td>
+                          {/* <td>
                             <h6>{rw_data.quantity}</h6>
-                          </td>
+                          </td> */}
                           <td>
                             <button
                               style={{ background: "blue" }}

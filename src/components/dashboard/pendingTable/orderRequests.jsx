@@ -12,10 +12,9 @@ export default function PendingOrderRequests() {
     const [lead_btn, setLeadBtn] = useState(inactive_btn);
     const [order_data, setOrderData] = useState(null);
     const [order_total, setOrderTotal] = useState(null);
-    const [lead_data, setleadData] = useState(null);
+    const [lead_data, setLeadData] = useState(null);
     const [lead_total, setLeadTotal] = useState(null);
     const [active_table, setActiveTable] = useState('order');
-
 
     useEffect(() => {
         getOrderRequest()
@@ -31,7 +30,7 @@ export default function PendingOrderRequests() {
     useEffect(() => {
         getLeadRequest()
             .then((data) => {
-                setleadData(data.results);
+                setLeadData(data.results);
                 setLeadTotal(data.count);
             })
             .catch((error) => {
@@ -45,14 +44,12 @@ export default function PendingOrderRequests() {
             setOrderBtn(active_btn);
             setLeadBtn(inactive_btn);
             setActiveTable('order');
-        }
-        else {
+        } else {
             setTopName("Pending Lead Requests");
             setOrderBtn(inactive_btn);
             setLeadBtn(active_btn);
             setActiveTable('lead');
         }
-
     }
 
     return (
@@ -64,7 +61,8 @@ export default function PendingOrderRequests() {
                             <div style={{ display: 'flex' }}>
                                 <button className={order_btn} type="button" onClick={() => toggleTableData('order')}>Orders</button>
                                 <button className={lead_btn} type="button" onClick={() => toggleTableData('lead')} style={{ marginLeft: 6 }}>Leads</button>
-                                <a href='/orderrequests' style={{ marginLeft: 380, color: 'blue', cursor: 'pointer' }}>View All</a>
+                                {active_table === 'order' && <a href='/orderrequests' style={{ marginLeft: 380, color: 'blue', cursor: 'pointer' }}>View All</a>}
+                                {active_table === 'lead' && <a href='/leadrequests' style={{ marginLeft: 380, color: 'blue', cursor: 'pointer' }}>View All</a>}
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-2 mt-2">
                                 <h5>{top_name}</h5>
@@ -81,6 +79,3 @@ export default function PendingOrderRequests() {
         </div>
     );
 }
-
-
-

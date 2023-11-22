@@ -23,7 +23,7 @@ export default function ProjectStatus() {
         <div className="card">
             <div className="card-header pb-0 border-0">
 
-                <h4 className="heading mb-0">Projects Status</h4>
+                <h4 className="heading mb-0">Product Redeemed</h4>
                 <select className="default-select status-select normal-select">
                     <option value="All Time">All Time</option>
                     <option value="Monthly">Monthly</option>
