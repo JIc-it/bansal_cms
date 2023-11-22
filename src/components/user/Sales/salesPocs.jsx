@@ -2,9 +2,18 @@ import React, { useState, useEffect } from "react";
 // import { getSalePOCRequest } from "../../../axiosHandle/userHandle";
 import AddNewAdmin from "./AddNewSales";
 import { useNavigate } from "react-router";
-import { getSalePOCCount, getSalesRequest, deleteContractorUser, } from "../../../axiosHandle/userHandle";
+import {
+  getSalePOCCount,
+  getSalesRequest,
+  deleteContractorUser,
+} from "../../../axiosHandle/userHandle";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 export default function SalesPocs() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
   const [user_data, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
@@ -13,15 +22,17 @@ export default function SalesPocs() {
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [isArchitectsAdded, setIsArchitectsAdded] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [pagination, setPagination] = useState({
     next: null,
     previous: null,
   });
-  const [new_users_in_current_quarter,setnew_users_in_current_quarter]=useState('')
-  const [total_users,settotal_users]=useState('')
-  const [user_type_total,setuser_type_total]=useState('')
-  const role="Staff"
+  const [new_users_in_current_quarter, setnew_users_in_current_quarter] =
+    useState("");
+  const [total_users, settotal_users] = useState("");
+  const [user_type_total, setuser_type_total] = useState("");
+  const role = "Staff";
+
   useEffect(() => {
     getSalesRequest()
       .then((data) => {
@@ -31,12 +42,12 @@ export default function SalesPocs() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-      getSalePOCCount(role)
+    getSalePOCCount(role)
       .then((data) => {
-        console.log("getSalePOCCount data",data)
-        setnew_users_in_current_quarter(data.new_users_in_current_quarter)
-        settotal_users(data.total_users)
-        setuser_type_total(data.user_type_total)
+        console.log("getSalePOCCount data", data);
+        setnew_users_in_current_quarter(data.new_users_in_current_quarter);
+        settotal_users(data.total_users);
+        setuser_type_total(data.user_type_total);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -62,7 +73,7 @@ export default function SalesPocs() {
         setUserTotalData(data.count);
         setPagination({ next: data.next, previous: data.previous });
       } catch (error) {
-        console.error('Error fetching distributor data:', error);
+        console.error("Error fetching distributor data:", error);
       }
     };
 
@@ -113,20 +124,23 @@ export default function SalesPocs() {
     // Convert the data object to a query string
     console.log(data);
     const data_value = {
-      id: data.id ? data.id : '',
-      user_id: data.user_id ? data.user_id : '',
-      name: data.name ? data.name : '',
-      email: data.email ? data.email : '',
-      mobile: data.mobile ? data.mobile : '',
-      state: data.state?.state ? data.state?.state : '',
-      district: data.district?.district ? data.district?.district : '',
-      state_id: data.state?.id ? data.state?.id : '',
-      district_id: data.district?.id ? data.district?.id : ''
+      id: data.id ? data.id : "",
+      user_id: data.user_id ? data.user_id : "",
+      name: data.name ? data.name : "",
+      email: data.email ? data.email : "",
+      mobile: data.mobile ? data.mobile : "",
+      state: data.state?.state ? data.state?.state : "",
+      district: data.district?.district ? data.district?.district : "",
+      state_id: data.state?.id ? data.state?.id : "",
+      district_id: data.district?.id ? data.district?.id : "",
     };
     console.log(data_value);
     const queryString = Object.keys(data_value)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`)
-      .join('&');
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`
+      )
+      .join("&");
 
     navigate(`/viewsalespocs?${queryString}`);
   };
@@ -196,7 +210,7 @@ export default function SalesPocs() {
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
                       <div className="search-group form-control">
-                      <input
+                        <input
                           type="text"
                           className=""
                           style={{ marginRight: 10 }}
@@ -268,49 +282,53 @@ export default function SalesPocs() {
                   </div>
                   <div className="col-5 text-end">
                     {/* <button className="btn btn-primary btn-sm" type="button" id="add-points-button"><i className="fa-regular fa-square-plus" /> Add New Contractor</button> */}
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddAdmin(true);
-                      }}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add New
-                      Sales POC
-                    </button>
+                    {permissionForUser?.create && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddAdmin(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add New
+                        Sales POC
+                      </button>
+                    )}
                   </div>
 
                   <div className="col-2">
-                    <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      id="export-button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForUser?.action && (
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -321,11 +339,11 @@ export default function SalesPocs() {
                       <th>Mobile</th>
                       <th>Location</th>
                       <th>Action</th>
-                      <th></th>
+                      {permissionForUser?.delete && <th></th>}
                     </tr>
                   </thead>
                   <tbody>
-                  {user_data && user_data.length > 0 ? (
+                    {user_data && user_data.length > 0 ? (
                       user_data.map((data) => (
                         <tr key={data.id}>
                           <td>
@@ -352,43 +370,45 @@ export default function SalesPocs() {
                               View User
                             </a>
                           </td>
-                          <td
-                            onClick={() => {
-                              setOpenRemoveOption(!openRemoveOption);
-                              setSelectedIdForRemove(data.id);
-                            }}
-                            style={{ cursor: "pointer" }}
-                          >
-                            {" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
+                          {permissionForUser?.delete && (
+                            <td
+                              onClick={() => {
+                                setOpenRemoveOption(!openRemoveOption);
+                                setSelectedIdForRemove(data.id);
+                              }}
+                              style={{ cursor: "pointer" }}
                             >
-                              <path
-                                d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                            </svg>
-                            {openRemoveOption &&
-                              data.id === selectedIdForRemove && (
-                                <div className="option-container">
-                                  <span onClick={() => handleDelete(data.id)}>
-                                    Remove
-                                  </span>
-                                </div>
-                              )}
-                          </td>
+                              {" "}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                              </svg>
+                              {openRemoveOption &&
+                                data.id === selectedIdForRemove && (
+                                  <div className="option-container">
+                                    <span onClick={() => handleDelete(data.id)}>
+                                      Remove
+                                    </span>
+                                  </div>
+                                )}
+                            </td>
+                          )}
                         </tr>
                       ))
                     ) : (

@@ -8,8 +8,13 @@ import ArchitectsFilter from "./ArchitectsFilter";
 import AddArchitects from "./AddArchitects";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import { AppContext } from "../../../contexts/AppContext";
+import { useContext } from "react";
 
 function Architects() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [totalUserCount, setTotalUserCount] = useState(0);
@@ -276,48 +281,52 @@ function Architects() {
                     className="col-3 text-end"
                     style={{ paddingTop: "1.5rem" }}
                   >
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddArchitects(true);
-                      }}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add New
-                      Architect
-                    </button>
+                    {permissionForUser?.create && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddArchitects(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add New
+                        Architect
+                      </button>
+                    )}
                   </div>
                   <div className="col-2" style={{ paddingTop: "1.5rem" }}>
-                    <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      id="export-button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForUser?.action && (
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -331,7 +340,7 @@ function Architects() {
 
                       <th>Points</th>
                       <th>Action</th>
-                      <th> </th>
+                      {permissionForUser?.delete && <th> </th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -372,43 +381,45 @@ function Architects() {
                               View User
                             </a>
                           </td>
-                          <td
-                            onClick={() => {
-                              setOpenRemoveOption(!openRemoveOption);
-                              setSelectedIdForRemove(data.id);
-                            }}
-                            style={{ cursor: "pointer" }}
-                          >
-                            {" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
+                          {permissionForUser?.delete && (
+                            <td
+                              onClick={() => {
+                                setOpenRemoveOption(!openRemoveOption);
+                                setSelectedIdForRemove(data.id);
+                              }}
+                              style={{ cursor: "pointer" }}
                             >
-                              <path
-                                d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                            </svg>
-                            {openRemoveOption &&
-                              data.id === selectedIdForRemove && (
-                                <div className="option-container">
-                                  <span onClick={() => handleDelete(data.id)}>
-                                    Remove
-                                  </span>
-                                </div>
-                              )}
-                          </td>
+                              {" "}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                                <path
+                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
+                                  fill="#0F0F0F"
+                                />
+                              </svg>
+                              {openRemoveOption &&
+                                data.id === selectedIdForRemove && (
+                                  <div className="option-container">
+                                    <span onClick={() => handleDelete(data.id)}>
+                                      Remove
+                                    </span>
+                                  </div>
+                                )}
+                            </td>
+                          )}
                         </tr>
                       ))
                     ) : (

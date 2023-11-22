@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { getAdminsRequest, getSalePOCCount } from "../../../axiosHandle/userHandle";
+import {
+  getAdminsRequest,
+  getSalePOCCount,
+} from "../../../axiosHandle/userHandle";
 import UserView from "../userView";
 import AddNewAdmin from "./AddNewAdmin";
 import { useNavigate } from "react-router";
+import { AppContext } from "../../../contexts/AppContext";
+import { useContext } from "react";
 function Admins() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
   const [user_data, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [new_users_in_current_quarter,setnew_users_in_current_quarter]=useState('')
-  const [total_users,settotal_users]=useState('')
-  const [user_type_total,setuser_type_total]=useState('')
+  const [searchValue, setSearchValue] = useState("");
+  const [new_users_in_current_quarter, setnew_users_in_current_quarter] =
+    useState("");
+  const [total_users, settotal_users] = useState("");
+  const [user_type_total, setuser_type_total] = useState("");
   const handleViewClick = (data) => {
     console.log(data);
     setSelectedUser(data);
@@ -42,34 +51,34 @@ function Admins() {
         setUserTotalData(data.count);
         setPagination({ next: data.next, previous: data.previous });
       } catch (error) {
-        console.error('Error fetching distributor data:', error);
+        console.error("Error fetching distributor data:", error);
       }
     };
 
     fetchData();
   }, [searchValue]);
   useEffect(() => {
-  getSalePOCCount("Admin")
-  .then((data) => {
-    console.log("getSalePOCCount data",data)
-    setnew_users_in_current_quarter(data.new_users_in_current_quarter)
-    settotal_users(data.total_users)
-    setuser_type_total(data.user_type_total)
-  })
-  .catch((error) => {
-    console.error("Error fetching distributor data:", error);
-  });
-  },[])
+    getSalePOCCount("Admin")
+      .then((data) => {
+        console.log("getSalePOCCount data", data);
+        setnew_users_in_current_quarter(data.new_users_in_current_quarter);
+        settotal_users(data.total_users);
+        setuser_type_total(data.user_type_total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, []);
   const exportToCSV = () => {
     if (user_data) {
-      const header = ["Name", "Unique ID", "Mobile", "District","State"];
+      const header = ["Name", "Unique ID", "Mobile", "District", "State"];
       const csvData = user_data.map((rr_data) => {
         return [
           rr_data.name,
           rr_data.user_id,
           rr_data.mobile,
           rr_data.district?.district,
-          rr_data.state?.state
+          rr_data.state?.state,
         ];
       });
 
@@ -93,20 +102,23 @@ function Admins() {
     // Convert the data object to a query string
     console.log(data);
     const data_value = {
-      id: data.id ? data.id : '',
-      user_id: data.user_id ? data.user_id : '',
-      name: data.name ? data.name : '',
-      email: data.email ? data.email : '',
-      mobile: data.mobile ? data.mobile : '',
-      state: data.state?.state ? data.state?.state : '',
-      district: data.district?.district ? data.district?.district : '',
-      state_id: data.state?.id ? data.state?.id : '',
-      district_id: data.district?.id ? data.district?.id : ''
+      id: data.id ? data.id : "",
+      user_id: data.user_id ? data.user_id : "",
+      name: data.name ? data.name : "",
+      email: data.email ? data.email : "",
+      mobile: data.mobile ? data.mobile : "",
+      state: data.state?.state ? data.state?.state : "",
+      district: data.district?.district ? data.district?.district : "",
+      state_id: data.state?.id ? data.state?.id : "",
+      district_id: data.district?.id ? data.district?.id : "",
     };
     console.log(data_value);
     const queryString = Object.keys(data_value)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`)
-      .join('&');
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(data_value[key])}`
+      )
+      .join("&");
 
     navigate(`/viewadmin?${queryString}`);
   };
@@ -214,19 +226,22 @@ function Admins() {
                   </div>
                   <div className="col-5 text-end">
                     {/* <button className="btn btn-primary btn-sm" type="button" id="add-points-button"><i className="fa-regular fa-square-plus" /> Add New Contractor</button> */}
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddAdmin(true);
-                      }}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add New Admin
-                    </button>
+                    {permissionForUser?.create && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddAdmin(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add New
+                        Admin
+                      </button>
+                    )}
                   </div>
                   <div className="col-2">
-                    <button
+                  { permissionForUser?.action && <button
                       className="btn btn-light btn-sm"
                       type="button"
                       id="export-button"
@@ -254,7 +269,7 @@ function Admins() {
                         />
                       </svg>{" "}
                       Export
-                    </button>
+                    </button>}
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -265,8 +280,8 @@ function Admins() {
                       <th>Mobile</th>
                       <th>Location</th>
                       <th>Action</th>
-                      <th />
-                      <th />
+                    { permissionForUser?.delete && <th />}
+                      {/* <th /> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -283,7 +298,9 @@ function Admins() {
                             <h6>{data.mobile}</h6>
                           </td>
                           <td>
-                            <h6>{data.district?.district}, {data.state?.state}</h6>
+                            <h6>
+                              {data.district?.district}, {data.state?.state}
+                            </h6>
                           </td>
                           <td onClick={() => handleViewAdmin(data)}>
                             <a
@@ -294,6 +311,7 @@ function Admins() {
                               View User
                             </a>
                           </td>
+                         {/* {permissionForUser?.delete && <td></td>} */}
                         </tr>
                       ))
                     ) : (
@@ -307,15 +325,19 @@ function Admins() {
                           {/* Pagination controls */}
                           <button
                             className="btn btn-light btn-sm"
-                            onClick={() => handlePaginationClick(pagination.previous)}
+                            onClick={() =>
+                              handlePaginationClick(pagination.previous)
+                            }
                             disabled={!pagination.previous}
-                            style={{ marginRight: '10px' }}
+                            style={{ marginRight: "10px" }}
                           >
                             Previous
                           </button>
                           <button
                             className="btn btn-light btn-sm"
-                            onClick={() => handlePaginationClick(pagination.next)}
+                            onClick={() =>
+                              handlePaginationClick(pagination.next)
+                            }
                             disabled={!pagination.next}
                           >
                             Next
@@ -324,7 +346,6 @@ function Admins() {
                       </tr>
                     )}
                   </tbody>
-
                 </table>
               </div>
             </div>

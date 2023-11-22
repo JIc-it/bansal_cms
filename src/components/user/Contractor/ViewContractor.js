@@ -12,8 +12,13 @@ import {
   getUserRedemptionData,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 const ViewContractor = () => {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
 
@@ -248,24 +253,28 @@ const ViewContractor = () => {
             </span>
           </div>
           <div className="reset-buttons">
-            <button
-              className="btn bg-blue btn-sm"
-              type="button"
-              id="add-points-button"
-              onClick={() => {
-                setOpenResetPassword(true);
-              }}
-            >
-              Reset Password
-            </button>
-            <button
-              className="btn bg-blue btn-sm mx-2"
-              type="button"
-              id="export-button"
-              onClick={() => setOpenEdit(true)}
-            >
-              Edit Details
-            </button>
+            {permissionForUser?.action && (
+              <button
+                className="btn bg-blue btn-sm"
+                type="button"
+                id="add-points-button"
+                onClick={() => {
+                  setOpenResetPassword(true);
+                }}
+              >
+                Reset Password
+              </button>
+            )}
+            {permissionForUser?.update && (
+              <button
+                className="btn bg-blue btn-sm mx-2"
+                type="button"
+                id="export-button"
+                onClick={() => setOpenEdit(true)}
+              >
+                Edit Details
+              </button>
+            )}
           </div>
         </div>
         <div className="row">
@@ -409,7 +418,7 @@ const ViewContractor = () => {
                         aria-describedby="search-button"
                         value={search}
                         onChange={(e) => {
-                          setCurrentPage(1)
+                          setCurrentPage(1);
                           setSearch(e.target.value);
                         }}
                       />
@@ -501,47 +510,50 @@ const ViewContractor = () => {
                   )}
                 </div>
                 <div className="col-3 text-end contractor-grid-button">
-                  {seletedTranasactionType === "Orders" && (
+                  {seletedTranasactionType === "Orders" &&
+                    permissionForUser?.action && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddPointsPopUp(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add Points
+                      </button>
+                    )}
+                  {permissionForUser?.action && (
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-light btn-sm mx-2"
                       type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddPointsPopUp(true);
-                      }}
+                      id="export-button"
+                      onClick={exportToCSV}
                     >
-                      <i className="fa-regular fa-square-plus" /> Add Points
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                      >
+                        <path
+                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>{" "}
+                      Export
                     </button>
                   )}
-                  <button
-                    className="btn btn-light btn-sm mx-2"
-                    type="button"
-                    id="export-button"
-                    onClick={exportToCSV}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                    >
-                      <path
-                        d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                        stroke="#0F0F0F"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                        stroke="#0F0F0F"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>{" "}
-                    Export
-                  </button>
                 </div>
               </div>
 

@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import OrderDetails from "./orderDetails";
 import { getOrderRequest } from "../../../axiosHandle/requestHandle";
 import { getLeadRequest } from "../../../axiosHandle/requestHandle";
 import FilterPopUp from "./FilterPopUp";
 import { getOrderPoint } from "../../../axiosHandle/pointsHandle";
+import { AppContext } from "../../../contexts/AppContext";
 export default function OrderPoints() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForPointsOrder = permissionData?.points_orders;
+
   function formatDate(isoDate) {
     const date = new Date(isoDate);
     return date.toLocaleString();
@@ -48,7 +53,7 @@ export default function OrderPoints() {
   const currentItems = orderData
     ? orderData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
-    
+
   const exportToCSV = () => {
     if (orderData) {
       const header = [
@@ -259,14 +264,16 @@ export default function OrderPoints() {
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
-                    <button
-                      style={{ marginLeft: 135 }}
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      onClick={exportToCSV}
-                    >
-                      <i className="fa-solid fa-file-export" /> Export
-                    </button>
+                    {permissionForPointsOrder?.action && (
+                      <button
+                        style={{ marginLeft: 135 }}
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        onClick={exportToCSV}
+                      >
+                        <i className="fa-solid fa-file-export" /> Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="list-tbl" class="table">
@@ -383,6 +390,7 @@ export default function OrderPoints() {
           data={selectedOrder}
           open={selectedOrder}
           setOpen={setSelectedOrder}
+          permissionForPointsOrder={permissionForPointsOrder}
         />
       )}
     </div>

@@ -7,8 +7,13 @@ import {
 import AddNewDistributor from "./AddNewDistributor";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { AppContext } from "../../../contexts/AppContext";
+import { useContext } from "react";
 
 export default function Distributors() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
@@ -202,7 +207,7 @@ export default function Distributors() {
                       className="col-5 text-end"
                       style={{ paddingTop: "1.5rem" }}
                     >
-                      <button
+                     {permissionForUser?.create && <button
                         className="btn btn-primary btn-sm"
                         type="button"
                         id="add-points-button"
@@ -212,10 +217,10 @@ export default function Distributors() {
                       >
                         <i className="fa-regular fa-square-plus" /> Add New
                         Distributor
-                      </button>
+                      </button>}
                     </div>
                     <div className="col-2" style={{ paddingTop: "1.5rem" }}>
-                      <button
+                     { permissionForUser?.action &&<button
                         className="btn btn-light btn-sm"
                         type="button"
                         id="export-button"
@@ -243,7 +248,7 @@ export default function Distributors() {
                           />
                         </svg>{" "}
                         Export
-                      </button>
+                      </button>}
                     </div>
                   </div>
                   <table id="empoloyees-tblwrapper" className="table">
@@ -254,8 +259,8 @@ export default function Distributors() {
                         <th>Mobile</th>
                         <th>Location</th>
                         <th>Action</th>
-                        <th />
-                        <th />
+                        {/* <th /> */}
+                      { permissionForUser?.delete && <th />}
                       </tr>
                     </thead>
                     <tbody>
@@ -289,7 +294,7 @@ export default function Distributors() {
                                 View User
                               </a>
                             </td>
-                            <td
+                         { permissionForUser?.delete &&  <td
                               onClick={() => {
                                 setOpenRemoveOption(true);
                                 setSelectedIdForRemove(data.id);
@@ -325,7 +330,7 @@ export default function Distributors() {
                                     </span>
                                   </div>
                                 )}
-                            </td>
+                            </td>}
                           </tr>
                         ))
                       ) : (

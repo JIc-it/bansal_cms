@@ -8,8 +8,13 @@ import EngineersFilter from "./EngineersFilter";
 import AddNewEngineer from "./AddNewEngineer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 export default function Engineers() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
@@ -117,7 +122,7 @@ export default function Engineers() {
       <div className="container">
         <div className="row">
           <div className="col-xl-12 wid-100">
-            <div className="row" style={{position: 'relative', left: '15px'}}>
+            <div className="row" style={{ position: "relative", left: "15px" }}>
               <div className="col-md-4 col-12 same-card">
                 <div className="card">
                   <div className="card-body depostit-card">
@@ -283,48 +288,52 @@ export default function Engineers() {
                     className="col-3 text-end"
                     style={{ paddingTop: "1.5rem" }}
                   >
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-points-button"
-                      onClick={() => {
-                        setIsOpenAddEngineer(true);
-                      }}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add New
-                      Engineer
-                    </button>
+                    {permissionForUser?.create && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-points-button"
+                        onClick={() => {
+                          setIsOpenAddEngineer(true);
+                        }}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add New
+                        Engineer
+                      </button>
+                    )}
                   </div>
                   <div className="col-2" style={{ paddingTop: "1.5rem" }}>
-                    <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      id="export-button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForUser?.action && (
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -338,7 +347,7 @@ export default function Engineers() {
 
                       <th>Points</th>
                       <th>Action</th>
-                      <th> </th>
+                      {permissionForUser?.delete && <th> </th>}
                     </tr>
                   </thead>
                   <tbody>

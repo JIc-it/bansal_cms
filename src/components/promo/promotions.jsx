@@ -7,8 +7,14 @@ import {
 } from "../../axiosHandle/promotionHandle";
 import UpdateADPoster from "./UpdateADPoster";
 import { convertToDateTime } from "../../helper";
+import { useContext } from "react";
+import { AppContext } from "../../contexts/AppContext";
 
 function Promotions() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForPromotion = permissionData?.promotions;
+  console.log(permissionForPromotion, "permissionForPromotion");
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [adslisting, setAdsLIsting] = useState({});
   const [selectedPromotionDetails, setSelectedPromotionDetails] = useState();
@@ -57,16 +63,18 @@ function Promotions() {
                         <h6 className="" style={{ fontSize: "16px" }}>
                           Ad Spot - {index + 1}
                         </h6>
-                        <a
-                          className="btn bg-blue btn-sm"
-                          data-bs-toggle="offcanvas"
-                          href="#offcanvasExample"
-                          role="button"
-                          aria-controls="offcanvasExample"
-                          onClick={() => handleOpenOffcanvas(ads)}
-                        >
-                          Update
-                        </a>
+                        {permissionForPromotion?.update && (
+                          <a
+                            className="btn bg-blue btn-sm"
+                            data-bs-toggle="offcanvas"
+                            href="#offcanvasExample"
+                            role="button"
+                            aria-controls="offcanvasExample"
+                            onClick={() => handleOpenOffcanvas(ads)}
+                          >
+                            Update
+                          </a>
+                        )}
                       </div>
                       <div className="card-body">
                         <div className="products style-1">
@@ -113,39 +121,41 @@ function Promotions() {
                             </a>
                           </div>
                           <div className="col-md-6">
-                            <div
-                              className=" form-switch"
-                              style={{
-                                display: "inline-block",
-                              }}
-                            >
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`activationToggle-${index}`}
-                                name={`activationToggle-${index}`}
-                                checked={
-                                  selectedIdForCheck === ads.id
-                                    ? isChecked
-                                    : ads.is_active
-                                }
-                                defaultValue={ads.is_active}
-                                onChange={(e) => {
-                                  setSelectedIdForCheck(ads.id);
-                                  setIsChecked(e.target.checked);
-                                  updateActivePromotion(
-                                    ads.id,
-                                    e.target.checked
-                                  );
+                            {permissionForPromotion?.update && (
+                              <div
+                                className=" form-switch"
+                                style={{
+                                  display: "inline-block",
                                 }}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`activationToggle-${index}`}
                               >
-                                Active
-                              </label>
-                            </div>
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`activationToggle-${index}`}
+                                  name={`activationToggle-${index}`}
+                                  checked={
+                                    selectedIdForCheck === ads.id
+                                      ? isChecked
+                                      : ads.is_active
+                                  }
+                                  defaultValue={ads.is_active}
+                                  onChange={(e) => {
+                                    setSelectedIdForCheck(ads.id);
+                                    setIsChecked(e.target.checked);
+                                    updateActivePromotion(
+                                      ads.id,
+                                      e.target.checked
+                                    );
+                                  }}
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor={`activationToggle-${index}`}
+                                >
+                                  Active
+                                </label>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
