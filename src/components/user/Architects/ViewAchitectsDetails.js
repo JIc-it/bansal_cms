@@ -551,10 +551,10 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.name}</h6>
+                                  <h6>{ele.distributor?.name ?? "Manual"}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.id}</h6>
+                                  <h6>{ele.distributor?.id ?? "Manual"}</h6>
                                 </td>
                                 <td>
                                   <h6>

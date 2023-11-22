@@ -44,11 +44,15 @@ export default function AddPointsPopUP({
       .test('maxPoints', 'Maximum 1000 points allowed', (value) => {
         return parseInt(value, 10) <= 1000;
       }),
+    comments: Yup.string()
+      .required("Comments is required")
+      .max(50, 'Comments must be up to 50 characters'),
   });
 
   const formik = useFormik({
     initialValues: {
       points: "",
+      comments: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -66,6 +70,7 @@ export default function AddPointsPopUP({
 
           const data = {
             points: values.points,
+            comments: values.comments,
           };
 
           const contractorData = await addUserPoints(userId, data);
@@ -150,6 +155,20 @@ export default function AddPointsPopUP({
             />
             {formik.touched.points && formik.errors.points ? (
               <div className="error">{formik.errors.points}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              placeholder="Comments"
+              name="comments"
+              className="form-control form-control-sm"
+              value={formik.values.comments}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.comments && formik.errors.comments ? (
+              <div className="error" style={{ color: 'red' }}>{formik.errors.comments}</div>
             ) : null}
           </div>
           <span
