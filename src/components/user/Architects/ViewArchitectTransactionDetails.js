@@ -1,8 +1,8 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-const ViewArchitectTransactionDetails = ({ open, setOpen,itemData }) => {
-  console.log("ViewArchitectTransactionDetails",itemData)
+const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
+  console.log("ViewArchitectTransactionDetails", itemData)
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -50,28 +50,27 @@ const ViewArchitectTransactionDetails = ({ open, setOpen,itemData }) => {
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>Transaction Details</h6>
-        
-          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:30}}>
+
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30 }}>
           <span>Admin Status :</span>
-    
-    <span
-      className={`btn  btn-sm ${
-        itemData.admin_approval === "Accepted" &&
-        itemData.user_approval === "Accepted"
-          ? "Accepted-btn"
-          : itemData.admin_approval === "Rejected" ||
-          itemData.user_approval === "Rejected"
-          ? "Rejected-btn"
-          : "Processing-btn"
-      }`}
-    >
-      {itemData.admin_approval === "Accepted"
-        ? "Accepted"
-        : itemData.admin_approval === "Rejected" 
-        ? "Rejected"
-        : "Processing"}
-    </span>
-          </div>
+
+          <span
+            className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
+                itemData.user_approval === "Accepted"
+                ? "Accepted-btn"
+                : itemData.admin_approval === "Rejected" ||
+                  itemData.user_approval === "Rejected"
+                  ? "Rejected-btn"
+                  : "Processing-btn"
+              }`}
+          >
+            {itemData.admin_approval === "Accepted"
+              ? "Accepted"
+              : itemData.admin_approval === "Rejected"
+                ? "Rejected"
+                : "Processing"}
+          </span>
+        </div>
         {/* <span
           style={{ marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
@@ -79,107 +78,110 @@ const ViewArchitectTransactionDetails = ({ open, setOpen,itemData }) => {
           {itemData.admin_approval}
         </span> */}
         <br></br>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:0,marginBottom:10}}>
-        <span>Distributor Status :</span>
-        <span style={{marginLeft:80}}
-                className={`btn  btn-sm ${
-                  itemData.admin_approval === "Accepted" &&
-                  itemData.user_approval === "Accepted"
-                    ? "Accepted-btn"
-                    : itemData.admin_approval === "Rejected" ||
-                    itemData.user_approval === "Rejected"
-                    ? "Rejected-btn"
-                    : "Processing-btn"
-                }`}
-              >
-                {itemData.admin_approval === "Accepted" &&
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 0, marginBottom: 10 }}>
+          <span>Distributor Status :</span>
+          <span style={{ marginLeft: 80 }}
+            className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
                 itemData.user_approval === "Accepted"
-                  ? "Accepted"
-                  : itemData.admin_approval === "Rejected" ||
+                ? "Accepted-btn"
+                : itemData.admin_approval === "Rejected" ||
                   itemData.user_approval === "Rejected"
-                  ? "Rejected"
-                  : "Processing"}
-              </span>
-        {/* <span
+                  ? "Rejected-btn"
+                  : "Processing-btn"
+              }`}
+          >
+            {itemData.admin_approval === "Accepted" &&
+              itemData.user_approval === "Accepted"
+              ? "Accepted"
+              : itemData.admin_approval === "Rejected" ||
+                itemData.user_approval === "Rejected"
+                ? "Rejected"
+                : "Processing"}
+          </span>
+          {/* <span
           style={{ marginLeft: 168 }}
           className="badge badge-success light border-0"
         >
           {itemData.user_approval}
         </span> */}
-        <br></br>
-        
+          <br></br>
+
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',marginBottom:10}}>
-        <span  style={{flex:'2'}}>Transaction ID :</span>
-        <span  style={{flex:'2'}}>{itemData.transaction_id}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+          <span style={{ flex: '2' }}>Transaction ID :</span>
+          <span style={{ flex: '2' }}>{itemData.transaction_id}</span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingRight:30,marginBottom:10}}>
-        <span  style={{flex:'2'}}>Date & Time :</span>
-        <span >
-        {new Date(itemData.created_at).toLocaleDateString("en-US", {
-                day: "2-digit",
-                month: "short",
-                year: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-        </span>
-       
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30, marginBottom: 10 }}>
+          <span style={{ flex: '2' }}>Date & Time :</span>
+          <span >
+            {new Date(itemData.created_at).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+
+          <br></br>
         </div>
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>Distributor Details</h6>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Name :</span>
-        <span style={{flex:'2'}}>{itemData.distributor.name}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Name :</span>
+          <span style={{ flex: '2' }}>{itemData.distributor.name}</span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Unique ID :</span>
-        <span style={{flex:'2'}}>{itemData.distributor.user_id}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Unique ID :</span>
+          <span style={{ flex: '2' }}>{itemData.distributor.user_id}</span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Address :</span>
-        <span style={{flex:'2' }}>
-          {itemData.distributor.district},{" "}
-          <span >{itemData.distributor.state}</span>
-        </span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Address :</span>
+          <span style={{ flex: '2' }}>
+            {itemData.distributor.district},{" "}
+            <span >{itemData.distributor.state}</span>
+          </span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Mobile :</span>
-        <span style={{flex:'2'}}>{itemData.distributor.mobile}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Mobile :</span>
+          <span style={{ flex: '2' }}>{itemData.distributor.mobile}</span>
+          <br></br>
         </div>
       </div>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>{itemData.user.role} Details</h6>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Name :</span>
-        <span style={{flex:'2'}}>{itemData.user.name}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Name :</span>
+          <span style={{ flex: '2' }}>{itemData.user.name}</span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Unique ID :</span>
-        <span style={{flex:'2'}}>{itemData.user.user_id}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Unique ID :</span>
+          <span style={{ flex: '2' }}>{itemData.user.user_id}</span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Address :</span>
-        <span style={{flex:'2'}}>
-          {itemData.user.district},{" "}
-          <span > {itemData.user.state}</span>
-        </span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Address :</span>
+          <span style={{ flex: '2' }}>
+            {itemData.user.district},{" "}
+            <span > {itemData.user.state}</span>
+          </span>
+          <br></br>
         </div>
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <span style={{flex:'2'}}>Mobile :</span>
-        <span style={{flex:'2'}}>{itemData.user.mobile}</span>
-        <br></br>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <span style={{ flex: '2' }}>Mobile :</span>
+          <span style={{ flex: '2' }}>{itemData.user.mobile}</span>
+          <br></br>
         </div>
+      </div>
+      <div style={{ marginTop: 10, marginLeft: 20 }}>
+        <h6>Comments</h6>
+        <span style={{ marginLeft: 237 }}>{itemData.comments}</span>
       </div>
       <div>
         <h6 style={statusOffcanvas}>
@@ -190,12 +192,12 @@ const ViewArchitectTransactionDetails = ({ open, setOpen,itemData }) => {
               alignItems: "center",
             }}
           >
-            <div style={{padding:20}}>
+            <div style={{ padding: 20 }}>
               <span>Quantity</span>
               <h5>{itemData.quantity} Tons</h5>
             </div>
             <div className="divider-line"></div>
-            <div style={{padding:20}}>
+            <div style={{ padding: 20 }}>
               <span>Loyalty Points</span>
               <h5>{itemData.points}Pts</h5>
             </div>
