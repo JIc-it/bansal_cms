@@ -205,7 +205,7 @@
 //               </div>
 //             </div>
 //           </div>
-         
+
 //           <div className="col-md-9 col-12 same-card">
 //             <div className="card">
 //               <div className="card-body depostit-card">
@@ -588,13 +588,17 @@ import {
   getContractorsRequest,
   getUserOrders,
   getUserRedemptionData,
-  adminPermissionViewRequest
+  adminPermissionViewRequest,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
 import ViewPermission from "./ViewPermission";
-
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 const ViewSales = () => {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForUser = permissionData?.users;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
@@ -602,50 +606,50 @@ const ViewSales = () => {
   const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [seletedTranasactionType, setSeletedTranasactionType] = useState("Orders");
+  const [seletedTranasactionType, setSeletedTranasactionType] =
+    useState("Orders");
   const [transactionData, setTransactionData] = useState();
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [filterdata, setFilterdata] = useState({
-    role:"",
+    role: "",
     search: "",
     status: "",
     points_from: 0,
     points_to: 0,
     date: "",
   });
-  
-const handlefilterdata=(field)=>{
-  setFilterdata((prev)=>{
-    return {
-      ...prev,...field
-    }
-  })
-}
+
+  const handlefilterdata = (field) => {
+    setFilterdata((prev) => {
+      return {
+        ...prev,
+        ...field,
+      };
+    });
+  };
 
   // console.log(filterdata);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  
 
   const [userDataParam, setUserDataParam] = useState({
-    id: queryParams.get('id'),
-    user_id: queryParams.get('user_id'),
-    name: queryParams.get('name'),
-    email: queryParams.get('email'),
-    mobile: queryParams.get('mobile'),
-    state: queryParams.get('state'),
-    district: queryParams.get('district'),
-    state_id:queryParams.get('state_id'),
-    district_id:queryParams.get('district_id')
+    id: queryParams.get("id"),
+    user_id: queryParams.get("user_id"),
+    name: queryParams.get("name"),
+    email: queryParams.get("email"),
+    mobile: queryParams.get("mobile"),
+    state: queryParams.get("state"),
+    district: queryParams.get("district"),
+    state_id: queryParams.get("state_id"),
+    district_id: queryParams.get("district_id"),
   });
 
   const handlepassdata = () => {
     setPermissionView(true);
-   };
-
+  };
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
@@ -660,9 +664,8 @@ const handlefilterdata=(field)=>{
       });
   }, []);
 
-  
   const handleUserOrderData = () => {
-    getUserOrders(queryParams.get('id'))
+    getUserOrders(queryParams.get("id"))
       .then((data) => {
         setTransactionData(data.results);
         setTotalOrder(data.total);
@@ -672,24 +675,22 @@ const handlefilterdata=(field)=>{
       });
   };
 
-const handlechangetransactiondata=(data)=>{
-  setTransactionData(data)
-}
-
+  const handlechangetransactiondata = (data) => {
+    setTransactionData(data);
+  };
 
   const [data, setData] = useState();
 
   console.log(userDataParam.id);
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
-        .then((data) => {
-            setData(data?.permission);
-        })
-        .catch((error) => {
-            console.error("Error fetching distributor data:", error);
-        });
-}, [userDataParam.id]);
-
+      .then((data) => {
+        setData(data?.permission);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  }, [userDataParam.id]);
 
   useEffect(() => {
     userData && handleUserOrderData();
@@ -716,7 +717,6 @@ const handlechangetransactiondata=(data)=>{
     }
   };
 
-
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
     if (type === "Orders") {
@@ -733,38 +733,38 @@ const handlechangetransactiondata=(data)=>{
   };
   const exportToCSV = () => {
     if (transactionData) {
-      const header =[
-            "Transaction Id",
-            " Name",
-            "Role",
-            " Unique_id",
-            "Date & Time",
-            "Points",
-            "Quantity",
-            "Status",
-          ]
+      const header = [
+        "Transaction Id",
+        " Name",
+        "Role",
+        " Unique_id",
+        "Date & Time",
+        "Points",
+        "Quantity",
+        "Status",
+      ];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
-            let status =
-              item.admin_approval === "Accepted" &&
+              let status =
+                item.admin_approval === "Accepted" &&
                 item.user_approval === "Accepted"
-                ? "Accepted"
-                : item.admin_approval === "Rejected" ||
-                  item.user_approval === "Rejected"
+                  ? "Accepted"
+                  : item.admin_approval === "Rejected" ||
+                    item.user_approval === "Rejected"
                   ? "Rejected"
                   : "Processing";
-            return [
-              item.transaction_id,
-              item.user?.name,
-              item.user?.role,
-              item.user?.user_id,
-              item.updated_at,
-              item.points,
-              item.quantity,
-              status,
-            ];
-          })
+              return [
+                item.transaction_id,
+                item.user?.name,
+                item.user?.role,
+                item.user?.user_id,
+                item.updated_at,
+                item.points,
+                item.quantity,
+                status,
+              ];
+            })
           : "";
 
       const csvContent = [header, ...csvData]
@@ -791,24 +791,28 @@ const handlechangetransactiondata=(data)=>{
             </span>
           </div>
           <div className="reset-buttons">
-            <button
-              className="btn bg-blue btn-sm"
-              type="button"
-              id="add-points-button"
-              onClick={() => {
-                setOpenResetPassword(true);
-              }}
-            >
-              Reset Password
-            </button>
-            <button
-              className="btn bg-blue btn-sm mx-2"
-              type="button"
-              id="export-button"
-              onClick={() => setOpenEdit(true)}
-            >
-              Edit Details
-            </button>
+            {permissionForUser?.action && (
+              <button
+                className="btn bg-blue btn-sm"
+                type="button"
+                id="add-points-button"
+                onClick={() => {
+                  setOpenResetPassword(true);
+                }}
+              >
+                Reset Password
+              </button>
+            )}
+            {permissionForUser?.update && (
+              <button
+                className="btn bg-blue btn-sm mx-2"
+                type="button"
+                id="export-button"
+                onClick={() => setOpenEdit(true)}
+              >
+                Edit Details
+              </button>
+            )}
           </div>
         </div>
         <div className="row">
@@ -846,15 +850,29 @@ const handlechangetransactiondata=(data)=>{
                       <span className="fs-6">Email</span>
                       <span className="fs-6">Mobile</span>
                       <span className="fs-6">Location</span>
-                      <span className="fs-6 fw-bold">Permissions &nbsp;&nbsp; <button className="btn bg-blue btn-sm" onClick={()=>handlepassdata()}>View</button></span>
+                      <span className="fs-6 fw-bold">
+                        Permissions &nbsp;&nbsp;{" "}
+                        <button
+                          className="btn bg-blue btn-sm"
+                          onClick={() => handlepassdata()}
+                        >
+                          View
+                        </button>
+                      </span>
                     </div>
                     <div className="user-email-details-data">
-                      <span className="fs-6">{userDataParam && userDataParam.email}</span>
-                      <span className="fs-6">{userDataParam && userDataParam.mobile}</span>
+                      <span className="fs-6">
+                        {userDataParam && userDataParam.email}
+                      </span>
+                      <span className="fs-6">
+                        {userDataParam && userDataParam.mobile}
+                      </span>
                       <span className="fs-6">
                         {userDataParam && userDataParam.district}
-                        {userDataParam.state && ', '}
-                        {userDataParam && userDataParam.state ? userDataParam.state : '-'}
+                        {userDataParam.state && ", "}
+                        {userDataParam && userDataParam.state
+                          ? userDataParam.state
+                          : "-"}
                       </span>
                     </div>
                   </div>
@@ -870,10 +888,11 @@ const handlechangetransactiondata=(data)=>{
               <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
-                    className={`btn btn-sm ${seletedTranasactionType === "Orders"
+                    className={`btn btn-sm ${
+                      seletedTranasactionType === "Orders"
                         ? "btn-primary"
                         : "btn-light"
-                      }`}
+                    }`}
                     type="button"
                     id="add-points-button"
                     onClick={() => handleClickTrancationType("Orders")}
@@ -903,7 +922,10 @@ const handlechangetransactiondata=(data)=>{
                       paddingLeft: 15,
                     }}
                   >
-                    <div className="search-group form-control" style={{ maxWidth: 300}}>
+                    <div
+                      className="search-group form-control"
+                      style={{ maxWidth: 300 }}
+                    >
                       <input
                         type="text"
                         className=""
@@ -912,7 +934,9 @@ const handlechangetransactiondata=(data)=>{
                         aria-label="Search..."
                         aria-describedby="search-button"
                         value={filterdata?.search}
-                        onChange={(e)=>handlefilterdata({search:e.target.value})}
+                        onChange={(e) =>
+                          handlefilterdata({ search: e.target.value })
+                        }
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -972,33 +996,44 @@ const handlechangetransactiondata=(data)=>{
                     </button>
 
                     <button
-                          className="btn btn-dark mx-1"
-                          type="button"
-                          // onClick={() => {
-                          //   setFilterCriteria({ from: "", to: "" });
-                          //   setSearchUserData("");
-                          //   setIsFilter(!isFilter);
-                          // }}
-                        >
-                          Clear filter
-                        </button>
+                      className="btn btn-dark mx-1"
+                      type="button"
+                      // onClick={() => {
+                      //   setFilterCriteria({ from: "", to: "" });
+                      //   setSearchUserData("");
+                      //   setIsFilter(!isFilter);
+                      // }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
-                  {transactionFilterOpen && <TransactionFilterPopUp handlefilterdata={handlefilterdata}/>}
+                  {transactionFilterOpen && (
+                    <TransactionFilterPopUp
+                      handlefilterdata={handlefilterdata}
+                    />
+                  )}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
-                  <button
-                    className="btn btn-light btn-sm mx-2"
-                    type="button"
-                    id="export-button"
-                    onClick={exportToCSV}
-                  >
-                    <i className="fa-solid fa-file-export" /> Export
-                  </button>
+                  {permissionForUser?.action && (
+                    <button
+                      className="btn btn-light btn-sm mx-2"
+                      type="button"
+                      id="export-button"
+                      onClick={exportToCSV}
+                    >
+                      <i className="fa-solid fa-file-export" /> Export
+                    </button>
+                  )}
                 </div>
               </div>
 
               {seletedTranasactionType === "Orders" ? (
-                <AdminUserViewOrders id={queryParams.get('id')} filterdata={filterdata} handlechangetransactiondata={handlechangetransactiondata}/>
+                <AdminUserViewOrders
+                  id={queryParams.get("id")}
+                  filterdata={filterdata}
+                  handlechangetransactiondata={handlechangetransactiondata}
+                />
+              ) : (
                 // <div className="table-responsive  active-projects">
                 //   <table id="list-tbl" class="table">
                 //     <thead>
@@ -1079,7 +1114,6 @@ const handlechangetransactiondata=(data)=>{
                 //     </tbody>
                 //   </table>
                 // </div>
-              ) : (
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
                     <thead>
@@ -1108,7 +1142,17 @@ const handlechangetransactiondata=(data)=>{
                                   <h6>{ele.distributor}</h6>
                                 </td>
                                 <td>
-                                  <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us', { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
                                 <td>
                                   <h6>{ele.distributor}</h6>
@@ -1119,22 +1163,23 @@ const handlechangetransactiondata=(data)=>{
 
                                 <td>
                                   <button
-                                    className={`btn  btn-sm ${ele.admin_approval === "Accepted" &&
-                                        ele.user_approval === "Accepted"
+                                    className={`btn  btn-sm ${
+                                      ele.admin_approval === "Accepted" &&
+                                      ele.user_approval === "Accepted"
                                         ? "Accepted-btn"
                                         : ele.admin_approval === "Rejected" ||
                                           ele.user_approval === "Rejected"
-                                          ? "Rejected-btn"
-                                          : "Processing-btn"
-                                      }`}
+                                        ? "Rejected-btn"
+                                        : "Processing-btn"
+                                    }`}
                                   >
                                     {ele.admin_approval === "Accepted" &&
-                                      ele.user_approval === "Accepted"
+                                    ele.user_approval === "Accepted"
                                       ? "Accepted"
                                       : ele.admin_approval === "Rejected" ||
                                         ele.user_approval === "Rejected"
-                                        ? "Rejected"
-                                        : "Processing"}
+                                      ? "Rejected"
+                                      : "Processing"}
                                   </button>
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>
@@ -1182,11 +1227,13 @@ const handlechangetransactiondata=(data)=>{
           </div>{" "}
         </div>
       </div>
-      {permissionview && <ViewPermission
+      {permissionview && (
+        <ViewPermission
           open={permissionview}
           setOpen={setPermissionView}
           data={data}
-        />}
+        />
+      )}
       {/* {viewTransaction && (
         <ViewContractorTransaction setOpen={setViewTransaction} />
       )}
@@ -1200,10 +1247,17 @@ const handlechangetransactiondata=(data)=>{
         <AdminResetPassword
           open={openResetPassword}
           setOpen={setOpenResetPassword}
-          userDatail={queryParams.get('id')}
+          userDatail={queryParams.get("id")}
         />
       )}
-      {openEdit && <EditAdmin open={openEdit} setOpen={setOpenEdit} data={data} userdata={userDataParam}/>}
+      {openEdit && (
+        <EditAdmin
+          open={openEdit}
+          setOpen={setOpenEdit}
+          data={data}
+          userdata={userDataParam}
+        />
+      )}
     </div>
   );
 };

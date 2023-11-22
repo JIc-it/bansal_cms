@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import OrderDetails from "./orderDetails";
 import {
@@ -11,7 +11,13 @@ import {
 } from "../../../axiosHandle/requestHandle";
 
 import FilterPopUp from "./FilterPopUp";
+import { AppContext } from "../../../contexts/AppContext";
 export default function OrderRequests() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForRequestOrder = permissionData?.order_requests;
+  console.log(permissionForRequestOrder?.action, "permissionData");
+
   function formatDate(isoDate) {
     const date = new Date(isoDate);
     return date.toLocaleString();
@@ -357,35 +363,37 @@ export default function OrderRequests() {
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
-                    <button
-                      style={{ marginLeft: 135 }}
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForRequestOrder?.action && (
+                      <button
+                        style={{ marginLeft: 135 }}
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="list-tbl" class="table">
@@ -480,6 +488,7 @@ export default function OrderRequests() {
           setOpen={setSelectedOrder}
           hasUpdate={hasUpdate}
           setHasUpdate={setHasUpdate}
+          permissionForRequestOrder={permissionForRequestOrder}
         />
       )}
     </div>

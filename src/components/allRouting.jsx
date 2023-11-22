@@ -66,7 +66,7 @@ export default function AllRouting() {
         <Route path="/pocdetails" element={<SalesPocDetails />} />
         {/* <Route path="/admdetails" element={<AdminDetails />} /> */}
         <Route path="/dtrdetails" element={<DistributorDetails />} />
-        <Route path="/promotionhistory" element={<PromotionsHistory />} />
+        <Route path="/promotionhistory/:id" element={<PromotionsHistory />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />

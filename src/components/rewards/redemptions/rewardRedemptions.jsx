@@ -3,8 +3,14 @@ import { getRedemptionRequest } from "../../../axiosHandle/rewardHandle";
 import ViewReward from "./viewReward";
 import FilterPopUp from "./FilterPopUp";
 import { getLeadRequest } from "../../../axiosHandle/requestHandle";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 function Redemptions() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForRedemption = permissionData?.redemptions;
+  console.log(permissionForRedemption, "permissionForRedemption");
   const handleViewClick = (data) => {
     setselectedRedemption(data);
   };
@@ -44,7 +50,6 @@ function Redemptions() {
         console.error("Error fetching lead data:", error);
       });
   };
-
 
   const exportToCSV = () => {
     if (reward_redemption_data) {
@@ -245,14 +250,16 @@ function Redemptions() {
                       )}
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
-                      <button
-                        style={{ marginLeft: 120 }}
-                        className="btn btn-light btn-sm"
-                        type="button"
-                        onClick={exportToCSV}
-                      >
-                        <i className="fa-solid fa-file-export" /> Export
-                      </button>
+                      {permissionForRedemption?.action && (
+                        <button
+                          style={{ marginLeft: 120 }}
+                          className="btn btn-light btn-sm"
+                          type="button"
+                          onClick={exportToCSV}
+                        >
+                          <i className="fa-solid fa-file-export" /> Export
+                        </button>
+                      )}
                     </div>
                   </div>
                   <table id="reports-tbl" className="table">
@@ -352,6 +359,7 @@ function Redemptions() {
           setOpen={setselectedRedemption}
           setIsUpdated={setIsUpdated}
           isUpdated={isUpdated}
+          permissionForRedemption={permissionForRedemption}
         />
       )}
     </div>

@@ -4,8 +4,14 @@ import axiosInstance from "../../axiosHandle/authHandle";
 import { useState, useEffect } from "react";
 import { getAdHistory, getAdsListing } from "../../axiosHandle/promotionHandle";
 import UpdateADPoster from "./UpdateADPoster";
+import { useContext } from "react";
+import { AppContext } from "../../contexts/AppContext";
 
 function PromotionsHistory() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForPromotion = permissionData?.promotions;
+  console.log(permissionForPromotion, "permissionForPromotion");
   const paramsid = useParams();
   const [history, setHistory] = useState(null);
   const [searchData, setSearchData] = useState("");
@@ -21,7 +27,7 @@ function PromotionsHistory() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [searchData, isUpdatedPromotion]);
+  }, [searchData, isUpdatedPromotion, paramsid.id]);
 
   const handleOpenOffcanvas = (id) => {
     setShowOffcanvas(true);
@@ -115,45 +121,49 @@ function PromotionsHistory() {
                       </div>
                     </div>
                     <div className="col-6 text-end">
-                      <button
-                        className="btn btn-light btn-sm"
-                        type="button"
-                        id="export-button"
-                        onClick={exportToCSV}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
+                      {permissionForPromotion?.action && (
+                        <button
+                          className="btn btn-light btn-sm"
+                          type="button"
+                          id="export-button"
+                          onClick={exportToCSV}
                         >
-                          <path
-                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                          />
-                          <path
-                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>{" "}
-                        Export
-                      </button>
-                      <a
-                        className="btn bg-blue btn-sm mx-2"
-                        data-bs-toggle="offcanvas"
-                        href="#offcanvasExample"
-                        role="button"
-                        aria-controls="offcanvasExample"
-                        onClick={() => handleOpenOffcanvas(paramsid.id)}
-                      >
-                        Update
-                      </a>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                              stroke="#0F0F0F"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                              stroke="#0F0F0F"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>{" "}
+                          Export
+                        </button>
+                      )}
+                      {permissionForPromotion?.update && (
+                        <a
+                          className="btn bg-blue btn-sm mx-2"
+                          data-bs-toggle="offcanvas"
+                          href="#offcanvasExample"
+                          role="button"
+                          aria-controls="offcanvasExample"
+                          onClick={() => handleOpenOffcanvas(paramsid.id)}
+                        >
+                          Update
+                        </a>
+                      )}
                     </div>
                   </div>
                   <div>

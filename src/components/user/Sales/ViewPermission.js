@@ -80,6 +80,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 
 const ViewPermission = ({ open, setOpen, data }) => {
   console.log(data);
+  
   return (
     <Offcanvas
       show={true}

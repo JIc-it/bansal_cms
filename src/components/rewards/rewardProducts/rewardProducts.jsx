@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Cards from "./cards";
 import { getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
 import AddReward from "./addReward";
 import EditReward from "./editReward";
+import { AppContext } from "../../../contexts/AppContext";
 
 function RewardPoints() {
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForRewardProducts = permissionData?.reward_products;
+  const permissionForRedumtionWindow = permissionData?.redemptions_window;
+  console.log(permissionForRewardProducts, "permissionForRewardProducts");
   const [reward_product_data, setRewardProductData] = useState(null);
   const [createProduct, setCreateProduct] = useState(null);
   const [updateProduct, setUpdateProduct] = useState(null);
@@ -78,20 +84,20 @@ function RewardPoints() {
   const filteredItems =
     reward_product_data && reward_product_data.length > 0
       ? reward_product_data.filter((rw_data) => {
-        const searchableFields = [
-          rw_data.title,
-          rw_data.id,
-          rw_data.points,
-          rw_data.description,
-          rw_data.is_active,
-          rw_data.times_redeemed,
-        ];
-        return searchableFields.some(
-          (field) =>
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchText.toLowerCase())
-        );
-      })
+          const searchableFields = [
+            rw_data.title,
+            rw_data.id,
+            rw_data.points,
+            rw_data.description,
+            rw_data.is_active,
+            rw_data.times_redeemed,
+          ];
+          return searchableFields.some(
+            (field) =>
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchText.toLowerCase())
+          );
+        })
       : [];
 
   const handleNextPage = () => {
@@ -108,7 +114,7 @@ function RewardPoints() {
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
-      <Cards />
+      <Cards permissionForRedumtionWindow={permissionForRedumtionWindow} />
       <div className="row" style={{ marginLeft: "15px" }}>
         <div className="col-xl-12">
           <div className="card">
@@ -138,46 +144,50 @@ function RewardPoints() {
                     </div>
                   </div>
                   <div className="col-5 text-end">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      type="button"
-                      id="add-product-button"
-                      onClick={() => handleCreateClick()}
-                    >
-                      <i className="fa-regular fa-square-plus" /> Add Reward
-                      Product
-                    </button>
+                    {permissionForRewardProducts?.create && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        id="add-product-button"
+                        onClick={() => handleCreateClick()}
+                      >
+                        <i className="fa-regular fa-square-plus" /> Add Reward
+                        Product
+                      </button>
+                    )}
                   </div>
                   <div className="col-2">
-                    <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      id="export-button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForRewardProducts?.action && (
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="reports-tbl" className="table">
@@ -204,7 +214,8 @@ function RewardPoints() {
                                 height={40}
                                 style={{ paddingRight: 10 }}
                               />
-                              {rw_data.title}</h6>
+                              {rw_data.title}
+                            </h6>
                           </td>
                           <td>
                             <h6>{rw_data.reward_id}</h6>
@@ -236,17 +247,32 @@ function RewardPoints() {
                             <h6>{rw_data.quantity}</h6>
                           </td> */}
                           <td>
-                            <button
-                              style={{ background: "blue" }}
-                              className="btn btn-primary btn-sm"
-                              onClick={() => handleEditClick(rw_data)}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M2.66699 14.667H13.3337" stroke="white" stroke-linecap="round" />
-                                <path d="M9.25903 2.44163L9.75336 1.94729C10.5724 1.12825 11.9003 1.12825 12.7194 1.94729C13.5384 2.76633 13.5384 4.09426 12.7194 4.9133L12.225 5.40764M9.25903 2.44163C9.25903 2.44163 9.32082 3.49209 10.2477 4.41897C11.1746 5.34585 12.225 5.40764 12.225 5.40764M9.25903 2.44163L4.71437 6.98629C4.40655 7.29411 4.25264 7.44802 4.12027 7.61772C3.96413 7.81791 3.83026 8.03451 3.72104 8.26369C3.62845 8.45797 3.55962 8.66446 3.42196 9.07745L2.83862 10.8275M12.225 5.40764L7.68038 9.9523C7.37256 10.2601 7.21865 10.414 7.04895 10.5464C6.84876 10.7025 6.63216 10.8364 6.40298 10.9456C6.2087 11.0382 6.0022 11.107 5.58922 11.2447L3.83922 11.828M3.83922 11.828L3.41144 11.9706C3.20821 12.0384 2.98414 11.9855 2.83266 11.834C2.68118 11.6825 2.62829 11.4585 2.69603 11.2552L2.83862 10.8275M3.83922 11.828L2.83862 10.8275" stroke="white" />
-                              </svg>&nbsp;
-                              Edit
-                            </button>
+                            {permissionForRewardProducts?.update && (
+                              <button
+                                style={{ background: "blue" }}
+                                className="btn btn-primary btn-sm"
+                                onClick={() => handleEditClick(rw_data)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M2.66699 14.667H13.3337"
+                                    stroke="white"
+                                    stroke-linecap="round"
+                                  />
+                                  <path
+                                    d="M9.25903 2.44163L9.75336 1.94729C10.5724 1.12825 11.9003 1.12825 12.7194 1.94729C13.5384 2.76633 13.5384 4.09426 12.7194 4.9133L12.225 5.40764M9.25903 2.44163C9.25903 2.44163 9.32082 3.49209 10.2477 4.41897C11.1746 5.34585 12.225 5.40764 12.225 5.40764M9.25903 2.44163L4.71437 6.98629C4.40655 7.29411 4.25264 7.44802 4.12027 7.61772C3.96413 7.81791 3.83026 8.03451 3.72104 8.26369C3.62845 8.45797 3.55962 8.66446 3.42196 9.07745L2.83862 10.8275M12.225 5.40764L7.68038 9.9523C7.37256 10.2601 7.21865 10.414 7.04895 10.5464C6.84876 10.7025 6.63216 10.8364 6.40298 10.9456C6.2087 11.0382 6.0022 11.107 5.58922 11.2447L3.83922 11.828M3.83922 11.828L3.41144 11.9706C3.20821 12.0384 2.98414 11.9855 2.83266 11.834C2.68118 11.6825 2.62829 11.4585 2.69603 11.2552L2.83862 10.8275M3.83922 11.828L2.83862 10.8275"
+                                    stroke="white"
+                                  />
+                                </svg>
+                                &nbsp; Edit
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))

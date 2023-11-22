@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import LeadDetails from './leadDetails';
-import { getLeadRequest } from '../../../axiosHandle/requestHandle';
-import FilterPopUp from './FilterPopUp';
-
-
+import React, { useState, useEffect } from "react";
+import LeadDetails from "./leadDetails";
+import { getLeadRequest } from "../../../axiosHandle/requestHandle";
+import FilterPopUp from "./FilterPopUp";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 export default function LeadPoints() {
-
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForPointsLead = permissionData?.points_leads;
+  console.log(permissionForPointsLead, "permissionForPointsLead");
   const [lead_data, setLeadData] = useState(null);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [istrue, setIstrue] = useState(false)
+  const [istrue, setIstrue] = useState(false);
   const [filterdata, setFilterdata] = useState({
     search: "",
     role: "",
     date: "",
-    status: ""
-  })
+    status: "",
+  });
 
   const handleViewClick = (lead) => {
     setSelectedLead(null);
@@ -28,17 +31,18 @@ export default function LeadPoints() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
   }, []);
 
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
-        ...prev, ...data
-      }
-    })
-  }
+        ...prev,
+        ...data,
+      };
+    });
+  };
 
   const handlefilter = () => {
     getLeadRequest(filterdata)
@@ -46,25 +50,43 @@ export default function LeadPoints() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
-  }
-
-
+  };
 
   const exportToCSV = () => {
     if (lead_data) {
-      const header = ['Transaction Id', 'Name', 'Unique Id', 'Role', 'Distributor Id', 'Date & Time', 'Points', 'Quantity'];
+      const header = [
+        "Transaction Id",
+        "Name",
+        "Unique Id",
+        "Role",
+        "Distributor Id",
+        "Date & Time",
+        "Points",
+        "Quantity",
+      ];
       const csvData = lead_data.map((rr_data) => {
-        return [null, rr_data.name, null, null, null, rr_data.created_at, null, null];
+        return [
+          null,
+          rr_data.name,
+          null,
+          null,
+          null,
+          rr_data.created_at,
+          null,
+          null,
+        ];
       });
 
-      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'Lead_Requests.csv';
+      a.download = "Lead_Requests.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -95,7 +117,7 @@ export default function LeadPoints() {
   };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 265 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 265 }}>
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
@@ -103,7 +125,7 @@ export default function LeadPoints() {
         </div>
         <br></br>
         {/* <div className="row"> */}
-          {/* <div className="col-xl-12 wid-100">
+        {/* <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-xl-3 col-sm-6 same-card">
                 <div className="card">
@@ -166,7 +188,7 @@ export default function LeadPoints() {
                       className="input-group mb-3"
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className='position-relative mx-2'>
+                      <div className="position-relative mx-2">
                         <input
                           type="text"
                           className="form-control"
@@ -177,7 +199,6 @@ export default function LeadPoints() {
                           value={filterdata.search}
                           onChange={async (e) => {
                             handlefilterdata({ search: e.target.value });
-
                           }}
                         />
                         <svg
@@ -186,10 +207,16 @@ export default function LeadPoints() {
                           height="20"
                           viewBox="0 0 20 20"
                           fill="none"
-                          style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
+                          style={{
+                            position: "absolute",
+                            top: "20%",
+                            right: "5%",
+                            cursor: "pointer",
+                          }}
                           onClick={() => {
                             if (filterdata.search.trim() !== "") {
-                              handlefilter(); setIstrue(true)
+                              handlefilter();
+                              setIstrue(true);
                             }
                           }}
                         >
@@ -200,7 +227,6 @@ export default function LeadPoints() {
                             fill="#525252"
                           />
                         </svg>
-
                       </div>
                       <button
                         className="px-3 py-2 filter-button"
@@ -249,14 +275,26 @@ export default function LeadPoints() {
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
-                    <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button"><i className="fa-solid fa-file-export" onClick={exportToCSV} /> Export</button>
+                    {permissionForPointsLead?.action && (
+                      <button
+                        style={{ marginLeft: 135 }}
+                        className="btn btn-light btn-sm"
+                        type="button"
+                      >
+                        <i
+                          className="fa-solid fa-file-export"
+                          onClick={exportToCSV}
+                        />{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="list-tbl" class="table">
@@ -274,22 +312,48 @@ export default function LeadPoints() {
                     </tr>
                   </thead>
                   <tbody>
-
                     {currentItems.length > 0 ? (
                       currentItems.map((lead) => (
                         <tr key={lead.id}>
-                          <td><h6>{lead.id}</h6></td>
-                          <td><h6>{lead.user.name}</h6></td>
-                          <td><h6>{lead.user.user_id}</h6></td>
-                          <td><h6>{lead.user.role}</h6></td>
-                          <td><h6>{lead.referral_id}</h6></td>
-                          <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US', { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6></td>
-                          <td><h6>{lead.points}</h6></td>
-                          <td><h6>{lead.order}</h6></td>
+                          <td>
+                            <h6>{lead.id}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.user.name}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.user.user_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.user.role}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.referral_id}</h6>
+                          </td>
+                          <td>
+                            <h6>
+                              {new Date(lead.updated_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                            </h6>
+                          </td>
+                          <td>
+                            <h6>{lead.points}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.order}</h6>
+                          </td>
                           {/* <td>
                             <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
                           </td> */}
-                           <td>
+                          <td>
                             <button
                               className="btn btn-primary btn-sm"
                               onClick={() => handleViewClick(lead)}
@@ -307,11 +371,20 @@ export default function LeadPoints() {
                   </tbody>
                 </table>
                 <div className="col-12">
-                  <div className="btn-group" style={{ float: 'right' }}>
-                    <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
                       Previous
-                    </button>&nbsp;
-                    <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
                       Next
                     </button>
                   </div>
@@ -321,8 +394,13 @@ export default function LeadPoints() {
           </div>
         </div>
       </div>
-      {selectedLead && <LeadDetails data={selectedLead} open={true} setOpen={setSelectedLead} />}
+      {selectedLead && (
+        <LeadDetails
+          data={selectedLead}
+          open={true}
+          setOpen={setSelectedLead}
+        />
+      )}
     </div>
   );
 }
-

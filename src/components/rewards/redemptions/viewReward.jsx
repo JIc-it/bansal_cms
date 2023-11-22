@@ -25,6 +25,7 @@ export default function ViewReward({
   setOpen,
   setIsUpdated,
   isUpdated,
+  permissionForRedemption,
 }) {
   const [showOffcanvas, setShowOffcanvas] = useState(open);
   const [openImagePopUp, setOpenImagePopUp] = useState(false);
@@ -139,7 +140,7 @@ export default function ViewReward({
           <span style={{ marginLeft: 244 }}>{data.reward_id?.reward_id}</span>
           <br></br>
         </div>
-        {data?.status === "Pending" && (
+        {permissionForRedemption?.action && data?.status === "Pending" && (
           <div
             style={{
               display: "flex",

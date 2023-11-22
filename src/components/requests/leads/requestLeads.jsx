@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import LeadDetails from './leadDetails';
-import FilterPopUp from './FilterPopUp';
-import { getLeadRequest } from '../../../axiosHandle/requestHandle';
-import { getTotalRequests } from '../../../axiosHandle/requestHandle';
-import { getPendingRequests } from '../../../axiosHandle/requestHandle';
-import { getAcceptedRequests } from '../../../axiosHandle/requestHandle';
-import { getRejectedRequests } from '../../../axiosHandle/requestHandle';
+import React, { useState, useEffect } from "react";
+import LeadDetails from "./leadDetails";
+import FilterPopUp from "./FilterPopUp";
+import { getLeadRequest } from "../../../axiosHandle/requestHandle";
+import { getTotalRequests } from "../../../axiosHandle/requestHandle";
+import { getPendingRequests } from "../../../axiosHandle/requestHandle";
+import { getAcceptedRequests } from "../../../axiosHandle/requestHandle";
+import { getRejectedRequests } from "../../../axiosHandle/requestHandle";
+import { useContext } from "react";
+import { AppContext } from "../../../contexts/AppContext";
 
 export default function LeadRequests() {
-
+  const contextData = useContext(AppContext);
+  const { permissionData } = contextData;
+  const permissionForRequestLead = permissionData?.lead_requests;
   const [lead_data, setLeadData] = useState(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
@@ -18,21 +22,22 @@ export default function LeadRequests() {
   const [totalRejectedRequests, setRejectedRequests] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [istrue, setIstrue] = useState(false)
+  const [istrue, setIstrue] = useState(false);
   const [filterdata, setFilterdata] = useState({
     search: "",
     role: "",
-    date: ""
-  })
+    date: "",
+  });
 
   console.log(filterdata);
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
-        ...prev, ...data
-      }
-    })
-  }
+        ...prev,
+        ...data,
+      };
+    });
+  };
 
   const handleViewClick = (lead) => {
     setSelectedLead(null);
@@ -45,7 +50,7 @@ export default function LeadRequests() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
   }, [filterdata.search]);
 
@@ -55,10 +60,9 @@ export default function LeadRequests() {
         setLeadData(data.results);
       })
       .catch((error) => {
-        console.error('Error fetching lead data:', error);
+        console.error("Error fetching lead data:", error);
       });
-  }
-
+  };
 
   useEffect(() => {
     getTotalRequests()
@@ -106,17 +110,35 @@ export default function LeadRequests() {
 
   const exportToCSV = () => {
     if (lead_data) {
-      const header = ['Transaction id', 'Name', 'Mobile', 'Referred By', 'Date & Time', 'Points', 'Quantity'];
+      const header = [
+        "Transaction id",
+        "Name",
+        "Mobile",
+        "Referred By",
+        "Date & Time",
+        "Points",
+        "Quantity",
+      ];
       const csvData = lead_data.map((rr_data) => {
-        return [rr_data.referral_id, rr_data.name, rr_data.mobile_no, rr_data?.user?.user_id, rr_data.updated_at, rr_data.points, rr_data.order];
+        return [
+          rr_data.referral_id,
+          rr_data.name,
+          rr_data.mobile_no,
+          rr_data?.user?.user_id,
+          rr_data.updated_at,
+          rr_data.points,
+          rr_data.order,
+        ];
       });
 
-      const csvContent = [header, ...csvData].map((row) => row.join(',')).join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const csvContent = [header, ...csvData]
+        .map((row) => row.join(","))
+        .join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'Lead_Requests.csv';
+      a.download = "Lead_Requests.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -142,7 +164,7 @@ export default function LeadRequests() {
   };
 
   return (
-    <div className="content-body" style={{ width: '82vw', marginLeft: 265 }}>
+    <div className="content-body" style={{ width: "82vw", marginLeft: 265 }}>
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
@@ -159,7 +181,8 @@ export default function LeadRequests() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Requests</h6><br />
+                        <h6>Total Requests</h6>
+                        <br />
                         <h3>{totalTotalRequests}</h3>
                       </div>
                     </div>
@@ -171,7 +194,8 @@ export default function LeadRequests() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Pending Requests</h6><br />
+                        <h6>Pending Requests</h6>
+                        <br />
                         <h3>{totalPendingRequests}</h3>
                       </div>
                     </div>
@@ -183,7 +207,8 @@ export default function LeadRequests() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Accepted Requests</h6><br />
+                        <h6>Accepted Requests</h6>
+                        <br />
                         <h3>{totalAcceptedRequests}</h3>
                       </div>
                     </div>
@@ -195,7 +220,8 @@ export default function LeadRequests() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Rejected Requests</h6><br />
+                        <h6>Rejected Requests</h6>
+                        <br />
                         <h3>{totalRejectedRequests}</h3>
                       </div>
                     </div>
@@ -216,7 +242,7 @@ export default function LeadRequests() {
                       className="input-group mb-3"
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className='position-relative mx-2'>
+                      <div className="position-relative mx-2">
                         <input
                           type="text"
                           className="form-control"
@@ -235,7 +261,12 @@ export default function LeadRequests() {
                           height="20"
                           viewBox="0 0 20 20"
                           fill="none"
-                          style={{ position: "absolute", top: "20%", right: "5%", cursor: "pointer" }}
+                          style={{
+                            position: "absolute",
+                            top: "20%",
+                            right: "5%",
+                            cursor: "pointer",
+                          }}
                         >
                           <path
                             fill-rule="evenodd"
@@ -244,7 +275,6 @@ export default function LeadRequests() {
                             fill="#525252"
                           />
                         </svg>
-
                       </div>
                       <button
                         className="px-3 py-2 filter-button"
@@ -293,14 +323,23 @@ export default function LeadRequests() {
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
-                    <button style={{ marginLeft: 135 }} className="btn btn-light btn-sm" type="button" onClick={exportToCSV}><i className="fa-solid fa-file-export" /> Export</button>
+                    {permissionForRequestLead?.action && (
+                      <button
+                        style={{ marginLeft: 135 }}
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        onClick={exportToCSV}
+                      >
+                        <i className="fa-solid fa-file-export" /> Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="list-tbl" class="table">
@@ -317,17 +356,41 @@ export default function LeadRequests() {
                     </tr>
                   </thead>
                   <tbody>
-
                     {currentItems.length > 0 ? (
                       currentItems.map((lead) => (
                         <tr key={lead.id}>
-                          <td><h6>{lead.referral_id}</h6></td>
-                          <td><h6>{lead.name}</h6></td>
-                          <td><h6>{lead.mobile_no}</h6></td>
-                          <td><h6>{lead?.user?.user_id}</h6></td>
-                          <td><h6>{new Date(lead.updated_at).toLocaleDateString('en-US', { day: "2-digit", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</h6></td>
-                          <td><h6>{lead.points}</h6></td>
-                          <td><h6>{lead.order}</h6></td>
+                          <td>
+                            <h6>{lead.referral_id}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.name}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.mobile_no}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead?.user?.user_id}</h6>
+                          </td>
+                          <td>
+                            <h6>
+                              {new Date(lead.updated_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                            </h6>
+                          </td>
+                          <td>
+                            <h6>{lead.points}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead.order}</h6>
+                          </td>
                           {/* <td>
                             <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
                           </td> */}
@@ -349,11 +412,20 @@ export default function LeadRequests() {
                   </tbody>
                 </table>
                 <div className="col-12">
-                  <div className="btn-group" style={{ float: 'right' }}>
-                    <button className="btn btn-light btn-sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                  <div className="btn-group" style={{ float: "right" }}>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
                       Previous
-                    </button>&nbsp;
-                    <button className="btn btn-light btn-sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                    >
                       Next
                     </button>
                   </div>
@@ -364,8 +436,14 @@ export default function LeadRequests() {
         </div>
         {/* </div> */}
       </div>
-      {selectedLead && <LeadDetails data={selectedLead} open={selectedLead} setOpen={setSelectedLead} />}
+      {selectedLead && (
+        <LeadDetails
+          data={selectedLead}
+          open={selectedLead}
+          setOpen={setSelectedLead}
+          permissionForRequestLead={permissionForRequestLead}
+        />
+      )}
     </div>
   );
 }
-

@@ -61,10 +61,11 @@ const Login = () => {
         password,
       };
 
-      const { access, refresh } = await loginRequest(data);
+      const { access, refresh ,role} = await loginRequest(data);
 
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
+      localStorage.setItem('role', role);
 
       setMsg('Login Successful. Redirecting to Dashboard');
       navigate('/dashboard');

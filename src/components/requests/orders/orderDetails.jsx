@@ -31,6 +31,7 @@ export default function OrderDetails({
   setOpen,
   hasUpdate,
   setHasUpdate,
+  permissionForRequestOrder,
 }) {
   const [order_data, setOrderData] = useState({
     transaction_id: "",
@@ -97,19 +98,30 @@ export default function OrderDetails({
           SA
         </h6>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24, marginLeft: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          paddingRight: 24,
+          marginLeft: 20,
+        }}
+      >
         <h6>Transaction Details</h6>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span style={{ flex: 1 }}>Admin Status :</span>
           <span
-            style={{ justifyContent: 'center', marginLeft: 120, color: "blue" }}
+            style={{ justifyContent: "center", marginLeft: 120, color: "blue" }}
             className="badge badge-primary light border-0"
           >
             {data.admin_approval}
           </span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24}}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Distributor Status :</span>
           <span
             style={{ marginLeft: 120 }}
@@ -119,67 +131,102 @@ export default function OrderDetails({
           </span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 14 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 14 }}
+        >
           <span>Transaction ID :</span>
           <span style={{ marginLeft: 114 }}>{order_data.transaction_id}</span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Date & Time :</span>
           <span style={{ marginLeft: 88 }}>
-            {new Date(data.updated_at).toLocaleString("es-cl", { hour12: true })}
+            {new Date(data.updated_at).toLocaleString("es-cl", {
+              hour12: true,
+            })}
           </span>
           <br></br>
         </div>
         {/* <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br> */}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24, marginLeft: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          paddingRight: 24,
+          marginLeft: 20,
+        }}
+      >
         <h6>Distributor Details</h6>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Name :</span>
           <span style={{ marginLeft: 235 }}>{data?.distributor?.name}</span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Unique ID :</span>
           <span style={{ marginLeft: 186 }}>{data?.distributor?.user_id}</span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Address :</span>
           <span style={{ marginLeft: 110 }}>
             {data?.distributor?.district},
-            <span >{data?.distributor?.state}</span>
+            <span>{data?.distributor?.state}</span>
           </span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Mobile :</span>
           <span style={{ marginLeft: 200 }}>{data?.distributor?.mobile}</span>
           <br></br>
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', paddingRight: 24, marginLeft: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          paddingRight: 24,
+          marginLeft: 20,
+        }}
+      >
         <h6>Contractor Details</h6>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Name :</span>
           <span style={{ marginLeft: 220 }}>{data?.user?.name}</span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Unique ID :</span>
           <span style={{ marginLeft: 187 }}>{data?.user?.user_id}</span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Address :</span>
           <span style={{ marginLeft: 112 }}>
-            {data?.user?.district},
-            <span >{data?.user?.state}</span>
+            {data?.user?.district},<span>{data?.user?.state}</span>
           </span>
           <br></br>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', paddingRight: 24 }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        >
           <span>Mobile :</span>
           <span style={{ marginLeft: 195 }}>{data?.user?.mobile}</span>
           <br></br>
@@ -192,7 +239,7 @@ export default function OrderDetails({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: '15px'
+              padding: "15px",
             }}
           >
             <div>
@@ -206,35 +253,37 @@ export default function OrderDetails({
             </div>
           </div>
         </h6>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px",
-            marginLeft: "13px",
-            marginRight: "10px",
-            padding: "15px"
-          }}
-        >
-          <button
-            className="btn btn-success"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-            onClick={() => {
-              handleRequest("accept");
+        {permissionForRequestOrder?.action && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "10px",
+              marginLeft: "13px",
+              marginRight: "10px",
+              padding: "15px",
             }}
           >
-            Accept
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-            onClick={() => {
-              handleRequest("reject");
-            }}
-          >
-            Reject
-          </button>
-        </div>
+            <button
+              className="btn btn-success"
+              style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
+              onClick={() => {
+                handleRequest("accept");
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className="btn btn-danger"
+              style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
+              onClick={() => {
+                handleRequest("reject");
+              }}
+            >
+              Reject
+            </button>
+          </div>
+        )}
       </div>
     </Offcanvas>
   );

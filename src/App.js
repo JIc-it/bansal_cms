@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/common/navbar";
 import AllRouting from "./components/allRouting";
@@ -10,9 +10,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PromotionsHistory from "./components/promo/promotionsHistory";
 import Footer from "./components/common/footer";
+import { getProfileRequest } from "./axiosHandle/profileHandle";
+import { getPermission } from "./axiosHandle/commonServicesHandle";
+import { useState } from "react";
+import AppContextProvider from "./contexts/AppContext";
+import MainPage from "./pages/MainPage";
 
 function App() {
+ 
+
   return (
+
     <div
       id="app"
       style={{
@@ -38,27 +46,11 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route
-          path="/*"
-          element={
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <Navbar />
-              <SideMenu />
-              <AllRouting />
-              <Footer />
-            </div>
-          }
-        />
-        <Route path="/promotionhistory/:id" element={
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <Navbar />
-              <SideMenu />
-              <PromotionsHistory/>
-              <Footer />
-            </div>
-          }/>
+        <Route path="/*" element={<MainPage />} />
+       
       </Routes>
     </div>
+
   );
 }
 
