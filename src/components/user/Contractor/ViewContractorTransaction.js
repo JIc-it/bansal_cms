@@ -29,7 +29,7 @@ const ViewContractorTransaction = ({
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
   };
-
+  console.log("contractor daata", data)
   const apiResponseAddressString =
     seletedTranasactionType != "Orders" && data.selected_address;
 
@@ -39,7 +39,7 @@ const ViewContractorTransaction = ({
     JSON.parse(
       apiResponseAddressString.replace(/None/g, "null").replace(/'/g, '"')
     );
-console.log(changedAddress);
+  console.log(changedAddress);
   // Create a new object with the desired format
   const formattedAddress = seletedTranasactionType != "Orders" && {
     name: changedAddress.name,
@@ -81,14 +81,31 @@ console.log(changedAddress);
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Transaction Details</h6>
-            <span>Admin Status :</span>
-            <span
-              style={{ marginLeft: 168, color: "blue" }}
-              className="badge badge-primary light border-0"
-            >
-              {data.admin_approval}
-            </span>
-            <br></br>
+            {data.accepted_by.role === 'Admin' ?
+              <>
+                <span>Admin Status:</span>
+                <span
+                  style={{ marginLeft: 168, color: "blue" }}
+                  className="badge badge-primary light border-0"
+                >
+                  {data.admin_approval}
+                </span>
+                <br></br>
+              </>
+              :
+              <>
+                <span>Sales POC Status:</span>
+                <span
+                  style={{ marginLeft: 168, color: "blue" }}
+                  className="badge badge-primary light border-0"
+                >
+                  {data.admin_approval}
+                </span>
+                <br></br>
+              </>
+
+            }
+
             <span>Distributor Status :</span>
             <span
               style={{ marginLeft: 168 }}
@@ -111,6 +128,8 @@ console.log(changedAddress);
               })}
             </span>
             <br></br>
+            <span>Accepted By :</span>
+            <span style={{ marginLeft: 190 }}>{data.accepted_by.email}</span>
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Distributor Details</h6>

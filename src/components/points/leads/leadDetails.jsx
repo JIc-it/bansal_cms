@@ -27,7 +27,7 @@ const statusOffcanvas = {
 
 
 export default function LeadDetails({data, open, setOpen}) {
-
+console.log("LeadDetails data",data)
     const [showOffcanvas, setShowOffcanvas] = useState(open);
 
     const handleCloseOffcanvas = () => {
@@ -45,10 +45,19 @@ export default function LeadDetails({data, open, setOpen}) {
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Transaction Details</h6>
-                <span>Admin Status :</span><span style={{ marginLeft: 190, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
-                <span>Distributor Status :</span><span style={{ marginLeft: 168 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
+                {
+                    data.accepted_by.role==='Admin' ? 
+                    <>
+                    <span>Admin Status :</span><span style={{ marginLeft: 130, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br></>:
+                    <>
+                     <span>Sales POC Status :</span><span style={{ marginLeft: 130,marginBottom:20, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                    </>
+                }
+                
+                <span>Distributor Status :</span><span style={{ marginLeft: 130 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
                 <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span><br></br>
+                <span>Accepted By :</span><span style={{ marginLeft: 120 }}>{data.accepted_by.email}</span><br></br>
             </div>
             <div style={{ marginTop: 10, marginLeft: 20 }}>
                 <h6>Leads Details</h6>

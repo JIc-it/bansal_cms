@@ -515,9 +515,9 @@ export default function SideMenu() {
                         marginLeft: "10px",
                     }}
                 >
-                    <Link to="/help-faq" style={{ color: "white" }}>
+                    {/* <Link to="/help-faq" style={{ color: "white" }}>
                         Help
-                    </Link>
+                    </Link> */}
                 </MenuItem>
             </Menu>
         </Sidebar>
