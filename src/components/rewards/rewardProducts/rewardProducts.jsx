@@ -114,7 +114,7 @@ function RewardPoints() {
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
-      <Cards permissionForRedumtionWindow={permissionForRedumtionWindow}/>
+      <Cards permissionForRedumtionWindow={permissionForRedumtionWindow} />
       <div className="row" style={{ marginLeft: "15px" }}>
         <div className="col-xl-12">
           <div className="card">
@@ -200,7 +200,6 @@ function RewardPoints() {
                       <th>Status</th>
                       <th>Times Redeemed</th>
                       <th>Action</th>
-                     
                     </tr>
                   </thead>
                   <tbody>
@@ -211,9 +210,8 @@ function RewardPoints() {
                             <h6>
                               <img
                                 src={rw_data.item_image}
-                                className="img-fluid"
                                 width={60}
-                                height={60}
+                                height={40}
                                 style={{ paddingRight: 10 }}
                               />
                               {rw_data.title}
@@ -229,14 +227,25 @@ function RewardPoints() {
                             <h6>{rw_data.description}</h6>
                           </td>
                           <td>
-                            <h6>{rw_data.is_active}</h6>
+                            <h6>{rw_data.is_active ? "Active" : "Inactive"}</h6>
                           </td>
+                          {/* <td>
+                            <button
+                              style={{
+                                backgroundColor: rw_data.is_active ? '#d2eadb' : 'red',
+                                color: 'white', // Set text color to white for better visibility
+                              }}
+                              className="btn btn-sm"
+                            >
+                              {rw_data.is_active ? 'Active' : 'Inactive'}
+                            </button>
+                          </td> */}
                           <td>
                             <h6>{rw_data.times_redeemed}</h6>
                           </td>
-                          <td>
+                          {/* <td>
                             <h6>{rw_data.quantity}</h6>
-                          </td>
+                          </td> */}
                           <td>
                             {permissionForRewardProducts?.update && (
                               <button

@@ -369,7 +369,7 @@ function Architects() {
                           <td>
                             <h6>{data.points || 0}</h6>
                           </td>
-                          <td>
+                          <td style={{ width: 100, paddingRight: 0 }}>
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -381,6 +381,7 @@ function Architects() {
                               View User
                             </a>
                           </td>
+
                           {permissionForUser?.delete && (
                             <td
                               onClick={() => {

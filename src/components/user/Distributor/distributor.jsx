@@ -276,17 +276,18 @@ export default function Distributors() {
                             <td>
                               <h6>{data.mobile}</h6>
                             </td>
-                            <td>
+                            <td >
                               <h6>
                                 <span>{data.district?.district}</span>,
                                 <span>{data.state?.state}</span>
                               </h6>
                             </td>
-                            <td>
+                            <td style={{width:100,paddingRight:0}}>
                               <a
                                 className="btn bg-blue btn-sm"
                                 href="#"
                                 role="button"
+                                
                                 onClick={() => {
                                   navigate(`/viewDistributor/${data.id}`);
                                 }}
@@ -299,7 +300,7 @@ export default function Distributors() {
                                 setOpenRemoveOption(true);
                                 setSelectedIdForRemove(data.id);
                               }}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",padding:0,paddingRight:28  }}
                             >
                               {" "}
                               <svg

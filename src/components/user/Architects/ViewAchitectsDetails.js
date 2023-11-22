@@ -17,6 +17,8 @@ import ViewArchitectTransactionDetails from "./ViewArchitectTransactionDetails";
 import ArchitectTransactionPopUp from "./ArchitectTransactionPopUp";
 import { AppContext } from "../../../contexts/AppContext";
 import { useContext } from "react";
+import { createArchitect } from "../../../axiosHandle/userHandle";
+
 
 const ViewAchitectsDetails = () => {
   const contextData = useContext(AppContext);
@@ -38,6 +40,7 @@ const ViewAchitectsDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdated, setIsUpdated] = useState(false);
   const [search, setSearch] = useState("");
+  const [item,setitem]=useState([])
   const [filterdata, setFilterdata] = useState({
     status: "",
     points_from: "",
@@ -51,7 +54,15 @@ const ViewAchitectsDetails = () => {
       return { ...prev, ...fields };
     });
   }
+ const handleOpenViewArchitectData=(item)=>{
+  console.log("handleOpenViewArchitectData",item)
+  setViewTransaction(true)
+  // createArchitect().then((data)=>{
+  //   console.log("createArchitect handleOpenViewArchitectData",data)
+  // })
+  setitem(item)
 
+ }
   useEffect(() => {
     getArchitectsRequest("", {
       pointsFrom: "",
@@ -553,10 +564,10 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.name}</h6>
+                                  <h6>{ele.distributor?.name ?? "Manual"}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.id}</h6>
+                                  <h6>{ele.distributor?.id ?? "Manual"}</h6>
                                 </td>
                                 <td>
                                   <h6>
@@ -574,12 +585,12 @@ const ViewAchitectsDetails = () => {
                                 <td>
                                   <h6>{ele.points}</h6>
                                 </td>
-                                <td>
+                                {/* <td>
                                   <h6>{ele.distributor?.name}</h6>
-                                </td>
-                                <td>
+                                </td> */}
+                                {/* <td>
                                   <h6>{ele.distributor?.id}</h6>
-                                </td>
+                                </td> */}
                                 <td>
                                   <h6>{ele.quantity}</h6>
                                 </td>
@@ -605,7 +616,7 @@ const ViewAchitectsDetails = () => {
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td onClick={() =>handleOpenViewArchitectData(ele) }>
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"
@@ -834,7 +845,7 @@ const ViewAchitectsDetails = () => {
         />
       )}
       {viewTransaction && (
-        <ViewArchitectTransactionDetails setOpen={setViewTransaction} />
+        <ViewArchitectTransactionDetails itemData={item} setOpen={setViewTransaction} />
       )}
     </div>
   );

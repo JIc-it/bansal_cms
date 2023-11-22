@@ -183,9 +183,9 @@ function PromotionsHistory() {
                               <h6>
                                 <img
                                   src={data.ad_image}
-                                  className="img-fluid"
+                                  // className="img-fluid"
                                   width={60}
-                                  height={60}
+                                  height={40}
                                   style={{ paddingRight: 10 }}
                                 />
                                 {data.title || ""}

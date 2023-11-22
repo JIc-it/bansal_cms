@@ -1,6 +1,7 @@
 import axiosInstance from "./authHandle";
 
 const contractorsURL = "/account/create-contractor/";
+const creatArchitect='/account/create-architect/'
 const architectsURL = "/account/create-architect/";
 const salepocURL = "/account/create-sales-poc/";
 const engineersURL = "/account/create-engineer/";
@@ -170,6 +171,17 @@ export const createContractor = (data) => {
       throw error;
     });
 };
+export const createArchitect=async (data)=>{
+  console.log('createArchitect',data)
+  try {
+    const response = await axiosInstance
+      .get(creatArchitect, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error while creating reward product:", error);
+    throw error;
+  }
+}
 
 export const deleteContractor = (id) => {
   console.log(id);

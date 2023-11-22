@@ -33,40 +33,52 @@ export default function AddPointsPopuP({
   const validationSchema = Yup.object({
     points: Yup.string()
       .required("Points is required")
-      .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
+      .matches(/^\d{1,10}$/, "Points must be up to 10 digits") // Validation for up to 10 digits
+      .test('maxPoints', 'Maximum 1000 points allowed', (value) => {
+        return parseInt(value, 10) <= 1000;
+      }),
+      comments: Yup.string()
+      .required("Comments is required")
+      .max(50, 'Comments must be up to 50 characters'),
   });
 
   const formik = useFormik({
     initialValues: {
       points: "",
+      comments: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
       if (!isLoading) {
         try {
+          const pointsValue = parseInt(values.points, 10);
+    
+          if (pointsValue > 1000) {
+            // Display a custom error message for exceeding the maximum points
+            formik.setErrors({ points: 'Maximum 1000 points allowed' });
+            setIsLoading(false);
+            return;
+          }
+    
           const data = {
             points: values.points,
+            comments: values.comments,
           };
-
+    
           const contractorData = await addUserPoints(userId, data);
           if (contractorData) {
             setIsUpdated(!isUpdated);
             toast.success("Points added successfully!");
             setOpen(false);
-            setIsLoading(false);
           } else {
-            console.error(
-              "Error while creating Distributor:",
-              contractorData.error
-            );
-            setIsLoading(false);
+            console.error("Error while creating Distributor:", contractorData.error);
           }
-          setIsLoading(false);
         } catch (err) {
           console.log(err);
           err.response.data.email && toast.error(err.response.data.email[0]);
           err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+        } finally {
           setIsLoading(false);
         }
       }
@@ -131,6 +143,20 @@ export default function AddPointsPopuP({
             />
             {formik.touched.points && formik.errors.points ? (
               <div className="error">{formik.errors.points}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              placeholder="Comments"
+              name="comments"
+              className="form-control form-control-sm"
+              value={formik.values.comments}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.comments && formik.errors.comments ? (
+              <div className="error" style={{ color: 'red' }}>{formik.errors.comments}</div>
             ) : null}
           </div>
           <span

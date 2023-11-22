@@ -582,10 +582,10 @@ const ViewContractor = () => {
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.name}</h6>
+                                  <h6>{ele.distributor?.name ?? "Manual"}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor?.user_id}</h6>
+                                  <h6>{ele.distributor?.user_id ?? "Manual"}</h6>
                                 </td>
                                 <td>
                                   <h6>
@@ -604,9 +604,8 @@ const ViewContractor = () => {
                                   <h6>{ele.points}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.quantity}</h6>
+                                  <h6>{ele.quantity ?? "0"}</h6>
                                 </td>
-
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${

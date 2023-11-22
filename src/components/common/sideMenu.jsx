@@ -115,6 +115,7 @@ export default function SideMenu() {
       }}
     >
       {/* <Menu>
+
                 <MenuItem
                     className={`menu-item ${isMenuItemActive("/dashboard") ? "active" : ""
                         }`}
@@ -130,6 +131,7 @@ export default function SideMenu() {
                         <DashboardOutlinedIcon style={{ marginLeft: 9 }} /> Dashboard
                     </Link>
                 </MenuItem>
+
                 <SubMenu
                     icon={<AssignmentOutlinedIcon />}
                     label="Requests"

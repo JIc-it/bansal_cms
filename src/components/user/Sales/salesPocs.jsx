@@ -33,6 +33,9 @@ export default function SalesPocs() {
   const [user_type_total, setuser_type_total] = useState("");
   const role = "Staff";
 
+  const [totalUserCount, setTotalUserCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   useEffect(() => {
     getSalesRequest()
       .then((data) => {
@@ -143,6 +146,25 @@ export default function SalesPocs() {
       .join("&");
 
     navigate(`/viewsalespocs?${queryString}`);
+  };
+
+  const totalPages = Math.ceil(user_data ? user_data.length / itemsPerPage : 1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = user_data
+    ? user_data.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
@@ -361,7 +383,10 @@ export default function SalesPocs() {
                           {/* <td>
                               <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
                             </td> */}
-                          <td onClick={() => handleViewSales(data)}>
+                          <td
+                            style={{ width: 100, paddingRight: 0 }}
+                            onClick={() => handleViewSales(data)}
+                          >
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"
@@ -418,6 +443,25 @@ export default function SalesPocs() {
                     )}
                   </tbody>
                 </table>
+              </div>
+              <div className="col-12 my-2">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>

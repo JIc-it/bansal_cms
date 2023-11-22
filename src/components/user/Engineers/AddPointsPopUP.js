@@ -31,23 +31,46 @@ export default function AddPointsPopUP({
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
+  // const validationSchema = Yup.object({
+  //   points: Yup.string()
+  //     .required("Points is required")
+  //     .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
+  // });
+
   const validationSchema = Yup.object({
     points: Yup.string()
       .required("Points is required")
-      .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
+      .matches(/^\d{1,10}$/, "Points must be up to 10 digits") // Validation for up to 10 digits
+      .test('maxPoints', 'Maximum 1000 points allowed', (value) => {
+        return parseInt(value, 10) <= 1000;
+      }),
+    comments: Yup.string()
+      .required("Comments is required")
+      .max(50, 'Comments must be up to 50 characters'),
   });
 
   const formik = useFormik({
     initialValues: {
       points: "",
+      comments: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
       if (!isLoading) {
         try {
+
+          const pointsValue = parseInt(values.points, 10);
+          if (pointsValue > 1000) {
+            // Display a custom error message for exceeding the maximum points
+            formik.setErrors({ points: 'Maximum 1000 points allowed' });
+            setIsLoading(false);
+            return;
+          }
+
           const data = {
             points: values.points,
+            comments: values.comments,
           };
 
           const contractorData = await addUserPoints(userId, data);
@@ -132,6 +155,20 @@ export default function AddPointsPopUP({
             />
             {formik.touched.points && formik.errors.points ? (
               <div className="error">{formik.errors.points}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <input
+              type="text"
+              placeholder="Comments"
+              name="comments"
+              className="form-control form-control-sm"
+              value={formik.values.comments}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.comments && formik.errors.comments ? (
+              <div className="error" style={{ color: 'red' }}>{formik.errors.comments}</div>
             ) : null}
           </div>
           <span

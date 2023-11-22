@@ -21,7 +21,7 @@ function Promotions() {
   const [isUpdatedPromotion, setIsUpdatedPromotion] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [selectedIdForCheck, setSelectedIdForCheck] = useState(0);
-
+ console.log('adslisting',adslisting)
   const handleOpenOffcanvas = (data) => {
     setShowOffcanvas(true);
     setSelectedPromotionDetails(data);
@@ -82,10 +82,9 @@ function Promotions() {
                             src={ads.ad_image}
                             className="img-fluid"
                             alt="Ad Image"
-                          />
+                            style={{height: '150px', width: '100%'}}/>
                         </div>
                         <h6>Ad Details</h6>
-
                         <div className="promotion-details d-flex">
                           <div style={{ flex: "1" }}>
                             <span>Name:</span>
