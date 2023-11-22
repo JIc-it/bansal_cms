@@ -15,7 +15,7 @@ function Promotions() {
   const [isUpdatedPromotion, setIsUpdatedPromotion] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [selectedIdForCheck, setSelectedIdForCheck] = useState(0);
-
+ console.log('adslisting',adslisting)
   const handleOpenOffcanvas = (data) => {
     setShowOffcanvas(true);
     setSelectedPromotionDetails(data);

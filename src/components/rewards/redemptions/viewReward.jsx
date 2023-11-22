@@ -28,7 +28,7 @@ export default function ViewReward({
 }) {
   const [showOffcanvas, setShowOffcanvas] = useState(open);
   const [openImagePopUp, setOpenImagePopUp] = useState(false);
-
+ console.log('dataaaaaa',data)
   const handleCloseOffcanvas = () => {
     setOpenImagePopUp(false);
     setShowOffcanvas(false);
@@ -98,7 +98,7 @@ export default function ViewReward({
           <span style={{ marginLeft: 150 }}>{data?.created_at}</span>
           <br></br>
           <span>ID Type :</span>
-          <span style={{ marginLeft: 205 }}>Aadhar</span>
+          <span style={{ marginLeft: 205 }}>{data?.id_verification.id_type}</span>
           <button
             style={{ backgroundColor: "blue" }}
             className="btn btn-dark btn-sm ms-2"
@@ -175,8 +175,8 @@ export default function ViewReward({
         <ViewImage
           open={openImagePopUp}
           setOpen={setOpenImagePopUp}
-          imageUrl={""}
-          name={""}
+          imageUrl={data}
+          name={data?.id_verification?.name}
         />
       )}
     </>

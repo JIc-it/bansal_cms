@@ -8,11 +8,22 @@ export default function Cards() {
     const [totalRewardProducts, setTotalRewardProducts] = useState(0);
     const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
     const [totalRedeemedCount, setTotalRedeemedCount] = useState(0);
-
+    const [isChecked, setIsChecked] = useState(false);
+    const [value,setValue]=useState('')
+    const checkBoxHandler = () => {
+        setIsChecked(!isChecked);
+        if(isChecked== true)
+        {
+            setValue("Open")
+        }
+        else{
+            setValue("Close")
+        }
+      };
     useEffect(() => {
         getTotalRewardProducts()
             .then((data) => {
-                console.log(data);
+                console.log("getTotalRewardProducts",data);
                 setTotalRewardProducts(data.count);
             })
             .catch((error) => {
@@ -65,8 +76,14 @@ export default function Cards() {
                                         <div>
                                             <h6>Redemption Window</h6><br />
                                             <div className="form-check form-switch">
-                                                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-                                                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Closed</label>
+                                                <input 
+                                                onChange={checkBoxHandler} 
+                                                className="form-check-input" 
+                                                type="checkbox" 
+                                                role="switch" 
+                                                id="flexSwitchCheckDefault" 
+                                                checked={isChecked}/>
+                                                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{value}</label>
                                             </div>
                                         </div>
                                     </div>
