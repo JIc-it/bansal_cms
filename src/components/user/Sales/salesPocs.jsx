@@ -365,7 +365,7 @@ export default function SalesPocs() {
                           {/* <td>
                               <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
                             </td> */}
-                          <td onClick={() => handleViewSales(data)}>
+                          <td style={{width:100,paddingRight:0}} onClick={() => handleViewSales(data)}>
                             <a
                               className="btn btn-primary btn-sm"
                               href="#"
@@ -379,7 +379,7 @@ export default function SalesPocs() {
                               setOpenRemoveOption(!openRemoveOption);
                               setSelectedIdForRemove(data.id);
                             }}
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer" ,padding:0,paddingRight:20 }}
                           >
                             {" "}
                             <svg

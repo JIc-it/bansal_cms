@@ -1,7 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-export default function ViewImage({ open, setOpen }) {
+export default function ViewImage({ open, setOpen,imageUrl,name }) {
+  console.log(imageUrl,name)
   return (
     <Modal
       show={open}
@@ -20,8 +21,8 @@ export default function ViewImage({ open, setOpen }) {
         </Modal.Title> */}
       </Modal.Header>
       <Modal.Body>
-        <img src="" width={200} height={200} alt="" />
-        <span>name</span>
+        <img src={imageUrl.id_verification.image} width={200} height={200} alt="image" />
+        <span>{name}</span>
       </Modal.Body>
     </Modal>
   );
