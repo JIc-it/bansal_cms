@@ -69,7 +69,7 @@ function Promotions() {
                         </a>
                       </div>
                       <div className="card-body">
-                        <div className="products style-1">
+                        <div className="products style-1" style={{height: '350px', width: '350px'}}>
                           <img
                             src={ads.ad_image}
                             className="img-fluid"
@@ -77,7 +77,6 @@ function Promotions() {
                           />
                         </div>
                         <h6>Ad Details</h6>
-
                         <div className="promotion-details d-flex">
                           <div style={{ flex: "1" }}>
                             <span>Name:</span>

@@ -200,9 +200,8 @@ function RewardPoints() {
                             <h6>
                               <img
                                 src={rw_data.item_image}
-                                className="img-fluid"
                                 width={60}
-                                height={60}
+                                height={40}
                                 style={{ paddingRight: 10 }}
                               />
                               {rw_data.title}</h6>

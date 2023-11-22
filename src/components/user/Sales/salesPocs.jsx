@@ -18,10 +18,13 @@ export default function SalesPocs() {
     next: null,
     previous: null,
   });
-  const [new_users_in_current_quarter,setnew_users_in_current_quarter]=useState('')
-  const [total_users,settotal_users]=useState('')
-  const [user_type_total,setuser_type_total]=useState('')
-  const role="Staff"
+  const [new_users_in_current_quarter, setnew_users_in_current_quarter] = useState('')
+  const [total_users, settotal_users] = useState('')
+  const [user_type_total, setuser_type_total] = useState('')
+  const [totalUserCount, setTotalUserCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const role = "Staff"
   useEffect(() => {
     getSalesRequest()
       .then((data) => {
@@ -31,9 +34,9 @@ export default function SalesPocs() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-      getSalePOCCount(role)
+    getSalePOCCount(role)
       .then((data) => {
-        console.log("getSalePOCCount data",data)
+        console.log("getSalePOCCount data", data)
         setnew_users_in_current_quarter(data.new_users_in_current_quarter)
         settotal_users(data.total_users)
         setuser_type_total(data.user_type_total)
@@ -131,6 +134,25 @@ export default function SalesPocs() {
     navigate(`/viewsalespocs?${queryString}`);
   };
 
+  const totalPages = Math.ceil(user_data ? user_data.length / itemsPerPage : 1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = user_data
+    ? user_data.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
@@ -196,7 +218,7 @@ export default function SalesPocs() {
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
                     >
                       <div className="search-group form-control">
-                      <input
+                        <input
                           type="text"
                           className=""
                           style={{ marginRight: 10 }}
@@ -325,8 +347,8 @@ export default function SalesPocs() {
                     </tr>
                   </thead>
                   <tbody>
-                  {user_data && user_data.length > 0 ? (
-                      user_data.map((data) => (
+                  {currentItems && currentItems.length > 0 ? (
+                      currentItems.map((data) => (
                         <tr key={data.id}>
                           <td>
                             <h6>{data.name}</h6>
@@ -398,6 +420,25 @@ export default function SalesPocs() {
                     )}
                   </tbody>
                 </table>
+              </div>
+              <div className="col-12 my-2">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>

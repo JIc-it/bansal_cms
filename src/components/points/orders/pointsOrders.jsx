@@ -310,7 +310,7 @@ export default function OrderPoints() {
                             <h6>{order.points || 0}</h6>
                           </td>
                           <td>
-                            <h6>{order.quantity}</h6>
+                            <h6>{order.quantity || 0 }</h6>
                           </td>
                           <td>
                             <button

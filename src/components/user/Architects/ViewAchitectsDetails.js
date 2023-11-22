@@ -572,12 +572,12 @@ const ViewAchitectsDetails = () => {
                                 <td>
                                   <h6>{ele.points}</h6>
                                 </td>
-                                <td>
+                                {/* <td>
                                   <h6>{ele.distributor?.name}</h6>
-                                </td>
-                                <td>
+                                </td> */}
+                                {/* <td>
                                   <h6>{ele.distributor?.id}</h6>
-                                </td>
+                                </td> */}
                                 <td>
                                   <h6>{ele.quantity}</h6>
                                 </td>

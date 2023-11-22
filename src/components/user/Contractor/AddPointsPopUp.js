@@ -29,10 +29,14 @@ export default function AddPointsPopUp({
   totalPoints,
 }) {
   const [isLoading, setIsLoading] = useState(false);
+
   const validationSchema = Yup.object({
     points: Yup.string()
       .required("Points is required")
-      .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
+      .matches(/^\d{1,10}$/, "Points must be up to 10 digits") // Validation for up to 10 digits
+      .test('maxPoints', 'Maximum 1000 points allowed', (value) => {
+        return parseInt(value, 10) <= 1000;
+      }),
   });
 
   const formik = useFormik({
@@ -43,7 +47,15 @@ export default function AddPointsPopUp({
     onSubmit: async (values) => {
       setIsLoading(true);
       if (!isLoading) {
+
         try {
+          const pointsValue = parseInt(values.points, 10);
+          if (pointsValue > 1000) {
+            // Display a custom error message for exceeding the maximum points
+            formik.setErrors({ points: 'Maximum 1000 points allowed' });
+            setIsLoading(false);
+            return;
+          }
           const data = {
             points: values.points,
           };
