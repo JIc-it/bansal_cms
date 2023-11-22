@@ -32043,7 +32043,7 @@ table.dataTable thead .sorting_asc {
 
 .active-projects.manage-client tbody tr td {
   border-bottom: 1px solid #E6E6E6;
-  padding: 1.125rem 1.25rem; }
+  padding: 0.145rem 1.25rem; }
   .active-projects.manage-client tbody tr td:last-child {
     text-align: right; }
 

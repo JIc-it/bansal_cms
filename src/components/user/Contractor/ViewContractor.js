@@ -556,7 +556,6 @@ const ViewContractor = () => {
                         <th>Date & Time</th>
                         <th>Points</th>
                         <th>Quantity</th>
-                        <th>Comments</th>
                         <th>Status</th>
                         <th> </th>
                       </tr>
@@ -594,9 +593,6 @@ const ViewContractor = () => {
                                 </td>
                                 <td>
                                   <h6>{ele.quantity ?? "0"}</h6>
-                                </td>
-                                <td>
-                                  <h6>{ele.comments}</h6>
                                 </td>
                                 <td>
                                   <button
