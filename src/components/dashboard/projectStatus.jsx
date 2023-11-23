@@ -16,8 +16,10 @@ export default function ProjectStatus() {
                     console.error('Error fetching :', error);
                 });
         }, []);
- let reward_name= redeeemed && redeeemed?.map((dat)=>dat?.results?.reward_id?.title)
- let reward_points=redeeemed && redeeemed?.map((dat)=>dat?.results?.reward_id?.points)
+ const reward_name= redeeemed && redeeemed?.map((dat)=>dat?.reward_id?.title)
+ const reward_points=redeeemed && redeeemed?.map((dat)=>dat?.reward_id?.points)
+
+ 
 
     return (
         <div className="card">
