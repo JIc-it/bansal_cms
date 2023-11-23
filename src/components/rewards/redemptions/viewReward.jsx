@@ -111,7 +111,7 @@ export default function ViewReward({
           </button>
           <br></br>
           <span>ID Number :</span>
-          <span style={{ marginLeft: 200 }}>545958785236</span>
+          <span style={{ marginLeft: 200 }}>{data?.id_verification?.id_number}</span>
           <br></br>
           <span>Address :</span>
           <span style={{ marginLeft: 130 }}>
@@ -176,7 +176,7 @@ export default function ViewReward({
         <ViewImage
           open={openImagePopUp}
           setOpen={setOpenImagePopUp}
-          imageUrl={data}
+          imageUrl={data.id_verification.image}
           name={data?.id_verification?.name}
         />
       )}

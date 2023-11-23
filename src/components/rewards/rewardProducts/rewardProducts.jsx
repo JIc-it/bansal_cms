@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Cards from "./cards";
-import { getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
+import { getRewardProductsId, getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
 import AddReward from "./addReward";
 import EditReward from "./editReward";
 import { AppContext } from "../../../contexts/AppContext";
@@ -39,6 +39,7 @@ function RewardPoints() {
         console.error("Error fetching lead data:", error);
       });
   }, [isUpdated]);
+
 
   const exportToCSV = () => {
     if (reward_product_data) {

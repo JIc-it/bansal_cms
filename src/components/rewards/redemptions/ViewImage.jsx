@@ -2,11 +2,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 export default function ViewImage({ open, setOpen,imageUrl,name }) {
-  console.log(imageUrl,name)
+  const imageLink = String(imageUrl);
+  const baseurl = "https://bansal.jicitsolution.com";
+  const image=baseurl+imageLink
   return (
     <Modal
       show={open}
-      size="sm"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -21,8 +23,9 @@ export default function ViewImage({ open, setOpen,imageUrl,name }) {
         </Modal.Title> */}
       </Modal.Header>
       <Modal.Body>
-        <img src={imageUrl.id_verification.image} width={200} height={200} alt="image" />
-        <span>{name}</span>
+        <img src={image} width={'100%'} height={350} alt="image" />
+        <br></br>
+        {/* <span>{name}</span> */}
       </Modal.Body>
     </Modal>
   );

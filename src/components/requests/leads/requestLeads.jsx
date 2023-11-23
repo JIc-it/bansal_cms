@@ -29,7 +29,7 @@ export default function LeadRequests() {
     date: "",
   });
 
-  console.log(filterdata);
+  console.log(lead_data,'lead_data');
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
@@ -347,6 +347,7 @@ export default function LeadRequests() {
                     <tr>
                       <th>Transaction id</th>
                       <th>Name</th>
+                      <th>Role</th>
                       <th>Mobile</th>
                       <th>Referred By</th>
                       <th>Date & Time</th>

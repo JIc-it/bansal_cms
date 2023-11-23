@@ -1,23 +1,44 @@
-import { getTotalRewardProducts } from "../../../axiosHandle/rewardHandle";
+import { getRedemptionWindow, getRewardProductsId, getTotalRewardProducts } from "../../../axiosHandle/rewardHandle";
 import { getTotalProductsRedeemed } from "../../../axiosHandle/rewardHandle";
 import { getTotalRedeemedCount } from "../../../axiosHandle/rewardHandle";
 import React, { useState, useEffect } from "react";
 
 export default function Cards({ permissionForRedumtionWindow }) {
-  const [totalRewardProducts, setTotalRewardProducts] = useState(0);
-  const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
-  const [totalRedeemedCount, setTotalRedeemedCount] = useState(0);
-
-  useEffect(() => {
-    getTotalRewardProducts()
-      .then((data) => {
-        console.log(data);
-        setTotalRewardProducts(data.count);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  }, []);
+    const [totalRewardProducts, setTotalRewardProducts] = useState(0);
+    const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
+    const [totalRedeemedCount, setTotalRedeemedCount] = useState(0);
+    const [isChecked, setIsChecked] = useState(true);
+    const [value,setValue]=useState('Open')
+    const [rewardId,setRewardId]=useState('')
+    console.log('rewardId',rewardId)
+    const checkBoxHandler = () => {
+        setIsChecked(!isChecked);
+        if(isChecked== true)
+        {
+            setValue("Open")
+        }
+        else{
+            setValue("Close")
+        }
+      };
+    useEffect(() => {
+        getTotalRewardProducts()
+            .then((data) => {
+                console.log("getTotalRewardProducts",data);
+                setTotalRewardProducts(data.count);
+            })
+            .catch((error) => {
+                console.error("Error fetching distributor data:", error);
+            });
+            getRewardProductsId()
+            .then((data) => {
+              console.log("get Reward Products Id data:", data);
+              setRewardId(data.results[0].id)
+            })
+            .catch((error) => {
+              console.error("get Reward Products Id data:", error);
+            });
+    }, []);
 
     useEffect(() => {
         getTotalProductsRedeemed()
@@ -51,7 +72,18 @@ export default function Cards({ permissionForRedumtionWindow }) {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
-
+  const redemptionClick=()=>{
+    const body={
+        is_active:isChecked
+    }
+    getRedemptionWindow(rewardId,body)
+            .then((data) => {
+                console.log("getRedemptionWindow response",data);
+            })
+            .catch((error) => {
+                console.error("Error fetching distributor data:", error);
+            });
+ }
   return (
     <div className="container">
       <div className="row" style={{ marginLeft: "4px" }}>
@@ -66,18 +98,15 @@ export default function Cards({ permissionForRedumtionWindow }) {
                       <br />
                       {permissionForRedumtionWindow?.action && (
                         <div className="form-check form-switch">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            id="flexSwitchCheckDefault"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexSwitchCheckDefault"
-                          >
-                            Closed
-                          </label>
+                          <input 
+                            onClick={redemptionClick}
+                            onChange={checkBoxHandler} 
+                            className="form-check-input" 
+                            type="checkbox" 
+                            role="switch" 
+                            id="flexSwitchCheckDefault" 
+                            checked={isChecked}/>
+                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{value}</label>
                         </div>
                       )}
                     </div>

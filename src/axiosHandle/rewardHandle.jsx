@@ -7,8 +7,8 @@ const rewardRedemptionURL = "/purchase/admin-reward-redemptions/";
 const rewardProductTotalCountURL = "/purchase/rewards/";
 const redeemedviewURL = "/purchase/admin-pending-orders/";
 const rewardAcceptRejectUrl = "/purchase/redemption-status-update";
-const redemptionWindow = "purchase/redemption-update";
-
+const redemptionId='purchase/redemption-get/'
+const redemptionWindow='/purchase/redemption-update/'
 export const getRewardProductsRequest = () => {
   return axiosInstance
     .get(rewardProductsURL)
@@ -17,6 +17,26 @@ export const getRewardProductsRequest = () => {
       console.error("Error while fetching reward products:", error);
       throw error;
     });
+};
+export const getRewardProductsId = async () => {
+  try {
+    const response = await axiosInstance
+      .get(redemptionId);
+    return response.data;
+  } catch (error) {
+    console.error("Error while getRewardProductsId:", error);
+    throw error;
+  }
+};
+export const getRedemptionWindow = async (id,body) => {
+  try {
+    const response = await axiosInstance
+      .put(redemptionWindow+id+'/',body);
+    return response.data;
+  } catch (error) {
+    console.error("Error while getRedemptionWindow:", error);
+    throw error;
+  }
 };
 
 export const createRewardProductRequest = (data) => {
