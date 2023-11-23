@@ -27,7 +27,6 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 const defaultOption = options[0];
 
 export default function Navbar() {
- 
   const [profile_data, setProfileData] = useState({
     name: "",
     user_id: "",

@@ -391,8 +391,8 @@ export default function SideMenu() {
           </MenuItem>
         </SubMenu>
 
-        {userRole === "Staff " ||
-          (userRole === "Admin " && (
+        {userRole === "Staff" ||
+          (userRole === "Admin" && (
             <SubMenu
               icon={<PeopleOutlinedIcon />}
               label="Users"
