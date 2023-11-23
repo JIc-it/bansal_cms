@@ -15,6 +15,11 @@ export default function PendingOrderRequests() {
     const [lead_data, setLeadData] = useState(null);
     const [lead_total, setLeadTotal] = useState(null);
     const [active_table, setActiveTable] = useState('order');
+    const [refetch,setRefetch]=useState(false)
+
+    const handlerefetch=()=>{
+        setRefetch(true)
+    }
 
     useEffect(() => {
         getOrderRequest()
@@ -25,7 +30,7 @@ export default function PendingOrderRequests() {
             .catch((error) => {
                 console.error('Error fetching order data:', error);
             });
-    }, [order_data]);
+    }, [refetch]);
 
     useEffect(() => {
         getLeadRequest()
@@ -36,7 +41,7 @@ export default function PendingOrderRequests() {
             .catch((error) => {
                 console.error('Error fetching lead data:', error);
             });
-    }, [lead_data]);
+    }, [refetch]);
 
     const toggleTableData = (type) => {
         if (type === 'order') {
@@ -71,8 +76,8 @@ export default function PendingOrderRequests() {
                                 <h4>{active_table === 'order' ? order_total : lead_total}</h4>
                             </div>
                         </div>
-                        {active_table === 'order' && <OrderTable data={order_data} />}
-                        {active_table === 'lead' && <LeadTable data={lead_data} />}
+                        {active_table === 'order' && <OrderTable data={order_data} handlerefetch={handlerefetch}/>}
+                        {active_table === 'lead' && <LeadTable data={lead_data} handlerefetch={handlerefetch}/>}
                     </div>
                 </div>
             </div>

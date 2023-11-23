@@ -24,7 +24,7 @@ const statusOffcanvas = {
     backgroundColor: '#F2F2F2',
 };
 
-export default function LeadDetails({open, data, setOpen}) {
+export default function LeadDetails({open, data, setOpen,handlerefetch}) {
 
     const [showOffcanvas, setShowOffcanvas] = useState(open);
 
@@ -52,10 +52,12 @@ export default function LeadDetails({open, data, setOpen}) {
 
         if(data.distributor){
              handleorderrequest(req);
+             handlerefetch()
             handleCloseOffcanvas()
         }
         else{
              handleleadrequest(req);
+             handlerefetch()
             handleCloseOffcanvas()
         }
     }
