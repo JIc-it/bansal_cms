@@ -349,7 +349,7 @@ const ViewAdmin = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-5" style={{ paddingLeft: 0 }}>
+                <div className="col-7" style={{ paddingLeft: 0 }}>
                   <div
                     className="input-group mb-3"
                     style={{
@@ -388,7 +388,8 @@ const ViewAdmin = () => {
                         />
                       </svg>
                     </div>
-                    {/* <button
+
+                    <button
                       className="px-3 py-2 filter-button"
                       type="button"
                       id="search-button"
@@ -431,16 +432,16 @@ const ViewAdmin = () => {
                     </button>
 
                     <button
-                          className="btn btn-dark mx-1"
-                          type="button"
-                          // onClick={() => {
-                          //   setFilterCriteria({ from: "", to: "" });
-                          //   setSearchUserData("");
-                          //   setIsFilter(!isFilter);
-                          // }}
-                        >
-                          Clear filter
-                        </button> */}
+                      className="btn btn-dark mx-1"
+                      type="button"
+                      // onClick={() => {
+                      //   setFilterCriteria({ from: "", to: "" });
+                      //   setSearchUserData("");
+                      //   setIsFilter(!isFilter);
+                      // }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
                   {transactionFilterOpen && (
                     <TransactionFilterPopUp
@@ -449,14 +450,16 @@ const ViewAdmin = () => {
                   )}
                 </div>
                 <div className="col-7 text-end contractor-grid-button">
-                 {permissionForUser?.action && <button
-                    className="btn btn-light btn-sm mx-2"
-                    type="button"
-                    id="export-button"
-                    onClick={exportToCSV}
-                  >
-                    <i className="fa-solid fa-file-export" /> Export
-                  </button>}
+                  {permissionForUser?.action && (
+                    <button
+                      className="btn btn-light btn-sm mx-2"
+                      type="button"
+                      id="export-button"
+                      onClick={exportToCSV}
+                    >
+                      <i className="fa-solid fa-file-export" /> Export
+                    </button>
+                  )}
                 </div>
               </div>
 
