@@ -79,71 +79,58 @@ export default function LeadDetails({
           SA
         </h6>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Transaction Details</h6>
         <span>Admin Status :</span>
-        <span
-          style={{ marginLeft: 190, color: "blue" }}
-          className="badge badge-primary light border-0"
-        >
-          {data.admin_approval}
-        </span>
+        <span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span>
         <br></br>
         <span>Distributor Status :</span>
-        <span
-          style={{ marginLeft: 168 }}
-          className="badge badge-success light border-0"
-        >
-          {data.user_approval}
-        </span>
+        <span style={{ float: 'inline-end', position:'relative', left:62, padding:2 }} className="badge badge-success light border-0">{data.user_approval}</span>
         <br></br>
         <span>Transaction ID :</span>
-        <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+        <span style={{ float: 'inline-end' }}>{data.transaction_id}</span>
         <br></br>
         <span>Date & Time :</span>
-        <span style={{ marginLeft: 150 }}>
-          {new Date(data.updated_at).toLocaleDateString("en-US", {
-            day: "2-digit",
-            month: "short",
-            year: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </span>
+        <span style={{ float: 'inline-end' }}>    {new Date(data.updated_at).toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}</span>
         <br></br>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Lead Details</h6>
         <span>Name :</span>
-        <span style={{ marginLeft: 235 }}>{data?.name}</span>
+        <span style={{ float: 'inline-end' }}>{data?.name}</span>
         <br></br>
         <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>{data.mobile_no}</span>
+        <span style={{ float: 'inline-end' }}>{data.mobile_no}</span>
         <br></br>
         <span>Site Location :</span>
-        <span style={{ marginLeft: 70 }}>
-          {data.site_location}
-          <span style={{ marginLeft: 175 }}></span>
-        </span>
+        <span style={{ float: 'inline-end' }}>{data.site_location}</span>
         <br></br>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Referrer Details</h6>
         <span>Name :</span>
-        <span style={{ marginLeft: 237 }}>{data?.user?.name}</span>
+        <span style={{ float: 'inline-end' }}>{data?.user?.name}</span>
         <br></br>
         <span>Unique ID :</span>
-        <span style={{ marginLeft: 216 }}>{data.user?.user_id}</span>
+        <span style={{ float: 'inline-end' }}>{data.user?.user_id}</span>
         <br></br>
         <span>Location :</span>
-        <span style={{ marginLeft: 200 }}>
-          {data?.user?.district} &nbsp;,&nbsp;{data?.user?.state}
-        </span>
+        <span style={{ float: 'inline-end' }}>{data?.user?.district}, {data?.user?.state}</span>
         <br></br>
         <span>Mobile :</span>
-        <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+        <span style={{ float: 'inline-end' }}>{data.user?.mobile}</span>
         <br></br>
       </div>
+      <br></br>
       <div>
         <h6 style={statusOffcanvas}>
           <div

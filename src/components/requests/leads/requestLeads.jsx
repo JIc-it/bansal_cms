@@ -128,6 +128,7 @@ export default function LeadRequests() {
           rr_data.updated_at,
           rr_data.points,
           rr_data.order,
+          rr_data.role,
         ];
       });
 
@@ -365,6 +366,9 @@ export default function LeadRequests() {
                           </td>
                           <td>
                             <h6>{lead.name}</h6>
+                          </td>
+                          <td>
+                            <h6>{lead?.user?.role}</h6>
                           </td>
                           <td>
                             <h6>{lead.mobile_no}</h6>

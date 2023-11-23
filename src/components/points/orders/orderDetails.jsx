@@ -55,37 +55,40 @@ export default function OrderDetails({data, open, setOpen}) {
             <div style={offcanvasStyle}>
                 <h6 style={{ marginLeft: 140, marginTop: 30, marginBottom: 30, fontSize: 60 }}>SA</h6>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <br></br>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Transaction Details</h6>
                 {data.accepted_by.role==='Admin'?
                 <>
-                 <span>Admin Status :</span><span style={{ marginLeft: 150, color: "blue",marginBottom:20 }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                 <span>Admin Status :</span><span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                 </>:
                 <>
-                 <span>Sales POC Status :</span><span style={{ marginLeft: 148, color: "blue" ,marginBottom:20}} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br> 
+                 <span>Sales POC Status :</span><span style={{ float: 'inline-end', position:'relative', padding:2 }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br> 
                 </>
                  
 
                 }
                 
-                <span>Distributor Status :</span><span style={{ marginLeft: 150,marginBottom:20 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 113,marginBottom:20 }}>{order_data.transaction_id}</span><br></br>
-                <span>Date & Time :</span><span style={{ marginLeft: 97,marginBottom:20 }}>{new Date(data.updated_at).toLocaleString("es-cl",{hour12:true})}</span><br></br>
-                <span>Accepted By :</span><span style={{ marginLeft: 120,marginBottom:20 }}>{data.accepted_by.email}</span><br></br>
+                <span>Distributor Status :</span><span style={{ float: 'inline-end',position:'relative', padding:0, left:65 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
+                <span>Transaction ID :</span><span style={{ float: 'inline-end' }}>{order_data.transaction_id}</span><br></br>
+                <span>Date & Time :</span><span style={{ float: 'inline-end' }}>{new Date(data.updated_at).toLocaleString("es-cl",{hour12:true})}</span><br></br>
+                <span>Accepted By :</span><span style={{ float: 'inline-end' }}>{data.accepted_by.email}</span><br></br>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <br></br>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Distributor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 235,marginBottom:20 }}>{data?.distributor?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 250,marginBottom:20 }}>{data?.distributor?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130,marginBottom:20 }}>{data?.distributor?.district},<span style={{ marginLeft: 175 }}>{data?.distributor?.state}</span></span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 ,marginBottom:20}}>{data?.distributor?.mobile}</span><br></br>
+                <span>Name :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.user_id}</span><br></br>
+                <span>Address :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.district},<span style={{ marginLeft: 175 }}>{data?.distributor?.state}</span></span><br></br>
+                <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.mobile}</span><br></br>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <br></br>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Contractor Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 237,marginBottom:20 }}>{data?.user?.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 215,marginBottom:20 }}>{data?.user?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 145,marginBottom:20 }}>{data?.user?.district}, {data?.user?.state}</span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 ,marginBottom:20}}>{data?.user?.mobile}</span><br></br>
+                <span>Name :</span><span style={{ float: 'inline-end' }}>{data?.user?.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data?.user?.user_id}</span><br></br>
+                <span>Address :</span><span style={{ float: 'inline-end' }}>{data?.user?.district}, {data?.user?.state}</span><br></br>
+                <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data?.user?.mobile}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>
