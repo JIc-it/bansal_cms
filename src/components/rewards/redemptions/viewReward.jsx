@@ -29,7 +29,7 @@ export default function ViewReward({
 }) {
   const [showOffcanvas, setShowOffcanvas] = useState(open);
   const [openImagePopUp, setOpenImagePopUp] = useState(false);
- console.log('dataaaaaa',data)
+  console.log('dataaaaaa', data)
   const handleCloseOffcanvas = () => {
     setOpenImagePopUp(false);
     setShowOffcanvas(false);
@@ -87,21 +87,22 @@ export default function ViewReward({
         <div style={offcanvasStyle}>
           <h6 style={{ marginLeft: 140, marginTop: 30, fontSize: 60 }}>SA</h6>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+        <br></br>
+        <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Transaction Details</h6>
           <span>Status :</span>
-          <span style={{ marginLeft: 190 }}>{data?.status}</span>
+          <span style={{ float: 'inline-end', color: "blue", padding: 2, position: 'relative', bottom: 5 }}>{data?.status}</span>
           <br></br>
           <span>Transaction ID :</span>
-          <span style={{ marginLeft: 190 }}>{data?.transaction_id}</span>
+          <span style={{ float: 'inline-end' }}>{data?.transaction_id}</span>
           <br></br>
           <span>Date & Time :</span>
-          <span style={{ marginLeft: 150 }}>{data?.created_at}</span>
+          <span style={{ float: 'inline-end' }}>{data?.created_at}</span>
           <br></br>
           <span>ID Type :</span>
-          <span style={{ marginLeft: 205 }}>{data?.id_verification.id_type}</span>
+          <span style={{ float: 'inline-end' }}>{data?.id_verification.id_type}</span>
           <button
-            style={{ backgroundColor: "blue" }}
+            style={{ backgroundColor: "blue", float: 'inline-end' }}
             className="btn btn-dark btn-sm ms-2"
             onClick={() => {
               setOpenImagePopUp(true);
@@ -111,33 +112,35 @@ export default function ViewReward({
           </button>
           <br></br>
           <span>ID Number :</span>
-          <span style={{ marginLeft: 200 }}>{data?.id_verification?.id_number}</span>
+          <span style={{ float: 'inline-end' }}>{data?.id_verification?.id_number}</span>
           <br></br>
           <span>Address :</span>
-          <span style={{ marginLeft: 130 }}>
+          <span style={{ float: 'inline-end' }}>
             {`${formattedAddress.address_1} , ${formattedAddress.address_2}`}
           </span>
           <br></br>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+        <br></br>
+        <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Buyer Details</h6>
           <span>Name :</span>
-          <span style={{ marginLeft: 235 }}>{data.user?.name}</span>
+          <span style={{ float: 'inline-end' }}>{data.user?.name}</span>
           <br></br>
           <span>Unique ID :</span>
-          <span style={{ marginLeft: 250 }}>{data?.user?.user_id}</span>
+          <span style={{ float: 'inline-end' }}>{data?.user?.user_id}</span>
           <br></br>
           <span>Mobile :</span>
-          <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+          <span style={{ float: 'inline-end' }}>{data.user?.mobile}</span>
           <br></br>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+        <br></br>
+        <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Reward Details</h6>
           <span>Name :</span>
-          <span style={{ marginLeft: 237 }}>{data.reward_id?.title}</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.title}</span>
           <br></br>
           <span>Product ID :</span>
-          <span style={{ marginLeft: 244 }}>{data.reward_id?.reward_id}</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id}</span>
           <br></br>
         </div>
         {permissionForRedemption?.action && data?.status === "Pending" && (
@@ -152,7 +155,7 @@ export default function ViewReward({
           >
             <button
               className="btn reward-redemption-success"
-              style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
+              style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)"}}
               onClick={() => {
                 handleRequest("accept");
               }}

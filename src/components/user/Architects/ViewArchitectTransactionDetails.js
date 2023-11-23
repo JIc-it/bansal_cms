@@ -48,13 +48,13 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
           SA
         </h6>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Transaction Details</h6>
 
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30 }}>
           <span>Admin Status :</span>
 
-          <span
+          <span style={{float: 'inline-end',color: "green", padding:2, position: 'relative', bottom:7}}
             className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
                 itemData.user_approval === "Accepted"
                 ? "Accepted-btn"
@@ -70,7 +70,6 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
                 ? "Rejected"
                 : "Processing"}
           </span>
-        </div>
         {/* <span
           style={{ marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
@@ -78,9 +77,8 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
           {itemData.admin_approval}
         </span> */}
         <br></br>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 0, marginBottom: 10 }}>
           <span>Distributor Status :</span>
-          <span style={{ marginLeft: 80 }}
+          <span style={{ float: 'inline-end',color: "green", padding:2, position: 'relative',left:60 }}
             className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
                 itemData.user_approval === "Accepted"
                 ? "Accepted-btn"
@@ -106,15 +104,11 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
         </span> */}
           <br></br>
 
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ flex: '2' }}>Transaction ID :</span>
-          <span style={{ flex: '2' }}>{itemData.transaction_id}</span>
+          <span>Transaction ID :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.transaction_id}</span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30, marginBottom: 10 }}>
-          <span style={{ flex: '2' }}>Date & Time :</span>
-          <span >
+          <span>Date & Time :</span>
+          <span style={{ float: 'inline-end'}}>
             {new Date(itemData.created_at).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
@@ -125,60 +119,51 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
           </span>
 
           <br></br>
-        </div>
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Distributor Details</h6>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Name :</span>
-          <span style={{ flex: '2' }}>{itemData.distributor.name}</span>
+          <span>Name :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.distributor.name}</span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Unique ID :</span>
-          <span style={{ flex: '2' }}>{itemData.distributor.user_id}</span>
+
+          <span>Unique ID :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.distributor.user_id}</span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Address :</span>
-          <span style={{ flex: '2' }}>
-            {itemData.distributor.district},{" "}
+          <span>Address :</span>
+          <span style={{ float: 'inline-end'}}>
+            {itemData.distributor.district}, 
             <span >{itemData.distributor.state}</span>
           </span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Mobile :</span>
-          <span style={{ flex: '2' }}>{itemData.distributor.mobile}</span>
-          <br></br>
-        </div>
+          <span>Mobile :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.distributor.mobile}</span>
+       
       </div>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>{itemData.user.role} Details</h6>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Name :</span>
-          <span style={{ flex: '2' }}>{itemData.user.name}</span>
+        
+          <span>Name :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.user.name}</span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Unique ID :</span>
-          <span style={{ flex: '2' }}>{itemData.user.user_id}</span>
+        
+          <span>Unique ID :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.user.user_id}</span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Address :</span>
-          <span style={{ flex: '2' }}>
+        
+          <span>Address :</span>
+          <span style={{ float: 'inline-end'}}>
             {itemData.user.district},{" "}
             <span > {itemData.user.state}</span>
           </span>
           <br></br>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <span style={{ flex: '2' }}>Mobile :</span>
-          <span style={{ flex: '2' }}>{itemData.user.mobile}</span>
-          <br></br>
-        </div>
+        
+          <span>Mobile :</span>
+          <span style={{ float: 'inline-end'}}>{itemData.user.mobile}</span>
+       
       </div>
+      <br></br>
       <div style={{ marginTop: 10, marginLeft: 20 }}>
         <h6>Comments :</h6>
         <span style={{ marginLeft: 85 }}>{itemData.comments}</span>
