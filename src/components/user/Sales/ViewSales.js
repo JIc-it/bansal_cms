@@ -589,6 +589,7 @@ import {
   getUserOrders,
   getUserRedemptionData,
   adminPermissionViewRequest,
+  adminUSerViewLeadsRequest,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
 import ViewPermission from "./ViewPermission";
@@ -623,6 +624,7 @@ const ViewSales = () => {
   });
 
   const handlefilterdata = (field) => {
+    console.log("field",field)
     setFilterdata((prev) => {
       return {
         ...prev,
@@ -631,7 +633,7 @@ const ViewSales = () => {
     });
   };
 
-  // console.log(filterdata);
+  console.log(userData, 'userData');
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -646,7 +648,7 @@ const ViewSales = () => {
     state_id: queryParams.get("state_id"),
     district_id: queryParams.get("district_id"),
   });
-
+  console.log("userDataParam.id", userDataParam.id)
   const handlepassdata = () => {
     setPermissionView(true);
   };
@@ -662,17 +664,20 @@ const ViewSales = () => {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
+    handleUserOrderData();
   }, []);
 
   const handleUserOrderData = () => {
-    getUserOrders(queryParams.get("id"))
+    adminUSerViewLeadsRequest(userDataParam.id,filterdata)
       .then((data) => {
+        console.log('getUserOrders', data)
         setTransactionData(data.results);
         setTotalOrder(data.total);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error);
+        console.error("Error fetching getUserOrders data:", error);
       });
+
   };
 
   const handlechangetransactiondata = (data) => {
@@ -680,8 +685,6 @@ const ViewSales = () => {
   };
 
   const [data, setData] = useState();
-
-  console.log(userDataParam.id);
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
       .then((data) => {
@@ -695,7 +698,6 @@ const ViewSales = () => {
   useEffect(() => {
     userData && handleUserOrderData();
   }, [userData]);
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -727,7 +729,7 @@ const ViewSales = () => {
           setTransactionData(data);
         })
         .catch((error) => {
-          console.error("Error fetching distributor data:", error);
+          console.error("Error fetching leads data:", error);
         });
     }
   };
@@ -746,25 +748,25 @@ const ViewSales = () => {
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
-              let status =
-                item.admin_approval === "Accepted" &&
+            let status =
+              item.admin_approval === "Accepted" &&
                 item.user_approval === "Accepted"
-                  ? "Accepted"
-                  : item.admin_approval === "Rejected" ||
-                    item.user_approval === "Rejected"
+                ? "Accepted"
+                : item.admin_approval === "Rejected" ||
+                  item.user_approval === "Rejected"
                   ? "Rejected"
                   : "Processing";
-              return [
-                item.transaction_id,
-                item.user?.name,
-                item.user?.role,
-                item.user?.user_id,
-                item.updated_at,
-                item.points,
-                item.quantity,
-                status,
-              ];
-            })
+            return [
+              item.transaction_id,
+              item.user?.name,
+              item.user?.role,
+              item.user?.user_id,
+              item.updated_at,
+              item.points,
+              item.quantity,
+              status,
+            ];
+          })
           : "";
 
       const csvContent = [header, ...csvData]
@@ -888,21 +890,20 @@ const ViewSales = () => {
               <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Orders"
-                        ? "btn-primary"
-                        : "btn-light"
-                    }`}
+                    className={`btn btn-sm ${seletedTranasactionType === "Orders"
+                      ? "btn-primary"
+                      : "btn-light"
+                      }`}
                     type="button"
                     id="add-points-button"
                     onClick={() => handleClickTrancationType("Orders")}
                   >
                     Orders
                   </button>
-                  {/* <button
+                  <button
                     className={`btn btn-sm ${seletedTranasactionType === "Leads"
-                        ? "btn-primary"
-                        : "btn-light"
+                      ? "btn-primary"
+                      : "btn-light"
                       }`}
                     type="button"
                     id="add-points-button"
@@ -910,7 +911,7 @@ const ViewSales = () => {
                     onClick={() => handleClickTrancationType("Leads")}
                   >
                     Leads
-                  </button> */}
+                  </button>
                 </div>
               </div>
               <div className="row">
@@ -998,11 +999,11 @@ const ViewSales = () => {
                     <button
                       className="btn btn-dark mx-1"
                       type="button"
-                      // onClick={() => {
-                      //   setFilterCriteria({ from: "", to: "" });
-                      //   setSearchUserData("");
-                      //   setIsFilter(!isFilter);
-                      // }}
+                    // onClick={() => {
+                    //   setFilterCriteria({ from: "", to: "" });
+                    //   setSearchUserData("");
+                    //   setIsFilter(!isFilter);
+                    // }}
                     >
                       Clear filter
                     </button>
@@ -1163,23 +1164,22 @@ const ViewSales = () => {
 
                                 <td>
                                   <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted" &&
+                                    className={`btn  btn-sm ${ele.admin_approval === "Accepted" &&
                                       ele.user_approval === "Accepted"
-                                        ? "Accepted-btn"
-                                        : ele.admin_approval === "Rejected" ||
-                                          ele.user_approval === "Rejected"
+                                      ? "Accepted-btn"
+                                      : ele.admin_approval === "Rejected" ||
+                                        ele.user_approval === "Rejected"
                                         ? "Rejected-btn"
                                         : "Processing-btn"
-                                    }`}
+                                      }`}
                                   >
                                     {ele.admin_approval === "Accepted" &&
-                                    ele.user_approval === "Accepted"
+                                      ele.user_approval === "Accepted"
                                       ? "Accepted"
                                       : ele.admin_approval === "Rejected" ||
                                         ele.user_approval === "Rejected"
-                                      ? "Rejected"
-                                      : "Processing"}
+                                        ? "Rejected"
+                                        : "Processing"}
                                   </button>
                                 </td>
                                 <td onClick={() => setViewTransaction(true)}>

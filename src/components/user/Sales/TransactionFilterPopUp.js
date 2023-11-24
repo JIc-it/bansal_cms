@@ -9,14 +9,28 @@ const TransactionFilterPopUp = (
     //   isFilter,
     //   setIsFilter,
     //   setOpenFilter,
+    handlefilterdata
   }
 ) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [status, setStatus] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+  const handleApplyFilter = () => {
+    const filterCriteria = {
+      status,
+      from,
+      to,
+      selectedDate,
+    };
 
+    handlefilterdata(filterCriteria);
+  };
+ console.log("handle filter data",handlefilterdata)
   const customInput = (
     <div className="custom-input">
       <input
@@ -92,6 +106,7 @@ const TransactionFilterPopUp = (
         className=" w-100 form-control-sm form-control my-1"
         placeholder="Status"
         //   onChange={handleStateChange}
+        onChange={(e) => setStatus(e.target.value)}
       >
         <option disabled={true} value="" id={"0"}>
           Status
@@ -112,6 +127,8 @@ const TransactionFilterPopUp = (
           //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
           //   }}
           //   onBlur={formik.handleBlur}
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
         />
         <span
           style={{
@@ -133,6 +150,8 @@ const TransactionFilterPopUp = (
           //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
           //   }}
           //   onBlur={formik.handleBlur}
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
         />
       </div>
       <span>By Date</span>
@@ -157,6 +176,7 @@ const TransactionFilterPopUp = (
         //   setOpenFilter(false);
         //   setIsFilter(!isFilter);
         // }}
+        onClick={handleApplyFilter}
       >
         Apply
       </button>
