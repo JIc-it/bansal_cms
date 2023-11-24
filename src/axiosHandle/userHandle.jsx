@@ -405,23 +405,45 @@ export const updateUser = (id, data) => {
     });
 };
 
-export const adminUSerViewOrdersRequest = (id, data) => {
-  return axiosInstance
-    .get(`${adminUSerViewOrdersURL}/${id}/`, {
-      params: {
-        // role:data?.role,
-        search: data?.search,
-        // status:data?.status,
-        // points_from: data?.points_from,
-        // points_to: data?.points_to,
-        // date:data?.date,
-      },
-    })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error while fetching order request:", error);
-      throw error;
-    });
+export const adminUSerViewOrdersRequest = async (id, data) => {
+  console.log(data,"adminUSerViewOrdersRequest")
+  try {
+    const response = await axiosInstance
+      .get(`${adminUSerViewOrdersURL}/${id}/`, {
+        params: {
+          // role:data?.role,
+           search: data?.search,
+          // status: data?.status,
+           points_from: data?.from,
+           points_to: data?.to,
+           date: data?.formattedDate,
+        },
+      });
+   return response.data;
+  } catch (error) {
+    console.error("Error while fetching order request:", error);
+    throw error;
+  }
+};
+export const adminUSerViewLeadssRequest = async (id, data) => {
+  console.log(id,data,"adminUSerViewLeadssRequest")
+  try {
+    const response = await axiosInstance
+      .get(`${adminUSerViewLeadsURL}/${id}/`, {
+        params: {
+          role:data?.roles,
+           search: data?.search,
+          status: data?.status,
+           points_from: data?.from,
+           points_to: data?.to,
+           date: data?.formattedDate,
+        },
+      });
+   return response.data;
+  } catch (error) {
+    console.error("Error while fetching adminUSer View Leads Request request:", error);
+    throw error;
+  }
 };
 
 ///////////////add points for indivitual user//////////////

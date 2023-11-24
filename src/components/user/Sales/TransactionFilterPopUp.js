@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form, FormControl, InputGroup } from "react-bootstrap";
+import moment from "moment";
 const TransactionFilterPopUp = (
   {
     //   filterCriteria,
@@ -9,14 +10,17 @@ const TransactionFilterPopUp = (
     //   isFilter,
     //   setIsFilter,
     //   setOpenFilter,
-    handlefilterdata
+    handlefilterdata,
+    type
   }
 ) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [status, setStatus] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-
+  const popupRef = useRef(null);
+  const [roles,setRoles]=useState('')
+  const formattedDate = selectedDate ? moment(selectedDate).format("YYYY-MM-DD") : null;
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -25,12 +29,19 @@ const TransactionFilterPopUp = (
       status,
       from,
       to,
-      selectedDate,
+      formattedDate,
+      roles
     };
 
     handlefilterdata(filterCriteria);
   };
- console.log("handle filter data",handlefilterdata)
+  const clearCall=()=>{
+    setTo('')
+    setSelectedDate(null)
+    setStatus("")
+    setFrom('')
+    setRoles('')
+  }
   const customInput = (
     <div className="custom-input">
       <input
@@ -100,6 +111,21 @@ const TransactionFilterPopUp = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
+      <span>By Role</span>
+      <select
+        defaultValue=""
+        className=" w-100 form-control-sm form-control my-1"
+        placeholder="Roles"
+        //   onChange={handleStateChange}
+        onChange={(e) => setRoles(e.target.value)}
+      >
+        <option disabled={true} value="" id={"0"}>
+          Roles
+        </option>
+        <option>Engineer</option>
+        <option>Architect</option>
+        <option>Contractor</option>
+      </select>
       <span>By Status</span>
       <select
         defaultValue=""
@@ -115,52 +141,59 @@ const TransactionFilterPopUp = (
         <option>Accepted</option>
         <option>Rejected</option>
       </select>
-      <span>By Points</span>
-      <div className="filter-fields">
-        <input
-          type="number"
-          placeholder="From"
-          className="form-control form-control-sm"
-          name="from"
-          //   value={filterCriteria.from}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
-          //   }}
-          //   onBlur={formik.handleBlur}
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-        />
-        <span
-          style={{
-            fontWeight: "700",
-            color: "#000",
-            position: "relative",
-            top: "5px",
-          }}
-        >
-          -
-        </span>
-        <input
-          type="number"
-          placeholder="To"
-          className="form-control form-control-sm"
-          name="to"
-          //   value={filterCriteria.to}
-          //   onChange={(e) => {
-          //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
-          //   }}
-          //   onBlur={formik.handleBlur}
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-        />
-      </div>
+      {
+        type==='Orders' ?
+        <>
+          <span>By Points</span>
+        <div className="filter-fields">
+          <input
+            type="number"
+            placeholder="From"
+            className="form-control form-control-sm"
+            name="from"
+            //   value={filterCriteria.from}
+            //   onChange={(e) => {
+            //     setFilterCriteria({ ...filterCriteria, from: e.target.value });
+            //   }}
+            //   onBlur={formik.handleBlur}
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+          />
+          <span
+            style={{
+              fontWeight: "700",
+              color: "#000",
+              position: "relative",
+              top: "5px",
+            }}
+          >
+            -
+          </span>
+          <input
+            type="number"
+            placeholder="To"
+            className="form-control form-control-sm"
+            name="to"
+            //   value={filterCriteria.to}
+            //   onChange={(e) => {
+            //     setFilterCriteria({ ...filterCriteria, to: e.target.value });
+            //   }}
+            //   onBlur={formik.handleBlur}
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+          />
+        </div> 
+        </>
+      :''
+      }
+     
       <span>By Date</span>
       <br />
       <DatePicker
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
         customInput={customInput}
-        dateFormat="dd/MM/yyyy" // Customize the date format
+        dateFormat="dd/MM/yyyy" 
       />
 
       <button
@@ -194,6 +227,7 @@ const TransactionFilterPopUp = (
         //   setFilterCriteria({ from: "", to: "" });
         //   setIsFilter(!isFilter);
         // }}
+        onClick={()=>(clearCall())}
       >
         Clear Filter
       </button>

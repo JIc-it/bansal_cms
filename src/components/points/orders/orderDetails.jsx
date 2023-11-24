@@ -58,7 +58,7 @@ export default function OrderDetails({data, open, setOpen}) {
             <br></br>
             <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Transaction Details</h6>
-                {data.accepted_by.role==='Admin'?
+                {data?.accepted_by?.role==='Admin'?
                 <>
                  <span>Admin Status :</span><span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                 </>:
@@ -72,7 +72,7 @@ export default function OrderDetails({data, open, setOpen}) {
                 <span>Distributor Status :</span><span style={{ float: 'inline-end',position:'relative', padding:0, left:65 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
                 <span>Transaction ID :</span><span style={{ float: 'inline-end' }}>{order_data.transaction_id}</span><br></br>
                 <span>Date & Time :</span><span style={{ float: 'inline-end' }}>{new Date(data.updated_at).toLocaleString("es-cl",{hour12:true})}</span><br></br>
-                <span>Accepted By :</span><span style={{ float: 'inline-end' }}>{data.accepted_by.email}</span><br></br>
+                <span>Accepted By :</span><span style={{ float: 'inline-end' }}>{data?.accepted_by?.email}</span><br></br>
             </div>
             <br></br>
             <div style={{ marginLeft: 15, marginRight: 15 }}>

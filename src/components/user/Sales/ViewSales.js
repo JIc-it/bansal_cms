@@ -590,6 +590,7 @@ import {
   getUserRedemptionData,
   adminPermissionViewRequest,
   adminUSerViewLeadsRequest,
+  adminUSerViewLeadssRequest,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
 import ViewPermission from "./ViewPermission";
@@ -597,6 +598,7 @@ import { useContext } from "react";
 import { AppContext } from "../../../contexts/AppContext";
 
 const ViewSales = () => {
+
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForUser = permissionData?.users;
@@ -609,7 +611,7 @@ const ViewSales = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [seletedTranasactionType, setSeletedTranasactionType] =
     useState("Orders");
-  const [transactionData, setTransactionData] = useState();
+  const [transactionData, setTransactionData] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -622,7 +624,11 @@ const ViewSales = () => {
     points_to: 0,
     date: "",
   });
-
+  const [LeadsTransactionData, setLeadsTransactionData] = useState([])
+  console.log("transactionData data", transactionData)
+  const onClose = (condition) => {
+    setTransactionFilterOpen(condition)
+  }
   const handlefilterdata = (field) => {
     setFilterdata((prev) => {
       return {
@@ -631,8 +637,6 @@ const ViewSales = () => {
       };
     });
   };
-
-  console.log(userData, 'userData');
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -647,16 +651,17 @@ const ViewSales = () => {
     state_id: queryParams.get("state_id"),
     district_id: queryParams.get("district_id"),
   });
-  console.log("userDataParam.id", userDataParam.id)
   const handlepassdata = () => {
     setPermissionView(true);
   };
+  const [userId, setUserId] = useState(userDataParam.id);
 
   useEffect(() => {
     getContractorsRequest("", { from: "", to: "" })
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
           return item.id === userDatail.id;
+
         });
         setUserData(filteredData);
       })
@@ -667,12 +672,11 @@ const ViewSales = () => {
   }, []);
 
   useEffect(() => {
-     handleUserOrderData();
+    handleUserOrderData();
   }, [filterdata?.search]);
   const handleUserOrderData = () => {
-    adminUSerViewLeadsRequest(userDataParam.id,filterdata?.search,filterdata)
+    adminUSerViewLeadsRequest(userDataParam.id, filterdata?.search, filterdata)
       .then((data) => {
-        console.log('getUserOrders', data)
         setTransactionData(data.results);
         setTotalOrder(data.total);
       })
@@ -685,7 +689,16 @@ const ViewSales = () => {
   const handlechangetransactiondata = (data) => {
     setTransactionData(data);
   };
-
+  const clearFilterCall = () => {
+    setFilterdata({
+      role: "",
+      search: "",
+      status: "",
+      points_from: 0,
+      points_to: 0,
+      date: "",
+    });
+  }
   const [data, setData] = useState();
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
@@ -700,6 +713,16 @@ const ViewSales = () => {
   useEffect(() => {
     userData && handleUserOrderData();
   }, [userData]);
+  useEffect(() => {
+    adminUSerViewLeadssRequest(userId, filterdata)
+      .then((data) => {
+        // console.log("adminUSerViewLeadssRequest data",data)
+        setLeadsTransactionData(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching leads data:", error);
+      });
+  }, [filterdata, seletedTranasactionType]);
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -726,9 +749,10 @@ const ViewSales = () => {
     if (type === "Orders") {
       handleUserOrderData();
     } else {
-      getUserRedemptionData(userData.id)
+      adminUSerViewLeadssRequest(userId, filterdata)
         .then((data) => {
-          setTransactionData(data);
+          // console.log("adminUSerViewLeadssRequest data",data)
+          setTransactionData(data.results);
         })
         .catch((error) => {
           console.error("Error fetching leads data:", error);
@@ -827,16 +851,16 @@ const ViewSales = () => {
                   <div className="image-container-contractor">
                     <div className="contractor-image">
                       {/* {userData && userData.name.slice(0, 2)} */}
-                      {userDataParam.name.slice(0, 2)}
+                      {userDataParam?.name?.slice(0, 2)}
                     </div>
                   </div>
                   <div className="contractor-name">
-                    {userDataParam && userDataParam.name}
+                    {userDataParam && userDataParam?.name}
                   </div>
                   <div className="contractorid">
                     Admin .
                     <span className="error">
-                      {userDataParam && userDataParam.user_id}
+                      {userDataParam && userDataParam?.user_id}
                     </span>{" "}
                   </div>
                 </div>
@@ -866,16 +890,16 @@ const ViewSales = () => {
                     </div>
                     <div className="user-email-details-data">
                       <span className="fs-6">
-                        {userDataParam && userDataParam.email}
+                        {userDataParam && userDataParam?.email}
                       </span>
                       <span className="fs-6">
-                        {userDataParam && userDataParam.mobile}
+                        {userDataParam && userDataParam?.mobile}
                       </span>
                       <span className="fs-6">
-                        {userDataParam && userDataParam.district}
+                        {userDataParam && userDataParam?.district}
                         {userDataParam.state && ", "}
-                        {userDataParam && userDataParam.state
-                          ? userDataParam.state
+                        {userDataParam && userDataParam?.state
+                          ? userDataParam?.state
                           : "-"}
                       </span>
                     </div>
@@ -1001,11 +1025,14 @@ const ViewSales = () => {
                     <button
                       className="btn btn-dark mx-1"
                       type="button"
-                    // onClick={() => {
-                    //   setFilterCriteria({ from: "", to: "" });
-                    //   setSearchUserData("");
-                    //   setIsFilter(!isFilter);
-                    // }}
+                      // onClick={() => {
+                      //   setFilterCriteria({ from: "", to: "" });
+                      //   setSearchUserData("");
+                      //   setIsFilter(!isFilter);
+                      // }}
+                      onClick={() => (
+                        clearFilterCall()
+                      )}
                     >
                       Clear filter
                     </button>
@@ -1013,6 +1040,8 @@ const ViewSales = () => {
                   {transactionFilterOpen && (
                     <TransactionFilterPopUp
                       handlefilterdata={handlefilterdata}
+                      onClose={onClose}
+                      type={seletedTranasactionType}
                     />
                   )}
                 </div>
@@ -1121,33 +1150,39 @@ const ViewSales = () => {
                   <table id="list-tbl" class="table">
                     <thead>
                       <tr>
-                        <th>Transaction IDmmmm</th>
-                        <th>Reward</th>
-                        <th>Product ID</th>
+                        <th>Transaction Id</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Referred By</th>
                         <th>Date & Time</th>
+                        <th>Points</th>
+                        <th>Quantity</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {transactionData && transactionData.length > 0 ? (
+                      {LeadsTransactionData && LeadsTransactionData.length > 0 ? (
                         <>
-                          {transactionData.map((ele, i) => {
+                          {LeadsTransactionData.map((ele, i) => {
                             return (
                               <tr key={`transactionData-${i}`}>
                                 <td>
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.user.name}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.user.mobile}</h6>
+                                </td>
+                                <td>
+                                  <h6>{ele.user.user_id}</h6>
                                 </td>
                                 <td>
                                   <h6>
                                     {new Date(
-                                      ele.updated_at
+                                      ele.created_at
                                     ).toLocaleDateString("en-Us", {
                                       month: "short",
                                       day: "2-digit",
@@ -1158,11 +1193,23 @@ const ViewSales = () => {
                                   </h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.distributor}</h6>
+                                  <h6>{ele.points}</h6>
                                 </td>
+                                {seletedTranasactionType === 'Orders' ?
+                                  <td>
+                                    <h6>{ele.quantity}</h6>
+                                  </td>
+                                  :
+                                  <td>
+                                    <h6>{ele.order}</h6>
+                                  </td>
+                                }
                                 <td>
-                                  <h6>{ele.quantity}</h6>
+                                  <h6>{ele.user_approval}</h6>
                                 </td>
+                                {/* <td>
+                                  <h6>{ele.admin_approval}</h6>
+                                </td> */}
 
                                 <td>
                                   <button
