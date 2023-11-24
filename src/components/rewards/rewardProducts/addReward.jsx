@@ -38,8 +38,10 @@ export default function AddReward({
     // Validation logic
     const validationErrors = {};
 
-    if (!credentials.title) {
-      validationErrors.title = "Title is required";
+    const pointsNumber = parseFloat(credentials.points);
+    
+    if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
+      validationErrors.points = "Points must be a valid number greater than 0";
     }
 
     if (!credentials.points || isNaN(credentials.points)) {
