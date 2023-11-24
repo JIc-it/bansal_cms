@@ -191,6 +191,29 @@ const ViewAchitectsDetails = () => {
     }
   },[seletedTranasactionType,filterdata?.search])
 
+
+  const handleUserRedemption=()=>{
+      getUserRedemptionData(userData?.id,filterdata?.search,filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+          setTotalOrder(data.total);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+  }
+
+const handleUserLeads=()=>{
+
+    getUserLeads(userData?.id,filterdata.search,filterdata)
+      .then((data) => {
+        setTransactionData(data.results);
+        setTotalOrder(data.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+}
   const exportToCSV = () => {
     if (transactionData) {
       const header =
@@ -423,15 +446,14 @@ const ViewAchitectsDetails = () => {
               </div>
               <div className="row">
                 <div className="col-5" style={{ paddingLeft: 0 }}>
-                  <div
-                    className="input-group mb-3"
-                    style={{
-                      maxWidth: 300,
-                      paddingTop: 15,
-                      paddingLeft: 15,
-                    }}
-                  >
-                    <div className="search-group form-control">
+                <div
+                      className="input-group mb-3"
+                      style={{ paddingTop: 15, paddingLeft: 15 }}
+                    >
+                      <div
+                        className="search-group form-control"
+                        style={{ maxWidth: 300 }}
+                      >
                       <input
                         type="text"
                         className=""
@@ -499,11 +521,29 @@ const ViewAchitectsDetails = () => {
                         />
                       </svg>
                     </button>
+                    <button
+                        className="btn bg-blue mx-1"
+                        type="button"
+                        onClick={() => {
+                          setFilterdata({
+                            status:"",
+                            pointsFrom: "",
+                            pointsTo: "",
+                            date: "",
+                          });
+                        }}
+                      >
+                        Clear filter
+                      </button>
                   </div>
                   {transactionFilterOpen && (
                     <ArchitectTransactionPopUp
+                    seletedTranasactionType={seletedTranasactionType}
                       handlefilterdata={handlefilterdata}
                       handleUserOrderData={handleUserOrderData}
+                      setTransactionFilterOpen={setTransactionFilterOpen}
+                      handleUserRedemption={handleUserRedemption}
+                      handleUserLeads={handleUserLeads}
                     />
                   )}
                 </div>

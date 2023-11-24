@@ -19,9 +19,6 @@ export default function ProjectStatus() {
     const reward_name = redeeemed && redeeemed?.map((dat) => `${dat?.reward_id?.title}   -  ${dat?.reward_id?.points}`)
     const reward_points = redeeemed && redeeemed?.map((dat) => dat?.reward_id?.times_redeemed)
 
-console.log(reward_points,"redeemed_times");
-console.log(redeeemed,"redeemed");
-
     return (
         <div className="card">
             <div className="card-header pb-0 border-0">
@@ -29,7 +26,7 @@ console.log(redeeemed,"redeemed");
                 <h4 className="heading mb-0">Product Redeemed</h4>
                 <select className="default-select status-select normal-select">
                     <option value="All Time">All Time</option>
-                    <option value="Monthly">Monthly</option>
+                    <option value="Quater">Quater</option>
                 </select>
             </div>
             <h4 style={{ marginLeft: "17px" }}>{Totalcount}</h4>

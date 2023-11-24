@@ -3,11 +3,69 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const ArchitectTransactionPopUp = (
   {
-      handlefilterdata,handleUserOrderData
+      handlefilterdata,
+      handleUserOrderData,
+      seletedTranasactionType,
+      handleUserRedemption,
+      handleUserLeads,
+      setTransactionFilterOpen
   }
 ) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
+  const handlefilters=()=>{
+    if(seletedTranasactionType="Orders"){
+      handleUserOrderData();
+      setTransactionFilterOpen(false)
+      handlefilterdata({
+      search:"",
+      status:"",
+      points_from:0,
+      points_to:0,
+      date:""
+    });
+
+    if(seletedTranasactionType==="Redemptions"){
+      handleUserRedemption();
+      setTransactionFilterOpen(false)
+      handlefilterdata({
+        search:"",
+        status:"",
+        points_from:0,
+        points_to:0,
+        date:""
+      });
+    }
+   
+    }
+
+  if(seletedTranasactionType==="Leads"){
+    handleUserLeads();
+    setTransactionFilterOpen(false)
+    handlefilterdata({
+      search:"",
+      status:"",
+      points_from:0,
+      points_to:0,
+      date:""
+    });
+  }
+  }
+
+  const handlefiltersClear=()=>{
+    if(seletedTranasactionType==="Orders"){
+      handleUserOrderData();
+    }
+
+    if(seletedTranasactionType==="Redemptions"){
+      handleUserRedemption();
+    }
+
+  if(seletedTranasactionType==="Leads"){
+    handleUserLeads();
+  }
+}
+  
   const customInput = (
     <div className="custom-input">
       <input
@@ -77,17 +135,36 @@ const ArchitectTransactionPopUp = (
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>
-      <span>By Status</span>
+      
+      {seletedTranasactionType==="Orders" &&
+      <><span>By Status</span>
       <select
-        className=" w-100 form-control-sm form-control my-1"
-        placeholder="Status"
-          onChange={(e)=> handlefilterdata({status:e.target.value})}
-      >
-       
-        <option>Processing</option>
-        <option>Accepted</option>
-        <option>Rejected</option>
-      </select>
+      className=" w-100 form-control-sm form-control my-1"
+      placeholder="Status"
+        onChange={(e)=> handlefilterdata({status:e.target.value})}
+    >
+     
+      <option>Processing</option>
+      <option>Accepted</option>
+      <option>Rejected</option>
+    </select>
+    </>}
+      {seletedTranasactionType==="Leads" &&
+      <><span>By Status</span>
+      <select
+      className=" w-100 form-control-sm form-control my-1"
+      placeholder="Status"
+        onChange={(e)=> handlefilterdata({status:e.target.value})}
+    >
+     
+      <option>Processing</option>
+      <option>Accepted</option>
+      <option>Rejected</option>
+    </select>
+    </>}
+    
+      {seletedTranasactionType==="Orders" &&
+      <>
       <span>By Points</span>
       <div className="filter-fields">
         <input
@@ -120,6 +197,8 @@ const ArchitectTransactionPopUp = (
           //   onBlur={formik.handleBlur}
         />
       </div>
+      </>
+      }
       <span>By Date</span>
       <br />
       <DatePicker
@@ -146,18 +225,12 @@ const ArchitectTransactionPopUp = (
           outline: "none",
         }}
         onClick={()=>{
-          handleUserOrderData();
-          handlefilterdata({
-          search:"",
-          status:"",
-          points_from:0,
-          points_to:0,
-          date:""
-        });}}
+          handlefilters()
+         }}
       >
         Apply
       </button>
-      <button
+      {/* <button
         type="button"
         className="btn btn-primary"
         style={{
@@ -167,12 +240,12 @@ const ArchitectTransactionPopUp = (
           background: "#0F0F0F",
           outline: "none",
         }}
-        onClick={async()=>{
-          await handleUserOrderData()
+        onClick={()=>{
+           handlefiltersClear()
         }}
       >
         Clear Filter
-      </button>
+      </button> */}
     </div>
   );
 };
