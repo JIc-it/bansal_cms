@@ -56,6 +56,22 @@ export default function Navbar() {
   const [count, setCount] = useState(0);
   const [dataList, setDataList] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const showNotification=(condition)=>{
+    console.log("condition",condition)
+    setShowNotifications(condition,showNotifications)
+  }
+  useEffect(() => {
+    NotificationList()
+      .then((data) => {
+        console.log("data", data);
+        setCount(data.count);
+        setMessage(data.results.message);
+        setDataList(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching profile:", error);
+      });
+  }, []);
   useEffect(() => {
     NotificationList()
       .then((data) => {
@@ -205,6 +221,7 @@ export default function Navbar() {
               dataList={dataList}
               open={showNotifications}
               setOpen={setShowNotifications}
+              showNotification={showNotification}
             />
           )}
         </div>

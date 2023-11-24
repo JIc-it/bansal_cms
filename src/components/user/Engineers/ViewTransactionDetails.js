@@ -81,7 +81,7 @@ const ViewTransactionDetails = ({
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Transaction Details</h6>
             {
-              data.accepted_by.role==='Admin'?
+              data?.accepted_by?.role==='Admin'?
               <>
                <span>Admin Status :</span>
             <span
