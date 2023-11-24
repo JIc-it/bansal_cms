@@ -2,7 +2,7 @@ import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
-  console.log("ViewArchitectTransactionDetails", itemData)
+  console.log("ViewArchitectTransactionDetails", itemData);
   const offcanvasStyle = {
     width: "365px",
     height: "145px",
@@ -52,24 +52,32 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
       <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Transaction Details</h6>
 
-          <span>Admin Status :</span>
+        <span>Admin Status :</span>
 
-          <span style={{float: 'inline-end',color: "green", padding:2, position: 'relative', bottom:7}}
-            className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
-                itemData.user_approval === "Accepted"
-                ? "Accepted-btn"
-                : itemData.admin_approval === "Rejected" ||
-                  itemData.user_approval === "Rejected"
-                  ? "Rejected-btn"
-                  : "Processing-btn"
-              }`}
-          >
-            {itemData.admin_approval === "Accepted"
-              ? "Accepted"
-              : itemData.admin_approval === "Rejected"
-                ? "Rejected"
-                : "Processing"}
-          </span>
+        <span
+          style={{
+            float: "inline-end",
+            color: "green",
+            padding: 2,
+            position: "relative",
+            bottom: 7,
+          }}
+          className={`btn  btn-sm ${
+            itemData.admin_approval === "Accepted" &&
+            itemData.user_approval === "Accepted"
+              ? "Accepted-btn"
+              : itemData.admin_approval === "Rejected" ||
+                itemData.user_approval === "Rejected"
+              ? "Rejected-btn"
+              : "Processing-btn"
+          }`}
+        >
+          {itemData.admin_approval === "Accepted"
+            ? "Accepted"
+            : itemData.admin_approval === "Rejected"
+            ? "Rejected"
+            : "Processing"}
+        </span>
         {/* <span
           style={{ marginLeft: 200, color: "blue" }}
           className="badge badge-primary light border-0"
@@ -77,91 +85,100 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
           {itemData.admin_approval}
         </span> */}
         <br></br>
-          <span>Distributor Status :</span>
-          <span style={{ float: 'inline-end',color: "green", padding:2, position: 'relative',left:60 }}
-            className={`btn  btn-sm ${itemData.admin_approval === "Accepted" &&
-                itemData.user_approval === "Accepted"
-                ? "Accepted-btn"
-                : itemData.admin_approval === "Rejected" ||
-                  itemData.user_approval === "Rejected"
-                  ? "Rejected-btn"
-                  : "Processing-btn"
-              }`}
-          >
-            {itemData.admin_approval === "Accepted" &&
-              itemData.user_approval === "Accepted"
-              ? "Accepted"
+        <span>Distributor Status :</span>
+        <span
+          style={{
+            float: "inline-end",
+            color: "green",
+            padding: 2,
+            position: "relative",
+            left: 60,
+          }}
+          className={`btn  btn-sm ${
+            itemData.admin_approval === "Accepted" &&
+            itemData.user_approval === "Accepted"
+              ? "Accepted-btn"
               : itemData.admin_approval === "Rejected" ||
                 itemData.user_approval === "Rejected"
-                ? "Rejected"
-                : "Processing"}
-          </span>
-          {/* <span
+              ? "Rejected-btn"
+              : "Processing-btn"
+          }`}
+        >
+          {itemData.admin_approval === "Accepted" &&
+          itemData.user_approval === "Accepted"
+            ? "Accepted"
+            : itemData.admin_approval === "Rejected" ||
+              itemData.user_approval === "Rejected"
+            ? "Rejected"
+            : "Processing"}
+        </span>
+        {/* <span
           style={{ marginLeft: 168 }}
           className="badge badge-success light border-0"
         >
           {itemData.user_approval}
         </span> */}
-          <br></br>
+        <br></br>
 
-          <span>Transaction ID :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.transaction_id}</span>
-          <br></br>
-          <span>Date & Time :</span>
-          <span style={{ float: 'inline-end'}}>
-            {new Date(itemData.created_at).toLocaleDateString("en-US", {
-              day: "2-digit",
-              month: "short",
-              year: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </span>
+        <span>Transaction ID :</span>
+        <span style={{ float: "inline-end" }}>{itemData.transaction_id}</span>
+        <br></br>
+        <span>Date & Time :</span>
+        <span style={{ float: "inline-end" }}>
+          {new Date(itemData.created_at).toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </span>
 
-          <br></br>
+        <br></br>
       </div>
       <br></br>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Distributor Details</h6>
-          <span>Name :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.distributor.name}</span>
-          <br></br>
+        <span>Name :</span>
+        <span style={{ float: "inline-end" }}>{itemData.distributor.name}</span>
+        <br></br>
 
-          <span>Unique ID :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.distributor.user_id}</span>
-          <br></br>
-          <span>Address :</span>
-          <span style={{ float: 'inline-end'}}>
-            {itemData.distributor.district}, 
-            <span >{itemData.distributor.state}</span>
-          </span>
-          <br></br>
-          <span>Mobile :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.distributor.mobile}</span>
-       
+        <span>Unique ID :</span>
+        <span style={{ float: "inline-end" }}>
+          {itemData.distributor.user_id}
+        </span>
+        <br></br>
+        <span>Address :</span>
+        <span style={{ float: "inline-end" }}>
+          {itemData.distributor.district},
+          <span>{itemData.distributor.state}</span>
+        </span>
+        <br></br>
+        <span>Mobile :</span>
+        <span style={{ float: "inline-end" }}>
+          {itemData.distributor.mobile}
+        </span>
       </div>
       <br></br>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>{itemData.user.role} Details</h6>
-        
-          <span>Name :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.user.name}</span>
-          <br></br>
-        
-          <span>Unique ID :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.user.user_id}</span>
-          <br></br>
-        
-          <span>Address :</span>
-          <span style={{ float: 'inline-end'}}>
-            {itemData.user.district},{" "}
-            <span > {itemData.user.state}</span>
-          </span>
-          <br></br>
-        
-          <span>Mobile :</span>
-          <span style={{ float: 'inline-end'}}>{itemData.user.mobile}</span>
-       
+
+        <span>Name :</span>
+        <span style={{ float: "inline-end" }}>{itemData.user.name}</span>
+        <br></br>
+
+        <span>Unique ID :</span>
+        <span style={{ float: "inline-end" }}>{itemData.user.user_id}</span>
+        <br></br>
+
+        <span>Address :</span>
+        <span style={{ float: "inline-end" }}>
+          {itemData.user.district}, <span> {itemData.user.state}</span>
+        </span>
+        <br></br>
+
+        <span>Mobile :</span>
+        <span style={{ float: "inline-end" }}>{itemData.user.mobile}</span>
       </div>
       <br></br>
       <div style={{ marginTop: 10, marginLeft: 20 }}>

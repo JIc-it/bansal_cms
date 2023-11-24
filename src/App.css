@@ -349,3 +349,13 @@
   display: flex;
   justify-content: end;
 }
+
+.error-color {
+  color: #eb1c1c;
+}
+.success-color {
+  color: #18b758;
+}
+.disabled-row {
+  background: #f3f3f3 !important;
+}

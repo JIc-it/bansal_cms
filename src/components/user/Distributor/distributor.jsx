@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  adminUserDisableEnable,
   deleteContractorUser,
   getDistributorsRequest,
   getUserStatics,
@@ -109,7 +110,7 @@ export default function Distributors() {
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       {/* row */}
       <div className="container">
-        <div className="row" style={{position: 'relative', left: '15px'}}>
+        <div className="row" style={{ position: "relative", left: "15px" }}>
           <div className="col-xl-12 wid-100">
             <div className="row">
               <div className="col-md-4 col-12 same-card">
@@ -155,7 +156,7 @@ export default function Distributors() {
           </div>
         </div>
       </div>
-      <div className="container"  style={{ marginLeft: "15px", marginTop: '0' }}>
+      <div className="container" style={{ marginLeft: "15px", marginTop: "0" }}>
         <div className="row">
           <div className="col-xl-12">
             <div className="card">
@@ -207,48 +208,52 @@ export default function Distributors() {
                       className="col-5 text-end"
                       style={{ paddingTop: "1.5rem" }}
                     >
-                     {permissionForUser?.create && <button
-                        className="btn btn-primary btn-sm"
-                        type="button"
-                        id="add-points-button"
-                        onClick={() => {
-                          setIsOpenAddDistributor(true);
-                        }}
-                      >
-                        <i className="fa-regular fa-square-plus" /> Add New
-                        Distributor
-                      </button>}
+                      {permissionForUser?.create && (
+                        <button
+                          className="btn btn-primary btn-sm"
+                          type="button"
+                          id="add-points-button"
+                          onClick={() => {
+                            setIsOpenAddDistributor(true);
+                          }}
+                        >
+                          <i className="fa-regular fa-square-plus" /> Add New
+                          Distributor
+                        </button>
+                      )}
                     </div>
                     <div className="col-2" style={{ paddingTop: "1.5rem" }}>
-                     { permissionForUser?.action &&<button
-                        className="btn btn-light btn-sm"
-                        type="button"
-                        id="export-button"
-                        onClick={exportToCSV}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
+                      {permissionForUser?.action && (
+                        <button
+                          className="btn btn-light btn-sm"
+                          type="button"
+                          id="export-button"
+                          onClick={exportToCSV}
                         >
-                          <path
-                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                          />
-                          <path
-                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>{" "}
-                        Export
-                      </button>}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                              stroke="#0F0F0F"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                            />
+                            <path
+                              d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                              stroke="#0F0F0F"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>{" "}
+                          Export
+                        </button>
+                      )}
                     </div>
                   </div>
                   <table id="empoloyees-tblwrapper" className="table">
@@ -260,34 +265,36 @@ export default function Distributors() {
                         <th>Location</th>
                         <th>Action</th>
                         {/* <th /> */}
-                      { permissionForUser?.delete && <th />}
+                        {permissionForUser?.delete && <th />}
                       </tr>
                     </thead>
                     <tbody>
                       {currentItems && currentItems.length > 0 ? (
-                        currentItems.map((data) => (
+                        currentItems.map((data, index) => (
                           <tr key={data.id}>
-                            <td>
+                            <td className={!data.is_delete && "disabled-row"}>
                               <h6>{data.name}</h6>
                             </td>
-                            <td>
+                            <td className={!data.is_delete && "disabled-row"}>
                               <h6>{data.user_id}</h6>
                             </td>
-                            <td>
+                            <td className={!data.is_delete && "disabled-row"}>
                               <h6>{data.mobile}</h6>
                             </td>
-                            <td >
+                            <td className={!data.is_delete && "disabled-row"}>
                               <h6>
                                 <span>{data.district?.district}</span>,
                                 <span>{data.state?.state}</span>
                               </h6>
                             </td>
-                            <td style={{width:100,paddingRight:0}}>
+                            <td
+                              style={{ width: 100, paddingRight: 0 }}
+                              className={!data.is_delete && "disabled-row"}
+                            >
                               <a
                                 className="btn bg-blue btn-sm"
                                 href="#"
                                 role="button"
-                                
                                 onClick={() => {
                                   navigate(`/viewDistributor/${data.id}`);
                                 }}
@@ -295,43 +302,59 @@ export default function Distributors() {
                                 View User
                               </a>
                             </td>
-                         { permissionForUser?.delete &&  <td
-                              onClick={() => {
-                                setOpenRemoveOption(true);
-                                setSelectedIdForRemove(data.id);
-                              }}
-                              style={{ cursor: "pointer",padding:0,paddingRight:28  }}
-                            >
-                              {" "}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
+                            {permissionForUser?.delete && (
+                              <td
+                                className={`card-footer ${
+                                  !data.is_delete && "disabled-row"
+                                }`}
                               >
-                                <path
-                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                                <path
-                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                                <path
-                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                              </svg>
-                              {openRemoveOption &&
-                                data.id === selectedIdForRemove && (
-                                  <div className="option-container">
-                                    <span onClick={() => handleDelete(data.id)}>
-                                      Remove
-                                    </span>
-                                  </div>
-                                )}
-                            </td>}
+                                {" "}
+                                <div
+                                  className=" form-switch"
+                                  style={{
+                                    display: "inline-block",
+                                  }}
+                                >
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`activationToggle-${index}`}
+                                    name={`activationToggle-${index}`}
+                                    checked={data.is_delete}
+                                    onChange={(e) => {
+                                      adminUserDisableEnable(
+                                        data.id,
+                                        !data.is_delete
+                                      )
+                                        .then((data) => {
+                                          console.log("active data", data);
+                                          setIsDistributorAdded(
+                                            !isDistributorAdded
+                                          );
+                                        })
+                                        .catch((error) => {
+                                          console.error(
+                                            "Error fetching distributor data:",
+                                            error
+                                          );
+                                        });
+                                    }}
+                                  />
+                                  {/* <label
+                                    className={`form-check-label ${
+                                      data.is_delete
+                                        ? " success-color mx-3"
+                                        : "error-color mx-2"
+                                    }`}
+                                    htmlFor={`activationToggle-${index}`}
+                                  >
+                                    {`${
+                                      data.is_delete ? " Active" : " In Active"
+                                    }`}
+                                  </label> */}
+                                </div>
+                              </td>
+                             )}
                           </tr>
                         ))
                       ) : (

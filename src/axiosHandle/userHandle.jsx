@@ -28,12 +28,13 @@ const adminpermissionviewURL = "account/custom_permission/retrieve";
 const adminprofilecreation = "account/create-admin/";
 const salesprofilecreation = "account/create-sales-poc/";
 const adminupdateuserURL = "account/admin-update-user";
-const adminpermissionupdateuserURl = "account/custom-permission";
+const adminpermissionupdateuserURl = "account/custom_permission/retrieve";
 const salesupdateuserURL = "account/admin-update-user";
 const userStatusUrl = "account/api/users/user_stats/?role=";
 const purchaseNotification = "/purchase/admin-notifications/";
 const deleteNotification = "/purchase/notification-read/";
 const adminUSerViewLeadsURL = "purchase/leads/admin";
+const adminUserDisableEnableUrl = "/account/disable-enable/user";
 
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
@@ -426,7 +427,6 @@ export const adminPermissionViewRequest = (id) => {
 };
 
 export const adminupdateuser = (id, data) => {
-  console.log(`${adminupdateuserURL}/${id}/`, data);
   return axiosInstance
     .put(`${adminupdateuserURL}/${id}/`, data)
     .then((response) => response)
@@ -437,9 +437,8 @@ export const adminupdateuser = (id, data) => {
 };
 
 export const adminpermissionupdateuser = (id, data) => {
-  // console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
   return axiosInstance
-    .patch(`${adminpermissionupdateuserURl}/${id}/`, data)
+    .put(`${adminpermissionupdateuserURl}/${id}/`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -519,6 +518,16 @@ export const adminUSerViewLeadsRequest = (id, search, data) => {
             : new Date(data.date).toLocaleDateString("en-CA"),
       },
     })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
+export const adminUserDisableEnable = (id, active) => {
+  return axiosInstance
+    .put(`${adminUserDisableEnableUrl}/${id}/`, { is_delete: active })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
