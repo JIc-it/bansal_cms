@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
     width: '365px',
     height: '100%',
-    // backgroundColor: 'lightgray',
     display: 'flex',
     marginLeft: 18,
     marginTop: 20,
     flexDirection: 'column',
 };
 
-export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
+export default function EditReward({ open, data, setOpen, refreshDataTable }) {
+    const [loading, setLoading] = useState(false);
     const [credentials, setCredentials] = useState({
         title: data.title,
         points: data.points,
@@ -24,7 +24,16 @@ export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
 
     const handleUpdate = async () => {
         try {
+
+            setLoading(true);
+
             const { title, points, description, item_image, image_name } = credentials;
+
+            // Validate description length
+            if (description.length < 50 || description.length > 50) {
+                toast.error("Description must be between 50 and 50 characters.");
+                return;
+            }
 
             const f_data = new FormData();
             f_data.append('title', title);
@@ -38,7 +47,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
             const response = await editRewardProductRequest(data.id, f_data);
 
             console.log('Response from editRewardProductRequest:', response);
-            console.log(response,"response");
+            console.log(response, "response");
 
             if (response) {
                 toast.success("Reward product updated successfully!");
@@ -52,13 +61,14 @@ export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
             }
         } catch (err) {
             console.error('An error occurred during the request:', err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <Offcanvas show={open} onHide={() => setOpen(false)} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
-                {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
             </Offcanvas.Header>
             <div style={offcanvasStyle}>
                 <h5>Reward Product Details</h5>
@@ -72,7 +82,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
-                        onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
+                        onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='Description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <img src={credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
@@ -100,7 +110,10 @@ export default function EditReward({ open, data, setOpen, refreshDataTable  }) {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>
-                <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>Confirm</button>
+                {/* <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>Confirm</button> */}
+                <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>
+                    {loading ? 'Loading...' : 'Confirm'}
+                </button>
             </div>
         </Offcanvas>
     );
