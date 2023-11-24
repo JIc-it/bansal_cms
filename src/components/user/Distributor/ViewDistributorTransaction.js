@@ -56,7 +56,7 @@ const ViewDistributorTransaction = ({
         </div>
         <div style={{ marginTop: 10, marginLeft: 20 }}>
           <h6>Transaction Details</h6>
-          {data.accepted_by.role==='Admin' ?
+          {data?.accepted_by?.role==='Admin' ?
           <>
            <span>Admin Status :</span>
          <span
@@ -74,7 +74,7 @@ const ViewDistributorTransaction = ({
            style={{ marginLeft: 168, color: "blue" }}
            className="badge badge-primary light border-0"
          >
-           {data.admin_approval}
+           {data?.admin_approval}
          </span>
          <br></br>
           </>
@@ -86,11 +86,11 @@ const ViewDistributorTransaction = ({
             style={{ marginLeft: 168 }}
             className="badge badge-success light border-0"
           >
-            {data.user_approval}
+            {data?.user_approval}
           </span>
           <br></br>
           <span>Transaction ID :</span>
-          <span style={{ marginLeft: 190 }}>{data.transaction_id}</span>
+          <span style={{ marginLeft: 190 }}>{data?.transaction_id}</span>
           <br></br>
           <span>Date & Time :</span>
           <span style={{ marginLeft: 150 }}>
@@ -107,7 +107,7 @@ const ViewDistributorTransaction = ({
           <span
             style={{ marginLeft: 118 }}
           >
-            {data.accepted_by.email}
+            {data?.accepted_by?.email}
           </span>
           <br></br>
         </div>

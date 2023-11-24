@@ -27,7 +27,6 @@ const statusOffcanvas = {
 
 
 export default function LeadDetails({data, open, setOpen}) {
-console.log("LeadDetails data",data)
     const [showOffcanvas, setShowOffcanvas] = useState(open);
 
     const handleCloseOffcanvas = () => {
@@ -46,7 +45,7 @@ console.log("LeadDetails data",data)
             <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Transaction Details</h6>
                 {
-                    data.accepted_by.role==='Admin' ? 
+                    data?.accepted_by?.role==='Admin' ? 
                     <>
                     <span>Admin Status :</span><span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br></>:
                     <>

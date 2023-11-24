@@ -6,13 +6,14 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
     width: '365px',
     height: '100%',
+    // backgroundColor: 'lightgray',
     display: 'flex',
     marginLeft: 18,
     marginTop: 20,
     flexDirection: 'column',
 };
 
-export default function EditReward({ open, data, setOpen, refreshDataTable }) {
+export default function EditReward({ open, data, setOpen, refreshDataTable, setisUpdated  }) {
     const [loading, setLoading] = useState(false);
     const [credentials, setCredentials] = useState({
         title: data.title,
@@ -20,37 +21,33 @@ export default function EditReward({ open, data, setOpen, refreshDataTable }) {
         description: data.description,
         item_image: data.item_image,
         image_name: data.image_name,
+        is_active:data.is_active
     });
+const [showImages,setShowImages]=useState("")
 
+console.log(credentials.is_active,"isactive");
     const handleUpdate = async () => {
         try {
-
             setLoading(true);
-
-            const { title, points, description, item_image, image_name } = credentials;
-
-            // Validate description length
-            if (description.length < 50 || description.length > 50) {
-                toast.error("Description must be between 50 and 50 characters.");
-                return;
-            }
+            const { title, points, description, item_image, image_name,is_active } = credentials;
 
             const f_data = new FormData();
             f_data.append('title', title);
             f_data.append('points', points);
             f_data.append('description', description);
-            f_data.append('item_image', item_image);
-            f_data.append('is_active', true);
-            f_data.append('thumbnail_image', item_image);
-            f_data.append('image_name', image_name);
+            f_data.append('image', item_image);
+            f_data.append('is_active', is_active);
+            // f_data.append('thumbnail_image', item_image);
+            // f_data.append('image_name', image_name);
 
             const response = await editRewardProductRequest(data.id, f_data);
 
             console.log('Response from editRewardProductRequest:', response);
-            console.log(response, "response");
+            console.log(response,"response");
 
             if (response) {
                 toast.success("Reward product updated successfully!");
+                setisUpdated(true)
 
                 if (refreshDataTable && typeof refreshDataTable === 'function') {
                     refreshDataTable();
@@ -61,14 +58,15 @@ export default function EditReward({ open, data, setOpen, refreshDataTable }) {
             }
         } catch (err) {
             console.error('An error occurred during the request:', err);
-        } finally {
+        }finally {
             setLoading(false);
         }
     };
 
     return (
-        <Offcanvas show={open} onHide={() => setOpen(false)} placement="end" style={{ overflow: 'auto' }}>
+        <Offcanvas show={open} onHide={() => {setOpen(false);setShowImages("")}} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
+                {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
             </Offcanvas.Header>
             <div style={offcanvasStyle}>
                 <h5>Reward Product Details</h5>
@@ -82,16 +80,27 @@ export default function EditReward({ open, data, setOpen, refreshDataTable }) {
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
-                        onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='Description'></textarea>
+                        onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>
-                    <img src={credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
+                    <img src={showImages.trim()!==""?showImages:credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
                 </div>
                 <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         <label>Product Photo (140*140)</label>
                         <input type="file" id="imageUpload" style={{ display: 'none' }}
-                            onChange={(e) => setCredentials({ ...credentials, item_image: e.target.files[0] })} />
+                            onChange={(e) => {setCredentials({ ...credentials, item_image: e.target.files[0] });
+                            const file = e.target.files[0];
+
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setShowImages(reader.result);
+                              };
+                             reader.readAsDataURL(file);
+                            }
+                            
+                            }} />
                         <label htmlFor="imageUpload" className="btn btn-secondary btn-sm" style={{ marginLeft: 106 }}>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2 10C2 11.8856 2 12.8284 2.58579 13.4142C3.17157 14 4.11438 14 6 14H10C11.8856 14 12.8284 14 13.4142 13.4142C14 12.8284 14 11.8856 14 10" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
@@ -104,8 +113,10 @@ export default function EditReward({ open, data, setOpen, refreshDataTable }) {
                 <div>
                     <h6>Status</h6><br />
                     <div className="form-check form-switch" style={{ position: 'relative', bottom: '35px', float: 'inline-end' }}>
-                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">In Active</label>
-                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{credentials.is_active?"Active":"Inactive"}</label>
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
+                        onChange={(e) => setCredentials({ ...credentials, is_active: !credentials.is_active })}
+                        defaultChecked={credentials.is_active} value={credentials.is_active}/>
                     </div>
                 </div>
             </div>

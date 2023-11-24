@@ -34,6 +34,7 @@ function RewardPoints() {
       .then((data) => {
         console.log("Fetched data:", data);
         setRewardProductData(data.results);
+        setisUpdated(false)
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -322,6 +323,7 @@ function RewardPoints() {
           data={updateProduct}
           open={updateProduct}
           setOpen={setUpdateProduct}
+          setisUpdated={setisUpdated}
         />
       )}
     </div>

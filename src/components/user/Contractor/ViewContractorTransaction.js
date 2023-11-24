@@ -81,7 +81,7 @@ const ViewContractorTransaction = ({
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Transaction Details</h6>
-            {data.accepted_by.role === 'Admin' ?
+            {data?.accepted_by?.role === 'Admin' ?
               <>
                 <span>Admin Status:</span>
                 <span
@@ -129,7 +129,7 @@ const ViewContractorTransaction = ({
             </span>
             <br></br>
             <span>Accepted By :</span>
-            <span style={{ marginLeft: 190 }}>{data.accepted_by.email}</span>
+            <span style={{ marginLeft: 190 }}>{data?.accepted_by?.email}</span>
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Distributor Details</h6>

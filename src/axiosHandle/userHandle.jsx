@@ -1,13 +1,13 @@
 import axiosInstance from "./authHandle";
 
 const contractorsURL = "/account/create-contractor/";
-const creatArchitect = "/account/create-architect/";
+const creatArchitect='/account/create-architect/'
 const architectsURL = "/account/create-architect/";
 const salepocURL = "/account/create-sales-poc/";
 const engineersURL = "/account/create-engineer/";
 const adminsURL = "/account/create-admin/";
 // const salessURL = "/account/create-sales-poc/";
-const createUserURL = "account/admin-create-user/";
+const createUserURL="account/admin-create-user/"
 const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
@@ -35,6 +35,7 @@ const purchaseNotification = "/purchase/admin-notifications/";
 const deleteNotification = "/purchase/notification-read/";
 const adminUSerViewLeadsURL = "purchase/leads/admin";
 
+const adminUSerViewOrderURL='/purchase/tmt_orders_admin/user/'
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
     .get(distributorsURL, {
@@ -78,7 +79,7 @@ export const getSalePOCCount = (role) => {
     });
 };
 
-const addSales = (data) => {
+const addSales=(data)=>{
   return axiosInstance
     .post(createUserURL)
     .then((response) => response.data)
@@ -86,7 +87,7 @@ const addSales = (data) => {
       console.error("Error while fetching add sale poc request:", error);
       throw error;
     });
-};
+}
 export const getEngineersRequest = (searchUserData, filterCriteria) => {
   console.log(
     filterCriteria && new Date(filterCriteria.date).toLocaleDateString("en-CA")
@@ -173,16 +174,17 @@ export const createContractor = (data) => {
       throw error;
     });
 };
-export const createArchitect = async (data) => {
-  console.log("createArchitect", data);
+export const createArchitect=async (data)=>{
+  console.log('createArchitect',data)
   try {
-    const response = await axiosInstance.get(creatArchitect, data);
+    const response = await axiosInstance
+      .get(creatArchitect, data);
     return response.data;
   } catch (error) {
     console.error("Error while creating reward product:", error);
     throw error;
   }
-};
+}
 
 export const deleteContractor = (id) => {
   console.log(id);
@@ -235,6 +237,27 @@ export const getUserOrders = (id, search, filterdata) => {
       console.error("Error while fetching order request:", error);
       throw error;
     });
+};
+export const adminUSerViewLeadsRequest = async (id,search,data) => {
+ console.log(search,"id,data")
+  try {
+    const response = await axiosInstance
+      .get(`${adminUSerViewOrderURL}${id}/`
+      , {
+        params: {
+          role: data?.role,
+          search: data.search,
+          status: data?.status,
+          date: data?.date === ""
+            ? ""
+            : new Date(data?.date).toLocaleDateString("en-CA"),
+        },
+      });
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching order request:", error);
+    throw error;
+  }
 };
 
 export const getUserOrdersCounts = (id) => {
@@ -294,7 +317,7 @@ export const getUserRedemptionData = (id, search, filterdata) => {
         search: search,
 
         date:
-          filterdata.date === ""
+          filterdata?.date === ""
             ? ""
             : new Date(filterdata.date).toLocaleDateString("en-CA"),
       },
@@ -311,14 +334,14 @@ export const getDistributorOrders = (id, search, filterdata) => {
     .get(`${distributorOrderURL}/${id}/`, {
       params: {
         search: search,
-        points_from: filterdata.points_from,
-        points_to: filterdata.points_to,
-        status: filterdata.status,
-        role: filterdata.role,
+        points_from: filterdata?.points_from,
+        points_to: filterdata?.points_to,
+        status: filterdata?.status,
+        role: filterdata?.role,
         date:
-          filterdata.date === ""
+          filterdata?.date === ""
             ? ""
-            : new Date(filterdata.date).toLocaleDateString("en-CA"),
+            : new Date(filterdata?.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)
@@ -382,26 +405,45 @@ export const updateUser = (id, data) => {
     });
 };
 
-export const adminUSerViewOrdersRequest = (id, search, data) => {
-  return axiosInstance
-    .get(`${adminUSerViewOrdersURL}/${id}/`, {
-      params: {
-        role: data?.role,
-        search: search,
-        status: data?.status,
-        points_from: data?.points_from,
-        points_to: data?.points_to,
-        date:
-          data.date === ""
-            ? ""
-            : new Date(data.date).toLocaleDateString("en-CA"),
-      },
-    })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error while fetching order request:", error);
-      throw error;
-    });
+export const adminUSerViewOrdersRequest = async (id, data) => {
+  console.log(data,"adminUSerViewOrdersRequest")
+  try {
+    const response = await axiosInstance
+      .get(`${adminUSerViewOrdersURL}/${id}/`, {
+        params: {
+          // role:data?.role,
+           search: data?.search,
+          // status: data?.status,
+           points_from: data?.from,
+           points_to: data?.to,
+           date: data?.formattedDate,
+        },
+      });
+   return response.data;
+  } catch (error) {
+    console.error("Error while fetching order request:", error);
+    throw error;
+  }
+};
+export const adminUSerViewLeadssRequest = async (id, data) => {
+  console.log(id,data,"adminUSerViewLeadssRequest")
+  try {
+    const response = await axiosInstance
+      .get(`${adminUSerViewLeadsURL}/${id}/`, {
+        params: {
+          role:data?.roles,
+           search: data?.search,
+          status: data?.status,
+           points_from: data?.from,
+           points_to: data?.to,
+           date: data?.formattedDate,
+        },
+      });
+   return response.data;
+  } catch (error) {
+    console.error("Error while fetching adminUSer View Leads Request request:", error);
+    throw error;
+  }
 };
 
 ///////////////add points for indivitual user//////////////
@@ -439,7 +481,7 @@ export const adminupdateuser = (id, data) => {
 export const adminpermissionupdateuser = (id, data) => {
   // console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
   return axiosInstance
-    .patch(`${adminpermissionupdateuserURl}/${id}/`, data)
+    .patch(`${adminpermissionupdateuserURl}/${id}/`,data)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -460,10 +502,10 @@ export const createAdmin = (data) => {
 };
 
 export const createSales = (data) => {
-  console.log("createSales data", data);
+  console.log("createSales data",data)
   return axiosInstance
-    .post(salesprofilecreation, data, {
-      headers: { "Content-Type": "application/json", Accept: "*/*" },
+    .post(salesprofilecreation, data,{
+      headers:{"Content-Type":"application/json", Accept:"*/*"}
     })
     .then((response) => response.data)
     .catch((error) => {
@@ -483,45 +525,23 @@ export const salesupdateuser = (id, data) => {
     });
 };
 
-export const NotificationList = async () => {
+export const NotificationList=async ()=>{
   try {
-    const response = await axiosInstance.get(purchaseNotification);
+    const response = await axiosInstance
+      .get(purchaseNotification);
     return response.data;
   } catch (error) {
     console.error("Error while fetching Notification List request:", error);
     throw error;
   }
-};
-export const NotificationDelete = async () => {
+}
+export const NotificationDelete=async ()=>{
   try {
-    const response = await axiosInstance.post(deleteNotification);
+    const response = await axiosInstance
+      .post(deleteNotification);
     return response.data;
   } catch (error) {
-    console.error(
-      "Error while fetching Notification Delete List request:",
-      error
-    );
+    console.error("Error while fetching Notification Delete List request:", error);
     throw error;
   }
-};
-
-//////////////////////admin lead list//////////////////
-export const adminUSerViewLeadsRequest = (id, search, data) => {
-  return axiosInstance
-    .get(`${adminUSerViewLeadsURL}/${id}/`, {
-      params: {
-        role: data?.role,
-        search: search,
-        status: data?.status,
-        date:
-          data?.date === ""
-            ? ""
-            : new Date(data.date).toLocaleDateString("en-CA"),
-      },
-    })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error while fetching order request:", error);
-      throw error;
-    });
-};
+}
