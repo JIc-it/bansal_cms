@@ -27,7 +27,6 @@ const statusOffcanvas = {
 
 
 export default function LeadDetails({data, open, setOpen}) {
-console.log("LeadDetails data",data)
     const [showOffcanvas, setShowOffcanvas] = useState(open);
 
     const handleCloseOffcanvas = () => {
@@ -43,35 +42,34 @@ console.log("LeadDetails data",data)
             <div style={offcanvasStyle}>
                 <h6 style={{ marginLeft: 140, marginTop: 30, marginBottom: 30, fontSize: 60 }}>SA</h6>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Transaction Details</h6>
                 {
-                    data.accepted_by.role==='Admin' ? 
+                    data?.accepted_by?.role==='Admin' ? 
                     <>
-                    <span>Admin Status :</span><span style={{ marginLeft: 130, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br></>:
+                    <span>Admin Status :</span><span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br></>:
                     <>
-                     <span>Sales POC Status :</span><span style={{ marginLeft: 130,marginBottom:20, color: "blue" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
+                     <span>Sales POC Status :</span><span style={{ float: 'inline-end', position:'relative', padding:2, color: "green" }} className="badge badge-primary light border-0">{data.admin_approval}</span><br></br>
                     </>
                 }
-                
-                <span>Distributor Status :</span><span style={{ marginLeft: 130 }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
-                <span>Transaction ID :</span><span style={{ marginLeft: 190 }}>{data.transaction_id}</span><br></br>
-                <span>Date & Time :</span><span style={{ marginLeft: 150 }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span><br></br>
-                <span>Accepted By :</span><span style={{ marginLeft: 120 }}>{data.accepted_by.email}</span><br></br>
+                <span>Distributor Status :</span><span style={{ float: 'inline-end', position:'relative', padding:2, color: "green" }} className="badge badge-success light border-0">{data.user_approval}</span><br></br>
+                <span>Transaction ID :</span><span style={{ float: 'inline-end' }}>{data.transaction_id}</span><br></br>
+                <span>Date & Time :</span><span style={{ float: 'inline-end' }}>{new Date(data.updated_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span><br></br>
+                <span>Accepted By :</span><span style={{ float: 'inline-end' }}>{data.accepted_by.email}</span><br></br>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Leads Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 235 }}>{data.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 195 }}>{data.referral_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.site_location}, </span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.mobile_no}</span><br></br>
+                <span>Name :</span><span style={{ float: 'inline-end' }}>{data.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data.referral_id}</span><br></br>
+                <span>Address :</span><span style={{ float: 'inline-end' }}>{data.site_location}, </span><br></br>
+                <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data.mobile_no}</span><br></br>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 20 }}>
+            <div style={{ marginLeft: 15, marginRight: 15 }}>
                 <h6>Referrer Details</h6>
-                <span>Name :</span><span style={{ marginLeft: 237 }}>{data.user.name}</span><br></br>
-                <span>Unique ID :</span><span style={{ marginLeft: 215 }}>{data.user.user_id}</span><br></br>
-                <span>Address :</span><span style={{ marginLeft: 130 }}>{data.user.district}, {data.user.state}</span><br></br>
-                <span>Mobile :</span><span style={{ marginLeft: 237 }}>{data.user.mobile}</span><br></br>
+                <span>Name :</span><span style={{ float: 'inline-end' }}>{data.user.name}</span><br></br>
+                <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data.user.user_id}</span><br></br>
+                <span>Address :</span><span style={{ float: 'inline-end' }}>{data.user.district}, {data.user.state}</span><br></br>
+                <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data.user.mobile}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>

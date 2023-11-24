@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  adminUserDisableEnable,
   deleteContractorUser,
   getEngineersRequest,
   getUserStatics,
@@ -352,31 +353,60 @@ export default function Engineers() {
                   </thead>
                   <tbody>
                     {currentItems && currentItems.length > 0 ? (
-                      currentItems.map((data) => (
+                      currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>{data.name}</h6>
                           </td>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>
                               <span>{data.district?.district}</span>
                               {data.district?.district && ","}
                               <span>{data.state?.state}</span>
                             </h6>
                           </td>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>{data.leads_count || 0}</h6>
                           </td>
-                          <td>
+                          <td
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <h6>{data.points || 0}</h6>
                           </td>
-                          <td style={{width:100,paddingRight:0}}>
+                          <td
+                            style={{ width: 100, paddingRight: 0 }}
+                            className={`card-footer ${
+                              !data.is_delete && "disabled-row"
+                            }`}
+                          >
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -388,7 +418,58 @@ export default function Engineers() {
                               View User
                             </a>
                           </td>
-                          <td
+                          {permissionForUser?.delete && (
+                            <td
+                              className={`card-footer ${
+                                !data.is_delete && "disabled-row"
+                              }`}
+                            >
+                              {" "}
+                              <div
+                                className=" form-switch"
+                                style={{
+                                  display: "inline-block",
+                                }}
+                              >
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`activationToggle-${index}`}
+                                  name={`activationToggle-${index}`}
+                                  checked={data.is_delete}
+                                  onChange={(e) => {
+                                    adminUserDisableEnable(
+                                      data.id,
+                                      !data.is_delete
+                                    )
+                                      .then((data) => {
+                                        console.log("active data", data);
+                                        setIsEngineerAdded(!isEngineerAdded);
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Error fetching distributor data:",
+                                          error
+                                        );
+                                      });
+                                  }}
+                                />
+                                {/* <label
+                                    className={`form-check-label ${
+                                      data.is_delete
+                                        ? " success-color mx-3"
+                                        : "error-color mx-2"
+                                    }`}
+                                    htmlFor={`activationToggle-${index}`}
+                                  >
+                                    {`${
+                                      data.is_delete ? " Active" : " In Active"
+                                    }`}
+                                  </label> */}
+                              </div>
+                            </td>
+                          )}
+                          {/* <td
                             onClick={() => {
                               setOpenRemoveOption(true);
                               setSelectedIdForRemove(data.id);
@@ -424,7 +505,7 @@ export default function Engineers() {
                                   </span>
                                 </div>
                               )}
-                          </td>
+                          </td> */}
                         </tr>
                       ))
                     ) : (

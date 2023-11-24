@@ -28,13 +28,15 @@ const adminpermissionviewURL = "account/custom_permission/retrieve";
 const adminprofilecreation = "account/create-admin/";
 const salesprofilecreation = "account/create-sales-poc/";
 const adminupdateuserURL = "account/admin-update-user";
-const adminpermissionupdateuserURl = "account/custom-permission";
+const adminpermissionupdateuserURl = "account/custom_permission/retrieve";
 const salesupdateuserURL = "account/admin-update-user";
 const userStatusUrl = "account/api/users/user_stats/?role=";
 const purchaseNotification = "/purchase/admin-notifications/";
 const deleteNotification = "/purchase/notification-read/";
 const adminUSerViewLeadsURL = "purchase/leads/admin";
+const adminUserDisableEnableUrl = "/account/disable-enable/user";
 
+const adminUSerViewOrderURL = "/purchase/tmt_orders_admin/user/";
 export const getDistributorsRequest = (searchUserData) => {
   return axiosInstance
     .get(distributorsURL, {
@@ -382,26 +384,52 @@ export const updateUser = (id, data) => {
     });
 };
 
-export const adminUSerViewOrdersRequest = (id, search, data) => {
-  return axiosInstance
-    .get(`${adminUSerViewOrdersURL}/${id}/`, {
-      params: {
-        role: data?.role,
-        search: search,
-        status: data?.status,
-        points_from: data?.points_from,
-        points_to: data?.points_to,
-        date:
-          data.date === ""
-            ? ""
-            : new Date(data.date).toLocaleDateString("en-CA"),
-      },
-    })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error while fetching order request:", error);
-      throw error;
-    });
+export const adminUSerViewOrdersRequest = async (id, data) => {
+  console.log(data, "adminUSerViewOrdersRequest");
+  try {
+    const response = await axiosInstance.get(
+      `${adminUSerViewOrdersURL}/${id}/`,
+      {
+        params: {
+          // role:data?.role,
+          search: data?.search,
+          // status: data?.status,
+          points_from: data?.from,
+          points_to: data?.to,
+          date: data?.formattedDate,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching order request:", error);
+    throw error;
+  }
+};
+export const adminUSerViewLeadssRequest = async (id, data) => {
+  console.log(id, data, "adminUSerViewLeadssRequest");
+  try {
+    const response = await axiosInstance.get(
+      `${adminUSerViewLeadsURL}/${id}/`,
+      {
+        params: {
+          role: data?.roles,
+          search: data?.search,
+          status: data?.status,
+          points_from: data?.from,
+          points_to: data?.to,
+          date: data?.formattedDate,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error while fetching adminUSer View Leads Request request:",
+      error
+    );
+    throw error;
+  }
 };
 
 ///////////////add points for indivitual user//////////////
@@ -426,7 +454,6 @@ export const adminPermissionViewRequest = (id) => {
 };
 
 export const adminupdateuser = (id, data) => {
-  console.log(`${adminupdateuserURL}/${id}/`, data);
   return axiosInstance
     .put(`${adminupdateuserURL}/${id}/`, data)
     .then((response) => response)
@@ -437,9 +464,9 @@ export const adminupdateuser = (id, data) => {
 };
 
 export const adminpermissionupdateuser = (id, data) => {
-  // console.log(`${adminpermissionupdateuserURl}/${id}/`, { FormData: data });
   return axiosInstance
-    .patch(`${adminpermissionupdateuserURl}/${id}/`, data)
+    .put(`${adminpermissionupdateuserURl}/${id}/`, data)
+
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);
@@ -519,6 +546,16 @@ export const adminUSerViewLeadsRequest = (id, search, data) => {
             : new Date(data.date).toLocaleDateString("en-CA"),
       },
     })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
+export const adminUserDisableEnable = (id, active) => {
+  return axiosInstance
+    .put(`${adminUserDisableEnableUrl}/${id}/`, { is_delete: active })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  adminUserDisableEnable,
   getAdminsRequest,
   getSalePOCCount,
 } from "../../../axiosHandle/userHandle";
@@ -13,7 +14,7 @@ function Admins() {
   const { permissionData } = contextData;
   const permissionForUser = permissionData?.users;
   const navigate = useNavigate();
-  const [user_data, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
@@ -27,10 +28,12 @@ function Admins() {
     console.log(data);
     setSelectedUser(data);
   };
+  const itemsPerPage = 10;
   const [pagination, setPagination] = useState({
     next: null,
     previous: null,
   });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePaginationClick = (url) => {
     getAdminsRequest(null, url)
@@ -56,7 +59,8 @@ function Admins() {
     };
 
     fetchData();
-  }, [searchValue]);
+  }, [searchValue, isAdminAdded]);
+
   useEffect(() => {
     getSalePOCCount("Admin")
       .then((data) => {
@@ -69,10 +73,11 @@ function Admins() {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+
   const exportToCSV = () => {
-    if (user_data) {
+    if (userData) {
       const header = ["Name", "Unique ID", "Mobile", "District", "State"];
-      const csvData = user_data.map((rr_data) => {
+      const csvData = userData.map((rr_data) => {
         return [
           rr_data.name,
           rr_data.user_id,
@@ -92,6 +97,25 @@ function Admins() {
       a.download = "Admins.csv";
       a.click();
       window.URL.revokeObjectURL(url);
+    }
+  };
+
+  const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = userData
+    ? userData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -241,35 +265,37 @@ function Admins() {
                     )}
                   </div>
                   <div className="col-2">
-                  { permissionForUser?.action && <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      id="export-button"
-                      onClick={exportToCSV}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
+                    {permissionForUser?.action && (
+                      <button
+                        className="btn btn-light btn-sm"
+                        type="button"
+                        id="export-button"
+                        onClick={exportToCSV}
                       >
-                        <path
-                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                          stroke="#0F0F0F"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>{" "}
-                      Export
-                    </button>}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
+                      </button>
+                    )}
                   </div>
                 </div>
                 <table id="empoloyees-tblwrapper" className="table">
@@ -280,29 +306,31 @@ function Admins() {
                       <th>Mobile</th>
                       <th>Location</th>
                       <th>Action</th>
-                    { permissionForUser?.delete && <th />}
-                      {/* <th /> */}
+                      {permissionForUser?.delete && <th />}
                     </tr>
                   </thead>
                   <tbody>
-                    {user_data && user_data.length > 0 ? (
-                      user_data.map((data) => (
+                    {currentItems && currentItems.length > 0 ? (
+                      currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.name}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>
                               {data.district?.district}, {data.state?.state}
                             </h6>
                           </td>
-                          <td onClick={() => handleViewAdmin(data)}>
+                          <td
+                            onClick={() => handleViewAdmin(data)}
+                            className={!data.is_delete && "disabled-row"}
+                          >
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -311,7 +339,57 @@ function Admins() {
                               View User
                             </a>
                           </td>
-                         {/* {permissionForUser?.delete && <td></td>} */}
+                          {permissionForUser?.delete && (
+                            <td
+                              className={`card-footer ${
+                                !data.is_delete && "disabled-row"
+                              }`}
+                            >
+                              {" "}
+                              <div
+                                className={`form-switch `}
+                                style={{
+                                  display: "inline-block",
+                                }}
+                              >
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`activationToggle-${index}`}
+                                  name={`activationToggle-${index}`}
+                                  checked={data.is_delete}
+                                  onChange={(e) => {
+                                    adminUserDisableEnable(
+                                      data.id,
+                                      !data.is_delete
+                                    )
+                                      .then((data) => {
+                                        console.log("active data", data);
+                                        setIsAdminAdded(!isAdminAdded);
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Error fetching distributor data:",
+                                          error
+                                        );
+                                      });
+                                  }}
+                                />
+                                {/* <label
+                                  className={`form-check-label ${
+                                    data.is_delete
+                                      ? " success-color mx-3"
+                                      : "error-color mx-2"
+                                  }`}
+                                  htmlFor={`activationToggle-${index}`}
+                                >
+                                  {`${
+                                    data.is_delete ? " Active" : " In Active"
+                                  }`}
+                                </label> */}
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))
                     ) : (
@@ -319,34 +397,27 @@ function Admins() {
                         <td colSpan="5">No user available</td>
                       </tr>
                     )}
-                    {user_data && user_data.length > 0 && (
-                      <tr>
-                        <td colSpan="5">
-                          {/* Pagination controls */}
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={() =>
-                              handlePaginationClick(pagination.previous)
-                            }
-                            disabled={!pagination.previous}
-                            style={{ marginRight: "10px" }}
-                          >
-                            Previous
-                          </button>
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={() =>
-                              handlePaginationClick(pagination.next)
-                            }
-                            disabled={!pagination.next}
-                          >
-                            Next
-                          </button>
-                        </td>
-                      </tr>
-                    )}
                   </tbody>
                 </table>
+              </div>
+              <div className="col-12 my-2">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>

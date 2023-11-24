@@ -14,6 +14,7 @@ const offcanvasStyle = {
 };
 
 export default function EditReward({ open, data, setOpen, refreshDataTable, setisUpdated  }) {
+    const [loading, setLoading] = useState(false);
     const [credentials, setCredentials] = useState({
         title: data.title,
         points: data.points,
@@ -27,6 +28,7 @@ const [showImages,setShowImages]=useState("")
 console.log(credentials.is_active,"isactive");
     const handleUpdate = async () => {
         try {
+            setLoading(true);
             const { title, points, description, item_image, image_name,is_active } = credentials;
 
             const f_data = new FormData();
@@ -56,6 +58,8 @@ console.log(credentials.is_active,"isactive");
             }
         } catch (err) {
             console.error('An error occurred during the request:', err);
+        }finally {
+            setLoading(false);
         }
     };
 
@@ -117,7 +121,10 @@ console.log(credentials.is_active,"isactive");
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>
-                <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>Confirm</button>
+                {/* <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>Confirm</button> */}
+                <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>
+                    {loading ? 'Loading...' : 'Confirm'}
+                </button>
             </div>
         </Offcanvas>
     );

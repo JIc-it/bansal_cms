@@ -39,10 +39,10 @@ export default function AddReward({
     const validationErrors = {};
 
     const pointsNumber = parseFloat(credentials.points);
-    
-    if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
-      validationErrors.points = "Points must be a valid number greater than 0";
-    }
+
+ if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
+    validationErrors.points = "Points must be a valid number greater than 0";
+  }
 
     if (!credentials.points || isNaN(credentials.points)) {
       validationErrors.points = "Points must be a valid number";
@@ -50,6 +50,12 @@ export default function AddReward({
 
     if (!credentials.description) {
       validationErrors.description = "Description is required";
+    } else if (credentials.description.length < 50) {
+      validationErrors.description =
+        "Description must be at least 40 characters long";
+    } else if (credentials.description.length > 50) {
+      validationErrors.description =
+        "Description must be at most 50 characters long";
     }
 
     if (!credentials.item_image) {
@@ -123,7 +129,7 @@ export default function AddReward({
         </div>
         <div style={{ marginTop: 20 }}>
           <input
-            type="number"
+            type="text"
             className="form-control"
             value={credentials.points}
             onChange={(e) => {

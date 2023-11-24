@@ -40,7 +40,7 @@ const ViewDistributorDetails = () => {
     date: "",
   });
   const [search, setSearch] = useState("");
-  console.log(filterdata);
+  // console.log(filterdata);
   const itemsPerPage = 10;
 
   function handlefilterdata(fields) {

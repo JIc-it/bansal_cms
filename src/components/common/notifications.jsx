@@ -40,7 +40,7 @@ const notificationStyle = {
 };
 
 
-export default function NotificationsOpen({ open, setOpen }) {
+export default function NotificationsOpen({ open, setOpen,showNotification }) {
     const [dataList, setDataList] = useState([]);
     const [showOffcanvas, setShowOffcanvas] = useState(open);
     const [message, setMessage] = useState('');
@@ -52,6 +52,7 @@ export default function NotificationsOpen({ open, setOpen }) {
         })
         setShowOffcanvas(false);
         setOpen(null)
+        showNotification(false)
     }
 
     const notificationsHead = {
@@ -97,10 +98,16 @@ export default function NotificationsOpen({ open, setOpen }) {
                 </div> :
                 <div>
                     {dataList?.map((data, index) =>
-                        <div key={index} style={{ ...notificationStyle, backgroundColor: index % 2 === 0 ? '#dddddd' : 'transparent',marginRight:20,padding:15,borderRadius:8 }}>
-                            {console.log('mapping', data.message)}
+                        <div key={index} style={{
+                            ...notificationStyle,
+                            backgroundColor:  'transparent',
+                            marginRight: 20,
+                            padding: 15,
+                            borderRadius: 8,
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)', // Add box shadow for a card-like effect
+                          }}>
                             <span>{data.message}</span>
-                        </div>
+                          </div>
                     )}
                 </div>
             }
