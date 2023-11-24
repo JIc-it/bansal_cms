@@ -33,7 +33,7 @@ export default function AdminUserViewOrders(props) {
             <table id="list-tbl" class="table">
                 <thead>
                     <tr>
-                        <th>Transaction Id</th>
+                        <th>Transaction Idmmmm</th>
                         <th>Name</th>
                         <th>Role</th>
                         <th>Unique Id</th>

@@ -624,7 +624,6 @@ const ViewSales = () => {
   });
 
   const handlefilterdata = (field) => {
-    console.log("field",field)
     setFilterdata((prev) => {
       return {
         ...prev,
@@ -667,8 +666,11 @@ const ViewSales = () => {
     handleUserOrderData();
   }, []);
 
+  useEffect(() => {
+     handleUserOrderData();
+  }, [filterdata?.search]);
   const handleUserOrderData = () => {
-    adminUSerViewLeadsRequest(userDataParam.id,filterdata)
+    adminUSerViewLeadsRequest(userDataParam.id,filterdata?.search,filterdata)
       .then((data) => {
         console.log('getUserOrders', data)
         setTransactionData(data.results);
@@ -1119,7 +1121,7 @@ const ViewSales = () => {
                   <table id="list-tbl" class="table">
                     <thead>
                       <tr>
-                        <th>Transaction ID</th>
+                        <th>Transaction IDmmmm</th>
                         <th>Reward</th>
                         <th>Product ID</th>
                         <th>Date & Time</th>

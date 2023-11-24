@@ -238,8 +238,8 @@ export const getUserOrders = (id, search, filterdata) => {
       throw error;
     });
 };
-export const adminUSerViewLeadsRequest = async (id,data) => {
-  // console.log(id,data,"id,data")
+export const adminUSerViewLeadsRequest = async (id,search,data) => {
+ console.log(search,"id,data")
   try {
     const response = await axiosInstance
       .get(`${adminUSerViewOrderURL}${id}/`
