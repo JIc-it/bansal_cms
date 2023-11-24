@@ -124,60 +124,6 @@ export default function LeadPoints() {
           <h5 className="mb-0">Lead History</h5>
         </div>
         <br></br>
-        {/* <div className="row"> */}
-        {/* <div className="col-xl-12 wid-100">
-            <div className="row">
-              <div className="col-xl-3 col-sm-6 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Total Requests</h6><br />
-                        <h3>36</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-sm-6 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Pending Requests</h6><br />
-                        <h3>12</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-sm-6 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Accepted Requests</h6><br />
-                        <h3>12</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-sm-6 same-card">
-                <div className="card">
-                  <div className="card-body depostit-card">
-                    <div className="depostit-card-media d-flex justify-content-between style-1">
-                      <div>
-                        <h6>Rejected Requests</h6><br />
-                        <h3>12</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        {/* </div> */}
         <div className="col-xl-12">
           <div className="card">
             <div className="card-body p-0">
@@ -308,6 +254,7 @@ export default function LeadPoints() {
                       <th>Date &amp; Time</th>
                       <th>Points</th>
                       <th>Quantity</th>
+                      <th>Status</th>
                       <th className="text-end">Action</th>
                     </tr>
                   </thead>
@@ -350,9 +297,31 @@ export default function LeadPoints() {
                           <td>
                             <h6>{lead.order}</h6>
                           </td>
-                          {/* <td>
-                            <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
-                          </td> */}
+                          <td>
+                            <button
+                              className={`btn  btn-sm ${
+                                lead.admin_approval === "Accepted"
+                                  ? // &&
+                                    // order.user_approval === "Accepted"
+                                    "Accepted-btn"
+                                  : lead.admin_approval === "Rejected"
+                                  ? // ||
+                                    //   order.user_approval === "Rejected"
+                                    "Rejected-btn"
+                                  : "Processing-btn"
+                              }`}
+                            >
+                              {lead.admin_approval === "Accepted"
+                                ? // &&
+                                  // order.user_approval === "Accepted"
+                                  "Accepted"
+                                : lead.admin_approval === "Rejected"
+                                ? // ||
+                                  //   order.user_approval === "Rejected"
+                                  "Rejected"
+                                : "Processing"}
+                            </button>
+                          </td>
                           <td>
                             <button
                               className="btn btn-primary btn-sm"
