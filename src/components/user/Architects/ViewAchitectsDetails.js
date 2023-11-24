@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 
 import {
   getArchitectsRequest,
-  getDistributorOrders,
+  getUserRedemptionData,
   getUserLeads,
   getUserOrders,
   getUserOrdersCounts,
@@ -42,6 +42,7 @@ const ViewAchitectsDetails = () => {
   const [search, setSearch] = useState("");
   const [item,setitem]=useState([])
   const [filterdata, setFilterdata] = useState({
+    search:"",
     status: "",
     points_from: "",
     points_to: "",
@@ -106,6 +107,7 @@ const ViewAchitectsDetails = () => {
   const handleUserOrderData = () => {
     getUserOrders(userData.id, search, filterdata)
       .then((data) => {
+        setTransactionData([])
         setTransactionData(data.results);
       })
       .catch((error) => {
@@ -124,7 +126,7 @@ const ViewAchitectsDetails = () => {
   };
 
   const handleUserPointCount = () => {
-    getUserPointsCounts(userData.id)
+    getUserPointsCounts(userData.id,filterdata)
       .then((data) => {
         setTotalPoints(data.total_points);
       })
@@ -152,30 +154,43 @@ const ViewAchitectsDetails = () => {
 
   const handleClickTrancationType = (type) => {
     setSeletedTranasactionType(type);
-    // if (type === "Orders") {
-    //   handleUserOrderData();
-    // }
-    if (type === "Redemptions") {
-      getDistributorOrders(userData.id)
-        .then((data) => {
-          setTransactionData(data.results);
-          setTotalOrder(data.total);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
-    }
-    if (type === "Leads") {
-      getUserLeads(userData.id)
-        .then((data) => {
-          setTransactionData(data.results);
-          setTotalOrder(data.total);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
-    }
   };
+
+  useEffect(()=>{
+    if (seletedTranasactionType === "Orders") {
+      getUserOrders(userData?.id, filterdata?.search, filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+          setTotalOrder(data.total);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    }
+   
+    if (seletedTranasactionType === "Redemptions") {
+      getUserRedemptionData(userData?.id,filterdata?.search,filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+          setTotalOrder(data.total);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    }
+
+    if (seletedTranasactionType === "Leads") {
+      getUserLeads(userData?.id,filterdata.search,filterdata)
+        .then((data) => {
+          setTransactionData(data.results);
+          setTotalOrder(data.total);
+        })
+        .catch((error) => {
+          console.error("Error fetching distributor data:", error);
+        });
+    }
+  },[seletedTranasactionType,filterdata?.search])
+
   const exportToCSV = () => {
     if (transactionData) {
       const header =
@@ -235,6 +250,7 @@ const ViewAchitectsDetails = () => {
     }
   };
 
+  console.log(transactionData,"238");
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
@@ -424,8 +440,7 @@ const ViewAchitectsDetails = () => {
                         aria-label="Search..."
                         aria-describedby="search-button"
                         onChange={(e) => {
-                          setCurrentPage(1);
-                          setSearch(e.target.value);
+                          handlefilterdata({search:e.target.value})
                         }}
                       />
                       <svg
@@ -551,7 +566,7 @@ const ViewAchitectsDetails = () => {
                         <th>Points</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -645,7 +660,7 @@ const ViewAchitectsDetails = () => {
                         <th>Product ID</th>
                         <th>Date & Time</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -657,18 +672,21 @@ const ViewAchitectsDetails = () => {
                                 <td>
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
+                                <td><h6>{ele?.product_name}</h6></td>
+                                <td><h6>{ele?.product_id}</h6></td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-Us", {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
-                                <td>
-                                  <h6>{ele.quantity}</h6>
-                                </td>
-
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
@@ -690,7 +708,7 @@ const ViewAchitectsDetails = () => {
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td onClick={() =>handleOpenViewArchitectData(ele) }>
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"
@@ -721,7 +739,7 @@ const ViewAchitectsDetails = () => {
                         <th>Points</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th> </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -731,7 +749,7 @@ const ViewAchitectsDetails = () => {
                             return (
                               <tr key={`transactionData-${i}`}>
                                 <td>
-                                  <h6>{ele.transaction_id}</h6>
+                                  <h6>{ele?.referral_id}</h6>
                                 </td>
                                 <td>
                                   <h6>{ele.name}</h6>
@@ -740,11 +758,11 @@ const ViewAchitectsDetails = () => {
                                   <h6>{ele.mobile_no}</h6>
                                 </td>
                                 <td>
-                                  <h6>{ele.updated_at}</h6>
+                                  <h6>{new Date(ele.updated_at).toLocaleDateString("en-US",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
                                 </td>
-                                <td>{/* <h6>{ele.distributor}</h6> */}</td>
+                                <td><h6>{ele.points}</h6></td>
                                 <td>
-                                  <h6>{ele.quantity}</h6>
+                                  <h6>{ele.order}</h6>
                                 </td>
 
                                 <td>
@@ -768,7 +786,7 @@ const ViewAchitectsDetails = () => {
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => setViewTransaction(true)}>
+                                <td onClick={() => handleOpenViewArchitectData(ele)}>
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"

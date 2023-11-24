@@ -138,52 +138,78 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
       </div>
       <br></br>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
-        <h6>Distributor Details</h6>
+        <h6>{itemData.distributor ? "Distributor Details" : "Lead Details"}</h6>
         <span>Name :</span>
-        <span style={{ float: "inline-end" }}>{itemData.distributor.name}</span>
+        <span style={{ float: "inline-end" }}>
+          {itemData.distributor
+            ? itemData?.distributor?.name
+            : itemData?.accepted_by?.name}
+        </span>
         <br></br>
 
         <span>Unique ID :</span>
         <span style={{ float: "inline-end" }}>
-          {itemData.distributor.user_id}
+          {itemData.distributor
+            ? itemData.distributor?.user_id
+            : itemData?.accepted_by?.user_id}
         </span>
         <br></br>
         <span>Address :</span>
         <span style={{ float: "inline-end" }}>
-          {itemData.distributor.district},
-          <span>{itemData.distributor.state}</span>
+          {itemData.distributor
+            ? itemData.distributor?.district
+            : itemData?.accepted_by?.district}
+          ,
+          <span>
+            {itemData.distributor
+              ? itemData.distributor?.state
+              : itemData?.accepted_by?.state}
+          </span>
         </span>
         <br></br>
         <span>Mobile :</span>
         <span style={{ float: "inline-end" }}>
-          {itemData.distributor.mobile}
+          {itemData.distributor
+            ? itemData.distributor?.mobile
+            : itemData.accepted_by?.mobile}
         </span>
       </div>
       <br></br>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
-        <h6>{itemData.user.role} Details</h6>
+        <h6>{itemData.user?.role} Details</h6>
 
         <span>Name :</span>
-        <span style={{ float: "inline-end" }}>{itemData.user.name}</span>
+        <span style={{ float: "inline-end" }}>{itemData.user?.name}</span>
         <br></br>
 
         <span>Unique ID :</span>
-        <span style={{ float: "inline-end" }}>{itemData.user.user_id}</span>
+        <span style={{ float: "inline-end" }}>{itemData.user?.user_id}</span>
         <br></br>
 
         <span>Address :</span>
         <span style={{ float: "inline-end" }}>
-          {itemData.user.district}, <span> {itemData.user.state}</span>
+          {itemData.user?.district}, <span> {itemData.user?.state}</span>
         </span>
         <br></br>
 
         <span>Mobile :</span>
-        <span style={{ float: "inline-end" }}>{itemData.user.mobile}</span>
+        <span style={{ float: "inline-end" }}>{itemData.user?.mobile}</span>
       </div>
       <br></br>
-      <div style={{ marginTop: 10, marginLeft: 20 }}>
+      <div
+        style={{
+          marginTop: 10,
+          marginLeft: 20,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <h6>Comments :</h6>
-        <span style={{ marginLeft: 85 }}>{itemData.comments}</span>
+        <span style={{ marginRight: 10 }}>
+          {itemData?.comments?.trim() === ""
+            ? "No Comments"
+            : itemData?.comments}
+        </span>
       </div>
       <div>
         <h6 style={statusOffcanvas}>
@@ -196,12 +222,14 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
           >
             <div style={{ padding: 20 }}>
               <span>Quantity</span>
-              <h5>{itemData.quantity} Tons</h5>
+              <h5>
+                {itemData?.quantity ? itemData?.quantity : itemData?.order} Tons
+              </h5>
             </div>
             <div className="divider-line"></div>
             <div style={{ padding: 20 }}>
               <span>Loyalty Points</span>
-              <h5>{itemData.points}Pts</h5>
+              <h5>{itemData?.points} Pts</h5>
             </div>
           </div>
         </h6>

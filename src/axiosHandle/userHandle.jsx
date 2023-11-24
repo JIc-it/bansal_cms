@@ -295,7 +295,7 @@ export const getUserRedemptionData = (id, search, filterdata) => {
         search: search,
 
         date:
-          filterdata.date === ""
+          filterdata?.date === ""
             ? ""
             : new Date(filterdata.date).toLocaleDateString("en-CA"),
       },
@@ -312,14 +312,14 @@ export const getDistributorOrders = (id, search, filterdata) => {
     .get(`${distributorOrderURL}/${id}/`, {
       params: {
         search: search,
-        points_from: filterdata.points_from,
-        points_to: filterdata.points_to,
-        status: filterdata.status,
-        role: filterdata.role,
+        points_from: filterdata?.points_from,
+        points_to: filterdata?.points_to,
+        status: filterdata?.status,
+        role: filterdata?.role,
         date:
-          filterdata.date === ""
+          filterdata?.date === ""
             ? ""
-            : new Date(filterdata.date).toLocaleDateString("en-CA"),
+            : new Date(filterdata?.date).toLocaleDateString("en-CA"),
       },
     })
     .then((response) => response.data)

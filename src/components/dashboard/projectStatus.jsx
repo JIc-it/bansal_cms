@@ -1,25 +1,26 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PieChart from '../pieChart';
 import { getrewardredeemed } from '../../axiosHandle/dashboardHandle';
 
 export default function ProjectStatus() {
-    const[redeeemed,setredeemed]=useState([]);
-    const[Totalcount,setTotalrwardcount]=useState(0);
+    const [redeeemed, setredeemed] = useState([]);
+    const [Totalcount, setTotalrwardcount] = useState(0);
 
-        useEffect(() => {
-            getrewardredeemed()
-                .then((data) => {
-                    setredeemed(data?.redeemed_rewards);
-                    setTotalrwardcount(data?.total_redeemed_count)
-                })
-                .catch((error) => {
-                    console.error('Error fetching :', error);
-                });
-        }, []);
- const reward_name= redeeemed && redeeemed?.map((dat)=>dat?.reward_id?.title)
- const reward_points=redeeemed && redeeemed?.map((dat)=>dat?.reward_id?.points)
+    useEffect(() => {
+        getrewardredeemed()
+            .then((data) => {
+                setredeemed(data?.redeemed_rewards);
+                setTotalrwardcount(data?.total_redeemed_count)
+            })
+            .catch((error) => {
+                console.error('Error fetching :', error);
+            });
+    }, []);
+    const reward_name = redeeemed && redeeemed?.map((dat) => `${dat?.reward_id?.title}   -  ${dat?.reward_id?.points}`)
+    const reward_points = redeeemed && redeeemed?.map((dat) => dat?.reward_id?.times_redeemed)
 
- 
+console.log(reward_points,"redeemed_times");
+console.log(redeeemed,"redeemed");
 
     return (
         <div className="card">
@@ -33,8 +34,8 @@ export default function ProjectStatus() {
             </div>
             <h4 style={{ marginLeft: "17px" }}>{Totalcount}</h4>
             <div className="card-body">
-                <div style={{ display:"inline-block" }}>
-                    <PieChart reward_name={reward_name} reward_points={reward_points}/>
+                <div style={{ display: "inline-flex" }}>
+                    <PieChart reward_name={reward_name} reward_points={reward_points} />
                 </div>
             </div>
         </div>

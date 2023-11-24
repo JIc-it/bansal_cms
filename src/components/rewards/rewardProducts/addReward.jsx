@@ -33,13 +33,15 @@ export default function AddReward({
     description: "",
     item_image: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const handleCreate = async () => {
     // Validation logic
     const validationErrors = {};
 
-    if (!credentials.title) {
-      validationErrors.title = "Title is required";
+    const pointsNumber = parseFloat(credentials.points);
+    
+    if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
+      validationErrors.points = "Points must be a valid number greater than 0";
     }
 
     if (!credentials.points || isNaN(credentials.points)) {
@@ -60,6 +62,8 @@ export default function AddReward({
     }
 
     try {
+      setLoading(true);
+
       const { title, points, description, item_image } = credentials;
 
       const data = new FormData();
@@ -76,13 +80,13 @@ export default function AddReward({
         toast.success("Reward product created successfully!");
         setOpen(false);
         setisUpdated(!isUpdated);
-        // setIsLoading(false);
-        // window.alert('Reward product created successfully!');
       } else {
         console.error("Error while creating reward product:", crt_data.error);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -190,12 +194,13 @@ export default function AddReward({
           marginRight: "10px",
         }}
       >
-        <button
+          <button
           className="btn btn-primary"
           onClick={handleCreate}
           style={{ flex: 1, margin: "0 5px", width: "100%" }}
+          disabled={loading}
         >
-          Confirm
+          {loading ? "Loading..." : "Confirm"}
         </button>
       </div>
     </Offcanvas>

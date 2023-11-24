@@ -98,139 +98,75 @@ export default function OrderDetails({
           SA
         </h6>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          paddingRight: 24,
-          marginLeft: 20,
-        }}
-      >
+      <br></br>
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Transaction Details</h6>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+        <span style={{ flex: 1 }}>Admin Status :</span>
+        <span
+          style={{ float: 'inline-end', color: "blue", padding: 2, position: 'relative', bottom: 5 }}
+          className="badge badge-primary light border-0"
         >
-          <span style={{ flex: 1 }}>Admin Status :</span>
-          <span
-            style={{ justifyContent: "center", marginLeft: 120, color: "blue" }}
-            className="badge badge-primary light border-0"
-          >
-            {data.admin_approval}
-          </span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
+          {data.admin_approval}
+        </span>
+        <br></br>
+        <span>Distributor Status :</span>
+        <span
+          style={{ float: 'inline-end', position: 'relative', left: 70, padding: 2 }}
+          className="badge badge-success light border-0"
         >
-          <span>Distributor Status :</span>
-          <span
-            style={{ marginLeft: 120 }}
-            className="badge badge-success light border-0"
-          >
-            {data.user_approval}
-          </span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 14 }}
-        >
-          <span>Transaction ID :</span>
-          <span style={{ marginLeft: 114 }}>{order_data.transaction_id}</span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Date & Time :</span>
-          <span style={{ marginLeft: 88 }}>
-            {new Date(data.updated_at).toLocaleString("es-cl", {
-              hour12: true,
-            })}
-          </span>
-          <br></br>
-        </div>
+          {data.user_approval}
+        </span>
+        <br></br>
+        <span>Transaction ID :</span>
+        <span style={{ float: 'inline-end' }}>{order_data.transaction_id}</span>
+        <br></br>
+        <span>Date & Time :</span>
+        <span style={{ float: 'inline-end' }}>
+          {new Date(data.updated_at).toLocaleString("es-cl", {
+            hour12: true,
+          })}
+        </span>
+        <br></br>
         {/* <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br> */}
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          paddingRight: 24,
-          marginLeft: 20,
-        }}
-      >
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Distributor Details</h6>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Name :</span>
-          <span style={{ marginLeft: 235 }}>{data?.distributor?.name}</span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Unique ID :</span>
-          <span style={{ marginLeft: 186 }}>{data?.distributor?.user_id}</span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Address :</span>
-          <span style={{ marginLeft: 110 }}>
-            {data?.distributor?.district},
-            <span>{data?.distributor?.state}</span>
-          </span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Mobile :</span>
-          <span style={{ marginLeft: 200 }}>{data?.distributor?.mobile}</span>
-          <br></br>
-        </div>
+
+        <span>Name :</span>
+        <span style={{ float: 'inline-end' }}>{data?.distributor?.name}</span>
+        <br></br>
+
+        <span>Unique ID :</span>
+        <span style={{ float: 'inline-end' }}>{data?.distributor?.user_id}</span>
+        <br></br>
+
+        <span>Address :</span>
+        <span style={{ float: 'inline-end' }}>
+          {data?.distributor?.district},
+          {data?.distributor?.state}
+        </span>
+        <br></br>
+        <span>Mobile :</span>
+        <span style={{ float: 'inline-end' }}>{data?.distributor?.mobile}</span>
+        <br></br>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          paddingRight: 24,
-          marginLeft: 20,
-        }}
-      >
+      <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Contractor Details</h6>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Name :</span>
-          <span style={{ marginLeft: 220 }}>{data?.user?.name}</span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Unique ID :</span>
-          <span style={{ marginLeft: 187 }}>{data?.user?.user_id}</span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Address :</span>
-          <span style={{ marginLeft: 112 }}>
-            {data?.user?.district},<span>{data?.user?.state}</span>
-          </span>
-          <br></br>
-        </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", paddingRight: 24 }}
-        >
-          <span>Mobile :</span>
-          <span style={{ marginLeft: 195 }}>{data?.user?.mobile}</span>
-          <br></br>
-        </div>
+        <span>Name :</span>
+        <span style={{ float: 'inline-end' }}>{data?.user?.name}</span>
+        <br></br>
+
+        <span>Unique ID :</span>
+        <span style={{ float: 'inline-end' }}>{data?.user?.user_id}</span>
+        <br></br>
+        <span>Address :</span>
+        <span style={{ float: 'inline-end' }}>
+          {data?.user?.district}, {data?.user?.state}
+        </span>
+        <br></br>
+        <span>Mobile :</span>
+        <span style={{ float: 'inline-end' }}>{data?.user?.mobile}</span>
+        <br></br>
       </div>
       <div>
         <h6 style={statusOffcanvas}>

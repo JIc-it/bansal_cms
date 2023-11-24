@@ -59,7 +59,7 @@ export default function LeadPoints() {
       const header = [
         "Transaction Id",
         "Name",
-        "Unique Id",
+        "Referred By",
         "Role",
         "Distributor Id",
         "Date & Time",
@@ -121,7 +121,7 @@ export default function LeadPoints() {
       {/* row */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Lead Requests</h5>
+          <h5 className="mb-0">Lead History</h5>
         </div>
         <br></br>
         {/* <div className="row"> */}
@@ -302,7 +302,7 @@ export default function LeadPoints() {
                     <tr>
                       <th>Transaction id</th>
                       <th>Name</th>
-                      <th>Unique id</th>
+                      <th>Referred By</th>
                       <th>Role</th>
                       <th>Distributor id</th>
                       <th>Date &amp; Time</th>
