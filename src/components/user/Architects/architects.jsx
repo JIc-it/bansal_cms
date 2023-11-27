@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  adminUserDisableEnable,
   deleteContractorUser,
   getArchitectsRequest,
   getUserStatics,
@@ -23,7 +24,6 @@ function Architects() {
   const [isOpenAddArchitects, setIsOpenAddArchitects] = useState(false);
   const [isArchitectsAdded, setIsArchitectsAdded] = useState(false);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
-  const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [searchUserData, setSearchUserData] = useState("");
   const [isFilter, setIsFilter] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState({
@@ -345,31 +345,34 @@ function Architects() {
                   </thead>
                   <tbody>
                     {currentItems && currentItems.length > 0 ? (
-                      currentItems.map((data) => (
+                      currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.name}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>
                               <span>{data.district?.district}</span>
                               {data.district?.district && ","}
                               <span>{data.state?.state}</span>
                             </h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.leads_count || 0}</h6>
                           </td>
-                          <td>
+                          <td className={!data.is_delete && "disabled-row"}>
                             <h6>{data.points || 0}</h6>
                           </td>
-                          <td style={{ width: 100, paddingRight: 0 }}>
+                          <td
+                            style={{ width: 100, paddingRight: 0 }}
+                            className={!data.is_delete && "disabled-row"}
+                          >
                             <a
                               className="btn bg-blue btn-sm"
                               href="#"
@@ -384,41 +387,55 @@ function Architects() {
 
                           {permissionForUser?.delete && (
                             <td
-                              onClick={() => {
-                                setOpenRemoveOption(!openRemoveOption);
-                                setSelectedIdForRemove(data.id);
-                              }}
-                              style={{ cursor: "pointer" }}
+                              className={`card-footer ${
+                                !data.is_delete && "disabled-row"
+                              }`}
                             >
                               {" "}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
+                              <div
+                                className=" form-switch"
+                                style={{
+                                  display: "inline-block",
+                                }}
                               >
-                                <path
-                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                  fill="#0F0F0F"
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`activationToggle-${index}`}
+                                  name={`activationToggle-${index}`}
+                                  checked={data.is_delete}
+                                  onChange={(e) => {
+                                    adminUserDisableEnable(
+                                      data.id,
+                                      !data.is_delete
+                                    )
+                                      .then((data) => {
+                                        console.log("active data", data);
+                                        setIsArchitectsAdded(
+                                          !isArchitectsAdded
+                                        );
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Error fetching distributor data:",
+                                          error
+                                        );
+                                      });
+                                  }}
                                 />
-                                <path
-                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                                <path
-                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                              </svg>
-                              {openRemoveOption &&
-                                data.id === selectedIdForRemove && (
-                                  <div className="option-container">
-                                    <span onClick={() => handleDelete(data.id)}>
-                                      Remove
-                                    </span>
-                                  </div>
-                                )}
+                                {/* <label
+                                  className={`form-check-label ${
+                                    data.is_delete
+                                      ? " success-color mx-3"
+                                      : "error-color mx-2"
+                                  }`}
+                                  htmlFor={`activationToggle-${index}`}
+                                >
+                                  {`${
+                                    data.is_delete ? " Active" : " In Active"
+                                  }`}
+                                </label> */}
+                              </div>
                             </td>
                           )}
                         </tr>

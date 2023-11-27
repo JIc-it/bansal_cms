@@ -18,7 +18,7 @@ export default function ContactorAll() {
 
     return (
         <div className="card-body p-0" style={{ height: 336 }}>
-            <h4 className="heading mb-2" style={{ marginLeft: 15 }}>Top 10 Star Performers ca</h4>
+            <h4 className="heading mb-2" style={{ marginLeft: 15 }}>Top 10 Star Performers</h4>
             <div className="table-responsive active-projects active-projects ItemsCheckboxSec selling-product shorting ">
                 <table id="empoloyees-tblwrapper" className="table">
                     <thead>

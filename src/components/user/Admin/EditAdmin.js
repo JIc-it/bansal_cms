@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Table } from "reactstrap";
 import {
@@ -36,9 +35,6 @@ export default function EditAdmin({
   const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
   let passpermission = { permission: permission };
-  // const keys=permission && Object.keys(permission?.users)
-  // console.log(keys.sort((a,b)=>a-b?1:-1).reverse());
-  const navigate = useNavigate();
 
   const handleCheckboxChange = (category, action) => {
     setPermissions((prevPermissions) => ({
@@ -50,20 +46,13 @@ export default function EditAdmin({
     }));
   };
 
-  const handlepermissionchange=(id,data)=>{
+  const handlepermissionchange = (id, data) => {
     adminpermissionupdateuser(id, data)
       .then((res) => console.log(res))
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }
-
-  // useEffect(() => {
-    
-  // }, [queryParams_id, passpermission]);
-
-console.log(passpermission,"permission");
-
+  };
 
   useEffect(() => {
     getAllLocations()
@@ -109,12 +98,11 @@ console.log(passpermission,"permission");
         state: values.state.id,
       };
 
-       handlepermissionchange(queryParams_id,passpermission)
+      handlepermissionchange(queryParams_id, passpermission);
 
       try {
         await adminupdateuser(queryParams_id, datas).then((res) => {
           if (res.status === 200) {
-            // navigate("/admins");
             toast.success("Admin Updated successfully!");
             setIsAdminAdded(!isAdminAdded);
             setOpen(false);
