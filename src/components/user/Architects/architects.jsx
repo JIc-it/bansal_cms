@@ -15,7 +15,7 @@ import { useContext } from "react";
 function Architects() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [totalUserCount, setTotalUserCount] = useState(0);

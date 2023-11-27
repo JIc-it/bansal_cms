@@ -26,9 +26,9 @@ const commonUserAddPointsURL = "/purchase/admin-add-points";
 const commonUserRedemptionURL = "/purchase/redemption_history/user";
 const adminpermissionviewURL = "account/custom_permission/retrieve";
 const adminprofilecreation = "account/create-admin/";
-const salesprofilecreation = "account/create-sales-poc/";
+const salesprofilecreation = "/account/create-sales-poc/";
 const adminupdateuserURL = "account/admin-update-user";
-const adminpermissionupdateuserURl = "account/custom_permission/retrieve";
+const adminpermissionupdateuserURl = "/account/custom-permission";
 const salesupdateuserURL = "account/admin-update-user";
 const userStatusUrl = "account/api/users/user_stats/?role=";
 const purchaseNotification = "/purchase/admin-notifications/";
@@ -465,8 +465,13 @@ export const adminupdateuser = (id, data) => {
 
 export const adminpermissionupdateuser = (id, data) => {
   return axiosInstance
-    .put(`${adminpermissionupdateuserURl}/${id}/`, data)
-
+    .put(
+      `${adminpermissionupdateuserURl}/${id}/`,
+      { permission: data },
+      {
+        headers: { "Content-Type": "application/json", Accept: "*/*" },
+      }
+    )
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);

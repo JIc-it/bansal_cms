@@ -14,7 +14,7 @@ import { useContext } from "react";
 export default function Distributors() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);

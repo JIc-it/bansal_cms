@@ -15,7 +15,7 @@ import { AppContext } from "../../../contexts/AppContext";
 export default function Contractor() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   console.log(permissionForUser, "permissionForUser");
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);

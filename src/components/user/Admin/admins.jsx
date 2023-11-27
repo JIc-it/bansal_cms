@@ -12,7 +12,8 @@ import { useContext } from "react";
 function Admins() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+
+  const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
@@ -114,6 +115,7 @@ function Admins() {
   };
 
   const handlePreviousPage = () => {
+    console.log('handle next');
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }

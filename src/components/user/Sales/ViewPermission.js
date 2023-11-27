@@ -328,29 +328,29 @@ const ViewPermission = ({ open, setOpen, data }) => {
                 <td className="text-center">
                   <input
                     type="checkbox"
-                    checked={data?.users?.create}
-                    value={data?.users?.create}
+                    checked={data?.user?.create}
+                    value={data?.user?.create}
                   />
                 </td>
                 <td className="text-center">
                   <input
                     type="checkbox"
-                    checked={data?.users?.update}
-                    value={data?.users?.update}
+                    checked={data?.user?.update}
+                    value={data?.user?.update}
                   />
                 </td>
                 <td className="text-center">
                   <input
                     type="checkbox"
-                    checked={data?.users?.action}
-                    value={data?.users?.action}
+                    checked={data?.user?.action}
+                    value={data?.user?.action}
                   />
                 </td>
                 <td className="text-center">
                   <input
                     type="checkbox"
-                    checked={data?.users?.delete}
-                    value={data?.users?.delete}
+                    checked={data?.user?.delete}
+                    value={data?.user?.delete}
                   />
                 </td>
               </tr>

@@ -133,7 +133,6 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
             minute: "2-digit",
           })}
         </span>
-
         <br></br>
       </div>
       <br></br>
