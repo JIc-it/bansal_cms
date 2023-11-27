@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -34,15 +33,16 @@ export default function AddReward({
     item_image: "",
   });
   const [loading, setLoading] = useState(false);
+
   const handleCreate = async () => {
     // Validation logic
     const validationErrors = {};
 
     const pointsNumber = parseFloat(credentials.points);
 
- if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
-    validationErrors.points = "Points must be a valid number greater than 0";
-  }
+    if (!credentials.points || isNaN(pointsNumber) || pointsNumber <= 0) {
+      validationErrors.points = "Points must be a valid number greater than 0";
+    }
 
     if (!credentials.points || isNaN(credentials.points)) {
       validationErrors.points = "Points must be a valid number";
@@ -110,7 +110,6 @@ export default function AddReward({
       placement="end"
       style={{ overflow: "auto" }}
     >
-      {/* ... */}
       <div style={offcanvasStyle}>
         <h5>Reward Product Details</h5>
         <div style={{ marginTop: 20 }}>
@@ -156,25 +155,39 @@ export default function AddReward({
             <p className="text-danger">{errors.description}</p>
           )}
         </div>
-        <div
-          style={{
-            marginTop: 20,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+        <div style={{ marginTop: 20, display: "flex", justifyContent: "space-between" }}>
           <div>
             <label>Product Photo (140*140)</label>
             <input
               type="file"
               id="imageUpload"
               style={{ display: "none" }}
-              onChange={(e) => {
-                setCredentials({
-                  ...credentials,
-                  item_image: e.target.files[0],
+              onChange={async (e) => {
+                const file = e.target.files[0];
+
+                // Validate file type and size if needed
+
+                // Validate image dimensions
+                const image = new Image();
+                image.src = URL.createObjectURL(file);
+
+                await new Promise((resolve) => {
+                  image.onload = () => {
+                    if (image.width === 140 && image.height === 140) {
+                      setCredentials({
+                        ...credentials,
+                        item_image: file,
+                      });
+                      setErrors({ ...errors, item_image: "" });
+                    } else {
+                      setErrors({
+                        ...errors,
+                        item_image: "Image dimensions must be 140x140 pixels",
+                      });
+                    }
+                    resolve();
+                  };
                 });
-                setErrors({ ...errors, item_image: "" });
               }}
             />
             <label
@@ -189,7 +202,6 @@ export default function AddReward({
             )}
           </div>
         </div>
-        {/* ... */}
       </div>
       <div
         style={{
@@ -200,7 +212,7 @@ export default function AddReward({
           marginRight: "10px",
         }}
       >
-          <button
+        <button
           className="btn btn-primary"
           onClick={handleCreate}
           style={{ flex: 1, margin: "0 5px", width: "100%" }}
