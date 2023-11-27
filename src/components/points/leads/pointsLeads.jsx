@@ -250,7 +250,6 @@ export default function LeadPoints() {
                       <th>Name</th>
                       <th>Referred By</th>
                       <th>Role</th>
-                      <th>Distributor id</th>
                       <th>Date &amp; Time</th>
                       <th>Points</th>
                       <th>Quantity</th>
@@ -263,7 +262,7 @@ export default function LeadPoints() {
                       currentItems.map((lead) => (
                         <tr key={lead.id}>
                           <td>
-                            <h6>{lead.id}</h6>
+                            <h6>{lead.referral_id}</h6>
                           </td>
                           <td>
                             <h6>{lead.user.name}</h6>
@@ -274,9 +273,7 @@ export default function LeadPoints() {
                           <td>
                             <h6>{lead.user.role}</h6>
                           </td>
-                          <td>
-                            <h6>{lead.referral_id}</h6>
-                          </td>
+                        
                           <td>
                             <h6>
                               {new Date(lead.updated_at).toLocaleDateString(
@@ -299,7 +296,7 @@ export default function LeadPoints() {
                           </td>
                           <td>
                             <button
-                              className={`btn  btn-sm ${
+                              className={`btn btn-sm ${
                                 lead.admin_approval === "Accepted"
                                   ? // &&
                                     // order.user_approval === "Accepted"

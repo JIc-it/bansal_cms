@@ -13,7 +13,7 @@ const offcanvasStyle = {
     flexDirection: 'column',
 };
 
-export default function EditReward({ open, data, setOpen, refreshDataTable, setisUpdated  }) {
+export default function EditReward({ open, data, setOpen, refreshDataTable, setisUpdated }) {
     const [loading, setLoading] = useState(false);
     const [credentials, setCredentials] = useState({
         title: data.title,
@@ -21,15 +21,34 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
         description: data.description,
         item_image: data.item_image,
         image_name: data.image_name,
-        is_active:data.is_active
+        is_active: data.is_active,
     });
-const [showImages,setShowImages]=useState("")
+    const [showImages, setShowImages] = useState("");
 
-console.log(credentials.is_active,"isactive");
     const handleUpdate = async () => {
         try {
             setLoading(true);
-            const { title, points, description, item_image, image_name,is_active } = credentials;
+
+            const { title, points, description, item_image, image_name, is_active } = credentials;
+
+            // Validate image dimensions
+            const image = new Image();
+            image.src = showImages.trim() !== "" ? showImages : item_image;
+            await new Promise((resolve, reject) => {
+                image.onload = () => {
+                    if (image.width === 140 && image.height === 140) {
+                        resolve();
+                    } else {
+                        reject(new Error("Image dimensions must be 140x140 pixels."));
+                    }
+                };
+                image.onerror = () => reject(new Error("Failed to load image."));
+            });
+
+            // Validate description length
+            if (description.length !== 50) {
+                throw new Error("Description must be exactly 50 characters.");
+            }
 
             const f_data = new FormData();
             f_data.append('title', title);
@@ -37,17 +56,12 @@ console.log(credentials.is_active,"isactive");
             f_data.append('description', description);
             f_data.append('image', item_image);
             f_data.append('is_active', is_active);
-            // f_data.append('thumbnail_image', item_image);
-            // f_data.append('image_name', image_name);
 
             const response = await editRewardProductRequest(data.id, f_data);
 
-            console.log('Response from editRewardProductRequest:', response);
-            console.log(response,"response");
-
             if (response) {
                 toast.success("Reward product updated successfully!");
-                setisUpdated(true)
+                setisUpdated(true);
 
                 if (refreshDataTable && typeof refreshDataTable === 'function') {
                     refreshDataTable();
@@ -57,14 +71,28 @@ console.log(credentials.is_active,"isactive");
                 console.error('Error while creating reward product:', response.error);
             }
         } catch (err) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            }
             console.error('An error occurred during the request:', err);
-        }finally {
+        } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Offcanvas show={open} onHide={() => {setOpen(false);setShowImages("")}} placement="end" style={{ overflow: 'auto' }}>
+        // <Offcanvas show={open} onHide={() => { setOpen(false); setShowImages("") }} placement="end" style={{ overflow: 'auto' }}>
+        //     <Offcanvas.Header style={{ marginLeft: 345 }} closeButton />
+        //     <div style={offcanvasStyle}>
+        //         <h5>Reward Product Details</h5>
+        //     </div>
+        //     <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>
+        //         <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>
+        //             {loading ? 'Loading...' : 'Confirm'}
+        //         </button>
+        //     </div>
+        // </Offcanvas>
+        <Offcanvas show={open} onHide={() => { setOpen(false); setShowImages("") }} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
                 {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
             </Offcanvas.Header>
@@ -80,26 +108,28 @@ console.log(credentials.is_active,"isactive");
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
+                        maxLength="50"
                         onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>
-                    <img src={showImages.trim()!==""?showImages:credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
+                    <img src={showImages.trim() !== "" ? showImages : credentials.item_image} style={{ width: '50px', height: '50px' }} alt="Product Image" />
                 </div>
                 <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         <label>Product Photo (140*140)</label>
                         <input type="file" id="imageUpload" style={{ display: 'none' }}
-                            onChange={(e) => {setCredentials({ ...credentials, item_image: e.target.files[0] });
-                            const file = e.target.files[0];
+                            onChange={(e) => {
+                                setCredentials({ ...credentials, item_image: e.target.files[0] });
+                                const file = e.target.files[0];
 
-                            if (file) {
-                              const reader = new FileReader();
-                              reader.onloadend = () => {
-                                setShowImages(reader.result);
-                              };
-                             reader.readAsDataURL(file);
-                            }
-                            
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                        setShowImages(reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+
                             }} />
                         <label htmlFor="imageUpload" className="btn btn-secondary btn-sm" style={{ marginLeft: 106 }}>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,10 +143,10 @@ console.log(credentials.is_active,"isactive");
                 <div>
                     <h6>Status</h6><br />
                     <div className="form-check form-switch" style={{ position: 'relative', bottom: '35px', float: 'inline-end' }}>
-                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{credentials.is_active?"Active":"Inactive"}</label>
-                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
-                        onChange={(e) => setCredentials({ ...credentials, is_active: !credentials.is_active })}
-                        defaultChecked={credentials.is_active} value={credentials.is_active}/>
+                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{credentials.is_active ? "Active" : "Inactive"}</label>
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                            onChange={(e) => setCredentials({ ...credentials, is_active: !credentials.is_active })}
+                            defaultChecked={credentials.is_active} value={credentials.is_active} />
                     </div>
                 </div>
             </div>
