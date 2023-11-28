@@ -272,16 +272,16 @@ export default function Distributors() {
                       {currentItems && currentItems.length > 0 ? (
                         currentItems.map((data, index) => (
                           <tr key={data.id}>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.name}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.user_id}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.mobile}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>
                                 <span>{data.district?.district}</span>,
                                 <span>{data.state?.state}</span>
@@ -289,7 +289,7 @@ export default function Distributors() {
                             </td>
                             <td
                               style={{ width: 100, paddingRight: 0 }}
-                              className={!data.is_delete && "disabled-row"}
+                              className={data.is_delete && "disabled-row"}
                             >
                               <a
                                 className="btn bg-blue btn-sm"
@@ -305,7 +305,7 @@ export default function Distributors() {
                             {permissionForUser?.delete && (
                               <td
                                 className={`card-footer ${
-                                  !data.is_delete && "disabled-row"
+                                  data.is_delete && "disabled-row"
                                 }`}
                               >
                                 {" "}

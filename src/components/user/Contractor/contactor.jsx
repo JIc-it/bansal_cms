@@ -338,26 +338,26 @@ export default function Contractor() {
                       {currentItems && currentItems.length > 0 ? (
                         currentItems.map((data, index) => (
                           <tr key={data.id}>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.name}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.user_id}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.mobile}</h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>
                                 <span>{data.district?.district}</span>,
                                 <span>{data.state?.state}</span>
                               </h6>
                             </td>
-                            <td className={!data.is_delete && "disabled-row"}>
+                            <td className={data.is_delete && "disabled-row"}>
                               <h6>{data.points || 0}</h6>
                             </td>
                             <td
-                             className={!data.is_delete && "disabled-row"}
+                             className={data.is_delete && "disabled-row"}
                               onClick={() => handleViewContractor(data.id)}
                               style={{ width: 8, paddingRight: 0 }}
                             >
@@ -372,7 +372,7 @@ export default function Contractor() {
                             {permissionForUser?.delete && (
                               <td
                                 className={`card-footer ${
-                                  !data.is_delete && "disabled-row"
+                                  data.is_delete && "disabled-row"
                                 }`}
                               >
                                 {" "}

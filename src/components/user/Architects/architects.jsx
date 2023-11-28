@@ -347,31 +347,31 @@ function Architects() {
                     {currentItems && currentItems.length > 0 ? (
                       currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.name}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>
                               <span>{data.district?.district}</span>
                               {data.district?.district && ","}
                               <span>{data.state?.state}</span>
                             </h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.leads_count || 0}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.points || 0}</h6>
                           </td>
                           <td
                             style={{ width: 100, paddingRight: 0 }}
-                            className={!data.is_delete && "disabled-row"}
+                            className={data.is_delete && "disabled-row"}
                           >
                             <a
                               className="btn bg-blue btn-sm"
@@ -388,7 +388,7 @@ function Architects() {
                           {permissionForUser?.delete && (
                             <td
                               className={`card-footer ${
-                                !data.is_delete && "disabled-row"
+                                data.is_delete && "disabled-row"
                               }`}
                             >
                               {" "}
