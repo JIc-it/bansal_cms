@@ -18,6 +18,8 @@ function PromotionsHistory() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [selectedPromotionDetails, setSelectedPromotionDetails] = useState();
   const [isUpdatedPromotion, setIsUpdatedPromotion] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     getAdHistory(paramsid.id, searchData)
@@ -70,6 +72,27 @@ function PromotionsHistory() {
       a.download = "Promotion-List.csv";
       a.click();
       window.URL.revokeObjectURL(url);
+    }
+  };
+
+  const totalPages = Math.ceil(
+    history ? history.length / itemsPerPage : 1
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = history
+    ? history.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -167,7 +190,7 @@ function PromotionsHistory() {
                     </div>
                   </div>
                   <div>
-                    <table id="reports-tbl" className="table">
+                    {/* <table id="reports-tbl" className="table">
                       <thead>
                         <tr>
                           <th>Promotions</th>
@@ -231,7 +254,99 @@ function PromotionsHistory() {
                           </tr>
                         ))}
                       </tbody>
+                    </table> */}
+
+                    <table id="reports-tbl" className="table">
+                      <thead>
+                        <tr>
+                          <th>Promotions</th>
+                          <th>Date &amp; Time</th>
+                          <th>Ad Runtime (Days)</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {currentItems.length > 0 ? (
+                          currentItems.map((data) => (
+                            <tr>
+                              <td>
+                                <h6>
+                                  <img
+                                    src={data.ad_image}
+                                    // className="img-fluid"
+                                    width={60}
+                                    height={40}
+                                    style={{ paddingRight: 10 }}
+                                  />
+                                  {data.title || ""}
+                                </h6>
+                              </td>
+                              <td>
+                                <div className="products">
+                                  <div>
+                                    <h6>
+                                      {new Date(
+                                        data.updated_at
+                                      ).toLocaleDateString("en-Us", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })}
+                                    </h6>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="products">
+                                  <div>
+                                    <h6>{data.active_time}</h6>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <span
+                                  className={
+                                    data.is_active === true
+                                      ? "badge badge-success light border-0"
+                                      : "badge badge-danger light border-0"
+                                  }
+                                >
+                                  {data.is_active === true
+                                    ? "Active"
+                                    : "Inactive"}
+                                </span>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="5">No Promotions Ad available</td>
+                          </tr>
+                        )}
+                      </tbody>
                     </table>
+                    <div className="col-12">
+                      <div className="btn-group" style={{ float: "right" }}>
+                        <button
+                          className="btn btn-light btn-sm"
+                          onClick={handlePreviousPage}
+                          disabled={currentPage === 1}
+                        >
+                          Previous
+                        </button>
+                        &nbsp;
+                        <button
+                          className="btn btn-light btn-sm"
+                          onClick={handleNextPage}
+                          disabled={currentPage === totalPages}
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
