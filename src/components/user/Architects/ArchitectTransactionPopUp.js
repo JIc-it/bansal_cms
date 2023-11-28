@@ -55,14 +55,17 @@ const ArchitectTransactionPopUp = (
   const handlefiltersClear=()=>{
     if(seletedTranasactionType==="Orders"){
       handleUserOrderData();
+      setTransactionFilterOpen(false);
     }
 
     if(seletedTranasactionType==="Redemptions"){
       handleUserRedemption();
+      setTransactionFilterOpen(false)
     }
 
   if(seletedTranasactionType==="Leads"){
     handleUserLeads();
+    setTransactionFilterOpen(false)
   }
 }
   
@@ -143,7 +146,7 @@ const ArchitectTransactionPopUp = (
       placeholder="Status"
         onChange={(e)=> handlefilterdata({status:e.target.value})}
     >
-     
+     <option selected>Choose</option>
       <option>Processing</option>
       <option>Accepted</option>
       <option>Rejected</option>
@@ -156,7 +159,7 @@ const ArchitectTransactionPopUp = (
       placeholder="Status"
         onChange={(e)=> handlefilterdata({status:e.target.value})}
     >
-     
+     <option selected>choose</option>
       <option>Processing</option>
       <option>Accepted</option>
       <option>Rejected</option>
@@ -230,7 +233,7 @@ const ArchitectTransactionPopUp = (
       >
         Apply
       </button>
-      {/* <button
+      <button
         type="button"
         className="btn btn-primary"
         style={{
@@ -245,7 +248,7 @@ const ArchitectTransactionPopUp = (
         }}
       >
         Clear Filter
-      </button> */}
+      </button>
     </div>
   );
 };

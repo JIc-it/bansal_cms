@@ -33,6 +33,8 @@ const quarterlyQuantity='purchase/admin-quarterly-quantity/'
 const yearlyQuantity='purchase/admin-yearly-quantity/'
 
 const projectstatus='purchase/admin-redeemed-rewards/'
+const projectstatusqtr='purchase/admin-reward-redemptions-qtr/'
+
 
 
 
@@ -263,6 +265,16 @@ export const getyearlyquantity = () => {
 //project-status
 export const getrewardredeemed = () => {
   return axiosInstance.get(projectstatus)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Error while fetching lead request:', error);
+      throw error;
+    });
+};
+
+//project-status-qtr
+export const getrewardredeemedqtr = () => {
+  return axiosInstance.get(projectstatusqtr)
     .then((response) => response.data)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
