@@ -377,6 +377,7 @@ function Admins() {
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
                                   checked={!data.is_delete}
+                                  style={{cursor: "pointer"}}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,

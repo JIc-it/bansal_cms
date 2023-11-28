@@ -401,6 +401,7 @@ export default function Contractor() {
                                     id={`activationToggle-${index}`}
                                     name={`activationToggle-${index}`}
                                     checked={!data.is_delete}
+                                    style={{cursor: "pointer"}}
                                     onChange={(e) => {
                                       adminUserDisableEnable(
                                         data.id,
