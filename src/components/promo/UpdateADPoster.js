@@ -30,10 +30,43 @@ const UpdateADPoster = ({
     "http://bansal.jicitsolution.com/assets/media/advertisements/",
     ""
   );
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setSelectedFileName(file);
+  //   }
+  // };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+  
     if (file) {
-      setSelectedFileName(file);
+      const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+      const maxSize = 328 * 180; // Max size in pixels
+  
+      // Check file type
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Please upload a PNG or JPG/JPEG file.");
+        return;
+      }
+  
+      // Check file size
+      if (file.size > maxSize) {
+        toast.error("Please upload an image with dimensions 328x180 or smaller.");
+        return;
+      }
+  
+      // Check image dimensions
+      const img = new Image();
+      img.onload = function () {
+        if (img.width !== 328 || img.height !== 180) {
+          toast.error("Please upload an image with dimensions 328x180 pixels.");
+        } else {
+          setSelectedFileName(file);
+        }
+      };
+  
+      img.src = URL.createObjectURL(file);
     }
   };
 
@@ -127,6 +160,7 @@ const UpdateADPoster = ({
                 <input
                   type="file"
                   id="imageUpload"
+                  accept=".png, .jpg, .jpeg"
                   style={{ display: "none" }}
                   onChange={handleFileChange}
                 />
