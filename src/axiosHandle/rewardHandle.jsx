@@ -61,9 +61,9 @@ export const editRewardProductRequest = (id, data) => {
     });
 };
 
-export const getRedemptionRequest = () => {
+export const getRedemptionRequest = (search, filterdata) => {
   return axiosInstance
-    .get(rewardRedemptionURL)
+    .get(rewardRedemptionURL,{params:{search:search,role:filterdata?.role,date:filterdata?.date}})
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching reward redemption:", error);

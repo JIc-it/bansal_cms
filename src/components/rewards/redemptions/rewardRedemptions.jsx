@@ -42,7 +42,7 @@ function Redemptions() {
   }, [isUpdated, search, isFilter]);
 
   const handlefilter = () => {
-    getLeadRequest(filterdata)
+    getRedemptionRequest(search,filterdata)
       .then((data) => {
         setRedemptionData(data.results);
       })
@@ -151,7 +151,7 @@ function Redemptions() {
                       <div
                         className="input-group mb-3"
                         style={{
-                          maxWidth: 300,
+                          // maxWidth: 300,
                           paddingTop: 15,
                           paddingLeft: 15,
                         }}
@@ -200,7 +200,7 @@ function Redemptions() {
                           </svg>
                         </div>
                         <button
-                          className="px-3 py-2 filter-button"
+                          className="px-3 py-2 filter-button rounded"
                           type="button"
                           id="search-button"
                           onClick={() => {
@@ -240,6 +240,15 @@ function Redemptions() {
                             />
                           </svg>
                         </button>
+                        <button
+                        className="btn bg-black mx-1 text-white rounded"
+                        type="button"
+                        onClick={() => {
+                          handlefilter()
+                        }}
+                      >
+                        Clear filter
+                      </button>
                       </div>
                       {openFilter && (
                         <FilterPopUp
@@ -296,7 +305,7 @@ function Redemptions() {
                               <h6>{item?.user?.user_id}</h6>
                             </td>
                             <td>
-                              <h6>{item.created_at}</h6>
+                              <h6>{new Date(item.created_at).toLocaleDateString('en-US',{day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"})}</h6>
                             </td>
                             <td>
                               <h6>{item?.status}</h6>

@@ -35,6 +35,7 @@ const purchaseNotification = "/purchase/admin-notifications/";
 const deleteNotification = "/purchase/notification-read/";
 const adminUSerViewLeadsURL = "purchase/leads/admin";
 const adminUserDisableEnableUrl = "/account/disable-enable/user";
+const stateidURl="/core/location"
 
 const adminUSerViewOrderURL = "/purchase/tmt_orders_admin/user/";
 export const getDistributorsRequest = (searchUserData) => {
@@ -567,3 +568,13 @@ export const adminUserDisableEnable = (id, active) => {
       throw error;
     });
 };
+export const stateIdFilter = (id) => {
+  return axiosInstance
+    .get(`${stateidURl}/`,{params:{state:id}})
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching order request:", error);
+      throw error;
+    });
+};
+
