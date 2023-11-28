@@ -7,6 +7,7 @@ import {
   getSalesRequest,
   deleteContractorUser,
   adminUserDisableEnable,
+  getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import { toast } from "react-toastify";
 import { useContext } from "react";
@@ -34,6 +35,7 @@ export default function SalesPocs() {
   const [total_users, settotal_users] = useState("");
   const [user_type_total, setuser_type_total] = useState("");
   const role = "Staff";
+  const [activeUserCount, setActiveUserCount] = useState(0);
 
   const [totalUserCount, setTotalUserCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,13 +54,24 @@ export default function SalesPocs() {
       .then((data) => {
         console.log("getSalePOCCount data", data);
         setnew_users_in_current_quarter(data.new_users_in_current_quarter);
-        settotal_users(data.total_users);
+        // settotal_users(data.total_users);
         setuser_type_total(data.user_type_total);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    getActiveUsers(role)
+      .then((data) => {
+        console.log(data?.active_users);
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, [isAdminAdded]);
 
   const handlePaginationClick = (url) => {
     getSalesRequest(null, url)
@@ -210,9 +223,9 @@ export default function SalesPocs() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active SalePOC`s</h6>
                         <br />
-                        <h3>{total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>
@@ -418,6 +431,7 @@ export default function SalesPocs() {
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
                                   checked={!data.is_delete}
+                                  style={{cursor: "pointer"}}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,

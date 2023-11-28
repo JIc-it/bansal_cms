@@ -4,6 +4,7 @@ import {
   deleteContractorUser,
   getContractorsRequest,
   getUserStatics,
+  getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import AddNewContractor from "./AddNewContractor";
 import { useNavigate } from "react-router";
@@ -24,6 +25,7 @@ export default function Contractor() {
   const [isFilter, setIsFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUserCount, setTotalUserCount] = useState(0);
+  const [activeUserCount, setActiveUserCount] = useState(0);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [searchUserData, setSearchUserData] = useState("");
@@ -38,9 +40,20 @@ export default function Contractor() {
         setTotalUserCount(data);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error);
+        console.error("Error fetching  data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    getActiveUsers("Contractor")
+      .then((data) => {
+        console.log(data?.active_users);
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, [isContractorAdded]);
 
   useEffect(() => {
     getContractorsRequest(searchUserData, filterCriteria)
@@ -48,7 +61,7 @@ export default function Contractor() {
         setUserData(data.results);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error);
+        console.error("Error fetching  data:", error);
       });
   }, [isContractorAdded, searchUserData, isFilter]);
 
@@ -145,9 +158,9 @@ export default function Contractor() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media  style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active Contractors</h6>
                         <br />
-                        <h3>{totalUserCount.total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>
@@ -388,6 +401,7 @@ export default function Contractor() {
                                     id={`activationToggle-${index}`}
                                     name={`activationToggle-${index}`}
                                     checked={!data.is_delete}
+                                    style={{cursor: "pointer"}}
                                     onChange={(e) => {
                                       adminUserDisableEnable(
                                         data.id,

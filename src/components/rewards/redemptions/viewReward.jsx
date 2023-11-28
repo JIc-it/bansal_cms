@@ -100,9 +100,9 @@ export default function ViewReward({
           <span style={{ float: 'inline-end' }}>{data?.created_at}</span>
           <br></br>
           <span>ID Type :</span>
-          <span style={{ float: 'inline-end' }}>{data?.id_verification.id_type}</span>
+          <span style={{ position: 'relative', left: 200 }}>{data?.id_verification.id_type}</span>
           <button
-            style={{ backgroundColor: "blue", float: 'inline-end' }}
+            style={{ backgroundColor: "blue", float: 'inline-end', padding:2 }}
             className="btn btn-dark btn-sm ms-2"
             onClick={() => {
               setOpenImagePopUp(true);

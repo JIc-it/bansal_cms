@@ -14,7 +14,7 @@ const ArchitectTransactionPopUp = (
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handlefilters=()=>{
-    if(seletedTranasactionType="Orders"){
+    if(seletedTranasactionType==="Orders"){
       handleUserOrderData();
       setTransactionFilterOpen(false)
       handlefilterdata({
@@ -23,9 +23,9 @@ const ArchitectTransactionPopUp = (
       points_from:0,
       points_to:0,
       date:""
-    });
-
-    if(seletedTranasactionType==="Redemptions"){
+    });   
+    }
+    else if(seletedTranasactionType==="Redemptions"){
       handleUserRedemption();
       setTransactionFilterOpen(false)
       handlefilterdata({
@@ -35,8 +35,6 @@ const ArchitectTransactionPopUp = (
         points_to:0,
         date:""
       });
-    }
-   
     }
 
   if(seletedTranasactionType==="Leads"){

@@ -36,6 +36,7 @@ const deleteNotification = "/purchase/notification-read/";
 const adminUSerViewLeadsURL = "purchase/leads/admin";
 const adminUserDisableEnableUrl = "/account/disable-enable/user";
 const stateidURl="/core/location"
+const activeUsersURL="account/active-users-count/?is_delete=false/"
 
 const adminUSerViewOrderURL = "/purchase/tmt_orders_admin/user/";
 export const getDistributorsRequest = (searchUserData) => {
@@ -201,6 +202,15 @@ export const deleteContractor = (id) => {
 export const getUserStatics = (role) => {
   return axiosInstance
     .get(userCountsURL, { params: { role: role } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+export const getActiveUsers = (role) => {
+  return axiosInstance
+    .get(activeUsersURL, { params: { role: role } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);

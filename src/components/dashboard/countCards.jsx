@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { getUserCount, getLeadCount, getOrderCount, getRequestCount } from '../../axiosHandle/dashboardHandle';
+import {getActiveUsers} from "../../axiosHandle/userHandle"
 
 
 export default function DashboardCountCards() {
     const [user_count, setUserCount] = useState(0);
+    const [active_user_count, setActiveUserCount] = useState(0);
     const [order_count, setOrderCount] = useState(0);
     const [lead_count, setLeadCount] = useState(0);
     const [request_count, setRequestCount] = useState(0);
 
+    // useEffect(() => {
+    //     getUserCount()
+    //         .then((count) => {
+    //             setUserCount(count);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error fetching user count:', error);
+    //         });
+    // }, []);
+
     useEffect(() => {
-        getUserCount()
+        getActiveUsers()
             .then((count) => {
-                setUserCount(count);
+                setActiveUserCount(count?.active_users);
+                setUserCount(count?.total_users)
             })
             .catch((error) => {
                 console.error('Error fetching user count:', error);
@@ -56,8 +69,8 @@ export default function DashboardCountCards() {
                     <div className="card-body depostit-card">
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                             <div>
-                                <h6 style={{ color: "white" }}>Total Number of Users</h6><br />
-                                <h3 style={{ color: "white" }}>{user_count}</h3>
+                                <h6 style={{ color: "white" }}>Total Number of Active Users</h6><br />
+                                <h3 style={{ color: "white" }}>{active_user_count} / {user_count}</h3>
                             </div>
                             <div className="icon-box bg-primary-light" style={{ background: "white" }}>
                                 <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -4,6 +4,7 @@ import {
   deleteContractorUser,
   getArchitectsRequest,
   getUserStatics,
+  getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import ArchitectsFilter from "./ArchitectsFilter";
 import AddArchitects from "./AddArchitects";
@@ -26,6 +27,8 @@ function Architects() {
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
   const [searchUserData, setSearchUserData] = useState("");
   const [isFilter, setIsFilter] = useState(false);
+  const [activeUserCount, setActiveUserCount] = useState(0);
+
   const [filterCriteria, setFilterCriteria] = useState({
     pointsFrom: "",
     pointsTo: "",
@@ -45,6 +48,16 @@ function Architects() {
         console.error("Error fetching Architect data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    getActiveUsers("Architect")
+      .then((data) => {
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, [isArchitectsAdded]);
 
   useEffect(() => {
     getArchitectsRequest(searchUserData, filterCriteria)
@@ -152,9 +165,9 @@ function Architects() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active Architect</h6>
                         <br />
-                        <h3>{totalUserCount.total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>
@@ -404,6 +417,7 @@ function Architects() {
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
                                   checked={!data.is_delete}
+                                  style={{cursor: "pointer"}}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,

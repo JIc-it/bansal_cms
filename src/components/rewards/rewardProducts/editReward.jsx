@@ -46,8 +46,8 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
             });
 
             // Validate description length
-            if (description.length !== 50) {
-                throw new Error("Description must be exactly 50 characters.");
+            if (description.length !== 45) {
+                throw new Error("Description must be exactly 45 characters.");
             }
 
             const f_data = new FormData();
@@ -100,6 +100,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 <h5>Reward Product Details</h5>
                 <div style={{ marginTop: 20 }}>
                     <input type="text" className="form-control" value={credentials.title}
+                    maxLength="15"
                         onChange={(e) => setCredentials({ ...credentials, title: e.target.value })} placeholder='Product Name' />
                 </div>
                 <div style={{ marginTop: 20 }}>
@@ -114,7 +115,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
-                        maxLength="50"
+                        maxLength="45"
                         onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>

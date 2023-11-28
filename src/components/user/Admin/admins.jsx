@@ -3,6 +3,7 @@ import {
   adminUserDisableEnable,
   getAdminsRequest,
   getSalePOCCount,
+  getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import UserView from "../userView";
 import AddNewAdmin from "./AddNewAdmin";
@@ -16,6 +17,7 @@ function Admins() {
   const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [activeUserCount, setActiveUserCount] = useState(0);
   const [user_total_data, setUserTotalData] = useState(0);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
@@ -46,6 +48,17 @@ function Admins() {
   //       // Handle error
   //     });
   // };
+
+  useEffect(() => {
+    getActiveUsers("Admin")
+      .then((data) => {
+        console.log(data?.active_users);
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, [isAdminAdded]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -191,9 +204,9 @@ function Admins() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active Admin</h6>
                         <br />
-                        <h3>{total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>
@@ -364,6 +377,7 @@ function Admins() {
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
                                   checked={!data.is_delete}
+                                  style={{cursor: "pointer"}}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,

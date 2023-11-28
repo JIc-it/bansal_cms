@@ -57,12 +57,12 @@ export default function AddReward({
 
     if (!credentials.description) {
       validationErrors.description = "Description is required";
-    } else if (credentials.description.length < 50) {
+    } else if (credentials.description.length < 45) {
       validationErrors.description =
-        "Description must be at least 40 characters long";
-    } else if (credentials.description.length > 50) {
+        "Description must be at least 45 characters long";
+    } else if (credentials.description.length > 45) {
       validationErrors.description =
-        "Description must be at most 50 characters long";
+        "Description must be at most 45 characters long";
     }
     
     if (!credentials.item_image) {
@@ -129,7 +129,7 @@ export default function AddReward({
               setErrors({ ...errors, title: "" }); // Clear the error when the input changes
             }}
             placeholder="Product Name"
-            maxLength={20}
+            maxLength={15}
           />
           {errors.title && <p className="text-danger">{errors.title}</p>}
         </div>
@@ -159,7 +159,7 @@ export default function AddReward({
           <textarea
             rows="4"
             className="form-control"
-            maxLength={50}
+            maxLength={45}
             onChange={(e) => {
               const values=e.target.value;
               if(values.trim()!==""){
