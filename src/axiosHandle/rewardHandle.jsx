@@ -7,7 +7,7 @@ const rewardRedemptionURL = "/purchase/admin-reward-redemptions/";
 const rewardProductTotalCountURL = "/purchase/rewards/";
 const redeemedviewURL = "/purchase/admin-pending-orders/";
 const rewardAcceptRejectUrl = "/purchase/redemption-status-update";
-const redemptionId='purchase/redemption-get/'
+const redemptionId='/purchase/redemption-get/'
 const redemptionWindow='/purchase/redemption-update/'
 export const getRewardProductsRequest = () => {
   return axiosInstance

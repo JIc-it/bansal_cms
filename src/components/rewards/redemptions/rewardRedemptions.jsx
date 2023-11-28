@@ -128,6 +128,10 @@ function Redemptions() {
   //       console.error('Error fetching lead data:', error);
   //     });
   // }
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleString();
+  }
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
@@ -296,7 +300,7 @@ function Redemptions() {
                               <h6>{item?.user?.user_id}</h6>
                             </td>
                             <td>
-                              <h6>{item.created_at}</h6>
+                              <h6>{formatDate(item.created_at)}</h6>
                             </td>
                             <td>
                               <h6>{item?.status}</h6>
