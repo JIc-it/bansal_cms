@@ -32,7 +32,8 @@ import Architects from "./user/Architects/architects";
 import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
-import FaqPage from "./help/faqpage";
+import HelpFaq from "./help/help";
+
 
 export default function AllRouting() {
   return (
@@ -76,7 +77,7 @@ export default function AllRouting() {
         />
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
-        <Route path="/help-faq" element={<FaqPage />} />
+        <Route path="/help-faq" element={<HelpFaq />} />
         {/* <Route path="/help" element={<HelpPage />} />
         // <Route path="/help-faq" element={<FaqPage />} /> */}
       </Routes>
