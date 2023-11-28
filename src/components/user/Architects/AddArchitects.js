@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createArchitects, createUser } from "../../../axiosHandle/userHandle";
+import { createArchitects, createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -134,6 +134,16 @@ export default function AddArchitects({
     setIsLoading(false);
   };
 
+  const handleListDistrict=(id)=>{
+    stateIdFilter(id)
+    .then((data) => {
+      setLocationList(data.results);
+    })
+    .catch((error) => {
+      console.error("Error fetching lead data:", error);
+    });
+  }
+
   const handleDistrictChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
@@ -144,17 +154,18 @@ export default function AddArchitects({
       district: { id, name: districtName },
     });
   };
-
-  const handleStateChange = (e) => {
+  const handleStateChange = async(e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
     const stateName = e.target.value;
-
+     handleListDistrict(id)
+    
     formik.setValues({
       ...formik.values,
       state: { id, name: stateName },
     });
   };
+
 
   return (
     <Offcanvas
