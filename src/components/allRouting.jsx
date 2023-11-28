@@ -32,7 +32,7 @@ import Architects from "./user/Architects/architects";
 import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
-import FaqPage from "./Help/faqpage";
+import FaqPage from "./help/faqpage";
 
 export default function AllRouting() {
   return (

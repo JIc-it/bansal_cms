@@ -70,8 +70,14 @@ const UpdateADPoster = ({
     }
   };
 
+  // const validationSchema = Yup.object({
+  //   name: Yup.string().required("Name is required"),
+  // });
+
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
   });
 
   const formik = useFormik({
@@ -154,7 +160,7 @@ const UpdateADPoster = ({
             >
               <div>
                 <label>Ad Poster (328*180)</label>
-                <span style={{ marginLeft: 10 }}>
+                <span style={{ position: 'relative', right: 40, top: 30 }}>
                   {selectedFileName.name || modifiedUrl}
                 </span>
                 <input
@@ -167,7 +173,7 @@ const UpdateADPoster = ({
                 <label
                   htmlFor="imageUpload"
                   className="btn bg-blue btn-sm"
-                  style={{ marginLeft: 106 }}
+                  style={{ float: 'inline-end' }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +201,7 @@ const UpdateADPoster = ({
             </div>
             <div className="row">
               <div className="col-md-6">
-                <a style={{ display: "inline-block" }}>Status</a>
+                <a style={{ display: "inline-block" }}><b>Status</b></a>
               </div>
               <div className="col-md-6">
                 <div

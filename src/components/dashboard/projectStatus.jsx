@@ -37,7 +37,6 @@ export default function ProjectStatus() {
     return (
         <div className="card">
             <div className="card-header pb-0 border-0">
-
                 <h4 className="heading mb-0">Product Redeemed</h4>
                 <select className="default-select status-select normal-select" value={type} onChange={(e)=>setType(e.target.value)}>
                     <option value="All Time">All Time</option>
