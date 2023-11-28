@@ -403,7 +403,7 @@ function Architects() {
                                   type="checkbox"
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
-                                  checked={data.is_delete}
+                                  checked={!data.is_delete}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,
