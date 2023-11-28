@@ -12,7 +12,8 @@ import { useContext } from "react";
 function Admins() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+
+  const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
@@ -114,6 +115,7 @@ function Admins() {
   };
 
   const handlePreviousPage = () => {
+    console.log('handle next');
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
@@ -313,23 +315,23 @@ function Admins() {
                     {currentItems && currentItems.length > 0 ? (
                       currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.name}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td className={!data.is_delete && "disabled-row"}>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>
                               {data.district?.district}, {data.state?.state}
                             </h6>
                           </td>
                           <td
                             onClick={() => handleViewAdmin(data)}
-                            className={!data.is_delete && "disabled-row"}
+                            className={data.is_delete && "disabled-row"}
                           >
                             <a
                               className="btn bg-blue btn-sm"
@@ -342,7 +344,7 @@ function Admins() {
                           {permissionForUser?.delete && (
                             <td
                               className={`card-footer ${
-                                !data.is_delete && "disabled-row"
+                                data.is_delete && "disabled-row"
                               }`}
                             >
                               {" "}
@@ -357,7 +359,7 @@ function Admins() {
                                   type="checkbox"
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
-                                  checked={data.is_delete}
+                                  checked={!data.is_delete}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,

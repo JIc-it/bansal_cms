@@ -18,7 +18,7 @@ import { AppContext } from "../../../contexts/AppContext";
 const ViewContractor = () => {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
 

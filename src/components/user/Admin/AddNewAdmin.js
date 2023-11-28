@@ -82,7 +82,7 @@ export default function AddNewAdmin({
     redemptions_window: {
       action: false,
     },
-    users: {
+    user: {
       create: false,
       update: false,
       action: false,
@@ -388,10 +388,7 @@ export default function AddNewAdmin({
                   {Object.keys(permissions[category])
                     ?.sort()
                     .map((action) => {
-                      console.log(
-                        category === "redemptions_window",
-                        "category"
-                      );
+                      
                       let permissionCheckBox =
                         category === "redemptions_window" ? (
                           <>

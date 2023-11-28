@@ -14,6 +14,7 @@ import {
   adminPermissionViewRequest,
   adminUSerViewOrdersRequest,
   adminUSerViewLeadsRequest,
+  getAdminsRequest,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
 import ViewPermission from "./ViewPermission";
@@ -24,7 +25,8 @@ import ViewAdminTransaction from "./ViewAdminTransaction";
 const ViewAdmin = () => {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  console.log(permissionData, "permissionData");
+  const permissionForUser = permissionData?.user;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
@@ -39,6 +41,7 @@ const ViewAdmin = () => {
   const [transactionFilterOpen, setTransactionFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [isUpdateUser, setIsUpdateUser] = useState(false);
   const [filterData, setFilterData] = useState({
     role: "",
     status: "",
@@ -79,17 +82,18 @@ const ViewAdmin = () => {
   };
 
   useEffect(() => {
-    getContractorsRequest("", { from: "", to: "" })
+    getAdminsRequest("")
       .then((data) => {
         let filteredData = data.results.find((item, i) => {
-          return item.id === userDatail.id;
+          return item.id === userDataParam.id;
         });
         setUserData(filteredData);
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, []);
+  }, [isUpdateUser, userDataParam.id]);
+  console.log(userData, "userData");
 
   const handleUserOrderData = () => {
     adminUSerViewOrdersRequest(userDataParam.id, search, filterData)
@@ -98,7 +102,7 @@ const ViewAdmin = () => {
         setTotalOrder(data.total);
       })
       .catch((error) => {
-        console.error("Error fetching distributor data:", error); 
+        console.error("Error fetching distributor data:", error);
       });
   };
 
@@ -122,7 +126,7 @@ const ViewAdmin = () => {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [userDataParam.id, seletedTranasactionType]);
+  }, [userDataParam.id, seletedTranasactionType, isUpdateUser]);
 
   useEffect(() => {
     if (seletedTranasactionType === "Orders") {
@@ -270,7 +274,7 @@ const ViewAdmin = () => {
           <div className="contractor-name">
             Admin/{" "}
             <span style={{ fontWeight: 400, fontSize: "12px" }}>
-              {userDataParam && userDataParam.name}
+              {userData && userData.name}
             </span>
           </div>
           <div className="reset-buttons">
@@ -306,16 +310,16 @@ const ViewAdmin = () => {
                   <div className="image-container-contractor">
                     <div className="contractor-image">
                       {/* {userData && userData.name.slice(0, 2)} */}
-                      {userDataParam.name.slice(0, 2)}
+                      {userData && userData.name.slice(0, 2)}
                     </div>
                   </div>
                   <div className="contractor-name">
-                    {userDataParam && userDataParam.name}
+                    {userData && userData.name}
                   </div>
                   <div className="contractorid">
                     Admin .
                     <span className="error">
-                      {userDataParam && userDataParam.user_id}
+                      {userData && userData.user_id}
                     </span>{" "}
                   </div>
                 </div>
@@ -344,17 +348,15 @@ const ViewAdmin = () => {
                       </span>
                     </div>
                     <div className="user-email-details-data">
+                      <span className="fs-6">{userData && userData.email}</span>
                       <span className="fs-6">
-                        {userDataParam && userDataParam.email}
+                        {userData && userData.mobile}
                       </span>
                       <span className="fs-6">
-                        {userDataParam && userDataParam.mobile}
-                      </span>
-                      <span className="fs-6">
-                        {userDataParam && userDataParam.district}
-                        {userDataParam.state && ", "}
-                        {userDataParam && userDataParam.state
-                          ? userDataParam.state
+                        {userData &&userData.district&& userData.district?.district}
+                        {userData&&userData.state&&userData.state?.state && ", "}
+                        {userData&&userData.state&& userData.state?.state
+                          ? userData.state?.state
                           : "-"}
                       </span>
                     </div>
@@ -632,8 +634,8 @@ const ViewAdmin = () => {
                           })}
                         </>
                       ) : (
-                        <tr>
-                          <td colSpan="5">No orders available</td>
+                        <tr className="text-center">
+                          <td colSpan="9">No orders available</td>
                         </tr>
                       )}
                     </tbody>
@@ -784,15 +786,7 @@ const ViewAdmin = () => {
           data={data}
         />
       )}
-      {/* {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} />
-      )}
-      {isOpenAddPointsPopUp && (
-        <AddPointsPopUp
-          setOpen={setIsOpenAddPointsPopUp}
-          open={isOpenAddPointsPopUp}
-        />
-      )} */}
+
       {openResetPassword && (
         <AdminResetPassword
           open={openResetPassword}
@@ -806,6 +800,8 @@ const ViewAdmin = () => {
           setOpen={setOpenEdit}
           data={data}
           userdata={userDataParam}
+          isUpdateUser={isUpdateUser}
+          setIsUpdateUser={setIsUpdateUser}
         />
       )}
     </div>

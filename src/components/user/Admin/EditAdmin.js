@@ -24,8 +24,8 @@ const offcanvasStyle = {
 export default function EditAdmin({
   open,
   setOpen,
-  setIsAdminAdded,
-  isAdminAdded,
+  setIsUpdateUser,
+  isUpdateUser,
   data,
   userdata,
 }) {
@@ -34,7 +34,7 @@ export default function EditAdmin({
   const [stateList, setStateList] = useState();
   const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
-  let passpermission = { permission: permission };
+  // let passpermission = { permission: permission };
 
   const handleCheckboxChange = (category, action) => {
     setPermissions((prevPermissions) => ({
@@ -47,6 +47,7 @@ export default function EditAdmin({
   };
 
   const handlepermissionchange = (id, data) => {
+    console.log(data, "permission data");
     adminpermissionupdateuser(id, data)
       .then((res) => console.log(res))
       .catch((error) => {
@@ -98,13 +99,13 @@ export default function EditAdmin({
         state: values.state.id,
       };
 
-      handlepermissionchange(queryParams_id, passpermission);
+      handlepermissionchange(queryParams_id, permission);
 
       try {
         await adminupdateuser(queryParams_id, datas).then((res) => {
           if (res.status === 200) {
             toast.success("Admin Updated successfully!");
-            setIsAdminAdded(!isAdminAdded);
+            setIsUpdateUser(!isUpdateUser);
             setOpen(false);
           } else {
             console.error("Error while creating Admin:");
@@ -201,7 +202,13 @@ export default function EditAdmin({
               name="mobile"
               className="form-control form-control-sm"
               value={formik.values.mobile}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 10) {
+                  const sanitizedValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+                  formik.handleChange("mobile")(sanitizedValue); // Update the formik field
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.mobile && formik.errors.mobile ? (
@@ -269,7 +276,8 @@ export default function EditAdmin({
               {Object.keys(permission)?.map((category) => (
                 <tr key={category}>
                   <td>
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                    {category.replace(/_/g, " ").charAt(0).toUpperCase() +
+                      category.replace(/_/g, " ").slice(1)}
                   </td>
                   {Object.keys(permission[category])
                     ?.sort()

@@ -17,7 +17,7 @@ import { AppContext } from "../../../contexts/AppContext";
 const ViewDistributorDetails = () => {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);

@@ -7,7 +7,7 @@ import { getProfileRequest } from "../axiosHandle/profileHandle";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getPermission } from "../axiosHandle/commonServicesHandle";
-import  { AppContext } from "../contexts/AppContext";
+import { AppContext } from "../contexts/AppContext";
 
 const MainPage = () => {
   const [permissionData, setPermissionData] = useState();
@@ -31,11 +31,11 @@ const MainPage = () => {
         console.error("Error fetching profile:", error);
       });
   }, []);
-  
+
   console.log(permissionData, "permissionData");
 
   return (
-    <AppContext.Provider value={{permissionData}}>
+    <AppContext.Provider value={{ permissionData }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Navbar />
         <SideMenu />

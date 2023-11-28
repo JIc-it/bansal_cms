@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -13,12 +12,9 @@ import { Loader } from "react-simple-widgets";
 import { toast } from "react-toastify";
 
 const offcanvasStyle = {
-  width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
-  marginLeft: 18,
-  marginTop: 20,
+  padding: "18px",
   flexDirection: "column",
 };
 export default function AddNewSales({
@@ -32,58 +28,61 @@ export default function AddNewSales({
   const [stateList, setStateList] = useState();
 
   const initialPermissions = {
-    "Orders Requests": {
-      "edit": false,
-      "view": false,
-      "create": false,
-      "delete": false
-  },
-    "Leads Requests": {
-      "edit": false,
-      "view": false,
-      "create": false,
-      "delete": false
-  },
-  "Points Leads": {
-    "edit": false,
-    "view": false,
-    "create": false,
-    "delete": false
-},
-"Reward Products": {
-  "edit": false,
-  "view": false,
-  "create": false,
-  "delete": false
-},
-  "Redemptions": {
-      "edit": false,
-      "view": false,
-      "create": false,
-      "delete": false
-  },
-  "Redemption Window": {
-    "edit": false,
-    "view": false,
-    "create": false,
-    "delete": false
-},
-"Users": {
-  "edit": false,
-  "view": false,
-  "create": false,
-  "delete": false
-},
-"Promotions": {
-  "edit": false,
-  "view": false,
-  "create": false,
-  "delete": false
-},
-  
-};
+    order_requests: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    lead_requests: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    points_orders: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    points_leads: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    reward_products: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    redemptions: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    redemptions_window: {
+      action: false,
+    },
+    user: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false,
+    },
+    promotions: {
+      create: false,
+      update: false,
+      action: false,
+      delete: false, 
+    },
+  };
 
-const [permissions, setPermissions] = useState(initialPermissions);
+  const [permissions, setPermissions] = useState(initialPermissions);
+
   useEffect(() => {
     getAllLocations()
       .then((data) => {
@@ -134,7 +133,6 @@ const [permissions, setPermissions] = useState(initialPermissions);
       .oneOf([Yup.ref("password1")], "Passwords must match"),
   });
 
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -143,12 +141,12 @@ const [permissions, setPermissions] = useState(initialPermissions);
       district: { id: "0", name: "District" },
       state: { id: "0", name: "state" },
       password1: "",
-      password2:"",
+      password2: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
-  
+
       if (!isLoading) {
         try {
           const data = {
@@ -159,21 +157,18 @@ const [permissions, setPermissions] = useState(initialPermissions);
             password2: values.password2,
             district: values.district.id,
             state: values.state.id,
-            permission:permissions
+            permission: permissions,
           };
-          
+
           const adminData = await createSales(data);
-          
+
           if (adminData) {
             setIsAdminAdded(!isAdminAdded);
             toast.success("Sales created successfully!");
             setOpen(false);
             setIsLoading(false);
           } else {
-            console.error(
-              "Error while creating Admin:",
-              adminData.error
-            );
+            console.error("Error while creating Admin:", adminData.error);
             setIsLoading(false);
           }
           setIsLoading(false);
@@ -214,26 +209,26 @@ const [permissions, setPermissions] = useState(initialPermissions);
     });
   };
 
- 
   const handleCheckboxChange = (category, action) => {
-    setPermissions(prevPermissions => ({
+    setPermissions((prevPermissions) => ({
       ...prevPermissions,
       [category]: {
         ...prevPermissions[category],
-        [action]: !prevPermissions[category][action]
-      }
+        [action]: !prevPermissions[category][action],
+      },
     }));
   };
-  
+
   return (
     <Offcanvas
       show={open}
       onHide={handleCloseOffcanvas}
       placement="end"
       style={{ overflow: "auto" }}
+      className="admin-permisiion-offcanvas"
     >
       <Offcanvas.Header
-        style={{ marginLeft: 345 }}
+        // style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
       ></Offcanvas.Header>
@@ -244,7 +239,7 @@ const [permissions, setPermissions] = useState(initialPermissions);
             <input
               type="text"
               placeholder="Name"
-              className="form-control form-control-sm"
+              className="w-100 form-control form-control-sm"
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
@@ -362,24 +357,54 @@ const [permissions, setPermissions] = useState(initialPermissions);
               <tr>
                 <th>Section</th>
                 <th>Create</th>
+                <th>Update</th>
+                <th>Action</th>
                 <th>Delete</th>
-                <th>Edit</th>
-                <th>View</th>
               </tr>
             </thead>
             <tbody>
-            {Object.keys(permissions)?.map(category => (
+              {Object.keys(permissions)?.map((category) => (
                 <tr key={category}>
-                  <td>{category.charAt(0).toUpperCase() + category.slice(1)}</td>
-                  {Object.keys(permissions[category])?.sort().map(action => (
-                    <td className="text-center">
-                      <input
-                        type="checkbox"
-                        checked={permissions[category][action]}
-                        onChange={() => handleCheckboxChange(category, action)}
-                      />
-                    </td>
-                  ))}
+                  <td>
+                    {category.replace(/_/g, " ").charAt(0).toUpperCase() +
+                      category.replace(/_/g, " ").slice(1)}
+                  </td>
+                  {Object.keys(permissions[category])
+                    ?.sort()
+                    .map((action) => {
+                      console.log(
+                        category === "redemptions_window",
+                        "category"
+                      );
+                      let permissionCheckBox =
+                        category === "redemptions_window" ? (
+                          <>
+                            <td></td>
+                            <td></td>
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                checked={permissions[category][action]}
+                                onChange={() =>
+                                  handleCheckboxChange(category, action)
+                                }
+                              />
+                            </td>
+                            <td></td>
+                          </>
+                        ) : (
+                          <td className="text-center">
+                            <input
+                              type="checkbox"
+                              checked={permissions[category][action]}
+                              onChange={() =>
+                                handleCheckboxChange(category, action)
+                              }
+                            />
+                          </td>
+                        );
+                      return permissionCheckBox;
+                    })}
                 </tr>
               ))}
             </tbody>
@@ -388,11 +413,7 @@ const [permissions, setPermissions] = useState(initialPermissions);
             type="submit"
             className="btn btn-primary"
             style={{
-              flex: 1,
               width: "100%",
-              marginTop:20
-              // bottom: "1rem",
-              // position: "absolute",
             }}
           >
             {isLoading ? <Loader /> : "Add New Sales POC"}

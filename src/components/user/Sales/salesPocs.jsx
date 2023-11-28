@@ -6,16 +6,18 @@ import {
   getSalePOCCount,
   getSalesRequest,
   deleteContractorUser,
+  adminUserDisableEnable,
 } from "../../../axiosHandle/userHandle";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AppContext } from "../../../contexts/AppContext";
+
 export default function SalesPocs() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  const permissionForUser = permissionData?.users;
+  const permissionForUser = permissionData?.user;
   const navigate = useNavigate();
-  const [user_data, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [user_total_data, setUserTotalData] = useState(0);
   const [isOpenAddAdmin, setIsOpenAddAdmin] = useState(false);
   const [isAdminAdded, setIsAdminAdded] = useState(false);
@@ -36,6 +38,7 @@ export default function SalesPocs() {
   const [totalUserCount, setTotalUserCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
   useEffect(() => {
     getSalesRequest()
       .then((data) => {
@@ -81,7 +84,7 @@ export default function SalesPocs() {
     };
 
     fetchData();
-  }, [searchValue]);
+  }, [searchValue, isAdminAdded]);
 
   const handleDelete = (id) => {
     deleteContractorUser(id)
@@ -96,14 +99,15 @@ export default function SalesPocs() {
   };
 
   const exportToCSV = () => {
-    if (user_data) {
-      const header = ["Name", "Unique ID", "Mobile", "Location"];
-      const csvData = user_data.map((rr_data) => {
+    if (userData) {
+      const header = ["Name", "Unique ID", "Mobile", "District", "State"];
+      const csvData = userData.map((rr_data) => {
         return [
           rr_data.name,
           rr_data.user_id,
           rr_data.mobile,
-          rr_data.district_name,
+          rr_data.district?.district,
+          rr_data.state?.state,
         ];
       });
 
@@ -148,11 +152,11 @@ export default function SalesPocs() {
     navigate(`/viewsalespocs?${queryString}`);
   };
 
-  const totalPages = Math.ceil(user_data ? user_data.length / itemsPerPage : 1);
+  const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = user_data
-    ? user_data.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = userData
+    ? userData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
   const handleNextPage = () => {
@@ -169,6 +173,7 @@ export default function SalesPocs() {
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
+
       {/* row */}
       <div className="container">
         <div className="row" style={{ marginLeft: "5px" }}>
@@ -365,25 +370,24 @@ export default function SalesPocs() {
                     </tr>
                   </thead>
                   <tbody>
-                    {user_data && user_data.length > 0 ? (
-                      user_data.map((data) => (
+                    {currentItems && currentItems.length > 0 ? (
+                      currentItems.map((data, index) => (
                         <tr key={data.id}>
-                          <td>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.name}</h6>
                           </td>
-                          <td>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.user_id}</h6>
                           </td>
-                          <td>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.mobile}</h6>
                           </td>
-                          <td>
+                          <td className={data.is_delete && "disabled-row"}>
                             <h6>{data.district.district}</h6>
                           </td>
-                          {/* <td>
-                              <a className="btn btn-primary btn-sm" href="#" role="button">View User</a>
-                            </td> */}
+
                           <td
+                            className={data.is_delete && "disabled-row"}
                             style={{ width: 100, paddingRight: 0 }}
                             onClick={() => handleViewSales(data)}
                           >
@@ -397,41 +401,53 @@ export default function SalesPocs() {
                           </td>
                           {permissionForUser?.delete && (
                             <td
-                              onClick={() => {
-                                setOpenRemoveOption(!openRemoveOption);
-                                setSelectedIdForRemove(data.id);
-                              }}
-                              style={{ cursor: "pointer" }}
+                              className={`card-footer ${
+                                data.is_delete && "disabled-row"
+                              }`}
                             >
                               {" "}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
+                              <div
+                                className={`form-switch `}
+                                style={{
+                                  display: "inline-block",
+                                }}
                               >
-                                <path
-                                  d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                  fill="#0F0F0F"
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`activationToggle-${index}`}
+                                  name={`activationToggle-${index}`}
+                                  checked={!data.is_delete}
+                                  onChange={(e) => {
+                                    adminUserDisableEnable(
+                                      data.id,
+                                      !data.is_delete
+                                    )
+                                      .then((data) => {
+                                        console.log("active data", data);
+                                        setIsAdminAdded(!isAdminAdded);
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Error fetching distributor data:",
+                                          error
+                                        );
+                                      });
+                                  }}
                                 />
-                                <path
-                                  d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                                <path
-                                  d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                  fill="#0F0F0F"
-                                />
-                              </svg>
-                              {openRemoveOption &&
-                                data.id === selectedIdForRemove && (
-                                  <div className="option-container">
-                                    <span onClick={() => handleDelete(data.id)}>
-                                      Remove
-                                    </span>
-                                  </div>
-                                )}
+                                {/* <label
+                                  className={`form-check-label ${
+                                    data.is_delete
+                                      ? " success-color mx-3"
+                                      : "error-color mx-2"
+                                  }`}
+                                  htmlFor={`activationToggle-${index}`}
+                                >
+                                  {`${
+                                    data.is_delete ? " Active" : " In Active"
+                                  }`}
+                                </label> */}
+                              </div>
                             </td>
                           )}
                         </tr>
