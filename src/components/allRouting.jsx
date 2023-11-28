@@ -7,8 +7,6 @@ import OrderPoints from "./points/orders/pointsOrders";
 import LeadPoints from "./points/leads/pointsLeads";
 import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
-
-
 import SalesPocs from "./user/Sales/salesPocs";
 // import Admins from "./user/admins";
 import Admins from "./user/Admin/admins"
@@ -34,12 +32,7 @@ import Architects from "./user/Architects/architects";
 import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
-
-// import Help from "./help/help"
-// import HelpPage from "./Help/HelpPage";
-// import HelpPage from "./Help/HelpPage";
-
-
+import FaqPage from "./Help/faqpage";
 
 export default function AllRouting() {
   return (
@@ -83,8 +76,9 @@ export default function AllRouting() {
         />
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
+        <Route path="/help-faq" element={<FaqPage />} />
         {/* <Route path="/help" element={<HelpPage />} />
-        <Route path="/help-faq" element={<FaqPage />} /> */}
+        // <Route path="/help-faq" element={<FaqPage />} /> */}
       </Routes>
     </main>
   );

@@ -44,16 +44,6 @@ export default function LeadRequests() {
     setSelectedLead(lead);
   };
 
-  useEffect(() => {
-    getLeadRequest(filterdata)
-      .then((data) => {
-        setLeadData(data.results);
-      })
-      .catch((error) => {
-        console.error("Error fetching lead data:", error);
-      });
-  }, [filterdata.search]);
-
   const handlefilter = () => {
     getLeadRequest(filterdata)
       .then((data) => {
@@ -80,11 +70,13 @@ export default function LeadRequests() {
       .then((data) => {
         console.log(data);
         setPendingRequests(data.count);
+        setLeadData(data.results);
+
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, []);
+  }, [filterdata.search]);
 
   useEffect(() => {
     getAcceptedRequests()

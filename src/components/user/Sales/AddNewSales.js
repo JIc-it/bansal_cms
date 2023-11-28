@@ -77,7 +77,7 @@ export default function AddNewSales({
       create: false,
       update: false,
       action: false,
-      delete: false, 
+      delete: false,
     },
   };
 
@@ -234,7 +234,7 @@ export default function AddNewSales({
       ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
-          <h5>Admin Details</h5>
+          <h5>Sales POC Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
               type="text"

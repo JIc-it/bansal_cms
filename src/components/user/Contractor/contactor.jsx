@@ -79,7 +79,7 @@ export default function Contractor() {
     ? userData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
-  const handleNextPage = () => {
+    const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }

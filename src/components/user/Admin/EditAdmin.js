@@ -28,7 +28,9 @@ export default function EditAdmin({
   isUpdateUser,
   data,
   userdata,
+  
 }) {
+
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
@@ -85,8 +87,11 @@ export default function EditAdmin({
       name: userdata.name,
       email: userdata.email,
       mobile: userdata.mobile,
-      district: { id: userdata.district_id, name: userdata.district },
-      state: { id: userdata.state_id, name: userdata.state },
+      district: {
+        id: userdata.district?.id,
+        name: userdata.district?.district,
+      },
+      state: { id: userdata.state?.id, name: userdata.state?.state },
     },
     validationSchema,
     onSubmit: async (values) => {

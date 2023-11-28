@@ -740,7 +740,7 @@ const ViewSales = () => {
           open={openEdit}
           setOpen={setOpenEdit}
           data={data}
-          userdata={userDataParam}
+          userdata={userData}
           isUpdateUser={isUpdateUser}
           setIsUpdateUser={setIsUpdateUser}
         />

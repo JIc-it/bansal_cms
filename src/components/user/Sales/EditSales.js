@@ -79,8 +79,11 @@ export default function EditSales({
       name: userdata.name,
       email: userdata.email,
       mobile: userdata.mobile,
-      district: { id: userdata.district_id, name: userdata.district },
-      state: { id: userdata.state_id, name: userdata.state },
+      district: {
+        id: userdata.district?.id,
+        name: userdata.district?.district,
+      },
+      state: { id: userdata.state?.id, name: userdata.state?.state },
     },
     validationSchema,
     onSubmit: async (values) => {

@@ -36,16 +36,16 @@ function Admins() {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handlePaginationClick = (url) => {
-    getAdminsRequest(null, url)
-      .then(({ results, next, previous }) => {
-        setUserData(results);
-        setPagination({ next, previous });
-      })
-      .catch((error) => {
-        // Handle error
-      });
-  };
+  // const handlePaginationClick = (url) => {
+  //   getAdminsRequest(null, url)
+  //     .then(({ results, next, previous }) => {
+  //       setUserData(results);
+  //       setPagination({ next, previous });
+  //     })
+  //     .catch((error) => {
+  //       // Handle error
+  //     });
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +101,9 @@ function Admins() {
     }
   };
 
-  const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
+  const totalPages = Math.ceil(
+    userData && userData.length > 0 ? userData.length / itemsPerPage : 1
+  );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = userData
@@ -109,13 +111,14 @@ function Admins() {
     : [];
 
   const handleNextPage = () => {
+    console.log("handle next");
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    console.log('handle next');
+    console.log("handle previous");
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
@@ -148,6 +151,7 @@ function Admins() {
 
     navigate(`/viewadmin?${queryString}`);
   };
+  console.log(totalPages,'totalPages');
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
