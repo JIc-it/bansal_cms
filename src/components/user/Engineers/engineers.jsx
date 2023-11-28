@@ -58,7 +58,7 @@ export default function Engineers() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isEngineerAdded]);
 
   useEffect(() => {
     getUserStatics("Engineer")

@@ -52,7 +52,7 @@ export default function Distributors() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isDistributorAdded]);
 
   useEffect(() => {
     getUserStatics("Distributor")

@@ -58,7 +58,7 @@ function Admins() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isAdminAdded]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -53,7 +53,7 @@ export default function Contractor() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isContractorAdded]);
 
   useEffect(() => {
     getContractorsRequest(searchUserData, filterCriteria)

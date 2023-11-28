@@ -71,7 +71,7 @@ export default function SalesPocs() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isAdminAdded]);
 
   const handlePaginationClick = (url) => {
     getSalesRequest(null, url)

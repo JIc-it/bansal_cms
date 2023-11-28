@@ -57,7 +57,7 @@ function Architects() {
       .catch((error) => {
         console.error("Error fetching  data:", error);
       });
-  }, []);
+  }, [isArchitectsAdded]);
 
   useEffect(() => {
     getArchitectsRequest(searchUserData, filterCriteria)
