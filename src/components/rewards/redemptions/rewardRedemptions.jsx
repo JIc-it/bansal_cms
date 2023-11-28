@@ -310,15 +310,6 @@ function Redemptions() {
                             <td>
                               <h6>{item?.status}</h6>
                             </td>
-                            {/* <td>
-                              <button
-                                style={{ background: "blue" }}
-                                className="btn btn-primary btn-sm"
-                                onClick={() => handleViewClick(item)}
-                              >
-                                View
-                              </button>
-                            </td> */}
                             <td>
                               <button
                                 className="btn btn-primary btn-sm"
