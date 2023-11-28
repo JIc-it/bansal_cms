@@ -20,7 +20,7 @@ const engarcMonthlyURL = '/purchase/admin-monthly-others/';
 const distributorAllURL = '/purchase/admin-top-distributors/';
 const distributorMonthlyURL = '/purchase/admin-monthly-distributors/'; 
 
-const rewardProducts = 'purchase/admin-total-rewards/'; 
+const rewardProducts = 'purchase/admin-reward-redeemed/'; 
 const rejectedOrders = '/purchase/admin-orders-rejected/'; 
 const rejectedleads = '/purchase/admin-leads-rejected/'; 
 
