@@ -24,7 +24,7 @@ export default function AddReward({
     points: "",
     description: "",
     item_image: "",
-    is_active:false
+    is_active:true
   });
 
   const [errors, setErrors] = useState({

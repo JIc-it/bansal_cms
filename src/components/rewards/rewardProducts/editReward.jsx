@@ -104,7 +104,13 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <input type="text" className="form-control" value={credentials.points}
-                        onChange={(e) => setCredentials({ ...credentials, points: e.target.value })} placeholder='Points' />
+                        onChange={(e) => {
+                            const values=e.target.value
+                            if(values<=800000){
+                              setCredentials({ ...credentials, points: values });
+                            }
+                            
+                          }} placeholder='Points' maxLength={800000}/>
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
