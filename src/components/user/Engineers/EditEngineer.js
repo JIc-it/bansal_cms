@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, updateUser } from "../../../axiosHandle/userHandle";
+import { createContractor, stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -68,11 +68,6 @@ export default function EditEngineer({
     //     return value && value.id !== "0" && value.name !== "State";
     //   }
     // ),
-
-    // password: Yup.string().required("Password is required"),
-    // confirmPassword: Yup.string()
-    //   .required("Confirm Password is required")
-    //   .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const formik = useFormik({
@@ -143,10 +138,21 @@ export default function EditEngineer({
     });
   };
 
-  const handleStateChange = (e) => {
+  const handleListDistrict = (id) => {
+    stateIdFilter(id)
+      .then((data) => {
+        setLocationList(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching lead data:", error);
+      });
+  };
+
+  const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
     const stateName = e.target.value;
+    handleListDistrict(id);
 
     formik.setValues({
       ...formik.values,
@@ -224,25 +230,6 @@ export default function EditEngineer({
             <select
               defaultValue=""
               className=" w-100 form-control-sm form-control"
-              placeholder="District"
-              onChange={handleDistrictChange}
-            >
-              <option disabled={true} value="" id={userData?.district?.id}>
-                {userData?.district?.district}
-              </option>
-              {locationList &&
-                locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district}</option>;
-                })}
-            </select>
-            {formik.touched.district && formik.errors.district ? (
-              <div className="error">{formik.errors.district}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <select
-              defaultValue=""
-              className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
@@ -256,6 +243,25 @@ export default function EditEngineer({
             </select>
             {formik.touched.state && formik.errors.state ? (
               <div className="error">{formik.errors.state}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <select
+              defaultValue=""
+              className=" w-100 form-control-sm form-control"
+              placeholder="District"
+              onChange={handleDistrictChange}
+            >
+              <option disabled={true} value="" id={userData?.district?.id}>
+                {userData?.district?.district}
+              </option>
+              {locationList &&
+                locationList.map((item, i) => {
+                  return <option id={item.id}>{item.district}</option>;
+                })}
+            </select>
+            {formik.touched.district && formik.errors.district ? (
+              <div className="error">{formik.errors.district}</div>
             ) : null}
           </div>
 

@@ -250,7 +250,7 @@ function Architects() {
                         </svg>
                       </button>
                       <button
-                        className="btn bg-blue mx-1"
+                        className="btn btn-dark mx-1"
                         type="button"
                         onClick={() => {
                           setFilterCriteria({

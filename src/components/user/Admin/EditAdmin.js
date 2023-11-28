@@ -8,6 +8,7 @@ import {
 import {
   adminupdateuser,
   adminpermissionupdateuser,
+  stateIdFilter,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -28,9 +29,7 @@ export default function EditAdmin({
   isUpdateUser,
   data,
   userdata,
-  
 }) {
-
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
@@ -80,6 +79,20 @@ export default function EditAdmin({
       .email("Invalid email address")
       .required("Email is required"),
     mobile: Yup.string().required("Mobile is required"),
+    // district: Yup.mixed().test(
+    //   "isDistrictSelected",
+    //   "District is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "District";
+    //   }
+    // ),
+    // state: Yup.mixed().test(
+    //   "isStateSelected",
+    //   "state is required",
+    //   function (value) {
+    //     return value && value.id !== "0" && value.name !== "State";
+    //   }
+    // ),
   });
 
   const formik = useFormik({
@@ -142,10 +155,21 @@ export default function EditAdmin({
     });
   };
 
-  const handleStateChange = (e) => {
+  const handleListDistrict = (id) => {
+    stateIdFilter(id)
+      .then((data) => {
+        setLocationList(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching lead data:", error);
+      });
+  };
+
+  const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
     const stateName = e.target.value;
+    handleListDistrict(id);
 
     formik.setValues({
       ...formik.values,
@@ -222,40 +246,13 @@ export default function EditAdmin({
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              defaultValue={formik.values.district?.name}
-              className=" w-100 form-control-sm form-control"
-              placeholder="District"
-              onChange={handleDistrictChange}
-            >
-              <option
-                selected
-                value={formik.values?.district?.name}
-                id={formik.values?.district?.id}
-              >
-                {formik.values?.district?.name}
-              </option>
-              {locationList &&
-                locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district}</option>;
-                })}
-            </select>
-            {formik.touched.district && formik.errors.district ? (
-              <div className="error">{formik.errors.district}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <select
-              value={formik.values.state?.name}
+              defaultValue=""
               className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option
-                selected
-                value={formik.values?.state?.name}
-                id={formik.values?.state?.id}
-              >
-                {formik.values?.state?.name}
+              <option disabled={true} id={userdata?.state?.id}>
+                {userdata?.state?.state}
               </option>
               {stateList &&
                 stateList.map((ele, i) => {
@@ -264,6 +261,25 @@ export default function EditAdmin({
             </select>
             {formik.touched.state && formik.errors.state ? (
               <div className="error">{formik.errors.state}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <select
+              defaultValue=""
+              className=" w-100 form-control-sm form-control"
+              placeholder="District"
+              onChange={handleDistrictChange}
+            >
+              <option disabled={true} value="" id={userdata?.district?.id}>
+                {userdata?.district?.district}
+              </option>
+              {locationList &&
+                locationList.map((item, i) => {
+                  return <option id={item.id}>{item.district}</option>;
+                })}
+            </select>
+            {formik.touched.district && formik.errors.district ? (
+              <div className="error">{formik.errors.district}</div>
             ) : null}
           </div>
           <h5 style={{ marginTop: 10 }}>Permission</h5>

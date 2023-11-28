@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createDistributor, createUser } from "../../../axiosHandle/userHandle";
+import { createDistributor, createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -56,13 +56,46 @@ export default function AddNewDistributor({
     district: Yup.mixed().test(
       "isDistrictSelected",
       "District is required",
-      function (value) {
-        return value && value.id !== "0" && value.name !== "District";
+      function (value, context) {
+        const { parent } = context;
+        const stateValue = parent.state;
+
+        // Check if both state and district are not selected
+        if (
+          (!stateValue ||
+            stateValue.id === "0" ||
+            stateValue.name === "State") &&
+          (!value || value.id === "0" || value.name === "District")
+        ) {
+          return this.createError({
+            path: this.path,
+            message: "District is required",
+          });
+        }
+
+        // Check if the state is selected before validating the district
+        if (
+          !stateValue ||
+          stateValue.id === "0" ||
+          stateValue.name === "State"
+        ) {
+          return this.createError({
+            path: this.path,
+            message: "Please select a state",
+          });
+        }
+
+        return value && value.id !== "0" && value.name !== "District"
+          ? true
+          : this.createError({
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(
       "isStateSelected",
-      "state is required",
+      "State is required",
       function (value) {
         return value && value.id !== "0" && value.name !== "State";
       }
@@ -135,6 +168,16 @@ export default function AddNewDistributor({
     setIsLoading(false);
   };
 
+  const handleListDistrict = (id) => {
+    stateIdFilter(id)
+      .then((data) => {
+        setLocationList(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching lead data:", error);
+      });
+  };
+
   const handleDistrictChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
@@ -146,10 +189,11 @@ export default function AddNewDistributor({
     });
   };
 
-  const handleStateChange = (e) => {
+  const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
     const stateName = e.target.value;
+    handleListDistrict(id);
 
     formik.setValues({
       ...formik.values,
@@ -225,25 +269,6 @@ export default function AddNewDistributor({
             <select
               defaultValue=""
               className=" w-100 form-control-sm form-control"
-              placeholder="District"
-              onChange={handleDistrictChange}
-            >
-              <option disabled={true} value="" id={"0"}>
-                District
-              </option>
-              {locationList &&
-                locationList.map((item, i) => {
-                  return <option id={item.id}>{item.district}</option>;
-                })}
-            </select>
-            {formik.touched.district && formik.errors.district ? (
-              <div className="error">{formik.errors.district}</div>
-            ) : null}
-          </div>
-          <div style={{ marginTop: 7 }}>
-            <select
-              defaultValue=""
-              className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
@@ -257,6 +282,25 @@ export default function AddNewDistributor({
             </select>
             {formik.touched.state && formik.errors.state ? (
               <div className="error">{formik.errors.state}</div>
+            ) : null}
+          </div>
+          <div style={{ marginTop: 7 }}>
+            <select
+              defaultValue=""
+              className=" w-100 form-control-sm form-control"
+              placeholder="District"
+              onChange={handleDistrictChange}
+            >
+              <option disabled={true} value="" id={"0"}>
+                District
+              </option>
+              {locationList &&
+                locationList.map((item, i) => {
+                  return <option id={item.id}>{item.district}</option>;
+                })}
+            </select>
+            {formik.touched.district && formik.errors.district ? (
+              <div className="error">{formik.errors.district}</div>
             ) : null}
           </div>
           <h5 style={{ marginTop: 10 }}>Password</h5>
