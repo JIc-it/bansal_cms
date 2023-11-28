@@ -129,7 +129,7 @@ export default function AddReward({
               setErrors({ ...errors, title: "" }); // Clear the error when the input changes
             }}
             placeholder="Product Name"
-            maxLength={20}
+            maxLength={15}
           />
           {errors.title && <p className="text-danger">{errors.title}</p>}
         </div>
@@ -159,7 +159,7 @@ export default function AddReward({
           <textarea
             rows="4"
             className="form-control"
-            maxLength={50}
+            maxLength={45}
             onChange={(e) => {
               const values=e.target.value;
               if(values.trim()!==""){
