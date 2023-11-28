@@ -56,7 +56,7 @@ export default function ItemCounts() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                             <div>
                                 <h6>Pending Reward</h6><br />
-                                <h3>{rejectedleadscount}</h3>
+                                <h3>{rejectedordercount}</h3>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ export default function ItemCounts() {
                         <div className="depostit-card-media d-flex justify-content-between style-1">
                             <div>
                                 <h6>Rejected Reward</h6><br />
-                                <h3>{rejectedordercount}</h3>
+                                <h3>{rejectedleadscount}</h3>
                             </div>
                         </div>
                     </div>

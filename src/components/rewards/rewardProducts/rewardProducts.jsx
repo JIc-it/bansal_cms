@@ -86,20 +86,20 @@ function RewardPoints() {
   const filteredItems =
     reward_product_data && reward_product_data.length > 0
       ? reward_product_data.filter((rw_data) => {
-          const searchableFields = [
-            rw_data.title,
-            rw_data.id,
-            rw_data.points,
-            rw_data.description,
-            rw_data.is_active,
-            rw_data.times_redeemed,
-          ];
-          return searchableFields.some(
-            (field) =>
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchText.toLowerCase())
-          );
-        })
+        const searchableFields = [
+          rw_data.title,
+          rw_data.id,
+          rw_data.points,
+          rw_data.description,
+          rw_data.is_active,
+          rw_data.times_redeemed,
+        ];
+        return searchableFields.some(
+          (field) =>
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchText.toLowerCase())
+        );
+      })
       : [];
 
   const handleNextPage = () => {
@@ -228,8 +228,21 @@ function RewardPoints() {
                           <td>
                             <h6>{rw_data.description}</h6>
                           </td>
-                          <td>
+                          {/* <td>
                             <h6>{rw_data.is_active ? "Active" : "Inactive"}</h6>
+                          </td> */}
+                          <td>
+                            <span
+                              className={
+                                rw_data.is_active === true
+                                  ? "badge badge-success light border-0"
+                                  : "badge badge-danger light border-0"
+                              }
+                            >
+                              {rw_data.is_active === true
+                                ? "Active"
+                                : "Inactive"}
+                            </span>
                           </td>
                           {/* <td>
                             <button

@@ -34,8 +34,6 @@ import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 import HelpFaq from "./HelpFaq";
 
-
-
 export default function AllRouting() {
   return (
     <main className="w-100">

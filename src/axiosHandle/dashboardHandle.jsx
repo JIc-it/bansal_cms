@@ -21,8 +21,8 @@ const distributorAllURL = '/purchase/admin-top-distributors/';
 const distributorMonthlyURL = '/purchase/admin-monthly-distributors/'; 
 
 const rewardProducts = 'purchase/admin-reward-redeemed/'; 
-const rejectedOrders = '/purchase/admin-orders-rejected/'; 
-const rejectedleads = '/purchase/admin-leads-rejected/'; 
+const pendingrewards = 'purchase/admin-reward-pending/'; 
+const rejectedrewards = 'purchase/admin-reward-rejected/'; 
 
 const monthlyOrders='purchase/admin-monthly-orders/'
 const quarterlyOrder='purchase/admin-quarterly-orders/'
@@ -175,7 +175,7 @@ export const updateLeadRequest = (id,pass) => {
 //admin-total-rewards
 export const getrewardproducts = () => {
   return axiosInstance.get(rewardProducts)
-    .then((response) => response.data.total_rewards_count)
+    .then((response) => response.data.redeemed_rewards_count)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
       throw error;
@@ -184,8 +184,8 @@ export const getrewardproducts = () => {
 
 //rejected-orders
 export const getrejectedOrders = () => {
-  return axiosInstance.get(rejectedOrders)
-    .then((response) => response.data.total_rejected_count)
+  return axiosInstance.get(pendingrewards)
+    .then((response) => response.data.pending_rewards_count)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
       throw error;
@@ -194,8 +194,8 @@ export const getrejectedOrders = () => {
 
 //rejected-leads
 export const getrejectedleads = () => {
-  return axiosInstance.get(rejectedleads)
-    .then((response) => response.data.total_rejected_count)
+  return axiosInstance.get(rejectedrewards)
+    .then((response) => response.data.rejected_rewards_count)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
       throw error;
