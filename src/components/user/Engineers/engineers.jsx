@@ -3,7 +3,7 @@ import {
   adminUserDisableEnable,
   deleteContractorUser,
   getEngineersRequest,
-  getUserStatics,
+  getUserStatics,getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import EngineersFilter from "./EngineersFilter";
 import AddNewEngineer from "./AddNewEngineer";
@@ -29,6 +29,8 @@ export default function Engineers() {
   const itemsPerPage = 10;
   const [searchUserData, setSearchUserData] = useState("");
   const [isFilter, setIsFilter] = useState(false);
+  const [activeUserCount, setActiveUserCount] = useState(0);
+
   const [filterCriteria, setFilterCriteria] = useState({
     pointsFrom: "",
     pointsTo: "",
@@ -47,6 +49,16 @@ export default function Engineers() {
         console.error("Error fetching Engineer data:", error);
       });
   }, [isEngineerAdded, searchUserData, isFilter]);
+
+  useEffect(() => {
+    getActiveUsers("Engineer")
+      .then((data) => {
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, []);
 
   useEffect(() => {
     getUserStatics("Engineer")
@@ -155,9 +167,9 @@ export default function Engineers() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active Engineers</h6>
                         <br />
-                        <h3>{totalUserCount.total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>

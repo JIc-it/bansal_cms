@@ -4,6 +4,7 @@ import {
   deleteContractorUser,
   getDistributorsRequest,
   getUserStatics,
+  getActiveUsers
 } from "../../../axiosHandle/userHandle";
 import AddNewDistributor from "./AddNewDistributor";
 import { useNavigate } from "react-router";
@@ -25,6 +26,8 @@ export default function Distributors() {
   const [totalUserCount, setTotalUserCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchUserData, setSearchUserData] = useState("");
+  const [activeUserCount, setActiveUserCount] = useState(0);
+
 
   const itemsPerPage = 10;
 
@@ -39,6 +42,17 @@ export default function Distributors() {
         console.error("Error fetching distributor data:", error);
       });
   };
+
+  useEffect(() => {
+    getActiveUsers("Distributor")
+      .then((data) => {
+        console.log(data?.active_users);
+        setActiveUserCount(data?.active_users_based_on_role);
+      })
+      .catch((error) => {
+        console.error("Error fetching  data:", error);
+      });
+  }, []);
 
   useEffect(() => {
     getUserStatics("Distributor")
@@ -144,9 +158,9 @@ export default function Distributors() {
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
                       <div>
-                        <h6>Total Users</h6>
+                        <h6>Active Distributors</h6>
                         <br />
-                        <h3>{totalUserCount.total_users}</h3>
+                        <h3>{activeUserCount}</h3>
                       </div>
                     </div>
                   </div>
