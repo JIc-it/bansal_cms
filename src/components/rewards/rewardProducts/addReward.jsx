@@ -57,12 +57,12 @@ export default function AddReward({
 
     if (!credentials.description) {
       validationErrors.description = "Description is required";
-    } else if (credentials.description.length < 50) {
+    } else if (credentials.description.length < 45) {
       validationErrors.description =
-        "Description must be at least 40 characters long";
-    } else if (credentials.description.length > 50) {
+        "Description must be at least 45 characters long";
+    } else if (credentials.description.length > 45) {
       validationErrors.description =
-        "Description must be at most 50 characters long";
+        "Description must be at most 45 characters long";
     }
     
     if (!credentials.item_image) {
