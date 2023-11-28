@@ -47,7 +47,7 @@ export default function ProjectStatus() {
             <h4 style={{ marginLeft: "17px" }}>{Totalcount}</h4>
             <div className="card-body">
                 <div style={{ display: "inline-flex" }}>
-                    <PieChart reward_name={reward_name} reward_points={reward_points} />
+                    {redeeemed.length > 0 && <PieChart reward_name={reward_name} reward_points={reward_points} />}
                 </div>
             </div>
         </div>
