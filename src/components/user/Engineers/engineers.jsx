@@ -435,7 +435,7 @@ export default function Engineers() {
                               className={`card-footer ${
                                 data.is_delete && "disabled-row"
                               }`}
-                            >
+                            >{data.is_delete?"Inactive":"Active"}
                               {" "}
                               <div
                                 className=" form-switch"
