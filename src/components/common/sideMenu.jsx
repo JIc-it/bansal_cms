@@ -624,6 +624,25 @@ export default function SideMenu() {
           </Link>
         </MenuItem>
         <MenuItem
+         icon={<PeopleOutlinedIcon />}
+          className={`menu-item ${
+            isMenuItemActive("/log-section") ? "active" : ""
+          }`}
+          onClick={() => toggle()}
+          style={{
+            backgroundColor: isMenuItemActive("/log-section")
+              ? "#B22222"
+              : "transparent",
+            color: isMenuItemActive("/log-section") ? "white" : "inherit",
+            marginTop: "20px",
+            marginLeft: "10px",
+          }}
+        >
+          <Link to="/log-section" style={{ color: "white" }}>
+            Log Section
+          </Link>
+        </MenuItem>
+        <MenuItem
           icon={<HelpOutlinedIcon />}
           className={`menu-item ${
             isMenuItemActive("/help-faq") ? "active" : ""

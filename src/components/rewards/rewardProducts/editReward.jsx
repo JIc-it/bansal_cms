@@ -46,7 +46,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
             });
 
             // Validate description length
-            if (description.length !== 45) {
+            if (description.length !== 30) {
                 throw new Error("Description must be exactly 45 characters.");
             }
 
@@ -115,7 +115,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
-                        maxLength="45"
+                        maxLength="30"
                         onChange={(e) => setCredentials({ ...credentials, description: e.target.value })} value={credentials.description} placeholder='description'></textarea>
                 </div>
                 <div style={{ marginTop: 20 }}>

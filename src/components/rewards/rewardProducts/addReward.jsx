@@ -57,10 +57,10 @@ export default function AddReward({
 
     if (!credentials.description) {
       validationErrors.description = "Description is required";
-    } else if (credentials.description.length < 45) {
+    } else if (credentials.description.length < 38) {
       validationErrors.description =
         "Description must be at least 45 characters long";
-    } else if (credentials.description.length > 45) {
+    } else if (credentials.description.length > 38) {
       validationErrors.description =
         "Description must be at most 45 characters long";
     }
@@ -159,7 +159,7 @@ export default function AddReward({
           <textarea
             rows="4"
             className="form-control"
-            maxLength={45}
+            maxLength={38}
             onChange={(e) => {
               const values=e.target.value;
               if(values.trim()!==""){
