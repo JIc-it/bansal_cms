@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
+import {  stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -19,6 +19,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
+
 export default function EditEngineer({
   open,
   setOpen,
@@ -172,7 +173,6 @@ export default function EditEngineer({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

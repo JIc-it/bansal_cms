@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
+import {  stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -177,7 +176,6 @@ export default function EditDistributor({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

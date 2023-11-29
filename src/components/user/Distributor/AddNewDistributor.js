@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createDistributor, createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
+import {  createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -14,7 +14,6 @@ import { passwordRegex } from "../../../helper";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -139,7 +138,6 @@ export default function AddNewDistributor({
           };
 
           const distributorData = await createUser(data);
-          console.log(distributorData);
           if (distributorData) {
             setIsDistributorAdded(!isDistributorAdded);
             toast.success("Distributor created successfully!");

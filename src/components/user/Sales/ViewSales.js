@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
-// import ViewContractorTransaction from "./ViewContractorTransaction";
-// import AddPointsPopUp from "./AddPointsPopUp";
 import AdminResetPassword from "./SalesResetPassword";
 import EditAdmin from "./EditSales";
 import AdminUserViewOrders from "./adminUserViewOrders";
 
 import {
-  getContractorsRequest,
-  getUserOrders,
-  getUserRedemptionData,
   adminPermissionViewRequest,
   adminUSerViewLeadsRequest,
   adminUSerViewLeadssRequest,
-  getAdminsRequest,
   getSalesRequest,
 } from "../../../axiosHandle/userHandle";
 import TransactionFilterPopUp from "./TransactionFilterPopUp";
@@ -25,7 +19,6 @@ const ViewSales = () => {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForUser = permissionData?.user;
-  const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
   const [permissionview, setPermissionView] = useState(false);
@@ -49,7 +42,6 @@ const ViewSales = () => {
     date: "",
   });
   const [LeadsTransactionData, setLeadsTransactionData] = useState([]);
-  console.log("transactionData data", transactionData);
   const onClose = (condition) => {
     setTransactionFilterOpen(condition);
   };
@@ -75,10 +67,13 @@ const ViewSales = () => {
     state_id: queryParams.get("state_id"),
     district_id: queryParams.get("district_id"),
   });
+
   const handlepassdata = () => {
     setPermissionView(true);
   };
+
   const [userId, setUserId] = useState(userDataParam.id);
+
   useEffect(() => {
     getSalesRequest("")
       .then((data) => {
@@ -91,26 +86,11 @@ const ViewSales = () => {
         console.error("Error fetching distributor data:", error);
       });
   }, [isUpdateUser, userDataParam.id]);
-  console.log(userData, "userData");
-
-
-  useEffect(() => {
-    // getContractorsRequest("", { from: "", to: "" })
-    //   .then((data) => {
-    //     let filteredData = data.results.find((item, i) => {
-    //       return item.id === userDatail.id;
-    //     });
-    //     setUserData(filteredData);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching distributor data:", error);
-    //   });
-    handleUserOrderData();
-  }, []);
 
   useEffect(() => {
     handleUserOrderData();
   }, [filterdata?.search]);
+
   const handleUserOrderData = () => {
     adminUSerViewLeadsRequest(userDataParam.id, filterdata?.search, filterdata)
       .then((data) => {
@@ -125,6 +105,7 @@ const ViewSales = () => {
   const handlechangetransactiondata = (data) => {
     setTransactionData(data);
   };
+
   const clearFilterCall = () => {
     setFilterdata({
       role: "",
@@ -135,7 +116,9 @@ const ViewSales = () => {
       date: "",
     });
   };
+
   const [data, setData] = useState();
+
   useEffect(() => {
     adminPermissionViewRequest(userDataParam.id)
       .then((data) => {
@@ -144,21 +127,22 @@ const ViewSales = () => {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [userDataParam.id,isUpdateUser]);
+  }, [userDataParam.id, isUpdateUser]);
 
   useEffect(() => {
     userData && handleUserOrderData();
   }, [userData]);
+
   useEffect(() => {
     adminUSerViewLeadssRequest(userId, filterdata)
       .then((data) => {
-        // console.log("adminUSerViewLeadssRequest data",data)
         setLeadsTransactionData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching leads data:", error);
       });
   }, [filterdata, seletedTranasactionType]);
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -187,7 +171,6 @@ const ViewSales = () => {
     } else {
       adminUSerViewLeadssRequest(userId, filterdata)
         .then((data) => {
-          // console.log("adminUSerViewLeadssRequest data",data)
           setTransactionData(data.results);
         })
         .catch((error) => {
@@ -286,7 +269,6 @@ const ViewSales = () => {
                 <div className="depostit-card-media justify-content-between style-1">
                   <div className="image-container-contractor">
                     <div className="contractor-image">
-                      {/* {userData && userData.name.slice(0, 2)} */}
                       {userData && userData.name.slice(0, 2)}
                     </div>
                   </div>
@@ -330,9 +312,14 @@ const ViewSales = () => {
                         {userData && userData.mobile}
                       </span>
                       <span className="fs-6">
-                        {userData &&userData.district&& userData.district?.district}
-                        {userData&&userData.state&&userData.state?.state && ", "}
-                        {userData&&userData.state&& userData.state?.state
+                        {userData &&
+                          userData.district &&
+                          userData.district?.district}
+                        {userData &&
+                          userData.state &&
+                          userData.state?.state &&
+                          ", "}
+                        {userData && userData.state && userData.state?.state
                           ? userData.state?.state
                           : "-"}
                       </span>
@@ -461,11 +448,6 @@ const ViewSales = () => {
                     <button
                       className="btn btn-dark mx-1"
                       type="button"
-                      // onClick={() => {
-                      //   setFilterCriteria({ from: "", to: "" });
-                      //   setSearchUserData("");
-                      //   setIsFilter(!isFilter);
-                      // }}
                       onClick={() => clearFilterCall()}
                     >
                       Clear filter
@@ -500,86 +482,6 @@ const ViewSales = () => {
                   handlechangetransactiondata={handlechangetransactiondata}
                 />
               ) : (
-                // <div className="table-responsive  active-projects">
-                //   <table id="list-tbl" class="table">
-                //     <thead>
-                //       <tr>
-                //         <th>Transaction Id</th>
-                //         <th>Distributor Name</th>
-                //         <th>Distributor id</th>
-                //         <th>Date & Time</th>
-                //         <th>Points</th>
-                //         <th>Quantity</th>
-                //         <th>Status</th>
-                //         <th> </th>
-                //       </tr>
-                //     </thead>
-                //     <tbody>
-                //       {currentItems && currentItems.length > 0 ? (
-                //         <>
-                //           {currentItems.map((ele, i) => {
-                //             return (
-                //               <tr key={`transactionData-${i}`}>
-                //                 <td>
-                //                   <h6>{ele.transaction_id}</h6>
-                //                 </td>
-                //                 <td>
-                //                   <h6>{ele.distributor}</h6>
-                //                 </td>
-                //                 <td>
-                //                   <h6>{ele.distributor}</h6>
-                //                 </td>
-                //                 <td>
-                //                   <h6>{new Date(ele.updated_at).toLocaleDateString('en-Us', { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</h6>
-                //                 </td>
-                //                 <td>
-                //                   <h6>{ele.distributor}</h6>
-                //                 </td>
-                //                 <td>
-                //                   <h6>{ele.quantity}</h6>
-                //                 </td>
-
-                //                 <td>
-                //                   <button
-                //                     className={`btn  btn-sm ${ele.admin_approval === "Accepted" &&
-                //                         ele.user_approval === "Accepted"
-                //                         ? "Accepted-btn"
-                //                         : ele.admin_approval === "Rejected" ||
-                //                           ele.user_approval === "Rejected"
-                //                           ? "Rejected-btn"
-                //                           : "Processing-btn"
-                //                       }`}
-                //                   >
-                //                     {ele.admin_approval === "Accepted" &&
-                //                       ele.user_approval === "Accepted"
-                //                       ? "Accepted"
-                //                       : ele.admin_approval === "Rejected" ||
-                //                         ele.user_approval === "Rejected"
-                //                         ? "Rejected"
-                //                         : "Processing"}
-                //                   </button>
-                //                 </td>
-                //                 <td onClick={() => setViewTransaction(true)}>
-                //                   <a
-                //                     className="btn btn-primary btn-sm"
-                //                     href="#"
-                //                     role="button"
-                //                   >
-                //                     View
-                //                   </a>
-                //                 </td>
-                //               </tr>
-                //             );
-                //           })}
-                //         </>
-                //       ) : (
-                //         <tr>
-                //           <td colSpan="5">No orders available</td>
-                //         </tr>
-                //       )}
-                //     </tbody>
-                //   </table>
-                // </div>
                 <div className="table-responsive  active-projects">
                   <table id="list-tbl" class="table">
                     <thead>
@@ -642,10 +544,6 @@ const ViewSales = () => {
                                 <td>
                                   <h6>{ele.user_approval}</h6>
                                 </td>
-                                {/* <td>
-                                  <h6>{ele.admin_approval}</h6>
-                                </td> */}
-
                                 <td>
                                   <button
                                     className={`btn  btn-sm ${
@@ -719,15 +617,7 @@ const ViewSales = () => {
           data={data}
         />
       )}
-      {/* {viewTransaction && (
-        <ViewContractorTransaction setOpen={setViewTransaction} />
-      )}
-      {isOpenAddPointsPopUp && (
-        <AddPointsPopUp
-          setOpen={setIsOpenAddPointsPopUp}
-          open={isOpenAddPointsPopUp}
-        />
-      )} */}
+
       {openResetPassword && (
         <AdminResetPassword
           open={openResetPassword}

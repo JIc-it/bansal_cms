@@ -8,15 +8,13 @@ import LeadPoints from "./points/leads/pointsLeads";
 import RewardProducts from "./rewards/rewardProducts/rewardProducts";
 import Contractor from "./user/Contractor/contactor";
 import SalesPocs from "./user/Sales/salesPocs";
-// import Admins from "./user/admins";
-import Admins from "./user/Admin/admins"
+import Admins from "./user/Admin/admins";
 import Promotions from "./promo/promotions";
 import Redemptions from "./rewards/redemptions/rewardRedemptions";
 import ContractorDetails from "./contractorDashboard";
 import ArchitectDetails from "./architectDashboard";
 import EngineerDetails from "./engineerDashboard";
 import SalesPocDetails from "./salespocDashboard";
-// import AdminDetails from "./dashboard/adminDashboard";
 import DistributorDetails from "./distributorDashboard";
 import PromotionsHistory from "./promo/promotionsHistory";
 import Profile from "./profile/profile";
@@ -58,7 +56,6 @@ export default function AllRouting() {
         <Route path="/actdetails" element={<ArchitectDetails />} />
         <Route path="/enggdetails" element={<EngineerDetails />} />
         <Route path="/pocdetails" element={<SalesPocDetails />} />
-        {/* <Route path="/admdetails" element={<AdminDetails />} /> */}
         <Route path="/dtrdetails" element={<DistributorDetails />} />
         <Route path="/promotionhistory/:id" element={<PromotionsHistory />} />
         <Route path="/profile" element={<Profile />} />
@@ -68,7 +65,7 @@ export default function AllRouting() {
         <Route path="/viewContractor/:id" element={<ViewContractor />} />
         <Route path="/viewadmin/:id" element={<ViewAdmin />} />
         <Route path="/viewsalespocs/:id" element={<ViewSales />} />
-        
+
         <Route path="/viewadmin" element={<ViewAdmin />} />
         <Route path="/viewsalespocs" element={<ViewSales />} />
         <Route

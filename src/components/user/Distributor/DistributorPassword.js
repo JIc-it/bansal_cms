@@ -5,7 +5,6 @@ import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
 import {
-  createContractor,
   handleUserResetPassword,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
@@ -16,7 +15,6 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -82,7 +80,6 @@ export default function DistributorPassword({
           const resetData = await handleUserResetPassword(userDatail.id, data);
           console.log(resetData);
           if (resetData) {
-            // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -106,27 +103,6 @@ export default function DistributorPassword({
     setIsLoading(false);
   };
 
-  const handleDistrictChange = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const id = selectedOption.getAttribute("id");
-    const districtName = e.target.value;
-
-    formik.setValues({
-      ...formik.values,
-      district: { id, name: districtName },
-    });
-  };
-
-  const handleStateChange = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const id = selectedOption.getAttribute("id");
-    const stateName = e.target.value;
-
-    formik.setValues({
-      ...formik.values,
-      state: { id, name: stateName },
-    });
-  };
 
   return (
     <Offcanvas
@@ -140,7 +116,6 @@ export default function DistributorPassword({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

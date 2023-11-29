@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createEngineer, createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
+import {  createUser, stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -14,7 +14,6 @@ import { passwordRegex } from "../../../helper";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -200,6 +199,7 @@ export default function AddNewEngineer({
       state: { id, name: stateName },
     });
   };
+  
   return (
     <Offcanvas
       show={open}

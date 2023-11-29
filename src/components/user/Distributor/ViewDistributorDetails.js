@@ -9,7 +9,6 @@ import {
 } from "../../../axiosHandle/userHandle";
 import DistributorPassword from "./DistributorPassword";
 import EditDistributor from "./EditDistributor";
-import AddPointDistributorPoppUp from "./AddPointDistributorPoppUp";
 import ViewDistributorTransaction from "./ViewDistributorTransaction";
 import DistributorFilterPopUp from "./DistributorFilterPopUp";
 import { AppContext } from "../../../contexts/AppContext";
@@ -40,7 +39,6 @@ const ViewDistributorDetails = () => {
     date: "",
   });
   const [search, setSearch] = useState("");
-  // console.log(filterdata);
   const itemsPerPage = 10;
 
   function handlefilterdata(fields) {
@@ -241,7 +239,6 @@ const ViewDistributorDetails = () => {
             </div>
           </div>
           <div className="col-md-4 col-12 same-card">
-            {/* <div className="contractor-count-group"> */}
             <div className="contractor-count ">
               {" "}
               <div className="card">
@@ -257,7 +254,6 @@ const ViewDistributorDetails = () => {
               </div>
             </div>
 
-            {/* </div> */}
             <div className="contractor-count-detail">
               <div className="card">
                 <div className="card-body depostit-card">
@@ -316,7 +312,6 @@ const ViewDistributorDetails = () => {
                   <div
                     className="input-group mb-3"
                     style={{
-                      // maxWidth: 300,
                       paddingTop: 15,
                       paddingLeft: 15,
                     }}

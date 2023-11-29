@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 const ViewContractorTransaction = ({
-  open,
   setOpen,
   data,
   seletedTranasactionType,
@@ -29,7 +28,7 @@ const ViewContractorTransaction = ({
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
   };
-  console.log("contractor daata", data)
+
   const apiResponseAddressString =
     seletedTranasactionType != "Orders" && data.selected_address;
 
@@ -39,7 +38,6 @@ const ViewContractorTransaction = ({
     JSON.parse(
       apiResponseAddressString.replace(/None/g, "null").replace(/'/g, '"')
     );
-  console.log(changedAddress);
   // Create a new object with the desired format
   const formattedAddress = seletedTranasactionType != "Orders" && {
     name: changedAddress.name,
@@ -51,7 +49,6 @@ const ViewContractorTransaction = ({
     state_name: changedAddress.state_name,
     land_mark: changedAddress.land_mark,
   };
-  // console.log(formattedAddress);
 
   return (
     <Offcanvas
@@ -81,7 +78,7 @@ const ViewContractorTransaction = ({
           </div>
           <div style={{ marginTop: 10, marginLeft: 20 }}>
             <h6>Transaction Details</h6>
-            {data?.accepted_by?.role === 'Admin' ?
+            {data?.accepted_by?.role === "Admin" ? (
               <>
                 <span>Admin Status:</span>
                 <span
@@ -92,7 +89,7 @@ const ViewContractorTransaction = ({
                 </span>
                 <br></br>
               </>
-              :
+            ) : (
               <>
                 <span>Sales POC Status:</span>
                 <span
@@ -103,8 +100,7 @@ const ViewContractorTransaction = ({
                 </span>
                 <br></br>
               </>
-
-            }
+            )}
 
             <span>Distributor Status :</span>
             <span
@@ -230,10 +226,14 @@ const ViewContractorTransaction = ({
             </span>
             <br></br>
             <span> ID Type:</span>
-            <span style={{ marginLeft: 190 }}>{data?.id_verification?.id_type}</span>
+            <span style={{ marginLeft: 190 }}>
+              {data?.id_verification?.id_type}
+            </span>
             <br></br>
             <span> ID Number :</span>
-            <span style={{ marginLeft: 190 }}>{data?.id_verification?.id_number}</span>
+            <span style={{ marginLeft: 190 }}>
+              {data?.id_verification?.id_number}
+            </span>
             <br></br>
             <span>Address :</span>
             <span

@@ -6,10 +6,8 @@ const DistributorFilterPopUp = ({
   handlefilterdata,
   setFilterdata,
   filterdata,
-  seletedTranasactionType,
   isFilter,
   setIsFilter,
-  transactionFilterOpen,
   setTransactionFilterOpen,
   setCurrentPage,
 }) => {

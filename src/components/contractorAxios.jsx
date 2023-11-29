@@ -17,7 +17,7 @@ function CreateContractor() {
     setNewContractorData({
       ...newContractorData,
       [name]: value,
-    });
+    }); 
   };
 
   const handleFormSubmit = (e) => {

@@ -5,12 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 const TransactionFilterPopUp = ({
   filterdata,
   seletedTranasactionType,
-  handleUserOrderData,
   isFilter,
   setIsFilter,
   handlefilterdata,
   setTransactionFilterOpen,
-  transactionFilterOpen,
   setCurrentPage,
 }) => {
 

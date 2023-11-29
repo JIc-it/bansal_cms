@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import {
-  getDistributorOrders,
-  getDistributorsRequest,
   getEngineersRequest,
   getUserLeads,
   getUserOrders,
@@ -19,8 +17,6 @@ import AddPointsPopUP from "./AddPointsPopUP";
 import EngineerFilterPopUP from "./EngineerFilterPopUP";
 import { useContext } from "react";
 import { AppContext } from "../../../contexts/AppContext";
-
-// import TransactionFilterPopUp from "./TransactionFilterPopUp";
 
 const ViewEngineerDetails = () => {
   const contextData = useContext(AppContext);

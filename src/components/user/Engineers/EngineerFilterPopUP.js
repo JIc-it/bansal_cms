@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const EngineerFilterPopUP = ({
   handlefilterdata,
   handleUserOrderData,
@@ -12,8 +13,6 @@ const EngineerFilterPopUP = ({
   setTransactionFilterOpen,
   setCurrentPage,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-
   const customInput = (
     <div className="custom-input">
       <input
@@ -163,12 +162,6 @@ const EngineerFilterPopUP = ({
         onClick={() => {
           setIsFilter(!isFilter);
           setTransactionFilterOpen(false);
-          // handlefilterdata({
-          //   status: "",
-          //   points_from: 0,
-          //   points_to: 0,
-          //   date: "",
-          // });
         }}
       >
         Apply

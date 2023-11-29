@@ -27,21 +27,7 @@ export default function Distributors() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchUserData, setSearchUserData] = useState("");
   const [activeUserCount, setActiveUserCount] = useState(0);
-
-
   const itemsPerPage = 10;
-
-  const handleDelete = (id) => {
-    deleteContractorUser(id)
-      .then((data) => {
-        setIsDistributorAdded(!isDistributorAdded);
-        toast.success("Deleted Succefully");
-        setOpenRemoveOption(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  };
 
   useEffect(() => {
     getActiveUsers("Distributor")

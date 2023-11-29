@@ -3,7 +3,6 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 
 import {
   addUserPoints,
-  createContractor,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -13,7 +12,6 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
@@ -30,12 +28,6 @@ export default function AddPointsPopUP({
   userData
 }) {
   const [isLoading, setIsLoading] = useState(false);
-
-  // const validationSchema = Yup.object({
-  //   points: Yup.string()
-  //     .required("Points is required")
-  //     .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
-  // });
 
   const validationSchema = Yup.object({
     points: Yup.string()
@@ -114,7 +106,6 @@ export default function AddPointsPopUP({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

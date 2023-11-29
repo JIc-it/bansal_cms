@@ -13,18 +13,13 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
   flexDirection: "column",
 };
-export default function ResetEngineerPassword({
-  open,
-  setOpen,
 
-  userDatail,
-}) {
+export default function ResetEngineerPassword({ open, setOpen, userDatail }) {
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
@@ -79,7 +74,6 @@ export default function ResetEngineerPassword({
           const resetData = await handleUserResetPassword(userDatail.id, data);
           console.log(resetData);
           if (resetData) {
-            // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -103,28 +97,6 @@ export default function ResetEngineerPassword({
     setIsLoading(false);
   };
 
-  const handleDistrictChange = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const id = selectedOption.getAttribute("id");
-    const districtName = e.target.value;
-
-    formik.setValues({
-      ...formik.values,
-      district: { id, name: districtName },
-    });
-  };
-
-  const handleStateChange = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const id = selectedOption.getAttribute("id");
-    const stateName = e.target.value;
-
-    formik.setValues({
-      ...formik.values,
-      state: { id, name: stateName },
-    });
-  };
-
   return (
     <Offcanvas
       show={open}
@@ -136,9 +108,7 @@ export default function ResetEngineerPassword({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5 style={{ marginTop: 10 }}>Reset Password</h5>

@@ -7,7 +7,6 @@ import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
 import {
-  salesupdateuser,
   adminpermissionupdateuser,
   adminupdateuser,
   stateIdFilter,
@@ -37,8 +36,6 @@ export default function EditSales({
   const [stateList, setStateList] = useState();
   const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
-  const passpermission = { permission: permission };
-  const navigate = useNavigate();
 
   const handleCheckboxChange = (category, action) => {
     setPermissions((prevPermissions) => ({
@@ -192,9 +189,7 @@ export default function EditSales({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Sales POC Details</h5>

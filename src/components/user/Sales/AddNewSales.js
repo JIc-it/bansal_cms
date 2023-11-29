@@ -273,7 +273,6 @@ export default function AddNewSales({
       className="admin-permisiion-offcanvas"
     >
       <Offcanvas.Header
-        // style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
       ></Offcanvas.Header>

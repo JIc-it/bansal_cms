@@ -71,18 +71,6 @@ export default function Engineers() {
       });
   }, []);
 
-  const handleDelete = (id) => {
-    deleteContractorUser(id)
-      .then((data) => {
-        setIsEngineerAdded(!isEngineerAdded);
-        toast.success("Deleted Succefully");
-        setOpenRemoveOption(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching Engineer data:", error);
-      });
-  };
-
   const totalPages = Math.ceil(userData ? userData.length / itemsPerPage : 1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -482,43 +470,7 @@ export default function Engineers() {
                               </div>
                             </td>
                           )}
-                          {/* <td
-                            onClick={() => {
-                              setOpenRemoveOption(true);
-                              setSelectedIdForRemove(data.id);
-                            }}
-                            style={{ cursor: "pointer",padding:0,paddingRight:28 }}
-                          >
-                            {" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                            >
-                              <path
-                                d="M5.83333 9.99967C5.83333 10.9201 5.08714 11.6663 4.16667 11.6663C3.24619 11.6663 2.5 10.9201 2.5 9.99967C2.5 9.0792 3.24619 8.33301 4.16667 8.33301C5.08714 8.33301 5.83333 9.0792 5.83333 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M11.6667 9.99967C11.6667 10.9201 10.9205 11.6663 10 11.6663C9.07952 11.6663 8.33333 10.9201 8.33333 9.99967C8.33333 9.0792 9.07952 8.33301 10 8.33301C10.9205 8.33301 11.6667 9.0792 11.6667 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                              <path
-                                d="M17.5 9.99967C17.5 10.9201 16.7538 11.6663 15.8333 11.6663C14.9129 11.6663 14.1667 10.9201 14.1667 9.99967C14.1667 9.0792 14.9129 8.33301 15.8333 8.33301C16.7538 8.33301 17.5 9.0792 17.5 9.99967Z"
-                                fill="#0F0F0F"
-                              />
-                            </svg>
-                            {openRemoveOption &&
-                              data.id === selectedIdForRemove && (
-                                <div className="option-container">
-                                  <span onClick={() => handleDelete(data.id)}>
-                                    Remove
-                                  </span>
-                                </div>
-                              )}
-                          </td> */}
+                         
                         </tr>
                       ))
                     ) : (
