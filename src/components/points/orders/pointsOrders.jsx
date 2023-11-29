@@ -257,21 +257,50 @@ export default function OrderPoints() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
                     {permissionForPointsOrder?.action && (
+                      // <button
+                      //   style={{ marginLeft: 135 }}
+                      //   className="btn btn-light btn-sm"
+                      //   type="button"
+                      //   onClick={exportToCSV}
+                      // >
+                      //   <i className="fa-solid fa-file-export" /> Export
+                      // </button>
                       <button
                         style={{ marginLeft: 135 }}
                         className="btn btn-light btn-sm"
                         type="button"
                         onClick={exportToCSV}
                       >
-                        <i className="fa-solid fa-file-export" /> Export
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                            stroke="#0F0F0F"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>{" "}
+                        Export
                       </button>
                     )}
                   </div>
@@ -317,31 +346,30 @@ export default function OrderPoints() {
                             <h6>{order.points || 0}</h6>
                           </td>
                           <td>
-                            <h6>{order.quantity || 0 }</h6>
+                            <h6>{order.quantity || 0}</h6>
                           </td>
                           <td>
                             <button
-                              className={`btn  btn-sm ${
-                                order.admin_approval === "Accepted"
+                              className={`btn  btn-sm ${order.admin_approval === "Accepted"
                                   ? // &&
-                                    // order.user_approval === "Accepted"
-                                    "Accepted-btn"
+                                  // order.user_approval === "Accepted"
+                                  "Accepted-btn"
                                   : order.admin_approval === "Rejected"
-                                  ? // ||
+                                    ? // ||
                                     //   order.user_approval === "Rejected"
                                     "Rejected-btn"
-                                  : "Processing-btn"
-                              }`}
+                                    : "Processing-btn"
+                                }`}
                             >
                               {order.admin_approval === "Accepted"
                                 ? // &&
-                                  // order.user_approval === "Accepted"
-                                  "Accepted"
+                                // order.user_approval === "Accepted"
+                                "Accepted"
                                 : order.admin_approval === "Rejected"
-                                ? // ||
+                                  ? // ||
                                   //   order.user_approval === "Rejected"
                                   "Rejected"
-                                : "Processing"}
+                                  : "Processing"}
                             </button>
                           </td>
                           <td>

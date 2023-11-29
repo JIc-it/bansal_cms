@@ -126,7 +126,7 @@ export default function SideMenu() {
           }}
         >
           <Link to="/dashboard" style={{ color: "white" }}>
-            <DashboardOutlinedIcon style={{ marginLeft: 9 }} /> Dashboard
+            <DashboardOutlinedIcon style={{ marginLeft: 9 }} />&nbsp;&nbsp;&nbsp; Dashboard
           </Link>
         </MenuItem>
 
@@ -466,7 +466,7 @@ export default function SideMenu() {
           }}
         >
           <Link to="/log-section" style={{ color: "white" }}>
-            <PeopleOutlinedIcon style={{ marginLeft: 9 }} /> User Log
+            <PeopleOutlinedIcon style={{ marginLeft: 9 }} />&nbsp;&nbsp;&nbsp; User Log
           </Link>
         </MenuItem>
         <MenuItem
@@ -481,7 +481,7 @@ export default function SideMenu() {
           }}
         >
           <Link to="/help-faq" style={{ color: "white" }}>
-            <HelpOutlinedIcon style={{ marginLeft: 9 }} /> Help
+            <HelpOutlinedIcon style={{ marginLeft: 9 }} />&nbsp;&nbsp;&nbsp; Help
           </Link>
         </MenuItem>
       </Menu>
