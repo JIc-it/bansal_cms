@@ -96,7 +96,6 @@ export default function AddNewAdmin({
     },
   });
 
-
   // const [permissions, setPermissions] = useState(initialPermissions);
   useEffect(() => {
     getAllLocations()
@@ -171,17 +170,16 @@ export default function AddNewAdmin({
       }
     ),
 
-    password: Yup.string()
+    password1: Yup.string()
       .required("Password is required")
       .matches(
         passwordRegex,
         "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
       ),
-    confirmPassword: Yup.string()
+    password2: Yup.string()
       .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+      .oneOf([Yup.ref("password1")], "Passwords must match"),
   });
-
 
   const formik = useFormik({
     initialValues: {
@@ -352,7 +350,6 @@ export default function AddNewAdmin({
               className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
-              
             >
               <option disabled={true} value="" id={"0"}>
                 State
@@ -435,7 +432,6 @@ export default function AddNewAdmin({
                   {Object.keys(permissions[category])
                     ?.sort()
                     .map((action) => {
-                      
                       let permissionCheckBox =
                         category === "redemptions_window" ? (
                           <>
