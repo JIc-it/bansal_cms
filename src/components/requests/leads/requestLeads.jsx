@@ -20,6 +20,8 @@ export default function LeadRequests() {
   const [totalAcceptedRequests, setAcceptedRequests] = useState(0);
   const [totalPendingRequests, setPendingRequests] = useState(0);
   const [totalRejectedRequests, setRejectedRequests] = useState(0);
+  const [isFilter, setIsFilter] = useState(false);
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [istrue, setIstrue] = useState(false);
@@ -233,9 +235,9 @@ export default function LeadRequests() {
                   <div className="col-9">
                     <div
                       className="input-group mb-3"
-                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                      style={{ paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className="position-relative mx-2">
+                      <div className="position-relative mx-2" style={{ maxWidth: 300 }}>
                         <input
                           type="text"
                           className="form-control"
@@ -310,12 +312,33 @@ export default function LeadRequests() {
                           />
                         </svg>
                       </button>
+                      <button
+                        className="btn btn-dark mx-1"
+                        // style={{height:'2.5rem'}}
+                        type="button"
+                        onClick={() => {
+                          setFilterdata({
+                            points_from: "",
+                            points_to: "",
+                            role: "",
+                            date: "",
+                            status: "",
+                          });
+                          setSearch("");
+                          setIsFilter(!isFilter);
+                        }}
+                      >
+                        Clear filter
+                      </button>
                     </div>
                     {openFilter && (
                       <FilterPopUp
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
+                        setIsFilter={setIsFilter}
+                        isFilter={isFilter}
+                        filterdata={filterdata}
                         // created_at={created_at}
                         // handledatechange={handledatechange}
                         // handlerolechange={handlerolechange}
