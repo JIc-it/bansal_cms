@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
-  getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import { createContractor, updateUser,stateIdFilter } from "../../../axiosHandle/userHandle";
+import {updateUser,stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -33,13 +32,6 @@ export default function EditArchitect({
  
 
   useEffect(() => {
-    // getAllLocations()
-    //   .then((data) => {
-    //     setLocationList(data.results);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching lead data:", error);
-    //   });
     getAllStates()
       .then((data) => {
         setStateList(data.results);
@@ -178,7 +170,6 @@ export default function EditArchitect({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

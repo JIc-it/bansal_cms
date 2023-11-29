@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import OrderDetails from "./orderDetails";
 import {
   getOrderRequest,
@@ -12,11 +11,11 @@ import {
 
 import FilterPopUp from "./FilterPopUp";
 import { AppContext } from "../../../contexts/AppContext";
+
 export default function OrderRequests() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForRequestOrder = permissionData?.order_requests;
-  console.log(permissionForRequestOrder?.action, "permissionData");
 
   function formatDate(isoDate) {
     const date = new Date(isoDate);
@@ -24,7 +23,6 @@ export default function OrderRequests() {
   }
   const [lead_data, setLeadData] = useState(null);
   const [order_data, setOrderData] = useState([]);
-  // const [order_total, setOrderTotal] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [totalOrderRequests, setTotalOrderRequests] = useState(0);
   const [totalPendingRequests, setTotalOrderPending] = useState(0);
@@ -36,8 +34,6 @@ export default function OrderRequests() {
   const [created_at, setCreatedAt] = useState(null);
   const [points, setPoints] = useState(null);
   const [role, setRole] = useState(null);
-  const [searchUserData, setSearchUserData] = useState("");
-  const [istrue, setIstrue] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
@@ -47,7 +43,6 @@ export default function OrderRequests() {
   });
   const [hasUpdate, setHasUpdate] = useState(false);
 
-  // console.log(filterdata);
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
@@ -59,14 +54,6 @@ export default function OrderRequests() {
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
-  };
-
-  const handledatechange = (date) => {
-    setCreatedAt(date);
-  };
-
-  const handlerolechange = (role) => {
-    setRole(role);
   };
 
   useEffect(() => {
@@ -277,7 +264,10 @@ export default function OrderRequests() {
                       className="input-group mb-3"
                       style={{ paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className="position-relative mx-2" style={{ maxWidth: 300 }}>
+                      <div
+                        className="position-relative mx-2"
+                        style={{ maxWidth: 300 }}
+                      >
                         <input
                           type="text"
                           className="form-control"
@@ -354,7 +344,6 @@ export default function OrderRequests() {
                       </button>
                       <button
                         className="btn btn-dark mx-1"
-                        // style={{height:'2.5rem'}}
                         type="button"
                         onClick={() => {
                           setFilterdata({
@@ -479,30 +468,29 @@ export default function OrderRequests() {
                     )}
                   </tbody>
                 </table>
-                <div className="col-12">
-                  <div className="btn-group" style={{ float: "right" }}>
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </button>
-                    &nbsp;
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handleNextPage}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </button>
-                  </div>
+              </div>
+              <div className="col-12">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
       {selectedOrder && (
         <OrderDetails

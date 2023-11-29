@@ -2,11 +2,10 @@ import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 const ViewAdminTransaction = ({
-  open,
   setOpen,
   data,
   seletedTranasactionType,
-  userData
+  userData,
 }) => {
   const offcanvasStyle = {
     width: "365px",
@@ -29,7 +28,7 @@ const ViewAdminTransaction = ({
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
   };
-console.log(data);
+
   return (
     <Offcanvas
       show={true}

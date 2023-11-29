@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const TransactionFilterPopUp = ({
   filterdata,
   seletedTranasactionType,
@@ -12,6 +13,7 @@ const TransactionFilterPopUp = ({
   transactionFilterOpen,
   setCurrentPage,
 }) => {
+
   const customInput = (
     <div className="custom-input">
       <input
@@ -161,14 +163,6 @@ const TransactionFilterPopUp = ({
         }}
         onClick={() => {
           setCurrentPage(1);
-          // handleUserOrderData();
-          // handlefilterdata({
-          //   search: "",
-          //   status: "",
-          //   points_from: 0,
-          //   points_to: 0,
-          //   date: "",
-          // });
           setTransactionFilterOpen(false);
           setIsFilter(!isFilter);
         }}

@@ -4,7 +4,6 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { createContractor } from "../../axiosHandle/userHandle";
 import Loader from "../Loader/Loader";
 import { updatePromotion } from "../../axiosHandle/promotionHandle";
 
@@ -30,12 +29,7 @@ const UpdateADPoster = ({
     "http://bansal.jicitsolution.com/assets/media/advertisements/",
     ""
   );
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSelectedFileName(file);
-  //   }
-  // };
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -70,9 +64,6 @@ const UpdateADPoster = ({
     }
   };
 
-  // const validationSchema = Yup.object({
-  //   name: Yup.string().required("Name is required"),
-  // });
 
   const validationSchema = Yup.object({
     name: Yup.string()

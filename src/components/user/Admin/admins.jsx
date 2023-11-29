@@ -3,13 +3,14 @@ import {
   adminUserDisableEnable,
   getAdminsRequest,
   getSalePOCCount,
-  getActiveUsers
+  getActiveUsers,
 } from "../../../axiosHandle/userHandle";
 import UserView from "../userView";
 import AddNewAdmin from "./AddNewAdmin";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../../contexts/AppContext";
 import { useContext } from "react";
+
 function Admins() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
@@ -37,17 +38,6 @@ function Admins() {
     previous: null,
   });
   const [currentPage, setCurrentPage] = useState(1);
-
-  // const handlePaginationClick = (url) => {
-  //   getAdminsRequest(null, url)
-  //     .then(({ results, next, previous }) => {
-  //       setUserData(results);
-  //       setPagination({ next, previous });
-  //     })
-  //     .catch((error) => {
-  //       // Handle error
-  //     });
-  // };
 
   useEffect(() => {
     getActiveUsers("Admin")
@@ -137,9 +127,6 @@ function Admins() {
     }
   };
 
-  // const handleViewAdmin = (id) => {
-  //   navigate(`/viewadmin/${id}`);
-  // };
   const handleViewAdmin = (data) => {
     // Convert the data object to a query string
     console.log(data);
@@ -164,7 +151,7 @@ function Admins() {
 
     navigate(`/viewadmin?${queryString}`);
   };
-  console.log(totalPages,'totalPages');
+  console.log(totalPages, "totalPages");
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
@@ -258,17 +245,9 @@ function Admins() {
                           />
                         </svg>
                       </div>
-                      {/* <button
-                        className="btn btn-dark"
-                        type="button"
-                        id="search-button"
-                      >
-                        <i className="fas fa-filter" />
-                      </button> */}
                     </div>
                   </div>
                   <div className="col-5 text-end">
-                    {/* <button className="btn btn-primary btn-sm" type="button" id="add-points-button"><i className="fa-regular fa-square-plus" /> Add New Contractor</button> */}
                     {permissionForUser?.create && (
                       <button
                         className="btn btn-primary btn-sm"
@@ -363,8 +342,8 @@ function Admins() {
                               className={`card-footer ${
                                 data.is_delete && "disabled-row"
                               }`}
-                            >{data.is_delete?"Inactive":"Active"}
-                              {" "}
+                            >
+                              {data.is_delete ? "Inactive" : "Active"}{" "}
                               <div
                                 className={`form-switch `}
                                 style={{
@@ -377,7 +356,7 @@ function Admins() {
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
                                   checked={!data.is_delete}
-                                  style={{cursor: "pointer"}}
+                                  style={{ cursor: "pointer" }}
                                   onChange={(e) => {
                                     adminUserDisableEnable(
                                       data.id,
@@ -395,18 +374,6 @@ function Admins() {
                                       });
                                   }}
                                 />
-                                {/* <label
-                                  className={`form-check-label ${
-                                    data.is_delete
-                                      ? " success-color mx-3"
-                                      : "error-color mx-2"
-                                  }`}
-                                  htmlFor={`activationToggle-${index}`}
-                                >
-                                  {`${
-                                    data.is_delete ? " Active" : " In Active"
-                                  }`}
-                                </label> */}
                               </div>
                             </td>
                           )}
@@ -443,7 +410,6 @@ function Admins() {
           </div>
         </div>
       </div>
-      {/* {selectedUser && <UserView data={selectedUser} open_view={true} />} */}
       {isOpenAddAdmin && (
         <AddNewAdmin
           setIsAdminAdded={setIsAdminAdded}

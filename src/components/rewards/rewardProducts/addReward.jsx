@@ -24,7 +24,7 @@ export default function AddReward({
     points: "",
     description: "",
     item_image: "",
-    is_active:true
+    is_active: true,
   });
 
   const [errors, setErrors] = useState({
@@ -32,7 +32,7 @@ export default function AddReward({
     points: "",
     description: "",
     item_image: "",
-    is_active:""
+    is_active: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -50,7 +50,6 @@ export default function AddReward({
       validationErrors.points = "Points must be a valid number greater than 0";
     }
 
-    
     if (!credentials.points || isNaN(credentials.points)) {
       validationErrors.points = "Points must be a valid number";
     }
@@ -64,7 +63,7 @@ export default function AddReward({
       validationErrors.description =
         "Description must be at most 30 characters long";
     }
-    
+
     if (!credentials.item_image) {
       validationErrors.item_image = "Product image is required";
     }
@@ -139,17 +138,15 @@ export default function AddReward({
             className="form-control"
             value={credentials.points}
             onChange={(e) => {
-              const values=e.target.value
-              if(values<=800000){
+              const values = e.target.value;
+              if (values <= 800000) {
                 setCredentials({ ...credentials, points: values });
               }
-              if(values.includes(".")){
+              if (values.includes(".")) {
                 setErrors({ ...errors, points: "Decimals not allowed" });
-              }
-              else{
+              } else {
                 setErrors({ ...errors, points: "" });
               }
-              
             }}
             placeholder="Points"
           />
@@ -161,17 +158,14 @@ export default function AddReward({
             className="form-control"
             maxLength={30}
             onChange={(e) => {
-              const values=e.target.value;
-              if(values.trim()!==""){
+              const values = e.target.value;
+              if (values.trim() !== "") {
                 setCredentials({ ...credentials, description: e.target.value });
-              }
-              else if(values.trim()===""){
+              } else if (values.trim() === "") {
                 setErrors({ ...errors, description: "Space is not Allowed" });
-              }
-              else{
+              } else {
                 setErrors({ ...errors, description: "" });
               }
-              
             }}
             defaultValue={credentials.description}
             placeholder="Description"
@@ -180,7 +174,13 @@ export default function AddReward({
             <p className="text-danger">{errors.description}</p>
           )}
         </div>
-        <div style={{ marginTop: 20, display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            marginTop: 20,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <div>
             <label>Product Photo (140*140)</label>
             <input
@@ -228,14 +228,38 @@ export default function AddReward({
           </div>
         </div>
         <div>
-                    <h6>Status</h6><br />
-                    <div className="form-check form-switch" style={{ position: 'relative', bottom: '35px', float: 'inline-end' }}>
-                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">{credentials.is_active ? "Active" : "Inactive"}</label>
-                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                            onChange={(e) => setCredentials({ ...credentials, is_active: !credentials.is_active })}
-                            defaultChecked={credentials.is_active} value={credentials.is_active} />
-                    </div>
-                </div>
+          <h6>Status</h6>
+          <br />
+          <div
+            className="form-check form-switch"
+            style={{
+              position: "relative",
+              bottom: "35px",
+              float: "inline-end",
+            }}
+          >
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckDefault"
+            >
+              {credentials.is_active ? "Active" : "Inactive"}
+            </label>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              onChange={(e) =>
+                setCredentials({
+                  ...credentials,
+                  is_active: !credentials.is_active,
+                })
+              }
+              defaultChecked={credentials.is_active}
+              value={credentials.is_active}
+            />
+          </div>
+        </div>
       </div>
       <div
         style={{

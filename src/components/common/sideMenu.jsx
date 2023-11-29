@@ -19,21 +19,7 @@ import { Link } from "react-router-dom";
 import { getModulePermission } from "../../axiosHandle/authHandle";
 import { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
-// import axiosInstance from "../../axiosHandle";
 
-// Define the getUserPermissions function
-
-// const getUserPermissions = () => {
-//     return {
-//         order_requests: true,
-//         lead_requests: false,
-//     };
-// };
-
-// const getUserPermissions = () => {
-//     const storedPermissions = localStorage.getItem("userPermissions");
-//       return storedPermissions ? JSON.parse(storedPermissions) : {};
-//   };
 
 const getUserPermissions = (id) => {
   const getUserPermission = `/account/custom_permission/retrieve/${id}/`;
@@ -50,7 +36,7 @@ const getUserPermissions = (id) => {
 };
 export default function SideMenu() {
   const userRole = localStorage.getItem("role");
-  // console.log(userRole, "userRole");
+
   const { collapseSidebar, toggleSidebar, collapsed, toggled, broken, rtl } =
     useProSidebar();
   const location = useLocation();
@@ -60,7 +46,6 @@ export default function SideMenu() {
   const isMenuItemActive = (menuItemPath) => {
     return location.pathname.includes(menuItemPath);
   };
-  // const [userPermissions, setUserPermissions] = useState([]);
 
   const getCurrentUserId = () => {
     return "39865dd5-f2e5-4561-93cc-701f2f2a3302";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Cards from "./cards";
-import { getRewardProductsId, getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
+import { getRewardProductsRequest } from "../../../axiosHandle/rewardHandle";
 import AddReward from "./addReward";
 import EditReward from "./editReward";
 import { AppContext } from "../../../contexts/AppContext";
@@ -10,7 +10,6 @@ function RewardPoints() {
   const { permissionData } = contextData;
   const permissionForRewardProducts = permissionData?.reward_products;
   const permissionForRedumtionWindow = permissionData?.redemptions_window;
-  console.log(permissionForRewardProducts, "permissionForRewardProducts");
   const [reward_product_data, setRewardProductData] = useState(null);
   const [createProduct, setCreateProduct] = useState(null);
   const [updateProduct, setUpdateProduct] = useState(null);
@@ -34,13 +33,12 @@ function RewardPoints() {
       .then((data) => {
         console.log("Fetched data:", data);
         setRewardProductData(data.results);
-        setisUpdated(false)
+        setisUpdated(false);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
   }, [isUpdated]);
-
 
   const exportToCSV = () => {
     if (reward_product_data) {
@@ -86,20 +84,20 @@ function RewardPoints() {
   const filteredItems =
     reward_product_data && reward_product_data.length > 0
       ? reward_product_data.filter((rw_data) => {
-        const searchableFields = [
-          rw_data.title,
-          rw_data.id,
-          rw_data.points,
-          rw_data.description,
-          rw_data.is_active,
-          rw_data.times_redeemed,
-        ];
-        return searchableFields.some(
-          (field) =>
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchText.toLowerCase())
-        );
-      })
+          const searchableFields = [
+            rw_data.title,
+            rw_data.id,
+            rw_data.points,
+            rw_data.description,
+            rw_data.is_active,
+            rw_data.times_redeemed,
+          ];
+          return searchableFields.some(
+            (field) =>
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchText.toLowerCase())
+          );
+        })
       : [];
 
   const handleNextPage = () => {
@@ -228,9 +226,7 @@ function RewardPoints() {
                           <td>
                             <h6>{rw_data.description}</h6>
                           </td>
-                          {/* <td>
-                            <h6>{rw_data.is_active ? "Active" : "Inactive"}</h6>
-                          </td> */}
+
                           <td>
                             <span
                               className={
@@ -244,23 +240,11 @@ function RewardPoints() {
                                 : "Inactive"}
                             </span>
                           </td>
-                          {/* <td>
-                            <button
-                              style={{
-                                backgroundColor: rw_data.is_active ? '#d2eadb' : 'red',
-                                color: 'white', // Set text color to white for better visibility
-                              }}
-                              className="btn btn-sm"
-                            >
-                              {rw_data.is_active ? 'Active' : 'Inactive'}
-                            </button>
-                          </td> */}
+
                           <td>
                             <h6>{rw_data.times_redeemed}</h6>
                           </td>
-                          {/* <td>
-                            <h6>{rw_data.quantity}</h6>
-                          </td> */}
+
                           <td>
                             {permissionForRewardProducts?.update && (
                               <button

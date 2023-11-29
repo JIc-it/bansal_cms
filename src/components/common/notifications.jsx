@@ -2,43 +2,13 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import React, { useEffect, useState } from 'react';
 import { NotificationDelete, NotificationList } from '../../axiosHandle/userHandle';
 
-// import { updateOrderRequest,updateLeadRequest } from '../../../axiosHandle/dashboardHandle';
 
-const offcanvasStyle = {
-    width: '365px',
-    height: '145px',
-    backgroundColor: 'lightgray',
-    display: 'flex',
-    marginLeft: 18,
-    marginTop: 20,
-    flexDirection: 'column',
-};
 const notificationsHead={
     width: '122px',
     height: '28px',
     fontSize:19.2,
     marginLeft:20
 };
-const statusOffcanvas = {
-    width: '365px',
-    height: '80px',
-    marginLeft: 18,
-    marginTop: 30,
-    borderRadius: 8,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#F2F2F2',
-};
-const notificationStyle = {
-    fontFamily: 'Poppins',
-    fontWeight: '400',
-    fontSize: 12,
-    color: 'rgba(15, 15, 15, 1)',
-    marginTop: '10px',
-    marginLeft: '20px'
-};
-
 
 export default function NotificationsOpen({ open, setOpen,showNotification }) {
     const [dataList, setDataList] = useState([]);

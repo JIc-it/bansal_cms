@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
     width: '365px',
     height: '100%',
-    // backgroundColor: 'lightgray',
     display: 'flex',
     marginLeft: 18,
     marginTop: 20,
@@ -81,20 +80,9 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
     };
 
     return (
-        // <Offcanvas show={open} onHide={() => { setOpen(false); setShowImages("") }} placement="end" style={{ overflow: 'auto' }}>
-        //     <Offcanvas.Header style={{ marginLeft: 345 }} closeButton />
-        //     <div style={offcanvasStyle}>
-        //         <h5>Reward Product Details</h5>
-        //     </div>
-        //     <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>
-        //         <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>
-        //             {loading ? 'Loading...' : 'Confirm'}
-        //         </button>
-        //     </div>
-        // </Offcanvas>
+       
         <Offcanvas show={open} onHide={() => { setOpen(false); setShowImages("") }} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
-                {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
             </Offcanvas.Header>
             <div style={offcanvasStyle}>
                 <h5>Reward Product Details</h5>
@@ -158,7 +146,6 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', marginLeft: '13px', marginRight: '10px' }}>
-                {/* <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>Confirm</button> */}
                 <button className="btn btn-primary" onClick={handleUpdate} style={{ flex: 1, margin: '0 5px', width: '100%' }}>
                     {loading ? 'Loading...' : 'Confirm'}
                 </button>

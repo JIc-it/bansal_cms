@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import OrderDetails from "./orderDetails";
-import { getOrderRequest } from "../../../axiosHandle/requestHandle";
 import { getLeadRequest } from "../../../axiosHandle/requestHandle";
 import FilterPopUp from "./FilterPopUp";
 import { getOrderPoint } from "../../../axiosHandle/pointsHandle";
 import { AppContext } from "../../../contexts/AppContext";
+
 export default function OrderPoints() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
@@ -257,22 +257,15 @@ export default function OrderPoints() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
                     {permissionForPointsOrder?.action && (
-                      // <button
-                      //   style={{ marginLeft: 135 }}
-                      //   className="btn btn-light btn-sm"
-                      //   type="button"
-                      //   onClick={exportToCSV}
-                      // >
-                      //   <i className="fa-solid fa-file-export" /> Export
-                      // </button>
+                   
                       <button
                         style={{ marginLeft: 135 }}
                         className="btn btn-light btn-sm"
@@ -350,26 +343,27 @@ export default function OrderPoints() {
                           </td>
                           <td>
                             <button
-                              className={`btn  btn-sm ${order.admin_approval === "Accepted"
+                              className={`btn  btn-sm ${
+                                order.admin_approval === "Accepted"
                                   ? // &&
-                                  // order.user_approval === "Accepted"
-                                  "Accepted-btn"
+                                    // order.user_approval === "Accepted"
+                                    "Accepted-btn"
                                   : order.admin_approval === "Rejected"
-                                    ? // ||
+                                  ? // ||
                                     //   order.user_approval === "Rejected"
                                     "Rejected-btn"
-                                    : "Processing-btn"
-                                }`}
+                                  : "Processing-btn"
+                              }`}
                             >
                               {order.admin_approval === "Accepted"
                                 ? // &&
-                                // order.user_approval === "Accepted"
-                                "Accepted"
+                                  // order.user_approval === "Accepted"
+                                  "Accepted"
                                 : order.admin_approval === "Rejected"
-                                  ? // ||
+                                ? // ||
                                   //   order.user_approval === "Rejected"
                                   "Rejected"
-                                  : "Processing"}
+                                : "Processing"}
                             </button>
                           </td>
                           <td>
@@ -389,24 +383,24 @@ export default function OrderPoints() {
                     )}
                   </tbody>
                 </table>
-                <div className="col-12">
-                  <div className="btn-group" style={{ float: "right" }}>
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </button>
-                    &nbsp;
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handleNextPage}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </button>
-                  </div>
+              </div>
+              <div className="col-12">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             </div>

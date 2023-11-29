@@ -5,7 +5,6 @@ import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
 import {
-  createArchitects,
   createUser,
   stateIdFilter,
 } from "../../../axiosHandle/userHandle";
@@ -23,6 +22,7 @@ const offcanvasStyle = {
   marginTop: 20,
   flexDirection: "column",
 };
+
 export default function AddArchitects({
   open,
   setOpen,

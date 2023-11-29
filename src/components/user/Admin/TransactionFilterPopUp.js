@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
+
 const TransactionFilterPopUp = ({
   handlefilterdata,
   seletedTranasactionType,
@@ -9,9 +9,7 @@ const TransactionFilterPopUp = ({
   setIsFilter,
   setOpenFilter,
   filterData,
-  // handlefilterdata
 }) => {
-
   const customInput = (
     <div className="custom-input">
       <input
@@ -79,7 +77,7 @@ const TransactionFilterPopUp = ({
       </svg>
     </div>
   );
-console.log(filterData,'filterData');
+
   return (
     <div className="filter-popup-container">
       <div className="filter-heading">Filter</div>

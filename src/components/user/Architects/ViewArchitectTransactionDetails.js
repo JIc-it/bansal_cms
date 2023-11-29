@@ -232,28 +232,7 @@ const ViewArchitectTransactionDetails = ({ open, setOpen, itemData }) => {
             </div>
           </div>
         </h6>
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px",
-            marginLeft: "13px",
-            marginRight: "10px",
-          }}
-        >
-          <button
-            className="btn btn-success"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-          >
-            Accept
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ flex: 1, margin: "0 5px", width: "calc(50% - 5px)" }}
-          >
-            Reject
-          </button>
-        </div> */}
+       
       </div>
     </Offcanvas>
   );

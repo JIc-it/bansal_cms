@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
   addUserPoints,
-  createContractor,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";

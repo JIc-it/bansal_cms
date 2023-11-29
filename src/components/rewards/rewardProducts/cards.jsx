@@ -12,17 +12,13 @@ export default function Cards({ permissionForRedumtionWindow }) {
   const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
   const [totalRedeemedCount, setTotalRedeemedCount] = useState(0);
   const [isChecked, setIsChecked] = useState(true);
-  // const [value, setValue] = useState("Open");
   const [rewardId, setRewardId] = useState("");
-  console.log("rewardId", rewardId);
+
   const checkBoxHandler = () => {
     setIsChecked(!isChecked);
-    // if (isChecked == true) {
-    //   setValue("Open");
-    // } else {
-    //   setValue("Close");
-    // }
+    
   };
+  
   useEffect(() => {
     getTotalRewardProducts()
       .then((data) => {

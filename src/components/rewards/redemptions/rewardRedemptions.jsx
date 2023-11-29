@@ -10,7 +10,7 @@ function Redemptions() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForRedemption = permissionData?.redemptions;
-  console.log(permissionForRedemption, "permissionForRedemption");
+
   const handleViewClick = (data) => {
     setselectedRedemption(data);
   };
@@ -119,16 +119,6 @@ function Redemptions() {
     });
   };
 
-  // const handlefilter = () => {
-  //   getLeadRequest(filterdata)
-  //     .then((data) => {
-  //       setLeadData(data.results);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching lead data:', error);
-  //     });
-  // }
-
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       <div className="container">
@@ -141,17 +131,11 @@ function Redemptions() {
                     <h4 className="heading mb-0">Redemptions</h4>
                   </div>
                   <div className="row">
-                    {/* <div className="col-9">
-                      <div className="input-group mb-3" style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}>
-                        <input type="text" className="form-control" style={{ marginRight: 10 }} placeholder="Search..." aria-label="Search..." aria-describedby="search-button" />
-                        <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button>
-                      </div>
-                    </div> */}
+                 
                     <div className="col-9">
                       <div
                         className="input-group mb-3"
                         style={{
-                          // maxWidth: 300,
                           paddingTop: 15,
                           paddingLeft: 15,
                         }}
@@ -260,14 +244,7 @@ function Redemptions() {
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
                       {permissionForRedemption?.action && (
-                        // <button
-                        //   style={{ marginLeft: 120 }}
-                        //   className="btn btn-light btn-sm"
-                        //   type="button"
-                        //   onClick={exportToCSV}
-                        // >
-                        //   <i className="fa-solid fa-file-export" /> Export
-                        // </button>
+                       
                         <button
                           style={{ marginLeft: 135 }}
                           className="btn btn-light btn-sm"

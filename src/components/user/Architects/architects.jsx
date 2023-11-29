@@ -69,18 +69,6 @@ function Architects() {
       });
   }, [isArchitectsAdded, searchUserData, isFilter]);
 
-  const handleDelete = (id) => {
-    deleteContractorUser(id)
-      .then((data) => {
-        setIsArchitectsAdded(!isArchitectsAdded);
-        toast.success("Deleted Succefully");
-        setOpenRemoveOption(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching Architect data:", error);
-      });
-  };
-
   const exportToCSV = () => {
     if (userData) {
       const header = [

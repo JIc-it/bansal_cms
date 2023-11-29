@@ -5,7 +5,6 @@ import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
 import {
-  createContractor,
   handleUserResetPassword,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
@@ -16,12 +15,12 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
   flexDirection: "column",
 };
+
 export default function AdminResetPassword({
   open,
   setOpen,
@@ -80,7 +79,6 @@ export default function AdminResetPassword({
 
           const resetData = await handleUserResetPassword(userDatail, data);
           if (resetData) {
-            // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -138,7 +136,6 @@ export default function AdminResetPassword({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

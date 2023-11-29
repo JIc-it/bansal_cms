@@ -31,7 +31,6 @@ export default function LeadRequests() {
     date: "",
   });
 
-  console.log(lead_data, 'lead_data');
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
       return {
@@ -73,7 +72,6 @@ export default function LeadRequests() {
         console.log(data);
         setPendingRequests(data.count);
         setLeadData(data.results);
-
       })
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
@@ -166,8 +164,7 @@ export default function LeadRequests() {
           <h5 className="mb-0">Lead Requests</h5>
         </div>
         <br></br>
-        {/* <div className="row"> */}
-        {/* <div className="container"> */}
+ 
         <div className="row">
           <div className="col-xl-12 wid-100">
             <div className="row">
@@ -237,7 +234,10 @@ export default function LeadRequests() {
                       className="input-group mb-3"
                       style={{ paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className="position-relative mx-2" style={{ maxWidth: 300 }}>
+                      <div
+                        className="position-relative mx-2"
+                        style={{ maxWidth: 300 }}
+                      >
                         <input
                           type="text"
                           className="form-control"
@@ -339,9 +339,9 @@ export default function LeadRequests() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                      // created_at={created_at}
-                      // handledatechange={handledatechange}
-                      // handlerolechange={handlerolechange}
+                        // created_at={created_at}
+                        // handledatechange={handledatechange}
+                        // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
@@ -440,9 +440,7 @@ export default function LeadRequests() {
                           <td>
                             <h6>{lead.order}</h6>
                           </td>
-                          {/* <td>
-                            <button className="btn btn-primary" onClick={() => handleViewClick(lead)}>View</button>
-                          </td> */}
+                        
                           <td>
                             <button
                               className="btn btn-primary btn-sm"
@@ -460,30 +458,29 @@ export default function LeadRequests() {
                     )}
                   </tbody>
                 </table>
-                <div className="col-12">
-                  <div className="btn-group" style={{ float: "right" }}>
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </button>
-                    &nbsp;
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={handleNextPage}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </button>
-                  </div>
+              </div>
+              <div className="col-12">
+                <div className="btn-group" style={{ float: "right" }}>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
       {selectedLead && (
         <LeadDetails

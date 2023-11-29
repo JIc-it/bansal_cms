@@ -5,7 +5,6 @@ import PendingOrderRequests from "./pendingTable/orderRequests";
 import TopStartPerformers from "./topStar/topStartPerformers";
 import ItemCounts from "./itemCounts";
 import ProjectStatus from "./projectStatus";
-// import "./Dashboard.css"; // Import your custom CSS file
 
 function Dashboard() {
   return (

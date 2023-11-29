@@ -19,7 +19,6 @@ const FilterPopUp = ({handlefilterdata,handlefilter,setOpenFilter}) => {
                 placeholder="Date"
                 className="form-control form-control-sm mb-2"
                 name="to"
-                // defaultValue={created_at}
                 onChange={(e)=>{
                     const formatdate=new Date(e.target.value);
                     const Year=formatdate.getFullYear();

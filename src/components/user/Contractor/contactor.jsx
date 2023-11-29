@@ -27,7 +27,6 @@ export default function Contractor() {
   const [totalUserCount, setTotalUserCount] = useState(0);
   const [activeUserCount, setActiveUserCount] = useState(0);
   const [openRemoveOption, setOpenRemoveOption] = useState(false);
-  const [selectedIdForRemove, setSelectedIdForRemove] = useState(0);
   const [searchUserData, setSearchUserData] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState({ from: "", to: "" });
@@ -122,7 +121,6 @@ export default function Contractor() {
 
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
-      {/* row */}
       <div className="container">
         <div className="row" style={{ position: "relative", left: "15px" }}>
           <div className="col-xl-12 wid-100">

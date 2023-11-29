@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import Button from "react-bootstrap/Button";
 import {
   getAdsListing,
   updatePromotion,
@@ -14,7 +12,6 @@ function Promotions() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForPromotion = permissionData?.promotions;
-  console.log(permissionForPromotion, "permissionForPromotion");
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [adslisting, setAdsLIsting] = useState({});
   const [selectedPromotionDetails, setSelectedPromotionDetails] = useState();
@@ -108,7 +105,7 @@ function Promotions() {
                         className="card-footer  form-check form-switch"
                         style={{ padding: "5px 1rem" }}
                       >
-                        <div className="d-flex ">
+                        <div className="row ">
                           <div className="col-md-6">
                             <a
                               href={`/promotionhistory/${ads.id}`}
@@ -124,7 +121,7 @@ function Promotions() {
                           <div className="col-md-6">
                             {permissionForPromotion?.update && (
                               <div
-                                className=" form-switch"
+                                className="form-switch"
                                 style={{
                                   display: "inline-block",
                                 }}

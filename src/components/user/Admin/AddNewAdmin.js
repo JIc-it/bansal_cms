@@ -240,7 +240,7 @@ export default function AddNewAdmin({
       district: { id, name: districtName },
     });
   };
-  
+
   const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
@@ -273,7 +273,6 @@ export default function AddNewAdmin({
       className="admin-permisiion-offcanvas"
     >
       <Offcanvas.Header
-        // style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
       ></Offcanvas.Header>

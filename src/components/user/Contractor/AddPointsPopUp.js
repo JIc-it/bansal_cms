@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import {
   addUserPoints,
-  createContractor,
 } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -105,7 +104,6 @@ export default function AddPointsPopUp({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

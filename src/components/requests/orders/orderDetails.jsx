@@ -58,7 +58,6 @@ export default function OrderDetails({
   const handleRequest = (type) => {
     console.log(data?.id);
 
-    // let status = type === "accept" ? "Redeemed" : "Rejected";
     handleOrderAcceptReject(data?.id, type)
       .then((data) => {
         if (data) {
@@ -127,7 +126,6 @@ export default function OrderDetails({
           })}
         </span>
         <br></br>
-        {/* <span>Date & Time :</span><span style={{ marginLeft: 150 }}>05 AUG 2023, 6:00 PM</span><br></br> */}
       </div>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
         <h6>Distributor Details</h6>

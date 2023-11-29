@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
-// import ViewContractorTransaction from "./ViewContractorTransaction";
-// import AddPointsPopUp from "./AddPointsPopUp";
 import AdminResetPassword from "./AdminResetPassword";
 import EditAdmin from "./EditAdmin";
-import AdminUserViewOrders from "./adminUserViewOrders";
-
 import {
-  getContractorsRequest,
-  getUserLeads,
-  getUserOrders,
-  getUserRedemptionData,
+
   adminPermissionViewRequest,
   adminUSerViewOrdersRequest,
   adminUSerViewLeadsRequest,
@@ -25,13 +18,11 @@ import ViewAdminTransaction from "./ViewAdminTransaction";
 const ViewAdmin = () => {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
-  console.log(permissionData, "permissionData");
   const permissionForUser = permissionData?.user;
   const userDatail = useParams();
   const [userData, setUserData] = useState();
   const [viewTransaction, setViewTransaction] = useState(false);
   const [permissionview, setPermissionView] = useState(false);
-  const [isOpenAddPointsPopUp, setIsOpenAddPointsPopUp] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [seletedTranasactionType, setSeletedTranasactionType] =
@@ -61,7 +52,6 @@ const ViewAdmin = () => {
     });
   };
 
-  // console.log(filterData);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -93,7 +83,6 @@ const ViewAdmin = () => {
         console.error("Error fetching distributor data:", error);
       });
   }, [isUpdateUser, userDataParam.id]);
-  console.log(userData, "userData");
 
   const handleUserOrderData = () => {
     adminUSerViewOrdersRequest(userDataParam.id, search, filterData)

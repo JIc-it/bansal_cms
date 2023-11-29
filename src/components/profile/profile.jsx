@@ -99,22 +99,3 @@ export default function Profile() {
     </div>
   );
 }
-
-// export default List3;
-
-// export default Profile = () => {
-
-//   useEffect(() => {
-//     getUserCount()
-//       .then((count) => {
-//         setUserCount(count);
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching user count:', error);
-//       });
-//   }, []);
-
-//   return (
-
-//   );
-// };

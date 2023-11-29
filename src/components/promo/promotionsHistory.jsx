@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router";
-import axiosInstance from "../../axiosHandle/authHandle";
 import { useState, useEffect } from "react";
 import { getAdHistory, getAdsListing } from "../../axiosHandle/promotionHandle";
 import UpdateADPoster from "./UpdateADPoster";
@@ -11,7 +10,6 @@ function PromotionsHistory() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForPromotion = permissionData?.promotions;
-  console.log(permissionForPromotion, "permissionForPromotion");
   const paramsid = useParams();
   const [history, setHistory] = useState(null);
   const [searchData, setSearchData] = useState("");
@@ -190,71 +188,7 @@ function PromotionsHistory() {
                     </div>
                   </div>
                   <div>
-                    {/* <table id="reports-tbl" className="table">
-                      <thead>
-                        <tr>
-                          <th>Promotions</th>
-                          <th>Date &amp; Time</th>
-                          <th>Ad Runtime (Days)</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {history?.map((data) => (
-                          <tr>
-                            <td>
-                              <h6>
-                                <img
-                                  src={data.ad_image}
-                                  // className="img-fluid"
-                                  width={60}
-                                  height={40}
-                                  style={{ paddingRight: 10 }}
-                                />
-                                {data.title || ""}
-                              </h6>
-                            </td>
-                            <td>
-                              <div className="products">
-                                <div>
-                                  <h6>
-                                    {new Date(
-                                      data.updated_at
-                                    ).toLocaleDateString("en-Us", {
-                                      day: "2-digit",
-                                      month: "short",
-                                      year: "numeric",
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                    })}
-                                  </h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="products">
-                                <div>
-                                  <h6>{data.active_time}</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <span
-                                className={
-                                  data.is_active === true
-                                    ? "badge badge-success light border-0"
-                                    : "badge badge-danger light border-0"
-                                }
-                              >
-                                {data.is_active === true
-                                  ? "Active"
-                                  : "Inactive"}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table> */}
+                  
 
                     <table id="reports-tbl" className="table">
                       <thead>

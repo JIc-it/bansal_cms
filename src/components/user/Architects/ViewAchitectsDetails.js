@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
 import {
   getArchitectsRequest,
   getUserRedemptionData,
@@ -17,8 +16,6 @@ import ViewArchitectTransactionDetails from "./ViewArchitectTransactionDetails";
 import ArchitectTransactionPopUp from "./ArchitectTransactionPopUp";
 import { AppContext } from "../../../contexts/AppContext";
 import { useContext } from "react";
-import { createArchitect } from "../../../axiosHandle/userHandle";
-
 
 const ViewAchitectsDetails = () => {
   const contextData = useContext(AppContext);
@@ -40,9 +37,9 @@ const ViewAchitectsDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdated, setIsUpdated] = useState(false);
   const [search, setSearch] = useState("");
-  const [item,setitem]=useState([])
+  const [item, setitem] = useState([]);
   const [filterdata, setFilterdata] = useState({
-    search:"",
+    search: "",
     status: "",
     points_from: "",
     points_to: "",
@@ -55,15 +52,12 @@ const ViewAchitectsDetails = () => {
       return { ...prev, ...fields };
     });
   }
- const handleOpenViewArchitectData=(item)=>{
-  console.log("handleOpenViewArchitectData",item)
-  setViewTransaction(true)
-  // createArchitect().then((data)=>{
-  //   console.log("createArchitect handleOpenViewArchitectData",data)
-  // })
-  setitem(item)
-
- }
+  const handleOpenViewArchitectData = (item) => {
+    console.log("handleOpenViewArchitectData", item);
+    setViewTransaction(true);
+    setitem(item);
+  };
+  
   useEffect(() => {
     getArchitectsRequest("", {
       pointsFrom: "",
@@ -107,7 +101,7 @@ const ViewAchitectsDetails = () => {
   const handleUserOrderData = () => {
     getUserOrders(userData.id, search, filterdata)
       .then((data) => {
-        setTransactionData([])
+        setTransactionData([]);
         setTransactionData(data.results);
       })
       .catch((error) => {
@@ -126,7 +120,7 @@ const ViewAchitectsDetails = () => {
   };
 
   const handleUserPointCount = () => {
-    getUserPointsCounts(userData.id,filterdata)
+    getUserPointsCounts(userData.id, filterdata)
       .then((data) => {
         setTotalPoints(data.total_points);
       })
@@ -156,7 +150,7 @@ const ViewAchitectsDetails = () => {
     setSeletedTranasactionType(type);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (seletedTranasactionType === "Orders") {
       getUserOrders(userData?.id, filterdata?.search, filterdata)
         .then((data) => {
@@ -167,9 +161,9 @@ const ViewAchitectsDetails = () => {
           console.error("Error fetching distributor data:", error);
         });
     }
-   
+
     if (seletedTranasactionType === "Redemptions") {
-      getUserRedemptionData(userData?.id,filterdata?.search,filterdata)
+      getUserRedemptionData(userData?.id, filterdata?.search, filterdata)
         .then((data) => {
           setTransactionData(data.results);
           setTotalOrder(data.total);
@@ -180,7 +174,7 @@ const ViewAchitectsDetails = () => {
     }
 
     if (seletedTranasactionType === "Leads") {
-      getUserLeads(userData?.id,filterdata.search,filterdata)
+      getUserLeads(userData?.id, filterdata.search, filterdata)
         .then((data) => {
           setTransactionData(data.results);
           setTotalOrder(data.total);
@@ -189,23 +183,10 @@ const ViewAchitectsDetails = () => {
           console.error("Error fetching distributor data:", error);
         });
     }
-  },[seletedTranasactionType,filterdata?.search])
+  }, [seletedTranasactionType, filterdata?.search]);
 
-
-  const handleUserRedemption=()=>{
-      getUserRedemptionData(userData?.id,filterdata?.search,filterdata)
-        .then((data) => {
-          setTransactionData(data.results);
-          setTotalOrder(data.total);
-        })
-        .catch((error) => {
-          console.error("Error fetching distributor data:", error);
-        });
-  }
-
-const handleUserLeads=()=>{
-
-    getUserLeads(userData?.id,filterdata.search,filterdata)
+  const handleUserRedemption = () => {
+    getUserRedemptionData(userData?.id, filterdata?.search, filterdata)
       .then((data) => {
         setTransactionData(data.results);
         setTotalOrder(data.total);
@@ -213,7 +194,18 @@ const handleUserLeads=()=>{
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-}
+  };
+
+  const handleUserLeads = () => {
+    getUserLeads(userData?.id, filterdata.search, filterdata)
+      .then((data) => {
+        setTransactionData(data.results);
+        setTotalOrder(data.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
+  };
   const exportToCSV = () => {
     if (transactionData) {
       const header =
@@ -273,7 +265,7 @@ const handleUserLeads=()=>{
     }
   };
 
-  console.log(filterdata,"238");
+  console.log(filterdata, "238");
   return (
     <div className="content-body" style={{ marginLeft: "245px" }}>
       <div className="container">
@@ -446,14 +438,14 @@ const handleUserLeads=()=>{
               </div>
               <div className="row">
                 <div className="col-5" style={{ paddingLeft: 0 }}>
-                <div
-                      className="input-group mb-3"
-                      style={{ paddingTop: 15, paddingLeft: 15 }}
+                  <div
+                    className="input-group mb-3"
+                    style={{ paddingTop: 15, paddingLeft: 15 }}
+                  >
+                    <div
+                      className="search-group form-control"
+                      style={{ maxWidth: 300 }}
                     >
-                      <div
-                        className="search-group form-control"
-                        style={{ maxWidth: 300 }}
-                      >
                       <input
                         type="text"
                         className=""
@@ -462,7 +454,7 @@ const handleUserLeads=()=>{
                         aria-label="Search..."
                         aria-describedby="search-button"
                         onChange={(e) => {
-                          handlefilterdata({search:e.target.value})
+                          handlefilterdata({ search: e.target.value });
                         }}
                       />
                       <svg
@@ -522,23 +514,23 @@ const handleUserLeads=()=>{
                       </svg>
                     </button>
                     <button
-                        className="btn bg-blue mx-1"
-                        type="button"
-                        onClick={() => {
-                          setFilterdata({
-                            status:"",
-                            pointsFrom: "",
-                            pointsTo: "",
-                            date: "",
-                          });
-                        }}
-                      >
-                        Clear filter
-                      </button>
+                      className="btn bg-blue mx-1"
+                      type="button"
+                      onClick={() => {
+                        setFilterdata({
+                          status: "",
+                          pointsFrom: "",
+                          pointsTo: "",
+                          date: "",
+                        });
+                      }}
+                    >
+                      Clear filter
+                    </button>
                   </div>
                   {transactionFilterOpen && (
                     <ArchitectTransactionPopUp
-                    seletedTranasactionType={seletedTranasactionType}
+                      seletedTranasactionType={seletedTranasactionType}
                       handlefilterdata={handlefilterdata}
                       handleUserOrderData={handleUserOrderData}
                       setTransactionFilterOpen={setTransactionFilterOpen}
@@ -671,7 +663,11 @@ const handleUserLeads=()=>{
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() =>handleOpenViewArchitectData(ele) }>
+                                <td
+                                  onClick={() =>
+                                    handleOpenViewArchitectData(ele)
+                                  }
+                                >
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"
@@ -712,8 +708,12 @@ const handleUserLeads=()=>{
                                 <td>
                                   <h6>{ele.transaction_id}</h6>
                                 </td>
-                                <td><h6>{ele?.product_name}</h6></td>
-                                <td><h6>{ele?.product_id}</h6></td>
+                                <td>
+                                  <h6>{ele?.product_name}</h6>
+                                </td>
+                                <td>
+                                  <h6>{ele?.product_id}</h6>
+                                </td>
                                 <td>
                                   <h6>
                                     {new Date(
@@ -748,7 +748,11 @@ const handleUserLeads=()=>{
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() =>handleOpenViewArchitectData(ele) }>
+                                <td
+                                  onClick={() =>
+                                    handleOpenViewArchitectData(ele)
+                                  }
+                                >
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"
@@ -798,9 +802,21 @@ const handleUserLeads=()=>{
                                   <h6>{ele.mobile_no}</h6>
                                 </td>
                                 <td>
-                                  <h6>{new Date(ele.updated_at).toLocaleDateString("en-US",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}</h6>
+                                  <h6>
+                                    {new Date(
+                                      ele.updated_at
+                                    ).toLocaleDateString("en-US", {
+                                      day: "2-digit",
+                                      month: "short",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
+                                  </h6>
                                 </td>
-                                <td><h6>{ele.points}</h6></td>
+                                <td>
+                                  <h6>{ele.points}</h6>
+                                </td>
                                 <td>
                                   <h6>{ele.order}</h6>
                                 </td>
@@ -826,7 +842,11 @@ const handleUserLeads=()=>{
                                       : "Processing"}
                                   </button>
                                 </td>
-                                <td onClick={() => handleOpenViewArchitectData(ele)}>
+                                <td
+                                  onClick={() =>
+                                    handleOpenViewArchitectData(ele)
+                                  }
+                                >
                                   <a
                                     className="btn bg-blue btn-sm"
                                     href="#"
@@ -903,7 +923,10 @@ const handleUserLeads=()=>{
         />
       )}
       {viewTransaction && (
-        <ViewArchitectTransactionDetails itemData={item} setOpen={setViewTransaction} />
+        <ViewArchitectTransactionDetails
+          itemData={item}
+          setOpen={setViewTransaction}
+        />
       )}
     </div>
   );

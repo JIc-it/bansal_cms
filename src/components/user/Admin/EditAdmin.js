@@ -35,7 +35,6 @@ export default function EditAdmin({
   const [stateList, setStateList] = useState();
   const queryParams_id = new URLSearchParams(window.location.search).get("id");
   const [permission, setPermissions] = useState(data);
-  // let passpermission = { permission: permission };
 
   const handleCheckboxChange = (category, action) => {
     setPermissions((prevPermissions) => ({

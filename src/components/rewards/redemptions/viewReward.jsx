@@ -1,4 +1,3 @@
-// import React, { useState, useEffect } from 'react';
 import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { handleRewardAcceptReject } from "../../../axiosHandle/rewardHandle";

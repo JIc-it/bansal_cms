@@ -79,7 +79,6 @@ export default function ContractorResetPassword({
           const resetData = await handleUserResetPassword(userDatail.id, data);
           console.log(resetData);
           if (resetData) {
-            // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -137,7 +136,6 @@ export default function ContractorResetPassword({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

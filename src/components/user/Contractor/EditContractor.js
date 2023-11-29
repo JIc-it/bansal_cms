@@ -5,8 +5,6 @@ import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
 import {
-  createContractor,
-  createUser,
   stateIdFilter,
   updateUser,
 } from "../../../axiosHandle/userHandle";
@@ -18,12 +16,12 @@ import { toast } from "react-toastify";
 const offcanvasStyle = {
   width: "365px",
   height: "100%",
-  // backgroundColor: 'lightgray',
   display: "flex",
   marginLeft: 18,
   marginTop: 20,
   flexDirection: "column",
 };
+
 export default function EditContractor({
   open,
   setOpen,
@@ -74,7 +72,7 @@ export default function EditContractor({
     //   }
     // ),
   });
-  console.log(userData);
+
   const formik = useFormik({
     initialValues: {
       name: userData.name,
@@ -106,7 +104,6 @@ export default function EditContractor({
             console.log("Contractor updated successfully!");
             setIsContractorUpdated(!isContractorUpdated);
             toast.success("Contractor updated successfully!");
-            // handleCloseOffcanvas();
             setIsLoading(false);
             setOpen(false);
           } else {
@@ -116,7 +113,6 @@ export default function EditContractor({
             );
             setIsLoading(false);
           }
-          // setIsLoading(false);
         } catch (err) {
           console.log(err);
           err.response.data.email && toast.error(err.response.data.email[0]);
@@ -177,7 +173,6 @@ export default function EditContractor({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

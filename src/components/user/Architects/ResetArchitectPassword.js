@@ -79,7 +79,6 @@ export default function ResetArchitectPassword({
           const resetData = await handleUserResetPassword(userDatail.id, data);
           console.log(resetData);
           if (resetData) {
-            // setIsContractorAdded(!isContractorAdded);
             toast.success("Reset password successfully!");
             setOpen(false);
             setIsLoading(false);
@@ -114,17 +113,6 @@ export default function ResetArchitectPassword({
     });
   };
 
-  const handleStateChange = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const id = selectedOption.getAttribute("id");
-    const stateName = e.target.value;
-
-    formik.setValues({
-      ...formik.values,
-      state: { id, name: stateName },
-    });
-  };
-
   return (
     <Offcanvas
       show={open}
@@ -137,7 +125,6 @@ export default function ResetArchitectPassword({
         closeButton
         onClick={handleCloseOffcanvas}
       >
-        {/* <Offcanvas.Title>Reward Product Details</Offcanvas.Title> */}
       </Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>

@@ -18,14 +18,11 @@ export default function ViewImage({ open, setOpen,imageUrl,name }) {
           setOpen(false);
         }}
       >
-        {/* <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
-        </Modal.Title> */}
+      
       </Modal.Header>
       <Modal.Body>
         <img src={image} width={'100%'} height={350} alt="image" />
         <br></br>
-        {/* <span>{name}</span> */}
       </Modal.Body>
     </Modal>
   );
