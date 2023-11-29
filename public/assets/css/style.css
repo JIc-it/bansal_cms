@@ -37869,11 +37869,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 
 ::-webkit-scrollbar {
-  width: 12px; /* Adjust the width of the scrollbar */
+  width: 6px; /* Adjust the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #B1292C; /* Set the color of the scrollbar thumb */
+  background-color: #a52529; /* Set the color of the scrollbar thumb */
 }
 
 ::-webkit-scrollbar-track {

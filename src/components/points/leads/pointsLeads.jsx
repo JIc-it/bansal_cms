@@ -12,6 +12,8 @@ export default function LeadPoints() {
   const [lead_data, setLeadData] = useState(null);
   const [selectedLead, setSelectedLead] = useState(null);
   const [istrue, setIstrue] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
     search: "",
     role: "",
@@ -130,9 +132,9 @@ export default function LeadPoints() {
                   <div className="col-9">
                     <div
                       className="input-group mb-3"
-                      style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
+                      style={{ paddingTop: 15, paddingLeft: 15 }}
                     >
-                      <div className="position-relative mx-2">
+                      <div className="position-relative mx-2" style={{ maxWidth: 300 }}>
                         <input
                           type="text"
                           className="form-control"
@@ -213,12 +215,33 @@ export default function LeadPoints() {
                           />
                         </svg>
                       </button>
+                      <button
+                        className="btn btn-dark mx-1"
+                        // style={{height:'2.5rem'}}
+                        type="button"
+                        onClick={() => {
+                          setFilterdata({
+                            points_from: "",
+                            points_to: "",
+                            role: "",
+                            date: "",
+                            status: "",
+                          });
+                          setSearch("");
+                          setIsFilter(!isFilter);
+                        }}
+                      >
+                        Clear filter
+                      </button>
                     </div>
                     {openFilter && (
                       <FilterPopUp
                         handlefilterdata={handlefilterdata}
                         handlefilter={handlefilter}
                         setOpenFilter={setOpenFilter}
+                        setIsFilter={setIsFilter}
+                        isFilter={isFilter}
+                        filterdata={filterdata}
                         // created_at={created_at}
                         // handledatechange={handledatechange}
                         // handlerolechange={handlerolechange}
@@ -227,17 +250,46 @@ export default function LeadPoints() {
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
                     {permissionForPointsLead?.action && (
+                      // <button
+                      //   style={{ marginLeft: 135 }}
+                      //   className="btn btn-light btn-sm"
+                      //   type="button"
+                      // >
+                      //   <i
+                      //     className="fa-solid fa-file-export"
+                      //     onClick={exportToCSV}
+                      //   />{" "}
+                      //   Export
+                      // </button>
                       <button
-                        style={{ marginLeft: 135 }}
-                        className="btn btn-light btn-sm"
-                        type="button"
+                      style={{ marginLeft: 135 }}
+                      className="btn btn-light btn-sm"
+                      type="button"
+                      onClick={exportToCSV}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
                       >
-                        <i
-                          className="fa-solid fa-file-export"
-                          onClick={exportToCSV}
-                        />{" "}
-                        Export
-                      </button>
+                        <path
+                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>{" "}
+                      Export
+                    </button>
                     )}
                   </div>
                 </div>

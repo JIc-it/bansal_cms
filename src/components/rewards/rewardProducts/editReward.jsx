@@ -47,7 +47,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
 
             // Validate description length
             if (description.length !== 30) {
-                throw new Error("Description must be exactly 45 characters.");
+                throw new Error("Description must be exactly 30 characters.");
             }
 
             const f_data = new FormData();
