@@ -239,7 +239,7 @@ export default function EditArchitect({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} id={userData?.state?.id}>
+              <option  id={userData?.state?.id}>
                 {userData?.state?.state}
               </option>
               {stateList &&

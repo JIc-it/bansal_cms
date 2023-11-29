@@ -48,12 +48,12 @@ export default function Profile() {
             <div className="card box-hover">
               <div className="card-body">
                 <div className="events">
-                  <div className="dz-scroll event-scroll">
+                  <div className=" event-scroll">
                     <div className="event-media">
                       <div className="d-flex align-items-center">
                         <div className="event-box">
                           <h5 className="mt-2" style={{ color: "black" }}>
-                            AB
+                            {profile_data.name.slice(0,2).toUpperCase()}
                           </h5>
                         </div>
                       </div>

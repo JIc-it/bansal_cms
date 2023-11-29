@@ -180,7 +180,7 @@ export default function Navbar() {
                   <Dropdown>
                     <Dropdown.Toggle as={CustomToggle}>
                       <a
-                        className="nav-link py-4"
+                        className="nav-link py-3"
                         href="/profile"
                         role="button"
                         data-bs-toggle="dropdown"
@@ -188,7 +188,7 @@ export default function Navbar() {
                       >
                         <div className="header-info2 d-flex align-items-center">
                           <div className="header-media">
-                            <img src="/assets/images/avatar.png" alt="" />
+                          {profile_data.name.slice(0,2).toUpperCase()}
                           </div>
                           <div className="header-info">
                             <h6 style={{ color: "#000" }}>

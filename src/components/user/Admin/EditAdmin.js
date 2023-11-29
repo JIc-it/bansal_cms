@@ -251,7 +251,7 @@ export default function EditAdmin({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} id={userdata?.state?.id}>
+              <option  id={userdata?.state?.id}>
                 {userdata?.state?.state}
               </option>
               {stateList &&

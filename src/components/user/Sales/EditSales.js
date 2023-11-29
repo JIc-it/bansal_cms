@@ -254,9 +254,7 @@ export default function EditSales({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} id={userdata?.state?.id}>
-                {userdata?.state?.state}
-              </option>
+              <option id={userdata?.state?.id}>{userdata?.state?.state}</option>
               {stateList &&
                 stateList.map((ele, i) => {
                   return <option id={ele.id}>{ele.state}</option>;

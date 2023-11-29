@@ -11001,9 +11001,10 @@ svg.pulse-svg {
       .header-right .search-area {
         display: none; } }
   .header-right .header-media {
-    width: 1.875rem;
-    height: 1.875rem;
-    margin-right: 7px; }
+    padding: 8.5px;
+    margin-right: 7px;
+  border-radius: 5px;
+background: #B6B6B6; }
     .header-right .header-media img {
       width: 100%;
       border-radius: 100%; }
@@ -32252,7 +32253,7 @@ table.dataTable thead .sorting_asc {
   width: 55px;
   line-height: 9px;
   border-radius: 0.375rem;
-  background-color: var(--rgba-primary-1);
+  background: #B6B6B6;
   text-align: center;
   padding: 4px 0; }
   .events .event-box h5, .events .event-box .h5 {
@@ -32268,14 +32269,17 @@ table.dataTable thead .sorting_asc {
     color: var(--secondary); }
 
 .events .event-data span {
-  font-size: 13px; }
+  font-size: 10px; 
+  color: #B1292C;
+}
 
 .events .event-media {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid #E6E6E6; }
+  /* border-bottom: 1px solid #E6E6E6; */
+ }
 
 .event-scroll {
   height: 144px;

@@ -19,9 +19,9 @@ function Promotions() {
   const [adslisting, setAdsLIsting] = useState({});
   const [selectedPromotionDetails, setSelectedPromotionDetails] = useState();
   const [isUpdatedPromotion, setIsUpdatedPromotion] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+
   const [selectedIdForCheck, setSelectedIdForCheck] = useState(0);
- console.log('adslisting',adslisting)
+  console.log("adslisting", adslisting);
   const handleOpenOffcanvas = (data) => {
     setShowOffcanvas(true);
     setSelectedPromotionDetails(data);
@@ -44,6 +44,7 @@ function Promotions() {
     };
 
     const updateData = await updatePromotion(id, data);
+    setIsUpdatedPromotion(!isUpdatedPromotion);
   };
 
   return (
@@ -82,7 +83,8 @@ function Promotions() {
                             src={ads.ad_image}
                             className="img-fluid"
                             alt="Ad Image"
-                            style={{height: '150px', width: '100%'}}/>
+                            style={{ height: "150px", width: "100%" }}
+                          />
                         </div>
                         <h6>Ad Details</h6>
                         <div className="promotion-details d-flex">
@@ -127,32 +129,26 @@ function Promotions() {
                                   display: "inline-block",
                                 }}
                               >
+                                <label
+                                  className="form-check-label"
+                                  htmlFor={`activationToggle-${index}`}
+                                >
+                                  {`${ads.is_active ? "Active" : "In Active"} `}
+                                </label>
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
                                   id={`activationToggle-${index}`}
                                   name={`activationToggle-${index}`}
-                                  checked={
-                                    selectedIdForCheck === ads.id
-                                      ? isChecked
-                                      : ads.is_active
-                                  }
+                                  checked={ads.is_active}
                                   defaultValue={ads.is_active}
                                   onChange={(e) => {
-                                    setSelectedIdForCheck(ads.id);
-                                    setIsChecked(e.target.checked);
                                     updateActivePromotion(
                                       ads.id,
-                                      e.target.checked
+                                      !ads.is_active
                                     );
                                   }}
                                 />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`activationToggle-${index}`}
-                                >
-                                  Active
-                                </label>
                               </div>
                             )}
                           </div>

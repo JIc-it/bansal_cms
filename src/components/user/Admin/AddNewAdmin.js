@@ -27,21 +27,6 @@ export default function AddNewAdmin({
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
 
-  // const initialPermissions = {
-  //   order_requests: {
-  //     create: false,
-  //     update: false,
-  //     action: false,
-  //     delete: false,
-  //   },
-  //   lead_requests: {
-  //     create: false,
-  //     update: false,
-  //     action: false,
-  //     delete: false,
-  //   },
-  // };
-
   const [permissions, setPermissions] = useState({
     order_requests: {
       create: false,
@@ -96,7 +81,6 @@ export default function AddNewAdmin({
     },
   });
 
-  // const [permissions, setPermissions] = useState(initialPermissions);
   useEffect(() => {
     getAllLocations()
       .then((data) => {
@@ -256,7 +240,7 @@ export default function AddNewAdmin({
       district: { id, name: districtName },
     });
   };
-
+  
   const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
@@ -266,6 +250,7 @@ export default function AddNewAdmin({
     formik.setValues({
       ...formik.values,
       state: { id, name: stateName },
+      district: { id: "0", name: "District" }, // Set district to its initial value
     });
   };
 
