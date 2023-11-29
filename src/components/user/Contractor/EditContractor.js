@@ -233,22 +233,19 @@ export default function EditContractor({
           </div>
           <div style={{ marginTop: 7 }}>
             <select
-              value={userData?.state?.id || ""} // Use value instead of defaultValue
-              className="w-100 form-control-sm form-control"
+              defaultValue=""
+              className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option disabled={true} value={userData?.state?.id}>
+              <option disabled={true} id={userData?.state?.id}>
                 {userData?.state?.state}
               </option>
               {stateList &&
-                stateList.map((ele) => (
-                  <option key={ele.id} value={ele.id}>
-                    {ele.state}
-                  </option>
-                ))}
+                stateList.map((ele, i) => {
+                  return <option id={ele.id}>{ele.state}</option>;
+                })}
             </select>
-
             {formik.touched.state && formik.errors.state ? (
               <div className="error">{formik.errors.state}</div>
             ) : null}
