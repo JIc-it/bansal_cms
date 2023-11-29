@@ -113,160 +113,10 @@ export default function SideMenu() {
         marginTop: "70px",
       }}
     >
-      {/* <Menu>
-
-                <MenuItem
-                    className={`menu-item ${isMenuItemActive("/dashboard") ? "active" : ""
-                        }`}
-                    onClick={() => toggle()}
-                    style={{
-                        backgroundColor: isMenuItemActive("/dashboard")
-                            ? "#B22222"
-                            : "transparent",
-                        color: isMenuItemActive("/dashboard") ? "white" : "inherit",
-                    }}
-                >
-                    <Link to="/dashboard" style={{ color: "white" }}>
-                        <DashboardOutlinedIcon style={{ marginLeft: 9 }} /> Dashboard
-                    </Link>
-                </MenuItem>
-
-                <SubMenu
-                    icon={<AssignmentOutlinedIcon />}
-                    label="Requests"
-                    style={{ background: "black" }}
-                >
-                    {userPermissions?.order_requests && (
-                        <MenuItem
-                            className={`menu-item ${isMenuItemActive("/orderrequests") ? "active" : ""}`}
-                            onClick={() => toggle()}
-                            style={{
-                                backgroundColor: isMenuItemActive("/orderrequests") ? "#B22222" : "black",
-                                color: isMenuItemActive("/orderrequests") ? "white" : "inherit",
-                            }}
-                        >
-                            <Link to="/orderrequests" style={{ color: "white" }}>
-                                Orders
-                            </Link>
-                        </MenuItem>
-                    )}
-                    {userPermissions?.lead_requests && (
-                        <MenuItem
-                            className={`menu-item ${isMenuItemActive("/leadrequests") ? "active" : ""}`}
-                            onClick={() => toggle()}
-                            style={{
-                                backgroundColor: isMenuItemActive("/leadrequests") ? "#B22222" : "black",
-                                color: isMenuItemActive("/leadrequests") ? "white" : "inherit",
-                            }}
-                        >
-                            <Link to="/leadrequests" style={{ color: "white" }}>
-                                Leads
-                            </Link>
-                        </MenuItem>
-                    )}
-                </SubMenu>
-                <SubMenu
-                    icon={<PeopleOutlinedIcon />}
-                    label="Users"
-                    style={{ background: "black" }}
-                >
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/contractors") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/contractors")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/contractors") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/contractors" style={{ color: "white" }}>
-                            Contractors
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/distributors") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/distributors")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/distributors") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/distributors" style={{ color: "white" }}>
-                            Distributors
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/engineers") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/engineers")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/engineers") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/engineers" style={{ color: "white" }}>
-                            Engineers
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/architects") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/architects")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/architects") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/architects" style={{ color: "white" }}>
-                            Architects
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/salespocs") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/salespocs")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/salespocs") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/salespocs" style={{ color: "white" }}>
-                            Sales Poc's
-                        </Link>
-                    </MenuItem>
-                    <MenuItem
-                        className={`menu-item ${isMenuItemActive("/admins") ? "active" : ""
-                            }`}
-                        onClick={() => toggle()}
-                        style={{
-                            backgroundColor: isMenuItemActive("/admins")
-                                ? "#B22222"
-                                : "black",
-                            color: isMenuItemActive("/admins") ? "white" : "inherit",
-                        }}
-                    >
-                        <Link to="/admins" style={{ color: "white" }}>
-                            Admins
-                        </Link>
-                    </MenuItem>
-                </SubMenu>
-            </Menu> */}
       <Menu>
         <MenuItem
-          className={`menu-item ${
-            isMenuItemActive("/dashboard") ? "active" : ""
-          }`}
+          className={`menu-item ${isMenuItemActive("/dashboard") ? "active" : ""
+            }`}
           onClick={() => toggle()}
           style={{
             backgroundColor: isMenuItemActive("/dashboard")
@@ -286,9 +136,8 @@ export default function SideMenu() {
           style={{ background: "black" }}
         >
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/orderrequests") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/orderrequests") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/orderrequests")
@@ -302,9 +151,8 @@ export default function SideMenu() {
             </Link>
           </MenuItem>
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/leadrequests") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/leadrequests") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/leadrequests")
@@ -325,9 +173,8 @@ export default function SideMenu() {
           style={{ background: "black" }}
         >
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/orderpoints") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/orderpoints") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/orderpoints")
@@ -341,9 +188,8 @@ export default function SideMenu() {
             </Link>
           </MenuItem>
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/leadpoints") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/leadpoints") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/leadpoints")
@@ -364,9 +210,8 @@ export default function SideMenu() {
           style={{ background: "black" }}
         >
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/rewardproducts") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/rewardproducts") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/rewardproducts")
@@ -380,9 +225,8 @@ export default function SideMenu() {
             </Link>
           </MenuItem>
           <MenuItem
-            className={`menu-item ${
-              isMenuItemActive("/redemptions") ? "active" : ""
-            }`}
+            className={`menu-item ${isMenuItemActive("/redemptions") ? "active" : ""
+              }`}
             onClick={() => toggle()}
             style={{
               backgroundColor: isMenuItemActive("/redemptions")
@@ -404,9 +248,8 @@ export default function SideMenu() {
             style={{ background: "black" }}
           >
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/contractors") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/contractors") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/contractors")
@@ -420,9 +263,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/distributors") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/distributors") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/distributors")
@@ -436,9 +278,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/engineers") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/engineers") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/engineers")
@@ -452,9 +293,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/architects") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/architects") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/architects")
@@ -468,9 +308,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/salespocs") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/salespocs") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/salespocs")
@@ -484,9 +323,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/admins") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/admins") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/admins")
@@ -508,9 +346,8 @@ export default function SideMenu() {
             style={{ background: "black" }}
           >
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/contractors") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/contractors") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/contractors")
@@ -524,9 +361,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/distributors") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/distributors") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/distributors")
@@ -540,9 +376,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/engineers") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/engineers") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/engineers")
@@ -556,9 +391,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/architects") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/architects") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/architects")
@@ -572,9 +406,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/salespocs") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/salespocs") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/salespocs")
@@ -588,9 +421,8 @@ export default function SideMenu() {
               </Link>
             </MenuItem>
             <MenuItem
-              className={`menu-item ${
-                isMenuItemActive("/admins") ? "active" : ""
-              }`}
+              className={`menu-item ${isMenuItemActive("/admins") ? "active" : ""
+                }`}
               onClick={() => toggle()}
               style={{
                 backgroundColor: isMenuItemActive("/admins")
@@ -608,9 +440,8 @@ export default function SideMenu() {
 
         <MenuItem
           icon={<CalendarTodayOutlinedIcon />}
-          className={`menu-item ${
-            isMenuItemActive("/promotions") ? "active" : ""
-          }`}
+          className={`menu-item ${isMenuItemActive("/promotions") ? "active" : ""
+            }`}
           onClick={() => toggle()}
           style={{
             backgroundColor: isMenuItemActive("/promotions")
@@ -624,41 +455,33 @@ export default function SideMenu() {
           </Link>
         </MenuItem>
         <MenuItem
-         icon={<PeopleOutlinedIcon />}
-          className={`menu-item ${
-            isMenuItemActive("/log-section") ? "active" : ""
-          }`}
+          className={`menu-item ${isMenuItemActive("/log-section") ? "active" : ""
+            }`}
           onClick={() => toggle()}
           style={{
             backgroundColor: isMenuItemActive("/log-section")
               ? "#B22222"
               : "transparent",
             color: isMenuItemActive("/log-section") ? "white" : "inherit",
-            marginTop: "20px",
-            marginLeft: "10px",
           }}
         >
           <Link to="/log-section" style={{ color: "white" }}>
-            Log Section
+            <PeopleOutlinedIcon style={{ marginLeft: 9 }} /> User Log
           </Link>
         </MenuItem>
         <MenuItem
-          icon={<HelpOutlinedIcon />}
-          className={`menu-item ${
-            isMenuItemActive("/help-faq") ? "active" : ""
-          }`}
+          className={`menu-item ${isMenuItemActive("/help-faq") ? "active" : ""
+            }`}
           onClick={() => toggle()}
           style={{
             backgroundColor: isMenuItemActive("/help-faq")
               ? "#B22222"
               : "transparent",
             color: isMenuItemActive("/help-faq") ? "white" : "inherit",
-            marginTop: "20px",
-            marginLeft: "10px",
           }}
         >
           <Link to="/help-faq" style={{ color: "white" }}>
-            Help
+            <HelpOutlinedIcon style={{ marginLeft: 9 }} /> Help
           </Link>
         </MenuItem>
       </Menu>
