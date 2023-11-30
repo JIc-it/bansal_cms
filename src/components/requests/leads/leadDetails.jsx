@@ -85,9 +85,9 @@ export default function LeadDetails({
         <span>Admin Status :</span>
         <span style={{ float: 'inline-end',color: "blue", padding:2, position: 'relative', bottom:5  }} className="badge badge-primary light border-0">{data.admin_approval}</span>
         <br></br>
-        <span>Distributor Status :</span>
+        {/* <span>Distributor Status :</span>
         <span style={{ float: 'inline-end', position:'relative', left:62, padding:2 }} className="badge badge-success light border-0">{data.user_approval}</span>
-        <br></br>
+        <br></br> */}
         <span>Transaction ID :</span>
         <span style={{ float: 'inline-end' }}>{data.transaction_id}</span>
         <br></br>

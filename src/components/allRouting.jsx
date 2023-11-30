@@ -31,7 +31,7 @@ import ViewAchitectsDetails from "./user/Architects/ViewAchitectsDetails";
 import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 import HelpFaq from "./HelpFaq";
-import LogSection from "./LogSection";
+import LogSection from "./UserLog/LogSection";
 
 export default function AllRouting() {
   return (
@@ -75,7 +75,7 @@ export default function AllRouting() {
         <Route path="/viewEngineer/:id" element={<ViewEngineerDetails />} />
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
         <Route path="/help-faq" element={<HelpFaq />} />
-        <Route path="/log-section" element={<LogSection />} />
+        <Route path="/log-section" element={<LogSection/>} />
       </Routes>
     </main>
   );

@@ -542,7 +542,7 @@ export default function SideMenu() {
             }}
           >
             <Link to="/log-section" style={{ color: "white" }}>
-              <PeopleOutlinedIcon style={{ marginLeft: 9 }} /> User Log
+              <PeopleOutlinedIcon style={{ marginLeft: 9 }} />&nbsp;&nbsp;&nbsp; User Log
             </Link>
           </MenuItem>
         )}
@@ -560,7 +560,7 @@ export default function SideMenu() {
             }}
           >
             <Link to="/log-section" style={{ color: "white" }}>
-              <PeopleOutlinedIcon style={{ marginLeft: 9 }} /> User Log
+              <PeopleOutlinedIcon style={{ marginLeft: 9 }} />&nbsp;&nbsp;&nbsp; User Log
             </Link>
           </MenuItem>
         )}

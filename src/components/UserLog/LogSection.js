@@ -1,13 +1,15 @@
 
 import React, { useState, useEffect } from "react";
-import { getLogRequest } from "../axiosHandle/logHandle";
+import { getLogRequest } from "../../axiosHandle/logHandle";
+import UserDetails from "./userDetails";
+
 function LogSection() {
   const [user_log_data, setUserLogData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchText, setSearchText] = useState("");
   const [isUpdated, setisUpdated] = useState(false);
-
+  const [selectedLead, setSelectedLead] = useState(null);
 
   useEffect(() => {
     console.log("Fetching User Log data...");
@@ -23,7 +25,10 @@ function LogSection() {
       });
   }, [isUpdated]);
 
-
+  const handleViewClick = (rw_data) => {
+    setSelectedLead(null);
+    setSelectedLead(rw_data);
+  };
   const exportToCSV = () => {
     if (user_log_data) {
       const header = [
@@ -168,25 +173,19 @@ function LogSection() {
                 <table id="reports-tbl" className="table">
                   <thead>
                     <tr>
-                      <th>User Id</th>
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
                       <th>Create Date</th>
                       <th>Update Date</th>
                       <th>Model Name</th>
-                      <th>Value</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredItems.length > 0 ? (
                       filteredItems.map((rw_data) => (
                         <tr key={rw_data.id}>
-                          <td>
-                            <h6>
-                              {rw_data.user?.user_id}
-                            </h6>
-                          </td>
                           <td>
                             <h6>{rw_data.user?.name}</h6>
                           </td>
@@ -206,9 +205,13 @@ function LogSection() {
                             <h6>{rw_data.model_name}</h6>
                           </td>
                           <td>
-                            <h6>{rw_data.value}</h6>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleViewClick(rw_data)}
+                            >
+                              View
+                            </button>
                           </td>
-
                         </tr>
                       ))
                     ) : (
@@ -242,7 +245,13 @@ function LogSection() {
           </div>
         </div>
       </div>
-
+      {selectedLead && (
+        <UserDetails
+          data={selectedLead}
+          open={true}
+          setOpen={setSelectedLead}
+        />
+      )}
     </div>
   );
 }

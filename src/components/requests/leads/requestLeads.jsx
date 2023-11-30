@@ -238,16 +238,16 @@ export default function LeadRequests() {
                         className="position-relative mx-2"
                         style={{ maxWidth: 300 }}
                       >
-                        <input
+                       <input
                           type="text"
                           className="form-control"
                           style={{ marginRight: 10 }}
                           placeholder="Search..."
                           aria-label="Search..."
                           aria-describedby="search-button"
-                          value={filterdata.search}
-                          onChange={async (e) => {
-                            handlefilterdata({ search: e.target.value });
+                          value={search}
+                          onChange={(e) => {
+                            setSearch(e.target.value);
                           }}
                         />
                         <svg
