@@ -49,10 +49,10 @@ export default function UserDetails({ data, open, setOpen }) {
         {valuesChanged && (
           <>
             <span>Before Value:</span>
-            <span style={{ float: "inline-end" }}>{data.value_before}</span>
+              <span style={{ float: "inline-end" }}>{data.value_before}</span>
             <br></br>
             <span>After Value:</span>
-            <span style={{ float: "inline-end" }}>{data.value_after}</span>
+              <span style={{ float: "inline-end" }}>{data.value_after}</span>
             <br></br>
           </>
         )}

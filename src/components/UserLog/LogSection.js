@@ -11,6 +11,11 @@ function LogSection() {
   const [isUpdated, setisUpdated] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
 
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleString();
+  }
+
   useEffect(() => {
     console.log("Fetching User Log data...");
 
@@ -32,7 +37,7 @@ function LogSection() {
   const exportToCSV = () => {
     if (user_log_data) {
       const header = [
-        "User Id", 
+        "User Id",
         "Name",
         "Email",
         "Role",
@@ -67,11 +72,11 @@ function LogSection() {
     }
   };
 
-  const totalPages = Math.ceil(
-    user_log_data ? user_log_data.length / itemsPerPage : 1
-  );
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const totalPages = Math.ceil(
+  //   user_log_data ? user_log_data.length / itemsPerPage : 1
+  // );
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const filteredItems =
     user_log_data && user_log_data.length > 0
@@ -92,6 +97,15 @@ function LogSection() {
       })
       : [];
 
+  const totalPages = Math.ceil(
+    user_log_data ? user_log_data.length / itemsPerPage : 1
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = user_log_data
+    ? user_log_data.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -103,10 +117,6 @@ function LogSection() {
       setCurrentPage(currentPage - 1);
     }
   };
-  function formatDate(isoDate) {
-    const date = new Date(isoDate);
-    return date.toLocaleString();
-  }
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245, position: 'relative', top: 90 }}>
       {/* <Cards permissionForRedumtionWindow={permissionForRedumtionWindow} /> */}
@@ -138,37 +148,37 @@ function LogSection() {
                     </div>
                   </div>
                   <div className="col-2">
-                      <button
-                        className="btn btn-light btn-sm"
-                        type="button"
-                        id="export-button"
-                        onClick={exportToCSV}
+                    <button
+                      className="btn btn-light btn-sm"
+                      type="button"
+                      id="export-button"
+                      onClick={exportToCSV}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                        >
-                          <path
-                            d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                          />
-                          <path
-                            d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
-                            stroke="#0F0F0F"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>{" "}
-                        Export
-                      </button>
+                        <path
+                          d="M3.33366 10C3.33366 13.6819 6.31843 16.6667 10.0003 16.6667C13.6822 16.6667 16.667 13.6819 16.667 10"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M10 11.6663L10 3.33301M10 3.33301L12.5 5.83301M10 3.33301L7.5 5.83301"
+                          stroke="#0F0F0F"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>{" "}
+                      Export
+                    </button>
                   </div>
-        
+
                 </div>
                 <table id="reports-tbl" className="table">
                   <thead>
@@ -183,8 +193,8 @@ function LogSection() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredItems.length > 0 ? (
-                      filteredItems.map((rw_data) => (
+                    {currentItems.length > 0 ? (
+                      currentItems.map((rw_data) => (
                         <tr key={rw_data.id}>
                           <td>
                             <h6>{rw_data.user?.name}</h6>
