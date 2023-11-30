@@ -52,7 +52,9 @@ export default function EditContractor({
   }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -233,7 +235,7 @@ export default function EditContractor({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option  id={userData?.state?.id}>
+              <option id={userData?.state?.id}>
                 {userData?.state?.state}
               </option>
               {stateList &&

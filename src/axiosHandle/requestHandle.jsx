@@ -31,7 +31,6 @@ export const getLeadRequest = (data) => {
     });
 };
 
-
 export const getTotalRequests = () => {
   return axiosInstance
     .get("/purchase/admin-total-leads/")
@@ -114,9 +113,12 @@ export const getOrderRejectedRequests = () => {
     });
 };
 
-export const handleOrderAcceptReject = (id, data) => {
+export const handleOrderAcceptReject = (id, data, comment) => {
   return axiosInstance
-    .put(`${orderAcceptRejectUrl}/${id}/`, { action_type: data })
+    .put(`${orderAcceptRejectUrl}/${id}/`, {
+      action_type: data,
+      comments: comment,
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching lead request:", error);

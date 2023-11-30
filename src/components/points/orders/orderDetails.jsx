@@ -89,6 +89,7 @@ export default function OrderDetails({data, open, setOpen}) {
                 <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data?.user?.user_id}</span><br></br>
                 <span>Address :</span><span style={{ float: 'inline-end' }}>{data?.user?.district}, {data?.user?.state}</span><br></br>
                 <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data?.user?.mobile}</span><br></br>
+                <span><b>Comment</b> :</span><span style={{ float: 'inline-end' }}>{data.comments}</span><br></br>
             </div>
             <div>
                 <h6 style={statusOffcanvas}>

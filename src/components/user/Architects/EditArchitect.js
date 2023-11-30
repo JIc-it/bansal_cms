@@ -3,7 +3,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import {
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import {updateUser,stateIdFilter } from "../../../axiosHandle/userHandle";
+import { updateUser, stateIdFilter } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -29,7 +29,7 @@ export default function EditArchitect({
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState();
   const [stateList, setStateList] = useState();
- 
+
 
   useEffect(() => {
     getAllStates()
@@ -42,7 +42,9 @@ export default function EditArchitect({
   }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -136,22 +138,22 @@ export default function EditArchitect({
     });
   };
 
-  const handleListDistrict=(id)=>{
+  const handleListDistrict = (id) => {
     stateIdFilter(id)
-    .then((data) => {
-      setLocationList(data.results);
-    })
-    .catch((error) => {
-      console.error("Error fetching lead data:", error);
-    });
+      .then((data) => {
+        setLocationList(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching lead data:", error);
+      });
   }
 
-  const handleStateChange = async(e) => {
+  const handleStateChange = async (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const id = selectedOption.getAttribute("id");
     const stateName = e.target.value;
-     handleListDistrict(id)
-    
+    handleListDistrict(id)
+
     formik.setValues({
       ...formik.values,
       state: { id, name: stateName },
@@ -230,7 +232,7 @@ export default function EditArchitect({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option  id={userData?.state?.id}>
+              <option id={userData?.state?.id}>
                 {userData?.state?.state}
               </option>
               {stateList &&

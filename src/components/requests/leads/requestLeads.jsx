@@ -30,6 +30,7 @@ export default function LeadRequests() {
     role: "",
     date: "",
   });
+  const [isRefetch, setIsRefetch] = useState(false);
 
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
@@ -76,7 +77,7 @@ export default function LeadRequests() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [filterdata.search]);
+  }, [filterdata.search,isRefetch]);
 
   useEffect(() => {
     getAcceptedRequests()
@@ -164,7 +165,7 @@ export default function LeadRequests() {
           <h5 className="mb-0">Lead Requests</h5>
         </div>
         <br></br>
- 
+
         <div className="row">
           <div className="col-xl-12 wid-100">
             <div className="row">
@@ -238,7 +239,7 @@ export default function LeadRequests() {
                         className="position-relative mx-2"
                         style={{ maxWidth: 300 }}
                       >
-                       <input
+                        <input
                           type="text"
                           className="form-control"
                           style={{ marginRight: 10 }}
@@ -440,7 +441,7 @@ export default function LeadRequests() {
                           <td>
                             <h6>{lead.order}</h6>
                           </td>
-                        
+
                           <td>
                             <button
                               className="btn btn-primary btn-sm"
@@ -488,6 +489,8 @@ export default function LeadRequests() {
           open={selectedLead}
           setOpen={setSelectedLead}
           permissionForRequestLead={permissionForRequestLead}
+          isRefetch={isRefetch}
+          setIsRefetch={setIsRefetch}
         />
       )}
     </div>

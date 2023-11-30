@@ -135,6 +135,9 @@ export default function LeadDetails({ data, open, setOpen }) {
         <span>Mobile :</span>
         <span style={{ float: "inline-end" }}>{data.user.mobile}</span>
         <br></br>
+        <span><b>Comments</b> :</span>
+        <span style={{ float: "inline-end" }}>{data.comments}</span>
+        <br></br>
       </div>
       <div>
         <h6 style={statusOffcanvas}>

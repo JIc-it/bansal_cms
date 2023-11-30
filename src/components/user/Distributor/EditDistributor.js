@@ -4,7 +4,7 @@ import {
   getAllLocations,
   getAllStates,
 } from "../../../axiosHandle/commonServicesHandle";
-import {  stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
+import { stateIdFilter, updateUser } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -49,7 +49,9 @@ export default function EditDistributor({
   }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -230,7 +232,7 @@ export default function EditDistributor({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option  id={userData?.state?.id}>
+              <option id={userData?.state?.id}>
                 {userData?.state?.state}
               </option>
               {stateList &&
