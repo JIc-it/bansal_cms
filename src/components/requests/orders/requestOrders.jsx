@@ -16,6 +16,7 @@ export default function OrderRequests() {
   const contextData = useContext(AppContext);
   const { permissionData } = contextData;
   const permissionForRequestOrder = permissionData?.order_requests;
+  const [isRefetch, setIsRefetch] = useState(false);
 
   function formatDate(isoDate) {
     const date = new Date(isoDate);
@@ -64,7 +65,7 @@ export default function OrderRequests() {
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, [filterdata?.search]);
+  }, [filterdata?.search,isRefetch]);
   
 
   useEffect(() => {
@@ -501,6 +502,8 @@ export default function OrderRequests() {
           hasUpdate={hasUpdate}
           setHasUpdate={setHasUpdate}
           permissionForRequestOrder={permissionForRequestOrder}
+          isRefetch={isRefetch}
+          setIsRefetch={setIsRefetch}
         />
       )}
     </div>

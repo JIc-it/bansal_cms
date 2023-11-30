@@ -32,6 +32,8 @@ export default function LeadDetails({
   data,
   setOpen,
   permissionForRequestLead,
+  setIsRefetch,
+  isRefetch,
 }) {
   const [showOffcanvas, setShowOffcanvas] = useState(open);
   const [isRejectLead, setIsRejectLead] = useState(false);
@@ -60,7 +62,7 @@ export default function LeadDetails({
             if (data) {
               toast.success("Redemption rejected successfully");
               handleCloseOffcanvas();
-              window.location.reload();
+              setIsRefetch(!isRefetch);
             }
           })
           .catch((error) => {
@@ -78,7 +80,7 @@ export default function LeadDetails({
     await updateLeadRequest(data.id, { action_type: req })
       .then((res) => {
         if (res.status === 200) {
-          window.location.reload();
+          setIsRefetch(!isRefetch);
           toast.success("Redemption accepted successfully");
         }
       })
@@ -140,7 +142,7 @@ export default function LeadDetails({
         <span style={{ float: 'inline-end', position:'relative', left:62, padding:2 }} className="badge badge-success light border-0">{data.user_approval}</span>
         <br></br> */}
         <span>Transaction ID :</span>
-        <span style={{ float: 'inline-end' }}>{data.referral_id}</span>
+        <span style={{ float: "inline-end" }}>{data.referral_id}</span>
         <br></br>
         <span>Date & Time :</span>
         <span style={{ float: "inline-end" }}>

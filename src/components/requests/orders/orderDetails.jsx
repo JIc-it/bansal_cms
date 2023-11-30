@@ -34,6 +34,8 @@ export default function OrderDetails({
   hasUpdate,
   setHasUpdate,
   permissionForRequestOrder,
+  setIsRefetch,
+  isRefetch,
 }) {
   const validationSchema = Yup.object({
     comment: Yup.string().required("Comment is required"),
@@ -51,8 +53,9 @@ export default function OrderDetails({
             if (data) {
               setOpen(false);
               setHasUpdate(!hasUpdate);
+              setIsRefetch(!isRefetch);
               toast.success("Redemption rejected successfully");
-              window.location.reload();
+              // window.location.reload();
             }
           })
           .catch((error) => {
@@ -97,6 +100,7 @@ export default function OrderDetails({
           if (data) {
             setOpen(false);
             setHasUpdate(!hasUpdate);
+            setIsRefetch(!isRefetch);
             toast.success(
               type === "accept"
                 ? "Redemption accepted successfully"

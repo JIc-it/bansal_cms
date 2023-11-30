@@ -78,8 +78,8 @@ export default function PendingOrderRequests() {
                                 <h4>{active_table === 'order' ? order_total : lead_total}</h4>
                             </div>
                         </div>
-                        {active_table === 'order' && <OrderTable data={order_data} handlerefetch={handlerefetch}/>}
-                        {active_table === 'lead' && <LeadTable data={lead_data} handlerefetch={handlerefetch}/>}
+                        {active_table === 'order' && <OrderTable data={order_data} handlerefetch={handlerefetch} isRefetch={refetch} setIsRefetch={setRefetch}/>}
+                        {active_table === 'lead' && <LeadTable data={lead_data} handlerefetch={handlerefetch} isRefetch={refetch} setIsRefetch={setRefetch}/>}
                     </div>
                 </div>
             </div>
