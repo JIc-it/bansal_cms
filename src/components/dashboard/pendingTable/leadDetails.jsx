@@ -53,13 +53,13 @@ export default function LeadDetails({open, data, setOpen,handlerefetch}) {
              handleorderrequest(req);
              handlerefetch()
             handleCloseOffcanvas()
-            window.location.reload();
+            
         }
         else{
              handleleadrequest(req);
              handlerefetch()
             handleCloseOffcanvas()
-            window.location.reload();
+            
         }
     }
 

@@ -57,14 +57,15 @@ export default function OrderRequests() {
   };
 
   useEffect(() => {
-    getOrderRequest()
+    getOrderRequest(filterdata?.search)
       .then((data) => {
         setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, [hasUpdate]);
+  }, [filterdata?.search]);
+  
 
   useEffect(() => {
     getTotalOrderRequests()

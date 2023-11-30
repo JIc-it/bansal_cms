@@ -18,7 +18,7 @@ export default function PendingOrderRequests() {
     const [refetch,setRefetch]=useState(false)
 
     const handlerefetch=()=>{
-        setRefetch(true)
+        setRefetch(true);
     }
 
     useEffect(() => {
@@ -26,6 +26,7 @@ export default function PendingOrderRequests() {
             .then((data) => {
                 setOrderData(data.results);
                 setOrderTotal(data.count);
+                setRefetch(false)
             })
             .catch((error) => {
                 console.error('Error fetching order data:', error);
@@ -37,6 +38,7 @@ export default function PendingOrderRequests() {
             .then((data) => {
                 setLeadData(data.results);
                 setLeadTotal(data.count);
+                setRefetch(false)
             })
             .catch((error) => {
                 console.error('Error fetching lead data:', error);
