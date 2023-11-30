@@ -65,8 +65,8 @@ export default function OrderDetails({
           setHasUpdate(!hasUpdate);
           toast.success(
             type === "accept"
-              ? "Redemption accepted successfully"
-              : "Redemption rejected successfully"
+              ? "Order accepted successfully"
+              : "Order rejected successfully"
           );
         }
       })
