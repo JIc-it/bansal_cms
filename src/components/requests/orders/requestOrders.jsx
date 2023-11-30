@@ -57,7 +57,7 @@ export default function OrderRequests() {
   };
 
   useEffect(() => {
-    getOrderRequest(filterdata?.search)
+    getOrderRequest(filterdata?.search,filterdata)
       .then((data) => {
         setOrderData(data.results);
       })
