@@ -117,7 +117,7 @@ export const handleOrderAcceptReject = (id, data, comment) => {
   return axiosInstance
     .put(`${orderAcceptRejectUrl}/${id}/`, {
       action_type: data,
-      comment: comment,
+      comments: comment,
     })
     .then((response) => response.data)
     .catch((error) => {

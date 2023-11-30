@@ -54,7 +54,7 @@ export default function LeadDetails({
       try {
         updateLeadRequest(data.id, {
           action_type: "reject",
-          comment: values.comment,
+          comments: values.comment,
         })
           .then((data) => {
             if (data) {
