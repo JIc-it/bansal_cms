@@ -124,6 +124,7 @@ function Promotions() {
                                 className="form-switch"
                                 style={{
                                   display: "inline-block",
+                                  float:'inline-end'
                                 }}
                               >
                                 <label
