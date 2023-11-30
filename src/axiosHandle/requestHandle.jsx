@@ -4,9 +4,9 @@ const orderRequestURL = "/purchase/admin-pending-orders/";
 const leadRequestURL = "/purchase/admin-leads-points/";
 const orderAcceptRejectUrl = "/purchase/admin-order-confirm";
 
-export const getOrderRequest = () => {
+export const getOrderRequest = (search) => {
   return axiosInstance
-    .get(orderRequestURL)
+    .get(orderRequestURL,{params:{search:search}})
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching order request:", error);

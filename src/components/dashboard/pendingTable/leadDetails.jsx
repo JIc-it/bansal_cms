@@ -49,16 +49,17 @@ export default function LeadDetails({open, data, setOpen,handlerefetch}) {
           });           
     }
     const handlerequest=(req)=>{
-
         if(data.distributor){
              handleorderrequest(req);
              handlerefetch()
             handleCloseOffcanvas()
+            
         }
         else{
              handleleadrequest(req);
              handlerefetch()
             handleCloseOffcanvas()
+            
         }
     }
 
