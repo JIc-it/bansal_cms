@@ -101,7 +101,9 @@ export default function AddNewAdmin({
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -141,9 +143,9 @@ export default function AddNewAdmin({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-              path: this.path,
-              message: "District is required",
-            });
+            path: this.path,
+            message: "District is required",
+          });
       }
     ),
     state: Yup.mixed().test(
