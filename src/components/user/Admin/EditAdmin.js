@@ -73,7 +73,9 @@ export default function EditAdmin({
   }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .max(20, "Name must be at most 20 characters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -250,7 +252,7 @@ export default function EditAdmin({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option  id={userdata?.state?.id}>
+              <option id={userdata?.state?.id}>
                 {userdata?.state?.state}
               </option>
               {stateList &&
