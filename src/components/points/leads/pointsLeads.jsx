@@ -27,14 +27,14 @@ export default function LeadPoints() {
   };
 
   useEffect(() => {
-    getLeadRequest()
+    getLeadRequest(filterdata)
       .then((data) => {
         setLeadData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, []);
+  }, [filterdata?.search]);
 
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
@@ -162,12 +162,7 @@ export default function LeadPoints() {
                             right: "5%",
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                            if (filterdata.search.trim() !== "") {
-                              handlefilter();
-                              setIstrue(true);
-                            }
-                          }}
+                         
                         >
                           <path
                             fill-rule="evenodd"
