@@ -15,7 +15,7 @@ import { getPermission } from "./axiosHandle/commonServicesHandle";
 import { useState } from "react";
 import AppContextProvider from "./contexts/AppContext";
 import MainPage from "./pages/MainPage";
-
+import PrivacyPolicy from "./components/forgotPasswordPolicy";
 function App() {
  
   return (
@@ -45,6 +45,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/*" element={<MainPage />} />
        
       </Routes>

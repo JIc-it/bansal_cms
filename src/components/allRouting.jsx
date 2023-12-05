@@ -32,6 +32,9 @@ import ViewAdmin from "./user/Admin/ViewAdmin";
 import ViewSales from "./user/Sales/ViewSales";
 import HelpFaq from "./HelpFaq";
 import LogSection from "./UserLog/LogSection";
+// import PrivacyPolicyNew from "./PrivacyPolicy";
+// import PrivacyPolicy from "./PrivacyPolicy";
+import PrivacyPolicyNew from "./PrivacyPolicy";
 
 export default function AllRouting() {
   return (
@@ -76,6 +79,8 @@ export default function AllRouting() {
         <Route path="/viewArchitects/:id" element={<ViewAchitectsDetails />} />
         <Route path="/help-faq" element={<HelpFaq />} />
         <Route path="/log-section" element={<LogSection/>} />
+        {/* <Route path="/privacy-policy" element={<PrivacyPolicy/>} /> */}
+        <Route path="/privacy-policy" element={<PrivacyPolicyNew />} />
       </Routes>
     </main>
   );
