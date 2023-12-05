@@ -47,7 +47,7 @@ export default function LeadRequests() {
   };
 
   const handlefilter = () => {
-    getLeadRequest(filterdata)
+    getPendingRequests(search,filterdata)
       .then((data) => {
         setLeadData(data.results);
       })
@@ -68,7 +68,7 @@ export default function LeadRequests() {
   }, []);
 
   useEffect(() => {
-    getPendingRequests()
+    getPendingRequests(search,filterdata)
       .then((data) => {
         console.log(data);
         setPendingRequests(data.count);
@@ -77,7 +77,7 @@ export default function LeadRequests() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [filterdata.search,isRefetch]);
+  }, [search,isRefetch]);
 
   useEffect(() => {
     getAcceptedRequests()
@@ -327,6 +327,7 @@ export default function LeadRequests() {
                           });
                           setSearch("");
                           setIsFilter(!isFilter);
+                          handlefilter();
                         }}
                       >
                         Clear filter

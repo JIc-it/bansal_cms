@@ -41,9 +41,16 @@ export const getTotalRequests = () => {
     });
 };
 
-export const getPendingRequests = () => {
+export const getPendingRequests = (search,data) => {
   return axiosInstance
-    .get("/purchase/admin-pending-leads/")
+    .get("/purchase/admin-pending-leads/",{
+      params: {
+        search: search,
+        role: data?.role,
+        date: data?.date,
+        status: data?.status,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching lead request:", error);
