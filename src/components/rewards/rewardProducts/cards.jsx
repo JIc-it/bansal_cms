@@ -102,7 +102,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                             className="form-check-label"
                             htmlFor="flexSwitchCheckDefault"
                           >
-                            {isChecked?"Open":"Close"}
+                            {isChecked?"Close":"Open"}
                           </label>
                         </div>
                       </div>
