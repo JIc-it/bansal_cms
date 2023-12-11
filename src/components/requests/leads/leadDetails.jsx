@@ -60,7 +60,7 @@ export default function LeadDetails({
         })
           .then((data) => {
             if (data) {
-              toast.success("Redemption rejected successfully");
+              toast.success("Lead rejected successfully");
               handleCloseOffcanvas();
               setIsRefetch(!isRefetch);
             }
@@ -81,7 +81,7 @@ export default function LeadDetails({
       .then((res) => {
         if (res.status === 200) {
           setIsRefetch(!isRefetch);
-          toast.success("Redemption accepted successfully");
+          toast.success("Lead accepted successfully");
         }
       })
       .catch((error) => {

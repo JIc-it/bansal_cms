@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 export default function ViewImage({ open, setOpen,imageUrl,name }) {
   const imageLink = String(imageUrl);
-  const baseurl = "https://bansal.jicitsolution.com";
+  const baseurl = "https://api.bansalsale.com";
   const image=baseurl+imageLink
   return (
     <Modal

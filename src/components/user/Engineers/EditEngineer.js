@@ -56,7 +56,9 @@ export default function EditEngineer({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
+      mobile: Yup.string()
+      .matches(/^[0-9]{10}$/, "Mobile must be a 10-digit number")
+      .required("Mobile is required"),
     // district: Yup.mixed().test(
     //   "isDistrictSelected",
     //   "District is required",
