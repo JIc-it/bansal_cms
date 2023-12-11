@@ -204,11 +204,6 @@ const Login = () => {
                   Forgot Password?
                 </a>
               </div>
-              <div className="mb-4">
-                <a href="/privacy-policy" className="btn-link text-primary" style={{ marginLeft: '285px' }}>
-                  Privacy Policy
-                </a>
-              </div>
             </form>
 
           </div>        </div>
