@@ -257,15 +257,15 @@ export default function OrderPoints() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
                   <div className="col-3" style={{ marginTop: 18 }}>
                     {permissionForPointsOrder?.action && (
-                   
+
                       <button
                         style={{ marginLeft: 135 }}
                         className="btn btn-light btn-sm"
@@ -301,6 +301,7 @@ export default function OrderPoints() {
                 <table id="list-tbl" class="table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Transaction id</th>
                       <th>Name</th>
                       <th>Role</th>
@@ -315,8 +316,11 @@ export default function OrderPoints() {
                   </thead>
                   <tbody>
                     {currentItems.length > 0 ? (
-                      currentItems.map((order) => (
+                      currentItems.map((order, i) => (
                         <tr key={order.id}>
+                          <td>
+                            <h6>{i + 1 + indexOfFirstItem}</h6>
+                          </td>
                           <td>
                             <h6>{order.transaction_id}</h6>
                           </td>
@@ -343,27 +347,26 @@ export default function OrderPoints() {
                           </td>
                           <td>
                             <button
-                              className={`btn  btn-sm ${
-                                order.admin_approval === "Accepted"
-                                  ? // &&
-                                    // order.user_approval === "Accepted"
-                                    "Accepted-btn"
-                                  : order.admin_approval === "Rejected"
+                              className={`btn  btn-sm ${order.admin_approval === "Accepted"
+                                ? // &&
+                                // order.user_approval === "Accepted"
+                                "Accepted-btn"
+                                : order.admin_approval === "Rejected"
                                   ? // ||
-                                    //   order.user_approval === "Rejected"
-                                    "Rejected-btn"
+                                  //   order.user_approval === "Rejected"
+                                  "Rejected-btn"
                                   : "Processing-btn"
-                              }`}
+                                }`}
                             >
                               {order.admin_approval === "Accepted"
                                 ? // &&
-                                  // order.user_approval === "Accepted"
-                                  "Accepted"
+                                // order.user_approval === "Accepted"
+                                "Accepted"
                                 : order.admin_approval === "Rejected"
-                                ? // ||
+                                  ? // ||
                                   //   order.user_approval === "Rejected"
                                   "Rejected"
-                                : "Processing"}
+                                  : "Processing"}
                             </button>
                           </td>
                           <td>

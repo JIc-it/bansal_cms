@@ -188,11 +188,12 @@ function PromotionsHistory() {
                     </div>
                   </div>
                   <div>
-                  
+
 
                     <table id="reports-tbl" className="table">
                       <thead>
                         <tr>
+                          <th>S No</th>
                           <th>Promotions</th>
                           <th>Date &amp; Time</th>
                           <th>Ad Runtime (Days)</th>
@@ -202,8 +203,11 @@ function PromotionsHistory() {
 
                       <tbody>
                         {currentItems.length > 0 ? (
-                          currentItems.map((data) => (
+                          currentItems.map((data, i) => (
                             <tr>
+                              <td>
+                                <h6>{i + 1 + indexOfFirstItem}</h6>
+                              </td>
                               <td>
                                 <h6>
                                   <img

@@ -413,6 +413,7 @@ export default function OrderRequests() {
                 <table id="list-tbl" class="table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Transaction id</th>
                       <th>Name</th>
                       <th>Unique id</th>
@@ -426,8 +427,11 @@ export default function OrderRequests() {
                   </thead>
                   <tbody>
                     {currentItems.length > 0 ? (
-                      currentItems.map((order) => (
+                      currentItems.map((order, i) => (
                         <tr key={order.id}>
+                             <td>
+                          <h6>{i + 1 + indexOfFirstItem}</h6>
+                          </td>
                           <td>
                             <h6>{order.transaction_id}</h6>
                           </td>

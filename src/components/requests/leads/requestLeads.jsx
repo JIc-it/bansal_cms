@@ -47,7 +47,7 @@ export default function LeadRequests() {
   };
 
   const handlefilter = () => {
-    getPendingRequests(search,filterdata)
+    getPendingRequests(search, filterdata)
       .then((data) => {
         setLeadData(data.results);
       })
@@ -68,7 +68,7 @@ export default function LeadRequests() {
   }, []);
 
   useEffect(() => {
-    getPendingRequests(search,filterdata)
+    getPendingRequests(search, filterdata)
       .then((data) => {
         console.log(data);
         setPendingRequests(data.count);
@@ -77,7 +77,7 @@ export default function LeadRequests() {
       .catch((error) => {
         console.error("Error fetching distributor data:", error);
       });
-  }, [search,isRefetch]);
+  }, [search, isRefetch]);
 
   useEffect(() => {
     getAcceptedRequests()
@@ -341,9 +341,9 @@ export default function LeadRequests() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
@@ -392,6 +392,7 @@ export default function LeadRequests() {
                 <table id="list-tbl" class="table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Transaction id</th>
                       <th>Name</th>
                       <th>Role</th>
@@ -405,8 +406,11 @@ export default function LeadRequests() {
                   </thead>
                   <tbody>
                     {currentItems.length > 0 ? (
-                      currentItems.map((lead) => (
+                      currentItems.map((lead, i) => (
                         <tr key={lead.id}>
+                          <td>
+                            <h6>{i + 1 + indexOfFirstItem}</h6>
+                          </td>
                           <td>
                             <h6>{lead.referral_id}</h6>
                           </td>
