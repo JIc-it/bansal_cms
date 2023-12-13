@@ -38,6 +38,8 @@ export default function OrderRequests() {
   const [isFilter, setIsFilter] = useState(false);
   const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
+    points_from: "",
+    points_to: "",
     search: "",
     role: "",
     date: "",
@@ -109,9 +111,9 @@ export default function OrderRequests() {
   }, []);
 
   useEffect(() => {
-    getLeadRequest(filterdata)
+    getOrderRequest(filterdata.search,filterdata)
       .then((data) => {
-        setLeadData(data.results);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -119,9 +121,9 @@ export default function OrderRequests() {
   }, [filterdata.search]);
 
   const handlefilter = () => {
-    getLeadRequest(filterdata)
+    getOrderRequest(filterdata.search,filterdata)
       .then((data) => {
-        setLeadData(data.results);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -413,7 +415,6 @@ export default function OrderRequests() {
                 <table id="list-tbl" class="table">
                   <thead>
                     <tr>
-                      <th>S No</th>
                       <th>Transaction id</th>
                       <th>Name</th>
                       <th>Unique id</th>
@@ -427,11 +428,8 @@ export default function OrderRequests() {
                   </thead>
                   <tbody>
                     {currentItems.length > 0 ? (
-                      currentItems.map((order, i) => (
+                      currentItems.map((order) => (
                         <tr key={order.id}>
-                             <td>
-                          <h6>{i + 1 + indexOfFirstItem}</h6>
-                          </td>
                           <td>
                             <h6>{order.transaction_id}</h6>
                           </td>

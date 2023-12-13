@@ -103,11 +103,21 @@ function PromotionsHistory() {
             <div className="card">
               <div className="card-body p-0">
                 <div className="table-responsive active-projects manage-client">
-                  <div className="tbl-caption">
+                  {/* <div className="tbl-caption">
+                    <a href='/dashboard'>
+                      <img src="/assets/Arrow Left.png" />
+                    </a>
                     <h4 className="heading mb-0">Promotions/ Ad Spot 01</h4>
+                  </div> */}
+                  <div className="tbl-caption" style={{ display: "flex", cursor: "pointer" }}>
+                    <a href='/promotions'>
+                      <img src="/assets/Arrow Left.png" />
+                    </a>
+
+                    <h3 className="heading mb-0" style={{fontSize: 15, position: 'relative', top: 3, left: 10}}>Promotions/ Ad Spot 01</h3>
                   </div>
                   <div className="row" style={{ marginTop: 20 }}>
-                    <div className="col-5">
+                    <div className="col-6">
                       <div
                         className="input-group mb-3"
                         style={{ maxWidth: 300, paddingLeft: 15 }}
