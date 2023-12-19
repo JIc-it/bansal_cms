@@ -143,9 +143,9 @@ export default function AddNewAdmin({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-            path: this.path,
-            message: "District is required",
-          });
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(
@@ -203,12 +203,14 @@ export default function AddNewAdmin({
             setIsLoading(false);
             window.location.reload();
           } else {
+            toast.error("Admin Creation failed !");
             console.error("Error while creating Admin:", adminData.error);
             setIsLoading(false);
           }
           setIsLoading(false);
         } catch (err) {
           console.log(err);
+          toast.error(err.response.data.error);
           err.response.data.email && toast.error(err.response.data.email[0]);
           err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
@@ -410,32 +412,21 @@ export default function AddNewAdmin({
             </thead>
             <tbody>
               {Object.keys(permissions)?.map((category) => (
-                <tr key={category}>
+                <tr key={`category-${category}`}>
                   <td>
                     {category.replace(/_/g, " ").charAt(0).toUpperCase() +
                       category.replace(/_/g, " ").slice(1)}
                   </td>
-                  {Object.keys(permissions[category])
-                    ?.sort()
-                    .map((action) => {
-                      let permissionCheckBox =
-                        category === "redemptions_window" ? (
-                          <>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">
-                              <input
-                                type="checkbox"
-                                checked={permissions[category][action]}
-                                onChange={() =>
-                                  handleCheckboxChange(category, action)
-                                }
-                              />
-                            </td>
-                            <td></td>
-                          </>
-                        ) : (
-                          <td className="text-center">
+                  {Object.keys(permissions[category])?.map((action) => {
+                    let permissionCheckBox =
+                      category === "redemptions_window" ? (
+                        <>
+                          <td></td>
+                          <td></td>
+                          <td
+                            className="text-center"
+                            key={`category-action${action}`}
+                          >
                             <input
                               type="checkbox"
                               checked={permissions[category][action]}
@@ -444,9 +435,24 @@ export default function AddNewAdmin({
                               }
                             />
                           </td>
-                        );
-                      return permissionCheckBox;
-                    })}
+                          <td></td>
+                        </>
+                      ) : (
+                        <td
+                          className="text-center"
+                          key={`category-action${action}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={permissions[category][action]}
+                            onChange={() =>
+                              handleCheckboxChange(category, action)
+                            }
+                          />
+                        </td>
+                      );
+                    return permissionCheckBox;
+                  })}
                 </tr>
               ))}
             </tbody>

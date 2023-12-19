@@ -252,9 +252,7 @@ export default function EditAdmin({
               placeholder="State"
               onChange={handleStateChange}
             >
-              <option id={userdata?.state?.id}>
-                {userdata?.state?.state}
-              </option>
+              <option id={userdata?.state?.id}>{userdata?.state?.state}</option>
               {stateList &&
                 stateList.map((ele, i) => {
                   return <option id={ele.id}>{ele.state}</option>;
@@ -301,19 +299,15 @@ export default function EditAdmin({
                     {category.replace(/_/g, " ").charAt(0).toUpperCase() +
                       category.replace(/_/g, " ").slice(1)}
                   </td>
-                  {Object.keys(permission[category])
-                    ?.sort()
-                    .map((action) => (
-                      <td className="text-center">
-                        <input
-                          type="checkbox"
-                          checked={permission[category][action]}
-                          onChange={() =>
-                            handleCheckboxChange(category, action)
-                          }
-                        />
-                      </td>
-                    ))}
+                  {Object.keys(permission[category])?.map((action) => (
+                    <td className="text-center">
+                      <input
+                        type="checkbox"
+                        checked={permission[category][action]}
+                        onChange={() => handleCheckboxChange(category, action)}
+                      />
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
