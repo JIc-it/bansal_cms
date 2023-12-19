@@ -27,7 +27,6 @@ function RewardPoints() {
   };
 
   useEffect(() => {
-    const uniqueKey = Date.now(); // Use a timestamp as a unique key
     console.log("Fetching reward product data...");
     
     getRewardProductsRequest()

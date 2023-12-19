@@ -30,6 +30,16 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
 
             const { title, points, description, item_image, image_name, is_active } = credentials;
 
+            // Validate product name
+            if (!title.trim()) {
+                throw new Error("Product name is required.");
+            }
+
+            // Validate points
+            if (!points || points <= 0) {
+                throw new Error("Points are required and must be greater than 0.");
+            }
+
             // Validate image dimensions
             const image = new Image();
             image.src = showImages.trim() !== "" ? showImages : item_image;
@@ -80,7 +90,7 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
     };
 
     return (
-       
+
         <Offcanvas show={open} onHide={() => { setOpen(false); setShowImages("") }} placement="end" style={{ overflow: 'auto' }}>
             <Offcanvas.Header style={{ marginLeft: 345 }} closeButton>
             </Offcanvas.Header>
@@ -88,18 +98,18 @@ export default function EditReward({ open, data, setOpen, refreshDataTable, seti
                 <h5>Reward Product Details</h5>
                 <div style={{ marginTop: 20 }}>
                     <input type="text" className="form-control" value={credentials.title}
-                    maxLength="15"
+                        maxLength="15"
                         onChange={(e) => setCredentials({ ...credentials, title: e.target.value })} placeholder='Product Name' />
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <input type="text" className="form-control" value={credentials.points}
                         onChange={(e) => {
-                            const values=e.target.value
-                            if(values<=800000){
-                              setCredentials({ ...credentials, points: values });
+                            const values = e.target.value
+                            if (values <= 800000) {
+                                setCredentials({ ...credentials, points: values });
                             }
-                            
-                          }} placeholder='Points' maxLength={800000}/>
+
+                        }} placeholder='Points' maxLength={800000} />
                 </div>
                 <div style={{ marginTop: 20 }}>
                     <textarea rows="4" className="form-control"
