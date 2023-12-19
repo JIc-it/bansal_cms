@@ -16,7 +16,7 @@ const ForgotPassword = () => {
         <div className="row h-100">
           {/* Remove the parent container */}
           <div className="col-xl-6 col-lg-6 p-0">
-            <div
+            {/* <div
               className="login-image"
               style={{
                 backgroundImage: 'url("/login.png")',
@@ -46,15 +46,17 @@ const ForgotPassword = () => {
               <h4 style={{ color: 'white' }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
               </h4>
-            </div>
+            </div> */}
+              <img src='/assets/login_banner.png' style={{ height: '100%', width: '100%' }} />
+
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 mx-auto align-self-center">
             <div className="login-form">
               <form action="https://w3crm.dexignzone.com/xhtml/index.html">
                 <h5>Please Connect with the Super admin to reset password</h5>
-              <label className="mb-1 text-dark">Click to go back and try again</label>
-              <div className="text-center mb-4">
-                <button type="button" className="btn btn-primary btn-block" onClick={handleLogin}>Back to Login</button>
+                <label className="mb-1 text-dark">Click to go back and try again</label>
+                <div className="text-center mb-4">
+                  <button type="button" className="btn btn-primary btn-block" onClick={handleLogin}>Back to Login</button>
                 </div>
               </form>
             </div>
