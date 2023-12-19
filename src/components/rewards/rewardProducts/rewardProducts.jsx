@@ -17,6 +17,13 @@ function RewardPoints() {
   const itemsPerPage = 10;
   const [searchText, setSearchText] = useState("");
   const [isUpdated, setisUpdated] = useState(false);
+  const [search, setSearch] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterdata, setFilterdata] = useState({
+    title: "",
+    points: "",
+    reward_id: "",
+  });
 
   const handleEditClick = (data) => {
     setUpdateProduct(data);
@@ -28,8 +35,8 @@ function RewardPoints() {
 
   useEffect(() => {
     console.log("Fetching reward product data...");
-    
-    getRewardProductsRequest()
+
+    getRewardProductsRequest(search, filterdata)
       .then((data) => {
         console.log("Fetched data:", data);
         setRewardProductData(data.results);
@@ -37,7 +44,7 @@ function RewardPoints() {
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, []);
+  }, [search, isFilter]);
 
   const exportToCSV = () => {
     if (reward_product_data) {
@@ -79,21 +86,27 @@ function RewardPoints() {
   );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = reward_product_data
+    ? reward_product_data.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
 
-  const filteredItems =
+
+    const filteredItems =
     reward_product_data && reward_product_data.length > 0
       ? reward_product_data.filter((rw_data) => {
           const searchableFields = [
             rw_data.title,
-            rw_data.id,
-            rw_data.points,
+            rw_data.id.toString(), // Convert to string for comparison
+            rw_data.points.toString(), // Convert to string for comparison
             rw_data.description,
-            rw_data.is_active,
-            rw_data.times_redeemed,
+            rw_data.is_active.toString(), // Convert to string for comparison
+            rw_data.times_redeemed.toString(), // Convert to string for comparison
           ];
+          console.log('Search Text:', searchText);
+          console.log('Fields:', searchableFields);
           return searchableFields.some(
             (field) =>
-              typeof field === "string" &&
+              field &&
               field.toLowerCase().includes(searchText.toLowerCase())
           );
         })
@@ -111,6 +124,16 @@ function RewardPoints() {
     }
   };
 
+
+  const handlefilterdata = (data) => {
+    setFilterdata((prev) => {
+      return {
+        ...prev,
+        ...data,
+      };
+    });
+  };
+  
   return (
     <div className="content-body" style={{ width: "82vw", marginLeft: 245 }}>
       <Cards permissionForRedumtionWindow={permissionForRedumtionWindow} />
@@ -203,11 +226,11 @@ function RewardPoints() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredItems.length > 0 ? (
-                      filteredItems.map((rw_data, i) => (
+                    {currentItems.length > 0 ? (
+                      currentItems.map((rw_data, i) => (
                         <tr key={rw_data.id}>
-                             <td>
-                          <h6>{i + 1 + indexOfFirstItem}</h6>
+                          <td>
+                            <h6>{i + 1 + indexOfFirstItem}</h6>
                           </td>
                           <td>
                             <h6>

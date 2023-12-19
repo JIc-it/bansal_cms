@@ -1,6 +1,6 @@
 import axiosInstance from "./authHandle";
 
-const rewardProductsURL = "/purchase/rewards/";
+const rewardProductsURL = "/purchase/cms-rewards/";
 const rewardProductCreateURL = "/purchase/rewards/";
 const rewardProductEditURL = "/purchase/rewards/";
 const rewardRedemptionURL = "/purchase/admin-reward-redemptions/";
@@ -9,9 +9,9 @@ const rewardAcceptRejectUrl = "/purchase/redemption-status-update";
 const redemptionId = 'purchase/redemption-get/'
 const redemptionWindow = '/purchase/redemption-update/'
 
-export const getRewardProductsRequest = () => {
+export const getRewardProductsRequest = (search, filterdata) => {
   return axiosInstance
-    .get(rewardProductsURL)
+    .get(rewardProductsURL, { params: { search: search, title: filterdata?.title, points: filterdata?.points, reward_id: filterdata?.reward_id }})
     .then((response) => {
       console.log("Reward Products Response:", response.data);
       return response.data;
