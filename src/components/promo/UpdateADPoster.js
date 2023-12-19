@@ -26,7 +26,7 @@ const UpdateADPoster = ({
   const [selectedFileName, setSelectedFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const modifiedUrl = selectedPromotionDetails.ad_image.replace(
-    "http://bansal.jicitsolution.com/assets/media/advertisements/",
+    "",
     ""
   );
 
@@ -162,7 +162,7 @@ const UpdateADPoster = ({
                   onChange={handleFileChange}
                 />
                 <label
-                  htmlFor="imageUpload"
+                  // htmlFor="imageUpload"
                   className="btn bg-blue btn-sm update-btn"
                   style={{ float: 'inline-end' }}
                 >

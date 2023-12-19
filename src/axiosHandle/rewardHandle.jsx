@@ -1,6 +1,6 @@
 import axiosInstance from "./authHandle";
 
-const rewardProductsURL = "/purchase/cms-rewards/";
+const rewardProductsURL = "/purchase/rewards/";
 const rewardProductCreateURL = "/purchase/rewards/";
 const rewardProductEditURL = "/purchase/rewards/";
 const rewardRedemptionURL = "/purchase/admin-reward-redemptions/";
