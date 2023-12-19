@@ -121,11 +121,13 @@ export default function EditSales({
             setIsUpdateUser(!isUpdateUser);
             setOpen(false);
           } else {
+            toast.error("Sales Updation failed !");
             console.error("Error while creating Admin:");
           }
         });
       } catch (err) {
         console.log(err);
+        toast.error(err.response.data.error);
         err.response.data.email && toast.error(err.response.data.email[0]);
         err.response.data.mobile && toast.error(err.response.data.mobile[0]);
       } finally {
@@ -300,19 +302,15 @@ export default function EditSales({
                     {category.replace(/_/g, " ").charAt(0).toUpperCase() +
                       category.replace(/_/g, " ").slice(1)}
                   </td>
-                  {Object.keys(permission[category])
-                    ?.sort()
-                    .map((action) => (
-                      <td className="text-center">
-                        <input
-                          type="checkbox"
-                          checked={permission[category][action]}
-                          onChange={() =>
-                            handleCheckboxChange(category, action)
-                          }
-                        />
-                      </td>
-                    ))}
+                  {Object.keys(permission[category])?.map((action) => (
+                    <td className="text-center">
+                      <input
+                        type="checkbox"
+                        checked={permission[category][action]}
+                        onChange={() => handleCheckboxChange(category, action)}
+                      />
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

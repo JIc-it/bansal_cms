@@ -147,9 +147,9 @@ export default function AddNewSales({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-            path: this.path,
-            message: "District is required",
-          });
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(
@@ -206,12 +206,14 @@ export default function AddNewSales({
             setOpen(false);
             setIsLoading(false);
           } else {
+            toast.error("Sales creation failed !");
             console.error("Error while creating Admin:", adminData.error);
             setIsLoading(false);
           }
           setIsLoading(false);
         } catch (err) {
           console.log(err);
+          toast.error(err.response.data.error);
           err.response.data.email && toast.error(err.response.data.email[0]);
           err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
@@ -411,15 +413,14 @@ export default function AddNewSales({
               </tr>
             </thead>
             <tbody>
-              {Object.keys(permissions)?.map((category) => (
-                <tr key={category}>
-                  <td>
-                    {category.replace(/_/g, " ").charAt(0).toUpperCase() +
-                      category.replace(/_/g, " ").slice(1)}
-                  </td>
-                  {Object.keys(permissions[category])
-                    ?.sort()
-                    .map((action) => {
+              {Object.keys(permissions)?.map((category) => {
+                return (
+                  <tr key={`category-${category}`}>
+                    <td>
+                      {category.replace(/_/g, " ").charAt(0).toUpperCase() +
+                        category.replace(/_/g, " ").slice(1)}
+                    </td>
+                    {Object.keys(permissions[category])?.map((action) => {
                       console.log(
                         category === "redemptions_window",
                         "category"
@@ -429,9 +430,14 @@ export default function AddNewSales({
                           <>
                             <td></td>
                             <td></td>
-                            <td className="text-center">
+                            <td
+                              className="text-center"
+                              key={`category-action-${action}`}
+                            >
                               <input
                                 type="checkbox"
+                                name={permissions[category][action]}
+                                id={permissions[category][action]}
                                 checked={permissions[category][action]}
                                 onChange={() =>
                                   handleCheckboxChange(category, action)
@@ -441,9 +447,14 @@ export default function AddNewSales({
                             <td></td>
                           </>
                         ) : (
-                          <td className="text-center">
+                          <td
+                            className="text-center"
+                            key={`category-action-${action}`}
+                          >
                             <input
                               type="checkbox"
+                              name={permissions[category][action]}
+                              id={permissions[category][action]}
                               checked={permissions[category][action]}
                               onChange={() =>
                                 handleCheckboxChange(category, action)
@@ -453,8 +464,9 @@ export default function AddNewSales({
                         );
                       return permissionCheckBox;
                     })}
-                </tr>
-              ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
           <button
