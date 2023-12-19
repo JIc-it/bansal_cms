@@ -80,7 +80,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
         <div className="col-xl-12 wid-100">
           <div className="row">
             {permissionForRedumtionWindow?.action && (
-              <div className="col-xl-3 col-sm-6 same-card">
+              <div className="col-xl-4 col-sm-6 same-card">
                 <div className="card">
                   <div className="card-body depostit-card">
                     <div className="depostit-card-media d-flex justify-content-between style-1">
@@ -102,7 +102,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                             className="form-check-label"
                             htmlFor="flexSwitchCheckDefault"
                           >
-                            {isChecked?"Open":"Close"}
+                            {isChecked?"Close":"Open"}
                           </label>
                         </div>
                       </div>
@@ -111,7 +111,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                 </div>
               </div>
             )}
-            <div className="col-xl-3 col-sm-6 same-card">
+            {/* <div className="col-xl-3 col-sm-6 same-card">
               <div className="card">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
@@ -123,8 +123,8 @@ export default function Cards({ permissionForRedumtionWindow }) {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-xl-3 col-sm-6 same-card">
+            </div> */}
+            <div className="col-xl-4 col-sm-6 same-card">
               <div className="card">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
@@ -137,7 +137,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-sm-6 same-card">
+            <div className="col-xl-4 col-sm-6 same-card">
               <div className="card">
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">

@@ -193,6 +193,7 @@ function RewardPoints() {
                 <table id="reports-tbl" className="table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Product</th>
                       <th>Product ID</th>
                       <th>Points</th>
@@ -204,8 +205,11 @@ function RewardPoints() {
                   </thead>
                   <tbody>
                     {filteredItems.length > 0 ? (
-                      filteredItems.map((rw_data) => (
+                      filteredItems.map((rw_data, i) => (
                         <tr key={rw_data.id}>
+                             <td>
+                          <h6>{i + 1 + indexOfFirstItem}</h6>
+                          </td>
                           <td>
                             <h6>
                               <img

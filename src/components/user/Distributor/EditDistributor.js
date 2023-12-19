@@ -48,6 +48,16 @@ export default function EditDistributor({
       });
   }, []);
 
+  // const validationSchema = Yup.object({
+  //   name: Yup.string()
+  //     .required("Name is required")
+  //     .max(20, "Name must be at most 20 characters"),
+  //   email: Yup.string()
+  //     .email("Invalid email address")
+  //     .required("Email is required"),
+  //   mobile: Yup.string().required("Mobile is required"),
+  // });
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
@@ -55,26 +65,9 @@ export default function EditDistributor({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
-    // district: Yup.mixed().test(
-    //   "isDistrictSelected",
-    //   "District is required",
-    //   function (value) {
-    //     return value && value.id !== "0" && value.name !== "District";
-    //   }
-    // ),
-    // state: Yup.mixed().test(
-    //   "isStateSelected",
-    //   "state is required",
-    //   function (value) {
-    //     return value && value.id !== "0" && value.name !== "State";
-    //   }
-    // ),
-
-    // password: Yup.string().required("Password is required"),
-    // confirmPassword: Yup.string()
-    //   .required("Confirm Password is required")
-    //   .oneOf([Yup.ref("password")], "Passwords must match"),
+    mobile: Yup.string()
+      .matches(/^[0-9]{10}$/, "Mobile must be a 10-digit number")
+      .required("Mobile is required"),
   });
 
   const formik = useFormik({
@@ -217,6 +210,7 @@ export default function EditDistributor({
               placeholder="Mobile"
               name="mobile"
               className="form-control form-control-sm"
+              maxLength={10}
               value={formik.values.mobile}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

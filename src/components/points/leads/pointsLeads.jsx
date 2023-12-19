@@ -27,14 +27,14 @@ export default function LeadPoints() {
   };
 
   useEffect(() => {
-    getLeadRequest()
+    getLeadRequest(filterdata)
       .then((data) => {
         setLeadData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, []);
+  }, [filterdata?.search]);
 
   const handlefilterdata = (data) => {
     setFilterdata((prev) => {
@@ -162,12 +162,7 @@ export default function LeadPoints() {
                             right: "5%",
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                            if (filterdata.search.trim() !== "") {
-                              handlefilter();
-                              setIstrue(true);
-                            }
-                          }}
+
                         >
                           <path
                             fill-rule="evenodd"
@@ -244,9 +239,9 @@ export default function LeadPoints() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>
@@ -287,6 +282,7 @@ export default function LeadPoints() {
                 <table id="list-tbl" class="table">
                   <thead>
                     <tr>
+                      <th>S No</th>
                       <th>Transaction id</th>
                       <th>Name</th>
                       <th>Referred By</th>
@@ -300,8 +296,11 @@ export default function LeadPoints() {
                   </thead>
                   <tbody>
                     {currentItems.length > 0 ? (
-                      currentItems.map((lead) => (
+                      currentItems.map((lead, i) => (
                         <tr key={lead.id}>
+                          <td>
+                            <h6>{i + 1 + indexOfFirstItem}</h6>
+                          </td>
                           <td>
                             <h6>{lead.referral_id}</h6>
                           </td>
@@ -337,27 +336,26 @@ export default function LeadPoints() {
                           </td>
                           <td>
                             <button
-                              className={`btn btn-sm ${
-                                lead.admin_approval === "Accepted"
+                              className={`btn btn-sm ${lead.admin_approval === "Accepted"
                                   ? // &&
-                                    // order.user_approval === "Accepted"
-                                    "Accepted-btn"
+                                  // order.user_approval === "Accepted"
+                                  "Accepted-btn"
                                   : lead.admin_approval === "Rejected"
-                                  ? // ||
+                                    ? // ||
                                     //   order.user_approval === "Rejected"
                                     "Rejected-btn"
-                                  : "Processing-btn"
-                              }`}
+                                    : "Processing-btn"
+                                }`}
                             >
                               {lead.admin_approval === "Accepted"
                                 ? // &&
-                                  // order.user_approval === "Accepted"
-                                  "Accepted"
+                                // order.user_approval === "Accepted"
+                                "Accepted"
                                 : lead.admin_approval === "Rejected"
-                                ? // ||
+                                  ? // ||
                                   //   order.user_approval === "Rejected"
                                   "Rejected"
-                                : "Processing"}
+                                  : "Processing"}
                             </button>
                           </td>
                           <td>

@@ -131,7 +131,7 @@ function Redemptions() {
                     <h4 className="heading mb-0">Redemptions</h4>
                   </div>
                   <div className="row">
-                 
+
                     <div className="col-9">
                       <div
                         className="input-group mb-3"
@@ -244,7 +244,7 @@ function Redemptions() {
                     </div>
                     <div className="col-3" style={{ marginTop: 18 }}>
                       {permissionForRedemption?.action && (
-                       
+
                         <button
                           style={{ marginLeft: 135 }}
                           className="btn btn-light btn-sm"
@@ -280,6 +280,7 @@ function Redemptions() {
                   <table id="reports-tbl" className="table">
                     <thead>
                       <tr>
+                        <th>S No</th>
                         <th>Transaction id</th>
                         <th>Reward</th>
                         <th>Product ID</th>
@@ -293,8 +294,11 @@ function Redemptions() {
 
                     <tbody>
                       {currentItems.length > 0 ? (
-                        currentItems.map((item) => (
+                        currentItems.map((item, i) => (
                           <tr key={item.id}>
+                            <td>
+                              <h6>{i + 1 + indexOfFirstItem}</h6>
+                            </td>
                             <td>
                               <h6>{item.transaction_id}</h6>
                             </td>

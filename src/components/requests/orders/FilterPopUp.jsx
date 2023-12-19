@@ -14,6 +14,33 @@ const FilterPopUp = ({ handlefilterdata, handlefilter, setOpenFilter }) => {
         <option>Contractor</option>
         <option>Architect</option>
       </select>
+      {/* <span>By Points</span>
+      <div className="filter-fields">
+        <input
+          type="number"
+          placeholder="From"
+          className="form-control form-control-sm"
+          name="points_from"
+          onChange={(e) => handlefilterdata({ points_from: e.target.value })}
+        />
+        <span
+          style={{
+            fontWeight: "700",
+            color: "#000",
+            position: "relative",
+            top: "5px",
+          }}
+        >
+          -
+        </span>
+        <input
+          type="number"
+          placeholder="To"
+          className="form-control form-control-sm"
+          name="points_to"
+          onChange={(e) => handlefilterdata({ points_to: e.target.value })}
+        />
+      </div> */}
       <span>By Date</span>
       <input
         type="date"
@@ -34,7 +61,7 @@ const FilterPopUp = ({ handlefilterdata, handlefilter, setOpenFilter }) => {
         type="button"
         onClick={() => {
           handlefilter();
-          handlefilterdata({ search: "", role: "", date: "" });
+          handlefilterdata({ search: "", role: "", date: "", points_from: "", points_to: ""});
           setOpenFilter((prev) => !prev);
         }}
         className="btn btn-primary"

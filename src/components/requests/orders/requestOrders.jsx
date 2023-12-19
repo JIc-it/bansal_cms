@@ -38,6 +38,8 @@ export default function OrderRequests() {
   const [isFilter, setIsFilter] = useState(false);
   const [search, setSearch] = useState("");
   const [filterdata, setFilterdata] = useState({
+    points_from: "",
+    points_to: "",
     search: "",
     role: "",
     date: "",
@@ -58,7 +60,7 @@ export default function OrderRequests() {
   };
 
   useEffect(() => {
-    getOrderRequest(filterdata?.search)
+    getOrderRequest(filterdata?.search,filterdata)
       .then((data) => {
         setOrderData(data.results);
       })
@@ -109,9 +111,9 @@ export default function OrderRequests() {
   }, []);
 
   useEffect(() => {
-    getLeadRequest(filterdata)
+    getOrderRequest(filterdata.search,filterdata)
       .then((data) => {
-        setLeadData(data.results);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
@@ -119,9 +121,9 @@ export default function OrderRequests() {
   }, [filterdata.search]);
 
   const handlefilter = () => {
-    getLeadRequest(filterdata)
+    getOrderRequest(filterdata.search,filterdata)
       .then((data) => {
-        setLeadData(data.results);
+        setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);

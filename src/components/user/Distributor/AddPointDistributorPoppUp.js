@@ -26,7 +26,7 @@ export default function AddPointDistributorPoppUp({
   const validationSchema = Yup.object({
     points: Yup.string()
       .required("Points is required")
-      .matches(/^\d{1,10}$/, "Points must be up to 10 digits"), // Validation for up to 10 digits
+      .matches(/^\d{1,4}$/, "Points must be up to 4 digits"), // Validation for up to 4 digits
   });
 
   const formik = useFormik({

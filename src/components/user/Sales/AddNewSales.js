@@ -109,7 +109,9 @@ export default function AddNewSales({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
+      mobile: Yup.string()
+      .required("Mobile is required")
+      .matches(/^\d{10}$/, "Mobile must be a 10-digit number"),
     district: Yup.mixed().test(
       "isDistrictSelected",
       "District is required",

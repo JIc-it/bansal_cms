@@ -46,6 +46,7 @@ export default function AdminUserViewOrders(props) {
               {orderData.map((data, i) => {
                 return (
                   <tr key={`transactionData-${i}`}>
+                    
                     <td>
                       <h6>{data.transaction_id ? data.transaction_id : "-"}</h6>
                     </td>

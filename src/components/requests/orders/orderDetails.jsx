@@ -103,8 +103,8 @@ export default function OrderDetails({
             setIsRefetch(!isRefetch);
             toast.success(
               type === "accept"
-                ? "Redemption accepted successfully"
-                : "Redemption rejected successfully"
+                ? "Order accepted successfully"
+                : "Order rejected successfully"
             );
           }
         })
