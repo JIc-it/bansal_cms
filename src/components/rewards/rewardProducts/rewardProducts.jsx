@@ -27,18 +27,18 @@ function RewardPoints() {
   };
 
   useEffect(() => {
+    const uniqueKey = Date.now(); // Use a timestamp as a unique key
     console.log("Fetching reward product data...");
-
+    
     getRewardProductsRequest()
       .then((data) => {
         console.log("Fetched data:", data);
         setRewardProductData(data.results);
-        setisUpdated(false);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, [isUpdated]);
+  }, []);
 
   const exportToCSV = () => {
     if (reward_product_data) {
@@ -124,7 +124,7 @@ function RewardPoints() {
                   <h4 className="heading mb-0">Reward Products</h4>
                 </div>
                 <div className="row">
-                  <div className="col-5">
+                  <div className="col-7">
                     <div
                       className="input-group mb-3"
                       style={{ maxWidth: 300, paddingTop: 15, paddingLeft: 15 }}
@@ -143,7 +143,7 @@ function RewardPoints() {
                       {/* <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button> */}
                     </div>
                   </div>
-                  <div className="col-5 text-end">
+                  <div className="col-3 text-end">
                     {permissionForRewardProducts?.create && (
                       <button
                         className="btn btn-primary btn-sm"

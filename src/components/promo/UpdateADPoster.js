@@ -163,7 +163,7 @@ const UpdateADPoster = ({
                 />
                 <label
                   htmlFor="imageUpload"
-                  className="btn bg-blue btn-sm"
+                  className="btn bg-blue btn-sm update-btn"
                   style={{ float: 'inline-end' }}
                 >
                   <svg

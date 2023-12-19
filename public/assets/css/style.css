@@ -37885,3 +37885,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Set the color of the scrollbar track */
 }
+
+.update-btn{
+  position: relative;
+    right: 385px;
+    bottom: 20px;
+}
