@@ -17,3 +17,12 @@ export const convertToDateTime = (standardTime) => {
 
   return formattedDateTime;
 };
+
+
+export const removeBaseUrlFromPath = (originalString) => {
+  var modifiedString = originalString.replace(
+    "https://api.bansalsale.com/",
+    ""
+  );
+  return modifiedString;
+};

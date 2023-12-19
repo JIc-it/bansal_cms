@@ -4,20 +4,24 @@ const rewardProductsURL = "/purchase/rewards/";
 const rewardProductCreateURL = "/purchase/rewards/";
 const rewardProductEditURL = "/purchase/rewards/";
 const rewardRedemptionURL = "/purchase/admin-reward-redemptions/";
-const rewardProductTotalCountURL = "/purchase/rewards/";
 const redeemedviewURL = "/purchase/admin-pending-orders/";
 const rewardAcceptRejectUrl = "/purchase/redemption-status-update";
-const redemptionId='purchase/redemption-get/'
-const redemptionWindow='/purchase/redemption-update/'
+const redemptionId = 'purchase/redemption-get/'
+const redemptionWindow = '/purchase/redemption-update/'
+
 export const getRewardProductsRequest = () => {
   return axiosInstance
     .get(rewardProductsURL)
-    .then((response) => response.data)
+    .then((response) => {
+      console.log("Reward Products Response:", response.data);
+      return response.data;
+    })
     .catch((error) => {
       console.error("Error while fetching reward products:", error);
       throw error;
     });
 };
+
 export const getRewardProductsId = async () => {
   try {
     const response = await axiosInstance
@@ -28,10 +32,11 @@ export const getRewardProductsId = async () => {
     throw error;
   }
 };
-export const getRedemptionWindow = async (id,body) => {
+
+export const getRedemptionWindow = async (id, body) => {
   try {
     const response = await axiosInstance
-      .put(redemptionWindow+id+'/',body);
+      .put(redemptionWindow + id + '/', body);
     return response.data;
   } catch (error) {
     console.error("Error while getRedemptionWindow:", error);
@@ -63,7 +68,7 @@ export const editRewardProductRequest = (id, data) => {
 
 export const getRedemptionRequest = (search, filterdata) => {
   return axiosInstance
-    .get(rewardRedemptionURL,{params:{search:search,role:filterdata?.role,date:filterdata?.date}})
+    .get(rewardRedemptionURL, { params: { search: search, role: filterdata?.role, date: filterdata?.date } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching reward redemption:", error);
@@ -114,6 +119,17 @@ export const getLeadView = (searchData) => {
 export const handleRewardAcceptReject = (id, data) => {
   return axiosInstance
     .put(`${rewardAcceptRejectUrl}/${id}/`, { status: data })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};
+
+
+export const getListDataInPagination = (url) => {
+  return axiosInstance
+    .get(url)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching lead request:", error);
