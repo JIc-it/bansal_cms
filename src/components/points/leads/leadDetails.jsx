@@ -62,6 +62,7 @@ export default function LeadDetails({ data, open, setOpen }) {
               style={{
                 float: "inline-end",
                 color: "blue",
+                padding: 0,
                 position: "relative",
                 bottom: 5,
               }}
