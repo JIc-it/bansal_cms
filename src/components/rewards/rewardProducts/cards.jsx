@@ -14,11 +14,25 @@ export default function Cards({ permissionForRedumtionWindow }) {
   const [isChecked, setIsChecked] = useState(true);
   const [rewardId, setRewardId] = useState("");
 
+  const localStorageKey = "redemptionWindowState";
+
+  // const checkBoxHandler = () => {
+  //   setIsChecked(!isChecked);
+  // };
+
   const checkBoxHandler = () => {
-    setIsChecked(!isChecked);
-    
+    const newState = !isChecked;
+    setIsChecked(newState);
+    localStorage.setItem(localStorageKey, JSON.stringify(newState));
   };
-  
+
+  useEffect(() => {
+    const storedState = localStorage.getItem(localStorageKey);
+    if (storedState !== null) {
+      setIsChecked(JSON.parse(storedState));
+    }
+  }, []);
+
   useEffect(() => {
     getTotalRewardProducts()
       .then((data) => {
@@ -87,7 +101,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                       <div>
                         <h6>Redemption Window</h6>
                         <br />
-                        <div className="form-check form-switch">
+                        {/* <div className="form-check form-switch">
                           <input
                             onClick={redemptionClick}
                             onChange={checkBoxHandler}
@@ -102,8 +116,19 @@ export default function Cards({ permissionForRedumtionWindow }) {
                             className="form-check-label"
                             htmlFor="flexSwitchCheckDefault"
                           >
-                            {isChecked?"Close":"Open"}
+                            {isChecked ? "Close" : "Open" }
                           </label>
+                        </div> */}
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" 
+                          type="checkbox" 
+                          role="switch" 
+                          id="flexSwitchCheckChecked" 
+                          value={isChecked}
+                          onClick={redemptionClick}
+                          onChange={checkBoxHandler}
+                          checked={isChecked} />
+                            <label class="form-check-label" for="flexSwitchCheckChecked">{isChecked ? "Close" : "Open" }</label>
                         </div>
                       </div>
                     </div>
@@ -142,7 +167,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                 <div className="card-body depostit-card">
                   <div className="depostit-card-media d-flex justify-content-between style-1">
                     <div>
-                      <h6>Reward Products</h6>
+                      <h6>List Reward Products</h6>
                       <br />
                       <h3>{totalRewardProducts}</h3>
                     </div>
