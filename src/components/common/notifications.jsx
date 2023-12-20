@@ -60,7 +60,7 @@ export default function NotificationsOpen({ open, setOpen,showNotification }) {
                 <Offcanvas.Title></Offcanvas.Title>
             </Offcanvas.Header>
             <div style={notificationsHead}>
-                <h6 style={{ fontSize: 19.2, fontWeight: 500, fontFamily: 'Poppins-Regular' }}>Notifications</h6>
+                <h6 style={{ fontSize: 19.2, fontWeight: 500 }}>Notifications</h6>
             </div>
             {count === 0 ?
                 <div style={{ marginTop: 10, marginLeft: 20 }}>

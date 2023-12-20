@@ -160,7 +160,7 @@ export default function OrderDetails({
               float: "inline-end",
               position: "relative",
               left: 70,
-              padding: 2,
+              padding: 1,
             }}
             className="badge badge-success light border-0"
           >

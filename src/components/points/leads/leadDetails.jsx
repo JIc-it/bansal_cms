@@ -62,7 +62,7 @@ export default function LeadDetails({ data, open, setOpen }) {
               style={{
                 float: "inline-end",
                 color: "blue",
-                padding: 2,
+                padding: 1,
                 position: "relative",
                 bottom: 5,
               }}
@@ -79,7 +79,7 @@ export default function LeadDetails({ data, open, setOpen }) {
               style={{
                 float: "inline-end",
                 position: "relative",
-                padding: 2,
+                padding: 1,
                 color: "green",
               }}
               className="badge badge-primary light border-0"

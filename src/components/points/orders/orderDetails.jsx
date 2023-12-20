@@ -79,7 +79,7 @@ export default function OrderDetails({data, open, setOpen}) {
                 <h6>Distributor Details</h6>
                 <span>Name :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.name}</span><br></br>
                 <span>Unique ID :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.user_id}</span><br></br>
-                <span>Address :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.district},<span style={{ marginLeft: 175 }}>{data?.distributor?.state}</span></span><br></br>
+                <span>Address :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.district},<span>{data?.distributor?.state}</span></span><br></br>
                 <span>Mobile :</span><span style={{ float: 'inline-end' }}>{data?.distributor?.mobile}</span><br></br>
             </div>
             <br></br>
