@@ -66,11 +66,17 @@ export default function Contractor() {
 
   const exportToCSV = () => {
     if (userData) {
-      const header = ["Name", "Unique ID", "Mobile", "Location"];
+      const header = ["Name", "Unique ID", "Mobile", "Location District", "Location State", "Points"];
       const csvData = userData.map((item) => {
-        return [item.name, item.user_id, item.mobile, item.district_name];
+        return [
+          item.name,
+          item.user_id,
+          item.mobile,
+          item.district?.district || '',
+          item.state?.state || '',
+          item.points
+        ];
       });
-
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
         .join("\n");
@@ -91,7 +97,7 @@ export default function Contractor() {
     ? userData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
-    const handleNextPage = () => {
+  const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
@@ -368,7 +374,7 @@ export default function Contractor() {
                               <h6>{data.points || 0}</h6>
                             </td>
                             <td
-                             className={data.is_delete && "disabled-row"}
+                              className={data.is_delete && "disabled-row"}
                               onClick={() => handleViewContractor(data.id)}
                               style={{ width: 8, paddingRight: 0 }}
                             >
@@ -382,10 +388,9 @@ export default function Contractor() {
                             </td>
                             {permissionForUser?.delete && (
                               <td
-                                className={`card-footer ${
-                                  data.is_delete && "disabled-row"
-                                }`}
-                              >{data.is_delete?"Inactive":"Active"}
+                                className={`card-footer ${data.is_delete && "disabled-row"
+                                  }`}
+                              >{data.is_delete ? "Inactive" : "Active"}
                                 {" "}
                                 <div
                                   className=" form-switch"
@@ -399,7 +404,7 @@ export default function Contractor() {
                                     id={`activationToggle-${index}`}
                                     name={`activationToggle-${index}`}
                                     checked={!data.is_delete}
-                                    style={{cursor: "pointer"}}
+                                    style={{ cursor: "pointer" }}
                                     onChange={(e) => {
                                       adminUserDisableEnable(
                                         data.id,
@@ -433,7 +438,7 @@ export default function Contractor() {
                                   </label> */}
                                 </div>
                               </td>
-                             
+
                             )}
                           </tr>
                         ))

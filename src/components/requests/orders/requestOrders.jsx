@@ -60,15 +60,15 @@ export default function OrderRequests() {
   };
 
   useEffect(() => {
-    getOrderRequest(filterdata?.search,filterdata)
+    getOrderRequest(filterdata?.search, filterdata)
       .then((data) => {
         setOrderData(data.results);
       })
       .catch((error) => {
         console.error("Error fetching lead data:", error);
       });
-  }, [filterdata?.search,isRefetch]);
-  
+  }, [filterdata?.search, isRefetch]);
+
 
   useEffect(() => {
     getTotalOrderRequests()
@@ -111,7 +111,7 @@ export default function OrderRequests() {
   }, []);
 
   useEffect(() => {
-    getOrderRequest(filterdata.search,filterdata)
+    getOrderRequest(filterdata.search, filterdata)
       .then((data) => {
         setOrderData(data.results);
       })
@@ -121,7 +121,7 @@ export default function OrderRequests() {
   }, [filterdata.search]);
 
   const handlefilter = () => {
-    getOrderRequest(filterdata.search,filterdata)
+    getOrderRequest(filterdata.search, filterdata)
       .then((data) => {
         setOrderData(data.results);
       })
@@ -138,19 +138,26 @@ export default function OrderRequests() {
         "Unique ID",
         "Role",
         "Distributor Id",
-        "Date & Time",
+        "Date",
+        "Time",
         "Points",
         "Quantity",
       ];
+
       const csvData = order_data.map((rr_data) => {
+        const date = new Date(rr_data.created_at);
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
+
         return [
           rr_data.transaction_id,
-          rr_data.name,
-          rr_data.id,
-          null,
-          rr_data.distributor,
-          rr_data.created_at,
-          null,
+          rr_data?.user?.name,
+          rr_data?.user?.user_id,
+          rr_data?.user?.role,
+          rr_data.distributor?.user_id,
+          formattedDate,
+          formattedTime,
+          rr_data.points,
           rr_data.quantity,
         ];
       });
@@ -158,6 +165,7 @@ export default function OrderRequests() {
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
         .join("\n");
+
       const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -372,9 +380,9 @@ export default function OrderRequests() {
                         setIsFilter={setIsFilter}
                         isFilter={isFilter}
                         filterdata={filterdata}
-                        // created_at={created_at}
-                        // handledatechange={handledatechange}
-                        // handlerolechange={handlerolechange}
+                      // created_at={created_at}
+                      // handledatechange={handledatechange}
+                      // handlerolechange={handlerolechange}
                       />
                     )}
                   </div>

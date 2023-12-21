@@ -174,57 +174,57 @@ const ViewContractor = () => {
       const header =
         seletedTranasactionType === "Orders"
           ? [
-              "Transaction Id",
-              " Distributor Name",
-              " Distributor id",
-              "Date & Time",
-              "Points",
-              "Quantity",
-              "Status",
-            ]
+            "Transaction Id",
+            " Distributor Name",
+            " Distributor id",
+            "Date & Time",
+            "Points",
+            "Quantity",
+            "Status",
+          ]
           : [
-              "Transaction ID",
-              "Reward",
-              " Product ID",
-              "Date & Time",
-              "Status",
-            ];
+            "Transaction ID",
+            "Reward",
+            " Product ID",
+            "Date & Time",
+            "Status",
+          ];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
-              let status =
-                item.admin_approval === "Accepted" &&
+            let status =
+              item.admin_approval === "Accepted" &&
                 item.user_approval === "Accepted"
-                  ? "Accepted"
-                  : item.admin_approval === "Rejected" ||
-                    item.user_approval === "Rejected"
+                ? "Accepted"
+                : item.admin_approval === "Rejected" ||
+                  item.user_approval === "Rejected"
                   ? "Rejected"
                   : "Processing";
-              return [
-                item.transaction_id,
-                item.distributor?.name,
-                item.distributor?.id,
-                new Date(item.created_at).toLocaleDateString("en-Us", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }),
-                item.quantity,
-                status,
-              ];
-            })
+            return [
+              item.transaction_id,
+              item.distributor?.name,
+              item.distributor?.id,
+              new Date(item.created_at).toLocaleDateString("en-Us", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+              item.quantity,
+              status,
+            ];
+          })
           : transactionData.map((item) => {
-              let status = "REDEEMED";
-              return [
-                item.transaction_id,
-                item.product_name,
-                item.product_id,
-                item.created_at,
-                status,
-              ];
-            });
+            let status = "REDEEMED";
+            return [
+              item.transaction_id,
+              item.product_name,
+              item.product_id,
+              item.created_at,
+              status,
+            ];
+          });
 
       const csvContent = [header, ...csvData]
         .map((row) => row.join(","))
@@ -346,9 +346,8 @@ const ViewContractor = () => {
                     <div className="user-email-details-data">
                       <span>{userData && userData.email}</span>
                       <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData?.district?.district} , ${
-                        userData && userData?.state?.state
-                      }`}</span>
+                      <span>{`${userData && userData?.district?.district} , ${userData && userData?.state?.state
+                        }`}</span>
                     </div>
                   </div>
                 </div>
@@ -363,11 +362,10 @@ const ViewContractor = () => {
               <div className="col-12 my-4">
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Orders"
+                    className={`btn btn-sm ${seletedTranasactionType === "Orders"
                         ? "btn-primary"
                         : "btn-light"
-                    }`}
+                      }`}
                     type="button"
                     id="add-points-button"
                     onClick={() => {
@@ -378,11 +376,10 @@ const ViewContractor = () => {
                     Orders
                   </button>
                   <button
-                    className={`btn btn-sm ${
-                      seletedTranasactionType === "Redemptions"
+                    className={`btn btn-sm ${seletedTranasactionType === "Redemptions"
                         ? "btn-primary"
                         : "btn-light"
-                    }`}
+                      }`}
                     type="button"
                     id="add-points-button"
                     style={{ marginLeft: 6 }}
@@ -608,27 +605,26 @@ const ViewContractor = () => {
                                 </td>
                                 <td>
                                   <button
-                                    className={`btn  btn-sm ${
-                                      ele.admin_approval === "Accepted"
+                                    className={`btn  btn-sm ${ele.admin_approval === "Accepted"
                                         ? //  &&
-                                          // ele.user_approval === "Accepted"
-                                          "Accepted-btn"
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted-btn"
                                         : ele.admin_approval === "Rejected"
-                                        ? // ||
+                                          ? // ||
                                           //   ele.user_approval === "Rejected"
                                           "Rejected-btn"
-                                        : "Processing-btn"
-                                    }`}
+                                          : "Processing-btn"
+                                      }`}
                                   >
                                     {ele.admin_approval === "Accepted"
                                       ? // &&
-                                        // ele.user_approval === "Accepted"
-                                        "Accepted"
+                                      // ele.user_approval === "Accepted"
+                                      "Accepted"
                                       : ele.admin_approval === "Rejected"
-                                      ? // ||
+                                        ? // ||
                                         //   ele.user_approval === "Rejected"
                                         "Rejected"
-                                      : "Processing"}
+                                        : "Processing"}
                                   </button>
                                 </td>
                                 <td>

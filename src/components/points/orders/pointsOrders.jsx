@@ -62,19 +62,23 @@ export default function OrderPoints() {
         "Role",
         "Unique Id",
         "Distributor Id",
-        "Date & Time",
+        "Date",
+        "Time",
         "Points",
         "Quantity",
         "Status",
       ];
       const csvData = orderData.map((order) => {
+        const formattedDate = new Date(order.created_at).toLocaleDateString();
+        const formattedTime = new Date(order.created_at).toLocaleTimeString();
         return [
           order.transaction_id,
           order.user?.name,
           order.user?.role,
           order.user?.user_id,
           order.distributor?.user_id,
-          formatDate(order.created_at),
+          formattedDate,
+          formattedTime,
           order.points,
           order.quantity,
           order.admin_approval,
