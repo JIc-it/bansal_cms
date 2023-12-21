@@ -208,6 +208,23 @@ const UserDetails = ({ data, open, setOpen }) => {
     </>
   );
 
+  const renderLeadsDetails = () => {
+    return (
+      <>
+        <h6>User Details</h6>
+        {renderFieldValues("Name", data.value_before[0]?.fields?.name, data.value_after[0]?.fields?.name)}
+        {renderFieldValues("Order", data.value_before[0]?.fields?.order, data.value_after[0]?.fields?.order)}
+        {renderFieldValues("Points", data.value_before[0]?.fields?.points, data.value_after[0]?.fields?.points)}
+        {renderFieldValues("Mobile", data.value_before[0]?.fields?.mobile_no, data.value_after[0]?.fields?.mobile_no)}
+        {renderFieldValues("Accepted By", data.value_before[0]?.fields?.accepted_by, data.value_after[0]?.fields?.accepted_by)}
+        {renderFieldValues("Side Location", data.value_before[0]?.fields?.site_location, data.value_after[0]?.fields?.site_location)}
+        {renderFieldValues("User Approval", data.value_before[0]?.fields?.user_approval, data.value_after[0]?.fields?.user_approval)}
+        {renderFieldValues("Admin Approval", data.value_before[0]?.fields?.admin_approval, data.value_after[0]?.fields?.admin_approval)}
+        {renderFieldValues("Referral Id Count", data.value_before[0]?.fields?.referral_id_count, data.value_after[0]?.fields?.referral_id_count)}
+      </>
+    );
+  };
+
   const renderIdverificationDetails = () => {
     return (
       <>
@@ -226,10 +243,10 @@ const UserDetails = ({ data, open, setOpen }) => {
       <>
         <h6>Promotion Details</h6>
         {renderFieldValues(
-        "Promotion Add",
-        data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
-        data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
-      )}
+          "Promotion Add",
+          data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
+          data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
+        )}
       </>
     );
   };
@@ -237,13 +254,13 @@ const UserDetails = ({ data, open, setOpen }) => {
   const renderEventDetails = () => {
     return (
       <>
-      <h6>Event Details</h6>
-      {renderFieldValues(
-        "Redemption Window",
-        data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
-        data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
-      )}
-    </>
+        <h6>Event Details</h6>
+        {renderFieldValues(
+          "Redemption Window",
+          data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
+          data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
+        )}
+      </>
     );
   };
 
@@ -287,8 +304,10 @@ const UserDetails = ({ data, open, setOpen }) => {
         return renderPurchaseTMTOrder();
       case "account.user":
         return renderUserDetails();
-        case "purchase.idverification":
-          return renderIdverificationDetails();
+      case "purchase.idverification":
+        return renderIdverificationDetails();
+      case "purchase.leads":
+        return renderLeadsDetails();
       default:
         return null;
     }
