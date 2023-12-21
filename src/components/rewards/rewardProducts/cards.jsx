@@ -21,8 +21,15 @@ export default function Cards({ permissionForRedumtionWindow }) {
   // };
 
   const checkBoxHandler = () => {
-    // const newState = !isChecked;
+    const newState = !isChecked;
     setIsChecked((prev)=>!prev);
+    getRedemptionWindow(rewardId, {is_active:newState})
+      .then((data) => {
+        console.log("getRedemptionWindow response", data);
+      })
+      .catch((error) => {
+        console.error("Error fetching distributor data:", error);
+      });
     // localStorage.setItem(localStorageKey, JSON.stringify(isChecked));
   };
 
@@ -75,18 +82,18 @@ export default function Cards({ permissionForRedumtionWindow }) {
       });
   }, []);
 
-  const redemptionClick = () => {
-    const body = {
-      is_active: isChecked,
-    };
-    getRedemptionWindow(rewardId, body)
-      .then((data) => {
-        console.log("getRedemptionWindow response", data);
-      })
-      .catch((error) => {
-        console.error("Error fetching distributor data:", error);
-      });
-  };
+  // const redemptionClick = () => {
+  //   const body = {
+  //     is_active: isChecked,
+  //   };
+  //   getRedemptionWindow(rewardId, body)
+  //     .then((data) => {
+  //       console.log("getRedemptionWindow response", data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching distributor data:", error);
+  //     });
+  // };
 
   return (
     <div className="container">
@@ -125,7 +132,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                           role="switch" 
                           id="flexSwitchCheckChecked" 
                           value={isChecked}
-                          onClick={redemptionClick}
+                          // onClick={redemptionClick}
                           onChange={checkBoxHandler}
                           checked={isChecked} />
                             <label class="form-check-label" for="flexSwitchCheckChecked">{isChecked ? "Open" : "Close" }</label>
