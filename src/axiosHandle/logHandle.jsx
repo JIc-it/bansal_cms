@@ -5,7 +5,7 @@ export const getLogRequest = (data) => {
     return axiosInstance
       .get(logRequestURL, {
         params: {
-          search: data?.search,
+          search: data,
           role: data?.role,
           date: data?.date,
           status: data?.status,

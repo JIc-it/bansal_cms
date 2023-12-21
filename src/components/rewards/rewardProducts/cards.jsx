@@ -11,7 +11,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
   const [totalRewardProducts, setTotalRewardProducts] = useState(0);
   const [totalProductsRedeemed, setTotalProductsRedeemed] = useState(0);
   const [totalRedeemedCount, setTotalRedeemedCount] = useState(0);
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const [rewardId, setRewardId] = useState("");
 
   const localStorageKey = "redemptionWindowState";
@@ -21,17 +21,17 @@ export default function Cards({ permissionForRedumtionWindow }) {
   // };
 
   const checkBoxHandler = () => {
-    const newState = !isChecked;
-    setIsChecked(newState);
-    localStorage.setItem(localStorageKey, JSON.stringify(newState));
+    // const newState = !isChecked;
+    setIsChecked((prev)=>!prev);
+    // localStorage.setItem(localStorageKey, JSON.stringify(isChecked));
   };
 
-  useEffect(() => {
-    const storedState = localStorage.getItem(localStorageKey);
-    if (storedState !== null) {
-      setIsChecked(JSON.parse(storedState));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedState = localStorage.getItem(localStorageKey);
+  //   if (storedState !== null) {
+  //     setIsChecked(JSON.parse(storedState));
+  //   }
+  // }, []);
 
   useEffect(() => {
     getTotalRewardProducts()
@@ -128,7 +128,7 @@ export default function Cards({ permissionForRedumtionWindow }) {
                           onClick={redemptionClick}
                           onChange={checkBoxHandler}
                           checked={isChecked} />
-                            <label class="form-check-label" for="flexSwitchCheckChecked">{isChecked ? "Close" : "Open" }</label>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">{isChecked ? "Open" : "Close" }</label>
                         </div>
                       </div>
                     </div>

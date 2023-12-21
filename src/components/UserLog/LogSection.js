@@ -19,7 +19,7 @@ function LogSection() {
   useEffect(() => {
     console.log("Fetching User Log data...");
 
-    getLogRequest()
+    getLogRequest(searchText)
       .then((data) => {
         console.log("Fetched data:", data);
         setUserLogData(data.results);
@@ -28,7 +28,7 @@ function LogSection() {
       .catch((error) => {
         console.error("Error fetching User Log data:", error);
       });
-  }, [isUpdated]);
+  }, [isUpdated,searchText]);
 
   const handleViewClick = (rw_data) => {
     setSelectedLead(null);
