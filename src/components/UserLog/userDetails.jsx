@@ -178,7 +178,6 @@
 
 
 
-
 import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
@@ -196,16 +195,16 @@ const UserDetails = ({ data, open, setOpen }) => {
   };
 
   const renderFieldValues = (label, beforeValue, afterValue) => (
-    <>
-      <div>
+    <div className="row">
+      <div className="col-lg-12">
         <span>{label} (Before):</span>
         <span style={{ float: "inline-end" }}>{beforeValue}</span>
       </div>
-      <div>
+      <div className="col-lg-12">
         <span>{label} (After):</span>
         <span style={{ float: "inline-end" }}>{afterValue}</span>
       </div>
-    </>
+    </div>
   );
 
   const renderLeadsDetails = () => {
@@ -294,6 +293,20 @@ const UserDetails = ({ data, open, setOpen }) => {
     );
   };
 
+  const renderRewardsDetails = () => {
+    return (
+      <>
+        <h6>Reward Details</h6>
+        {renderFieldValues("Title", data.value_before[0]?.fields?.title, data.value_after[0]?.fields?.title)}
+        {renderFieldValues("Points", data.value_before[0]?.fields?.points, data.value_after[0]?.fields?.points)}
+        {renderFieldValues("Reward Id", data.value_before[0]?.fields?.reward_id, data.value_after[0]?.fields?.reward_id)}
+        {renderFieldValues("Description", data.value_before[0]?.fields?.description, data.value_after[0]?.fields?.description)}
+        {renderFieldValues("Redeemed Times", data.value_before[0]?.fields?.times_redeemed, data.value_after[0]?.fields?.times_redeemed)}
+        {renderFieldValues("Reward Count", data.value_before[0]?.fields?.reward_id_count, data.value_after[0]?.fields?.reward_id_count)}
+      </>
+    );
+  };
+
   const getModelDetails = () => {
     switch (data.value_before[0]?.model) {
       case "purchase.event":
@@ -308,6 +321,8 @@ const UserDetails = ({ data, open, setOpen }) => {
         return renderIdverificationDetails();
       case "purchase.leads":
         return renderLeadsDetails();
+      case "purchase.rewards":
+        return renderRewardsDetails();
       default:
         return null;
     }
