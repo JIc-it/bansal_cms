@@ -211,7 +211,7 @@ const UserDetails = ({ data, open, setOpen }) => {
   const renderLeadsDetails = () => {
     return (
       <>
-        <h6>User Details</h6>
+        <h6> User Details</h6>
         {renderFieldValues("Name", data.value_before[0]?.fields?.name, data.value_after[0]?.fields?.name)}
         {renderFieldValues("Order", data.value_before[0]?.fields?.order, data.value_after[0]?.fields?.order)}
         {renderFieldValues("Points", data.value_before[0]?.fields?.points, data.value_after[0]?.fields?.points)}
