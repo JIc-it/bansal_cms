@@ -477,6 +477,32 @@ const AfterValuesLeads = ({ data }) => (
   </div>
 );
 
+const BeforeValuesRewards = ({ data }) => (
+  <div className="row">
+    <h6>Before Values</h6>
+    <ValuesCard label="Title" value={data.value_before[0]?.fields?.title} />
+    <ValuesCard label="Points" value={data.value_before[0]?.fields?.points} />
+    <ValuesCard label="Status" value={data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive"} />
+    <ValuesCard label="Reward ID" value={data.value_before[0]?.fields?.reward_id} />
+    <ValuesCard label="Description" value={data.value_before[0]?.fields?.description} />
+    <ValuesCard label="Redeemed Time" value={data.value_before[0]?.fields?.times_redeemed} />
+    <ValuesCard label="Reward Count" value={data.value_before[0]?.fields?.reward_id_count} />
+  </div>
+);
+
+const AfterValuesRewards = ({ data }) => (
+  <div className="row">
+    <h6>After Values</h6>
+    <ValuesCard label="Title" value={data.value_after[0]?.fields?.title} />
+    <ValuesCard label="Points" value={data.value_after[0]?.fields?.points} />
+    <ValuesCard label="Status" value={data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"} />
+    <ValuesCard label="Reward ID" value={data.value_after[0]?.fields?.reward_id} />
+    <ValuesCard label="Description" value={data.value_after[0]?.fields?.description} />
+    <ValuesCard label="Redeemed Time" value={data.value_after[0]?.fields?.times_redeemed} />
+    <ValuesCard label="Reward Count" value={data.value_after[0]?.fields?.reward_id_count} />
+  </div>
+);
+
 const UserDetails = ({ data, open, setOpen }) => {
   const [showOffcanvas, setShowOffcanvas] = React.useState(open);
 
@@ -502,27 +528,34 @@ const UserDetails = ({ data, open, setOpen }) => {
             <AfterValuesEvent data={data} />
           </>
         );
-        case "purchase.idverification":
-          return (
-            <>
-              <BeforeValuesIdVerification data={data} />
-              <AfterValuesIdVerification data={data} />
-            </>
-          );
-          case "purchase.tmtorder":
-            return (
-              <>
-                <BeforeValuesOrder data={data} />
-                <AfterValuesOrder data={data} />
-              </>
-            );
-            case "purchase.leads":
-              return (
-                <>
-                  <BeforeValuesLeads data={data} />
-                  <AfterValuesLeads data={data} />
-                </>
-              );
+      case "purchase.idverification":
+        return (
+          <>
+            <BeforeValuesIdVerification data={data} />
+            <AfterValuesIdVerification data={data} />
+          </>
+        );
+      case "purchase.tmtorder":
+        return (
+          <>
+            <BeforeValuesOrder data={data} />
+            <AfterValuesOrder data={data} />
+          </>
+        );
+      case "purchase.leads":
+        return (
+          <>
+            <BeforeValuesLeads data={data} />
+            <AfterValuesLeads data={data} />
+          </>
+        );
+      case "purchase.rewards":
+        return (
+          <>
+            <BeforeValuesRewards data={data} />
+            <AfterValuesRewards data={data} />
+          </>
+        );
       default:
         return null;
     }
