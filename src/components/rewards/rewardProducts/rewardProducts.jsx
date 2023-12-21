@@ -15,7 +15,7 @@ function RewardPoints() {
   const [updateProduct, setUpdateProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [searchText, setSearchText] = useState("");
+  // const [search, setSearch] = useState("");
   const [isUpdated, setisUpdated] = useState(false);
   const [search, setSearch] = useState("");
   const [isFilter, setIsFilter] = useState(false);
@@ -96,18 +96,18 @@ function RewardPoints() {
       ? reward_product_data.filter((rw_data) => {
           const searchableFields = [
             rw_data.title,
-            rw_data.id.toString(), // Convert to string for comparison
-            rw_data.points.toString(), // Convert to string for comparison
+            rw_data.id.toString(),
+            rw_data.points.toString(),
             rw_data.description,
-            rw_data.is_active.toString(), // Convert to string for comparison
-            rw_data.times_redeemed.toString(), // Convert to string for comparison
+            rw_data.is_active.toString(),
+            rw_data.times_redeemed.toString(),
           ];
-          console.log('Search Text:', searchText);
+          console.log('Search Text:', search);
           console.log('Fields:', searchableFields);
           return searchableFields.some(
             (field) =>
               field &&
-              field.toLowerCase().includes(searchText.toLowerCase())
+              field.toLowerCase().includes(search.toLowerCase())
           );
         })
       : [];
@@ -159,8 +159,8 @@ function RewardPoints() {
                         placeholder="Search..."
                         aria-label="Search..."
                         aria-describedby="search-button"
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                       {/* <button className="btn btn-dark" type="button" id="search-button"><i className="fas fa-filter" /></button> */}
                     </div>

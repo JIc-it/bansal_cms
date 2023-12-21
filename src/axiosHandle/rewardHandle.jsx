@@ -11,7 +11,7 @@ const redemptionWindow = '/purchase/redemption-update/'
 
 export const getRewardProductsRequest = (search, filterdata) => {
   return axiosInstance
-    .get(rewardProductsURL, { params: { search: search, title: filterdata?.title, points: filterdata?.points, reward_id: filterdata?.reward_id }})
+    .get(rewardProductsURL, { params: { search: search, title: filterdata?.title, reward_id: filterdata?.reward_id, points: filterdata?.points } })
     .then((response) => {
       console.log("Reward Products Response:", response.data);
       return response.data;

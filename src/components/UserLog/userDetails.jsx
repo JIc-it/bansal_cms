@@ -197,7 +197,7 @@ const UserDetails = ({ data, open, setOpen }) => {
 
   const renderFieldValues = (label, beforeValue, afterValue) => (
     <>
-     <div>
+      <div>
         <span>{label} (Before):</span>
         <span style={{ float: "inline-end" }}>{beforeValue}</span>
       </div>
@@ -208,15 +208,15 @@ const UserDetails = ({ data, open, setOpen }) => {
     </>
   );
 
-  const renderEventDetails = () => {
+  const renderIdverificationDetails = () => {
     return (
       <>
         <h6>Id Verification</h6>
         {renderFieldValues("Redeem", data.value_before[0]?.fields?.redeem, data.value_after[0]?.fields?.redeem)}
         {renderFieldValues("ID Type", data.value_before[0]?.fields?.id_type, data.value_after[0]?.fields?.id_type)}
         {renderFieldValues("ID Number", data.value_before[0]?.fields?.id_number, data.value_after[0]?.fields?.id_number)}
-        {renderFieldValues("ID Verified", data.value_before[0]?.fields?.id_number_verified, data.value_after[0]?.fields?.id_number_verified)}
-        {renderFieldValues("Redemption History",data.value_before[0]?.fields?.redemption_history,data.value_after[0]?.fields?.redemption_history)}
+        {/* {renderFieldValues("ID Verified", data.value_before[0]?.fields?.id_number_verified, data.value_after[0]?.fields?.id_number_verified)}
+        {renderFieldValues("Redemption History", data.value_before[0]?.fields?.redemption_history, data.value_after[0]?.fields?.redemption_history)} */}
       </>
     );
   };
@@ -224,8 +224,26 @@ const UserDetails = ({ data, open, setOpen }) => {
   const renderAdvertisementDetails = () => {
     return (
       <>
-        <h6>Advertisement Details</h6>
-        {renderFieldValues("Redemption Window", data.value_before[0]?.fields?.is_active, data.value_after[0]?.fields?.is_active)}      </>
+        <h6>Promotion Details</h6>
+        {renderFieldValues(
+        "Promotion Add",
+        data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
+        data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
+      )}
+      </>
+    );
+  };
+
+  const renderEventDetails = () => {
+    return (
+      <>
+      <h6>Event Details</h6>
+      {renderFieldValues(
+        "Redemption Window",
+        data.value_before[0]?.fields?.is_active === true ? "Active" : "Inactive",
+        data.value_after[0]?.fields?.is_active === false ? "Inactive" : "Active"
+      )}
+    </>
     );
   };
 
@@ -269,6 +287,8 @@ const UserDetails = ({ data, open, setOpen }) => {
         return renderPurchaseTMTOrder();
       case "account.user":
         return renderUserDetails();
+        case "purchase.idverification":
+          return renderIdverificationDetails();
       default:
         return null;
     }
