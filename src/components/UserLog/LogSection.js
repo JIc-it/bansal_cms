@@ -37,18 +37,15 @@ function LogSection() {
   const exportToCSV = () => {
     if (user_log_data) {
       const header = [
-        "User Id",
         "Name",
         "Email",
         "Role",
         "Create Date",
         "Update Date",
         "Model Name",
-        "Value"
       ];
       const csvData = user_log_data.map((rr_data) => {
         return [
-          rr_data.user?.user_id,
           rr_data.user?.name,
           rr_data.user?.email,
           rr_data.user?.role,
@@ -226,7 +223,7 @@ function LogSection() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5">No matching reward products</td>
+                        <td colSpan="5">No matching User Log</td>
                       </tr>
                     )}
                   </tbody>
