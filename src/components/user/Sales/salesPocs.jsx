@@ -333,7 +333,7 @@ export default function SalesPocs() {
                             <h6>{data.mobile}</h6>
                           </td>
                           <td className={data.is_delete && "disabled-row"}>
-                            <h6>{data.district.district}</h6>
+                            <h6>{data?.district?.district}</h6>
                           </td>
 
                           <td
