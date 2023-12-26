@@ -47,7 +47,7 @@ const ForgotPassword = () => {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
               </h4>
             </div> */}
-              <img src='/assets/login_banner.png' style={{ height: '100%', width: '100%' }} />
+              <img src='/assets/login_banner.jpg' style={{ height: '100%', width: '100%' }} />
 
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 mx-auto align-self-center">

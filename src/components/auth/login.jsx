@@ -91,7 +91,7 @@ const Login = () => {
     <div className="authincation">
       <div className='row'>
         <div className='col-lg-6'>
-          <img src='/assets/login_banner.png' style={{height:'100%', width: '100%'}}/>
+          <img src='/assets/login_banner.jpg' style={{height:'100%', width: '100%'}}/>
         </div>
         <div className='col-lg-4'>
           <div className="login-form" style={{position: 'relative', top: '250px', left: '120px'}}>
