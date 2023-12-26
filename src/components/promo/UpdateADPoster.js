@@ -33,23 +33,23 @@ const UpdateADPoster = ({
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-  
+
     if (file) {
       const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
       const maxSize = 328 * 180; // Max size in pixels
-  
+
       // Check file type
       if (!allowedTypes.includes(file.type)) {
         toast.error("Please upload a PNG or JPG/JPEG file.");
         return;
       }
-  
+
       // Check file size
       if (file.size > maxSize) {
         toast.error("Please upload an image with dimensions 328x180 or smaller.");
         return;
       }
-  
+
       // Check image dimensions
       const img = new Image();
       img.onload = function () {
@@ -59,7 +59,7 @@ const UpdateADPoster = ({
           setSelectedFileName(file);
         }
       };
-  
+
       img.src = URL.createObjectURL(file);
     }
   };
@@ -149,6 +149,16 @@ const UpdateADPoster = ({
                 justifyContent: "space-between",
               }}
             >
+              {/* <div class="form-group">
+                  <label for="exampleFormControlFile1">Example file input</label>
+                  <input type="file"
+                    // id="imageUpload"
+                    accept=".png, .jpg, .jpeg"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                    class="form-control-file" 
+                    id="exampleFormControlFile1" />
+                </div> */}
               <div>
                 <label>Ad Poster (328*180)</label>
                 <span style={{ position: 'relative', right: 40, top: 30 }}>
@@ -156,13 +166,14 @@ const UpdateADPoster = ({
                 </span>
                 <input
                   type="file"
-                  id="imageUpload"
+                  id="exampleFormControlFile1"
                   accept=".png, .jpg, .jpeg"
-                  style={{ display: "none" }}
+                  style={{ position: 'relative', bottom: 25 }}
                   onChange={handleFileChange}
                 />
-                <label
-                  // htmlFor="imageUpload"
+
+
+                {/* <label
                   className="btn bg-blue btn-sm update-btn"
                   style={{ float: 'inline-end' }}
                 >
@@ -187,7 +198,7 @@ const UpdateADPoster = ({
                     />
                   </svg>
                   <span className="mx-1"> Choose File</span>
-                </label>
+                </label> */}
               </div>
             </div>
             <div className="row">
