@@ -62,21 +62,27 @@ export default function LeadPoints() {
         "Name",
         "Referred By",
         "Role",
-        "Distributor Id",
-        "Date & Time",
+        "Date",
+        "Time",
         "Points",
         "Quantity",
+        "Status"
       ];
       const csvData = lead_data.map((rr_data) => {
+        const date = new Date(rr_data.created_at);
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
         return [
-          null,
-          rr_data.name,
-          null,
-          null,
-          null,
-          rr_data.created_at,
-          null,
-          null,
+          rr_data.referral_id,
+          rr_data?.user?.name,
+          rr_data?.user?.user_id,
+          // rr_data?.user?.user_id,
+          rr_data?.user?.role,
+          formattedDate,
+          formattedTime,
+          rr_data.points,
+          rr_data.order,
+          rr_data.admin_approval
         ];
       });
 

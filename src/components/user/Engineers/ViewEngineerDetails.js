@@ -212,14 +212,15 @@ const ViewEngineerDetails = () => {
               "Transaction Id",
               " Distributor Name",
               " Distributor id",
-              "Date & Time",
+              "Date",
+              "Time",
               "Points",
               "Quantity",
               "Status",
             ]
           : seletedTranasactionType === "Redemptions"
-          ? ["Transaction ID", "Reward", " Product ID", "Date & Time", "Status"]
-          : ["Name", "Mobile", "Date & Time", "Points", "Quantity", "Status"];
+          ? ["Transaction ID", "Reward", " Product ID", "Date", "Time", "Status"]
+          : ["Name", "Mobile", "Date", "Time", "Points", "Quantity", "Status"];
       const csvData =
         seletedTranasactionType === "Orders"
           ? transactionData.map((item) => {
@@ -233,17 +234,15 @@ const ViewEngineerDetails = () => {
                     //   item.user_approval === "Rejected"
                     "Rejected"
                   : "Processing";
+                  const date = new Date(item.created_at);
+                  const formattedDate = date.toLocaleDateString();
+                  const formattedTime = date.toLocaleTimeString();
               return [
                 item.transaction_id,
                 item.distributor?.name,
                 item.distributor?.id,
-                new Date(item.created_at).toLocaleDateString("en-Us", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }),
+                formattedDate,
+                formattedTime,
                 item.points,
                 item.quantity,
                 status,

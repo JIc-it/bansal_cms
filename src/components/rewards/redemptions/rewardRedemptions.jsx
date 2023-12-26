@@ -59,19 +59,23 @@ function Redemptions() {
         "Product ID",
         "Buyer",
         "Buyer id",
-        "Date & Time",
+        "Date",
+        "Time",
         "Status",
       ];
 
       const csvData = reward_redemption_data.map((item) => {
+        const date = new Date(item.created_at);
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
         return [
           item.transaction_id,
           item.reward_id?.title,
           item.reward_id?.reward_id,
           item?.user?.name,
           item?.user?.user_id,
-          item.created_at,
-          item.quantity,
+          formattedDate,
+          formattedTime,
           item?.status,
         ];
       });

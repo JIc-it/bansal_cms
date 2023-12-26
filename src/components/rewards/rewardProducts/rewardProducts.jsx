@@ -57,12 +57,13 @@ function RewardPoints() {
         "Times Redeemed",
       ];
       const csvData = reward_product_data.map((rr_data) => {
+        const status = rr_data.is_active ? "Active" : "Inactive";
         return [
           rr_data.title,
-          rr_data.id,
+          rr_data.reward_id,
           rr_data.points,
           rr_data.description,
-          rr_data.is_active,
+          status,
           rr_data.times_redeemed,
           rr_data.quantity,
         ];

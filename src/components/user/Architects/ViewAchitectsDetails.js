@@ -212,9 +212,10 @@ const ViewAchitectsDetails = () => {
         seletedTranasactionType === "Orders"
           ? [
               "Transaction Id",
-              " Distributor Name",
-              " Distributor id",
-              "Date & Time",
+              "Distributor Name",
+              "Distributor id",
+              "Date",
+              "Time",
               "Points",
               "Quantity",
               "Status",
@@ -222,8 +223,9 @@ const ViewAchitectsDetails = () => {
           : [
               "Transaction ID",
               "Reward",
-              " Product ID",
-              "Date & Time",
+              "Product ID",
+              "Date",
+              "Time",
               "Status",
             ];
       const csvData =
@@ -237,12 +239,17 @@ const ViewAchitectsDetails = () => {
                     item.user_approval === "Rejected"
                   ? "Rejected"
                   : "Processing";
+                  const date = new Date(item.created_at);
+                  const formattedDate = date.toLocaleDateString();
+                  const formattedTime = date.toLocaleTimeString();
               return [
                 item.transaction_id,
-                item.transaction_id,
-                item.Engineer,
-                item.created_at,
-                item.created_at,
+                item?.distributor?.name,
+                item?.distributor?.id,
+                // item.Engineer,
+                formattedDate,
+                formattedTime,
+                item.points,
                 item.quantity,
                 status,
               ];

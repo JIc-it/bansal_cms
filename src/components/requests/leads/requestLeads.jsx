@@ -106,22 +106,29 @@ export default function LeadRequests() {
       const header = [
         "Transaction id",
         "Name",
+        "Role",
         "Mobile",
         "Referred By",
-        "Date & Time",
+        "Date",
+        "Time",
         "Points",
         "Quantity",
       ];
       const csvData = lead_data.map((rr_data) => {
+        const date = new Date(rr_data.created_at);
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
         return [
           rr_data.referral_id,
           rr_data.name,
+          rr_data?.user?.role,
           rr_data.mobile_no,
           rr_data?.user?.user_id,
-          rr_data.updated_at,
+          formattedDate,
+          formattedTime,
           rr_data.points,
           rr_data.order,
-          rr_data.role,
+          // rr_data.role,
         ];
       });
 

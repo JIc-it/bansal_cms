@@ -96,12 +96,21 @@ export default function Engineers() {
         "Name",
         "Unique ID",
         "Mobile",
-        "Location",
+        "Location ( State )",
+        "Location ( District )",
         "Leads",
         "Points",
       ];
       const csvData = userData.map((item) => {
-        return [item.name, item.user_id, item.mobile, item.district_name];
+        return [
+          item.name, 
+          item.user_id, 
+          item.mobile, 
+          item?.state?.state,
+          item?.district?.district,
+          item.leads_count,
+          item.points
+        ];
       });
 
       const csvContent = [header, ...csvData]

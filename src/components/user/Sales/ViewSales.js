@@ -182,9 +182,9 @@ const ViewSales = () => {
     if (transactionData) {
       const header = [
         "Transaction Id",
-        " Name",
+        "Name",
         "Role",
-        " Unique_id",
+        "Unique_id",
         "Date & Time",
         "Points",
         "Quantity",

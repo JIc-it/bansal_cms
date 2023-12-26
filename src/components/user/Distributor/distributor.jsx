@@ -64,13 +64,14 @@ export default function Distributors() {
 
   const exportToCSV = () => {
     if (userData) {
-      const header = ["Name", "Unique ID", "Mobile", "Location"];
+      const header = ["Name", "Unique ID", "Mobile", "Location (District)","Location (State)"];
       const csvData = userData.map((item) => {
         return [
-          item.district_name,
+          item.name,
           item.user_id,
           item.mobile,
-          item.district_name,
+          item?.district?.district,
+          item?.state?.state,
         ];
       });
 

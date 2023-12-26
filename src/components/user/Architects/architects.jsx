@@ -75,12 +75,21 @@ function Architects() {
         "Name",
         "Unique ID",
         "Mobile",
-        "Location",
+        "Location ( State )",
+        "Location ( District )",
         "Points",
         "Leads",
       ];
       const csvData = userData.map((item) => {
-        return [item.name, item.user_id, item.mobile, item.district_name];
+        return [item.name, 
+          item.user_id, 
+          item.mobile, 
+          item?.state?.state,
+          item?.district?.district,
+          item.points,
+          item. leads_count,
+        ];
+         
       });
 
       const csvContent = [header, ...csvData]

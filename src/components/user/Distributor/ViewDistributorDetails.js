@@ -124,10 +124,11 @@ const ViewDistributorDetails = () => {
     if (transactionData) {
       const header = [
         "Transaction Id",
-        "  Name",
-        " Role",
+        "Name",
+        "Role",
         "Unique ID",
-        "Date & Time",
+        "Date",
+        "Time",
         "Points",
         "Quantity",
         "Status",
@@ -136,26 +137,25 @@ const ViewDistributorDetails = () => {
         let status =
           item.admin_approval === "Accepted"
             ? //  &&
-              // item.user_approval === "Accepted"
-              "Accepted"
+            // item.user_approval === "Accepted"
+            "Accepted"
             : item.admin_approval === "Rejected"
-            ? //  ||
+              ? //  ||
               //   item.user_approval === "Rejected"
               "Rejected"
-            : "Processing";
+              : "Processing";
+
+              const date = new Date(item.created_at);
+              const formattedDate = date.toLocaleDateString();
+              const formattedTime = date.toLocaleTimeString();
 
         return [
           item.transaction_id,
           item.user?.name,
           item.user?.role,
           item.user?.user_id,
-          new Date(item.created_at).toLocaleDateString("en-Us", {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
+          formattedDate,
+          formattedTime,
           item.points,
           item.quantity,
           status,
@@ -282,9 +282,8 @@ const ViewDistributorDetails = () => {
                     <div className="user-email-details-data">
                       <span>{userData && userData.email}</span>
                       <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData?.district?.district} , ${
-                        userData && userData?.state?.state
-                      }`}</span>
+                      <span>{`${userData && userData?.district?.district} , ${userData && userData?.state?.state
+                        }`}</span>
                     </div>
                   </div>
                 </div>
@@ -511,27 +510,26 @@ const ViewDistributorDetails = () => {
 
                               <td>
                                 <button
-                                  className={`btn  btn-sm ${
-                                    ele.admin_approval === "Accepted"
-                                      ? // &&
-                                        // ele.user_approval === "Accepted"
-                                        "Accepted-btn"
-                                      : ele.admin_approval === "Rejected"
+                                  className={`btn  btn-sm ${ele.admin_approval === "Accepted"
+                                    ? // &&
+                                    // ele.user_approval === "Accepted"
+                                    "Accepted-btn"
+                                    : ele.admin_approval === "Rejected"
                                       ? //  ||
-                                        //   ele.user_approval === "Rejected"
-                                        "Rejected-btn"
+                                      //   ele.user_approval === "Rejected"
+                                      "Rejected-btn"
                                       : "Processing-btn"
-                                  }`}
+                                    }`}
                                 >
                                   {ele.admin_approval === "Accepted"
                                     ? //  &&
-                                      // ele.user_approval === "Accepted"
-                                      "Accepted"
+                                    // ele.user_approval === "Accepted"
+                                    "Accepted"
                                     : ele.admin_approval === "Rejected"
-                                    ? // ||
+                                      ? // ||
                                       //   ele.user_approval === "Rejected"
                                       "Rejected"
-                                    : "Processing"}
+                                      : "Processing"}
                                 </button>
                               </td>
                               <td>
