@@ -91,28 +91,73 @@ export default function OrderDetails({
     setOpen(null);
   };
 
-  const handleRequest = (type) => {
+  const [loadingAccept, setLoadingAccept] = useState(false);
+  const [processingStatus, setProcessingStatus] = useState("");
+  const [distributorStatus, setDistributorStatus] = useState(data?.user_approval);
+
+  useEffect(() => {
+    setDistributorStatus(data?.user_approval);
+  }, [data.user_approval]);
+
+  const handleRequest = async (type) => {
     if (type === "reject") {
       setIsRejectOrder(true);
-    } else {
-      handleOrderAcceptReject(data?.id, type)
-        .then((data) => {
-          if (data) {
-            setOpen(false);
-            setHasUpdate(!hasUpdate);
-            setIsRefetch(!isRefetch);
-            toast.success(
-              type === "accept"
-                ? "Order accepted successfully"
-                : "Order rejected successfully"
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching Engineer data:", error);
-        });
+    } else if (type === "accept") {
+      try {
+        if (distributorStatus === "Processing") {
+          // setProcessingStatus("Wait until Distributor's action.");
+          setProcessingStatus("Distributor Status is processing. Please wait for approval")
+          return;
+        }
+
+        setLoadingAccept(true);
+        setProcessingStatus("Processing...");
+
+        const response = await handleOrderAcceptReject(data?.id, type);
+
+        if (response) {
+          setOpen(false);
+          setHasUpdate(!hasUpdate);
+          setIsRefetch(!isRefetch);
+          toast.success(
+            type === "accept"
+              ? "Order accepted successfully"
+              : "Order rejected successfully"
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching Engineer data:", error);
+        setProcessingStatus("Error processing request");
+      } finally {
+        setLoadingAccept(false);
+        // Reset processing status after a brief delay
+        setTimeout(() => setProcessingStatus(""), 5000);
+      }
     }
   };
+
+  // const handleRequest = (type) => {
+  //   if (type === "reject") {
+  //     setIsRejectOrder(true);
+  //   } else {
+  //     handleOrderAcceptReject(data?.id, type)
+  //       .then((data) => {
+  //         if (data) {
+  //           setOpen(false);
+  //           setHasUpdate(!hasUpdate);
+  //           setIsRefetch(!isRefetch);
+  //           toast.success(
+  //             type === "accept"
+  //               ? "Order accepted successfully"
+  //               : "Order rejected successfully"
+  //           );
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching Engineer data:", error);
+  //       });
+  //   }
+  // };
 
   return (
     <>
@@ -243,6 +288,11 @@ export default function OrderDetails({
               </div>
             </div>
           </h6>
+          {processingStatus && (
+            <div style={{ textAlign: "center", color: "red" }}>
+              {processingStatus}
+            </div>
+          )}
           {permissionForRequestOrder?.action && (
             <div
               style={{
@@ -260,8 +310,9 @@ export default function OrderDetails({
                 onClick={() => {
                   handleRequest("accept");
                 }}
+                disabled={loadingAccept}
               >
-                Accept
+                {loadingAccept ? "Accepting..." : "Accept"}
               </button>
               <button
                 className="btn btn-danger"

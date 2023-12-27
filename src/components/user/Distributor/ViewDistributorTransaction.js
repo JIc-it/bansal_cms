@@ -54,13 +54,13 @@ const ViewDistributorTransaction = ({
             {userData.name.slice(0, 2)}
           </h6>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+        <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Transaction Details</h6>
           {data?.accepted_by?.role==='Admin' ?
           <>
            <span>Admin Status :</span>
          <span
-           style={{ marginLeft: 168, color: "blue" }}
+           style={{  float: "inline-end", color: "blue", padding:1 }}
            className="badge badge-primary light border-0"
          >
            {data.admin_approval}
@@ -71,7 +71,7 @@ const ViewDistributorTransaction = ({
           <>
            <span>Sales POC Status :</span>
          <span
-           style={{ marginLeft: 168, color: "blue" }}
+           style={{  float: "inline-end" , color: "blue", padding:1 }}
            className="badge badge-primary light border-0"
          >
            {data?.admin_approval}
@@ -83,17 +83,17 @@ const ViewDistributorTransaction = ({
          
           <span>Distributor Status :</span>
           <span
-            style={{ marginLeft: 168 }}
+            style={{ float: "inline-end", padding:1 }}
             className="badge badge-success light border-0"
           >
             {data?.user_approval}
           </span>
           <br></br>
           <span>Transaction ID :</span>
-          <span style={{ marginLeft: 190 }}>{data?.transaction_id}</span>
+          <span style={{ float: "inline-end" }}>{data?.transaction_id}</span>
           <br></br>
           <span>Date & Time :</span>
-          <span style={{ marginLeft: 150 }}>
+          <span style={{ float: "inline-end" }}>
             {new Date(data.created_at).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
@@ -111,38 +111,38 @@ const ViewDistributorTransaction = ({
           </span>
           <br></br>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+         <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Distributor Details</h6>
           <span>Name :</span>
-          <span style={{ marginLeft: 235 }}>{data.distributor?.name}</span>
+          <span style={{ float: "inline-end" }}>{data.distributor?.name}</span>
           <br></br>
           <span>Unique ID :</span>
-          <span style={{ marginLeft: 250 }}>{data.distributor?.id}</span>
+          <span style={{ float: "inline-end" }}>{data.distributor?.id}</span>
           <br></br>
           <span>Location :</span>
-          <span style={{ marginLeft: 130 }}>
+          <span style={{ float: "inline-end" }}>
             {(data.distributor?.district, data.distributor?.state)}{" "}
           </span>
           <br></br>
           <span>Mobile :</span>
-          <span style={{ marginLeft: 237 }}>{data.distributor?.mobile}</span>
+          <span style={{ float: "inline-end" }}>{data.distributor?.mobile}</span>
           <br></br>
         </div>
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
+         <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>{`${data.user?.role} Details`}</h6>
           <span>Name :</span>
-          <span style={{ marginLeft: 237 }}>{data.user?.name}</span>
+          <span style={{ float: "inline-end" }}>{data.user?.name}</span>
           <br></br>
           <span>Unique ID :</span>
-          <span style={{ marginLeft: 250 }}>{data.user?.user_id}</span>
+          <span style={{ float: "inline-end" }}>{data.user?.user_id}</span>
           <br></br>
           <span>Location :</span>
-          <span style={{ marginLeft: 130 }}>
+          <span style={{ float: "inline-end" }}>
             {`${data.user?.district} , ${data.user?.state}`}{" "}
           </span>
           <br></br>
           <span>Mobile :</span>
-          <span style={{ marginLeft: 237 }}>{data.user?.mobile}</span>
+          <span style={{ float: "inline-end" }}>{data.user?.mobile}</span>
           <br></br>
         </div>
         <div>

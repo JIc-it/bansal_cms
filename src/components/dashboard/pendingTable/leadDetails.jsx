@@ -1,5 +1,5 @@
 import Offcanvas from "react-bootstrap/Offcanvas";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   updateOrderRequest,
   updateLeadRequest,
@@ -40,6 +40,7 @@ export default function LeadDetails({
 }) {
   const [showOffcanvas, setShowOffcanvas] = useState(open);
   const [isRejectOrder, setIsRejectOrder] = useState(false);
+  const [acceptMessage, setAcceptMessage] = useState("");
 
   const handleCloseOffcanvas = () => {
     setShowOffcanvas(false);
@@ -71,23 +72,46 @@ export default function LeadDetails({
         throw error;
       });
   };
-  const handlerequest = (req) => {
-    if (data.distributor) {
-      if (req === "reject") {
-        setIsRejectOrder(true);
+
+  const handlerequest = async (req) => {
+    try {
+      if (data.distributor) {
+        if (req === "reject") {
+          setIsRejectOrder(true);
+        } else {
+          if (data.admin_approval !== "processing" && data.user_approval !== "Processing") {
+            await handleorderrequest(req);
+            handlerefetch();
+            handleCloseOffcanvas();
+          } else {
+            setAcceptMessage("Distributor Status is processing. Please wait for approval");
+          }
+        }
       } else {
-        handleorderrequest(req);
-        handlerefetch();
-        handleCloseOffcanvas();
+        if (req === "reject") {
+          setIsRejectOrder(true);
+        } else {
+          if (data.admin_approval === "processing") {
+            setAcceptMessage("Distributor not accepted yet");
+          } else {
+            if (data.user_approval !== "processing") {
+              await handleleadrequest(req);
+              handlerefetch();
+              handleCloseOffcanvas();
+            } else {
+              setAcceptMessage("Order not accepted yet");
+            }
+          }
+        }
       }
-    } else {
-      if (req === "reject") {
-        setIsRejectOrder(true);
-      } else {
-        handleleadrequest(req);
-        handlerefetch();
-        handleCloseOffcanvas();
+      if (acceptMessage) {
+        setTimeout(() => {
+          setAcceptMessage("");
+        }, 5000);
       }
+    } catch (error) {
+      console.error("Error during request handling:", error);
+      // Handle errors here
     }
   };
 
@@ -141,6 +165,14 @@ export default function LeadDetails({
     },
   });
 
+  useEffect(() => {
+    const clearMessageTimer = setTimeout(() => {
+      setAcceptMessage("");
+    }, 5000);
+
+    return () => clearTimeout(clearMessageTimer);
+  }, [acceptMessage]);
+
   return (
     <Offcanvas
       show={showOffcanvas}
@@ -165,10 +197,10 @@ export default function LeadDetails({
       </div>
       <br></br>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
-        <h6>Transaction Details</h6>
+        <h6>Transaction Details lead</h6>
         <span>Admin Status :</span>
         <span
-          style={{ marginLeft: 180, color: "blue" }}
+          style={{ float: "inline-end", color: "blue", padding: 1 }}
           className="badge badge-primary light border-0"
         >
           {data.admin_approval}
@@ -176,7 +208,7 @@ export default function LeadDetails({
         <br></br>
         <span>Distributor Status :</span>
         <span
-          style={{ marginLeft: 160 }}
+          style={{ float: "inline-end", padding: 1, position: 'relative', bottom: 5 }}
           className="badge badge-success light border-0 mt-2"
         >
           {data.user_approval}
@@ -296,6 +328,11 @@ export default function LeadDetails({
             Reject
           </button>
         </div>
+        {acceptMessage && (
+          <div style={{ textAlign: "center", marginTop: "10px", color: "red" }}>
+            {acceptMessage}
+          </div>
+        )}
       </div>
       {isRejectOrder && (
         <div className="reject-modal-confirm">

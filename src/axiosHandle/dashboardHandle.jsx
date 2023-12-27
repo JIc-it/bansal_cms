@@ -20,7 +20,7 @@ const engarcMonthlyURL = '/purchase/admin-monthly-others/';
 const distributorAllURL = '/purchase/admin-top-distributors/';
 const distributorMonthlyURL = '/purchase/admin-monthly-distributors/'; 
 
-const rewardProducts = 'purchase/admin-reward-redeemed/'; 
+const rewardProducts = 'purchase/admin-reward-count/'; 
 const pendingrewards = 'purchase/admin-reward-pending/'; 
 const rejectedrewards = 'purchase/admin-reward-rejected/'; 
 
@@ -175,7 +175,7 @@ export const updateLeadRequest = (id,pass) => {
 //admin-total-rewards
 export const getrewardproducts = () => {
   return axiosInstance.get(rewardProducts)
-    .then((response) => response.data.redeemed_rewards_count)
+    .then((response) => response.data.total_rewards_count)
     .catch((error) => {
       console.error('Error while fetching lead request:', error);
       throw error;
