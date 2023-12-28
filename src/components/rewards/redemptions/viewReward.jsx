@@ -132,6 +132,9 @@ export default function ViewReward({
           <span>Mobile :</span>
           <span style={{ float: 'inline-end' }}>{data.user?.mobile}</span>
           <br></br>
+          <span>Email :</span>
+          <span style={{ float: 'inline-end' }}>{data.user?.email}</span>
+          <br></br>
         </div>
         <br></br>
         <div style={{ marginLeft: 15, marginRight: 15 }}>
