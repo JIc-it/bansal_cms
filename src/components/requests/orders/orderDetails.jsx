@@ -251,6 +251,7 @@ export default function OrderDetails({
         </div>
         <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Contractor Details</h6>
+          <h6>{data?.user ? "Engineer" : "Contractor "} Details</h6>
           <span>Name :</span>
           <span style={{ float: "inline-end" }}>{data?.user?.name}</span>
           <br></br>

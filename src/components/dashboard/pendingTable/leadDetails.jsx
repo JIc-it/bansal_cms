@@ -264,7 +264,7 @@ export default function LeadDetails({
         <br></br>
       </div>
       <div style={{ marginLeft: 15, marginRight: 15 }}>
-        <h6>{data.distributor ? "Contractor Details" : "Referrer Details"}</h6>
+        <h6>{data.user ? "Engineer Details" : "Contractor Details"}</h6>
         <span>Name :</span>
         <span style={{ float: "inline-end" }}>{data?.user?.name}</span>
         <br></br>
