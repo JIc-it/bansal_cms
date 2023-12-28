@@ -57,21 +57,21 @@ export default function ViewReward({
   const apiResponseAddressString = data.selected_address;
 
   // Convert the string to a JavaScript object
-  const changedAddress = JSON.parse(
-    apiResponseAddressString.replace(/None/g, "null").replace(/'/g, '"')
-  );
-  console.log(changedAddress);
+  // const changedAddress = JSON.parse(
+  //   apiResponseAddressString.replace(/None/g, "null").replace(/'/g, '"')
+  // );
+  // console.log(changedAddress);
   // Create a new object with the desired format
-  const formattedAddress = {
-    name: changedAddress.name,
-    mobile: changedAddress.mobile,
-    address_1: changedAddress.address_1,
-    address_2: changedAddress.address_2,
-    pincode: changedAddress.pincode,
-    city: changedAddress.city,
-    state_name: changedAddress.state_name,
-    land_mark: changedAddress.land_mark,
-  };
+  // const formattedAddress = {
+  //   name: changedAddress.name,
+  //   mobile: changedAddress.mobile,
+  //   address_1: changedAddress.address_1,
+  //   address_2: changedAddress.address_2,
+  //   pincode: changedAddress.pincode,
+  //   city: changedAddress.city,
+  //   state_name: changedAddress.state_name,
+  //   land_mark: changedAddress.land_mark,
+  // };
 
   return (
     <>
@@ -114,9 +114,10 @@ export default function ViewReward({
           <span style={{ float: 'inline-end' }}>{data?.id_verification?.id_number}</span>
           <br></br>
           <span>Address :</span>
-          <span style={{ float: 'inline-end' }}>
+          <span style={{ float: 'inline-end' }}>{data?.selected_address}</span>
+          {/* <span style={{ float: 'inline-end' }}>
             {`${formattedAddress.address_1} , ${formattedAddress.address_2}`}
-          </span>
+          </span> */}
           <br></br>
         </div>
         <br></br>
@@ -141,6 +142,21 @@ export default function ViewReward({
           <span>Product ID :</span>
           <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id}</span>
           <br></br>
+          <span>Reward Count :</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id_count}</span>
+          <br></br>
+          <span>Redeemed Count :</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.times_redeemed}</span>
+          <br></br>
+          {/* <span>Product ID :</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id}</span>
+          <br></br>
+          <span>Product ID :</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id}</span>
+          <br></br>
+          <span>Product ID :</span>
+          <span style={{ float: 'inline-end' }}>{data.reward_id?.reward_id}</span>
+          <br></br> */}
         </div>
         {permissionForRedemption?.action && data?.status === "Pending" && (
           <div
