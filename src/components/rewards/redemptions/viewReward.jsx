@@ -113,12 +113,12 @@ export default function ViewReward({
           <span>ID Number :</span>
           <span style={{ float: 'inline-end' }}>{data?.id_verification?.id_number}</span>
           <br></br>
-          <span>Address :</span>
-          <span style={{ float: 'inline-end' }}>{data?.selected_address}</span>
+          {/* <span>Address :</span>
+          <span style={{ float: 'inline-end' }}>{data?.selected_address}</span> */}
           {/* <span style={{ float: 'inline-end' }}>
             {`${formattedAddress.address_1} , ${formattedAddress.address_2}`}
           </span> */}
-          <br></br>
+          {/* <br></br> */}
         </div>
         <br></br>
         <div style={{ marginLeft: 15, marginRight: 15 }}>
