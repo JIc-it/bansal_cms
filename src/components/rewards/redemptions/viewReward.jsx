@@ -110,7 +110,7 @@ export default function ViewReward({
             View
           </button>
           <br></br>
-          <span>ID Number :</span>
+          <span>ID Number : </span>
           <span style={{ float: 'inline-end' }}>{data?.id_verification?.id_number}</span>
           <br></br>
           <span>Address :</span>
