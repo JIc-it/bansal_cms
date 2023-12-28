@@ -90,7 +90,7 @@ export default function ViewReward({
         <div style={{ marginLeft: 15, marginRight: 15 }}>
           <h6>Transaction Details</h6>
           <span>Status :</span>
-          <span style={{ float: 'inline-end', color: "blue", padding: 2, position: 'relative', bottom: 5 }}>{data?.status}</span>
+          <span style={{ float: 'inline-end', color: "blue", padding: 0, position: 'relative', bottom: 5 }}>{data?.status}</span>
           <br></br>
           <span>Transaction ID :</span>
           <span style={{ float: 'inline-end' }}>{data?.transaction_id}</span>
@@ -101,7 +101,7 @@ export default function ViewReward({
           <span>ID Type :</span>
           <span style={{ position: 'relative', left: 200 }}>{data?.id_verification.id_type}</span>
           <button
-            style={{ backgroundColor: "blue", float: 'inline-end', padding:2 }}
+            style={{ backgroundColor: "blue", float: 'inline-end', padding:0 }}
             className="btn btn-dark btn-sm ms-2"
             onClick={() => {
               setOpenImagePopUp(true);
