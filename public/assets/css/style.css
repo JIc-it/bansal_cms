@@ -37891,3 +37891,77 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     right: 375px;
     bottom: 20px;
 }
+
+
+/* Login Screen Css */
+
+
+
+/* body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.login-containerr {
+  background-image: url('../images/mobileView.png'); /* Set background image for container */
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.login-formm {
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-groupp {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.loginLogo {
+  position: relative;
+  left: 60px;
+  height: 80px;
+}
+.banTxt {
+  font-size: 21px;
+  color: #fff;
+  position: relative;
+  left: 20px;
+}
