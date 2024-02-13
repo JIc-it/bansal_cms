@@ -16,7 +16,9 @@ const CreaateUser = () => {
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password" required />
                     </div>
-                    <button type="submit">Login</button>
+                    <a href='user-dashboard'>
+                        <button type="submit">Login</button>
+                    </a>
                 </form>
             </div>
         </div>
