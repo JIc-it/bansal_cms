@@ -9,25 +9,42 @@ const UserDashboard = () => {
         email: "",
         mobile: "",
         district_name: "",
-      });
-      
-      useEffect(() => {
+    });
+
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+    useEffect(() => {
         getProfileRequest()
-          .then((data) => {
-            console.log(" getProfileRequest data", data);
-            setProfileData((prevData) => ({
-              ...prevData,
-              name: data.name,
-              user_id: data.user_id,
-              email: data.email,
-              mobile: data.mobile,
-              district_name: data.district,
-            }));
-          })
-          .catch((error) => {
-            console.error("Error fetching profile:", error);
-          });
-      }, []);
+            .then((data) => {
+                console.log(" getProfileRequest data", data);
+                setProfileData((prevData) => ({
+                    ...prevData,
+                    name: data.name,
+                    user_id: data.user_id,
+                    email: data.email,
+                    mobile: data.mobile,
+                    district_name: data.district,
+                }));
+            })
+            .catch((error) => {
+                console.error("Error fetching profile:", error);
+            });
+    }, []);
+
+    const handleLogout = () => {
+        // Implement your logout logic here
+        setShowLogoutModal(true);
+    };
+
+    const handleLogoutConfirm = () => {
+        // Implement logout confirmation action
+        // For example: Redirect to logout endpoint
+        setShowLogoutModal(false);
+    };
+
+    const handleLogoutCancel = () => {
+        setShowLogoutModal(false);
+    };
 
     return (
         <div>
@@ -35,7 +52,7 @@ const UserDashboard = () => {
                 <div className='col-sm-2'>
                     <p>Welcome</p>
                     <h5 style={{ position: 'relative', bottom: 15 }}>{profile_data.name}</h5>
-                    <svg width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'relative', bottom: 55, left: 310 }}>
+                    <svg width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'relative', bottom: 55, left: 310, cursor: 'pointer' }} onClick={handleLogout}>
                         <path opacity="0.6" d="M21.875 2.25H20.75C17.568 2.25 15.977 2.25 14.9885 3.23851C14 4.22703 14 5.81802 14 9V18C14 21.182 14 22.773 14.9885 23.7615C15.977 24.75 17.568 24.75 20.75 24.75H21.875C25.057 24.75 26.648 24.75 27.6365 23.7615C28.625 22.773 28.625 21.182 28.625 18V9C28.625 5.81802 28.625 4.22703 27.6365 3.23851C26.648 2.25 25.057 2.25 21.875 2.25Z" fill="#B1292C" />
                         <path opacity="0.4" d="M14 9C14 7.2703 14 6.01073 14.1588 5.0625H14C11.3483 5.0625 10.0225 5.0625 9.19876 5.88626C8.375 6.71002 8.375 8.03585 8.375 10.6875V16.3125C8.375 18.9642 8.375 20.29 9.19876 21.1137C10.0225 21.9375 11.3483 21.9375 14 21.9375H14.1588C14 20.9893 14 19.7297 14 18V14.3438V12.6562V9Z" fill="#B1292C" />
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0284 12.9034C9.69887 13.2329 9.69887 13.7671 10.0284 14.0966L12.2784 16.3466C12.6079 16.6761 13.1421 16.6761 13.4716 16.3466C13.8011 16.0171 13.8011 15.4829 13.4716 15.1534L12.662 14.3438L20.75 14.3437C21.216 14.3437 21.5938 13.966 21.5938 13.5C21.5938 13.034 21.216 12.6562 20.75 12.6562L12.662 12.6562L13.4716 11.8466C13.8011 11.5171 13.8011 10.9829 13.4716 10.6534C13.1421 10.3239 12.6079 10.3239 12.2784 10.6534L10.0284 12.9034Z" fill="#B1292C" />
@@ -88,6 +105,24 @@ const UserDashboard = () => {
                     </div>
                 </div>
             </div>
+            {showLogoutModal && (
+                <div className="modal" tabIndex="-1" role="dialog" style={{ display: "block" }}>
+                    <div className="modal-dialog modal-sm" role="document">
+                        <div className="modal-content modelCss">
+                            <div className="modal-body">
+                            <h5 className="modal-title">Logout Confirmation</h5>
+                                <p>Are you sure you want to logout?</p>
+                            </div>
+                            <div className="modal-footer" style={{ justifyContent: 'flex-end' }}>
+                                <button type="button" className="btn btn-secondary btn-sm me-2" onClick={handleLogoutCancel} style={{ width: '80px' }}>No</button>
+                                <a href='/create-user'>
+                                <button type="button" className="btn btn-primary btn-sm" onClick={handleLogoutConfirm} style={{ width: '80px' }}>Yes</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
