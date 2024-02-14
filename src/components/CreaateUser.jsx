@@ -92,10 +92,10 @@ const CreaateUser = () => {
                 <p className='banTxt' >Bansal TMT Sariya
                     Loyalty Management</p>
                 {/* <form class="login-formm"> */}
-                <form id='loginForm' action="https://w3crm.dexignzone.com/xhtml/index.html" autoComplete="off">
+                <form id='loginForm' action="https://w3crm.dexignzone.com/xhtml/index.html" autoComplete="off" style={{position: 'relative', top: 50}}>
                     <h2 style={{color: '#fff'}}>Login</h2>
                     <div class="form-groupp">
-                        <label for="username">Username:</label>
+                        {/* <label for="username">Username:</label> */}
                         {/* <input type="text" id="username" name="username" required /> */}
                         <input
                             type="text"
@@ -107,7 +107,7 @@ const CreaateUser = () => {
                         />
                     </div>
                     <div class="form-groupp">
-                        <label for="password">Password:</label>
+                        {/* <label for="password">Password:</label> */}
                         {/* <input type="password" id="password" name="password" required /> */}
                         <input
                             type={showPassword ? 'text' : 'password'}
