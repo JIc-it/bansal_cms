@@ -78,8 +78,9 @@ export default function AddReward({
     try {
       setLoading(true);
 
-      const { title, points, description, item_image, is_active } = credentials;
+      const { title, points, description, item_image, is_active,selectedRoles } = credentials;
 
+      const roles = selectedRoles.map((data) => data.value);
       const data = new FormData();
       data.append("title", title);
       data.append("points", points);
@@ -87,6 +88,7 @@ export default function AddReward({
       data.append("item_image", item_image);
       data.append("is_active", is_active);
       data.append("thumbnail_image", item_image);
+      data.append("available_for",roles)
 
       const crt_data = await createRewardProductRequest(data);
 
