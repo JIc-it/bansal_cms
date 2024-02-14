@@ -37895,8 +37895,6 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 /* Login Screen Css */
 
-
-
 /* body {
   margin: 0;
   padding: 0;
@@ -37909,7 +37907,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 } */
 
 .login-containerr {
-  background-image: url('../images/mobileView.png'); /* Set background image for container */
+  background-image: url('../images/mobileView.png');
   background-size: cover;
   background-position: center;
   padding: 20px;
@@ -37941,7 +37939,7 @@ input[type="password"] {
   border-radius: 5px;
 }
 
-button {
+/* button {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -37949,11 +37947,11 @@ button {
   border-radius: 5px;
   color: #fff;
   cursor: pointer;
-}
+} */
 
-button:hover {
+/* button:hover {
   background-color: #0056b3;
-}
+} */
 .loginLogo {
   position: relative;
   left: 60px;
