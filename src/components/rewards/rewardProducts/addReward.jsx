@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { createRewardProductRequest } from "../../../axiosHandle/rewardHandle";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 const offcanvasStyle = {
   width: "365px",
@@ -25,6 +26,7 @@ export default function AddReward({
     description: "",
     item_image: "",
     is_active: true,
+    selectedRoles: []
   });
 
   const [errors, setErrors] = useState({
@@ -109,6 +111,12 @@ export default function AddReward({
     setOpen(null);
   };
 
+  const roleOptions = [
+    { value: "Engineer", label: "Engineer" },
+    { value: "Contractor", label: "Contractor" },
+    { value: "Architect", label: "Architect" }
+  ];
+
   return (
     <Offcanvas
       show={showOffcanvas}
@@ -119,13 +127,18 @@ export default function AddReward({
       <div style={offcanvasStyle}>
         <div style={{ display: "flex" }}>
           <h5>Reward Product Details</h5>
-          <p style={{position: 'relative', left:190, cursor:"pointer"}} onClick={handleCloseOffcanvas}>
+          <p style={{ position: 'relative', left: 190, cursor: "pointer" }} onClick={handleCloseOffcanvas}>
             <svg width="16" height="16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M25.3336 6.66707L6.66699 25.3337M6.66691 6.66699L25.3335 25.3336" stroke="#393939" stroke-width="3" stroke-linecap="round" />
-          </svg>
+              <path d="M25.3336 6.66707L6.66699 25.3337M6.66691 6.66699L25.3335 25.3336" stroke="#393939" stroke-width="3" stroke-linecap="round" />
+            </svg>
           </p>
         </div>
-
+      <Select
+          options={roleOptions}
+          isMulti
+          onChange={(selectedOptions) => setCredentials({ ...credentials, selectedRoles: selectedOptions })}
+          value={credentials.selectedRoles}
+        />
         <div style={{ marginTop: 20 }}>
           <input
             type="text"
