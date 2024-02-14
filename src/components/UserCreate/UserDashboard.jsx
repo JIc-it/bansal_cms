@@ -105,18 +105,39 @@ const UserDashboard = () => {
                     </div>
                 </div>
             </div>
+            <div className='row'>
+                <div className='col-md-12'>
+                    <div
+                        className="col-8 text-end"
+                        style={{ paddingTop: "1.5rem" }}
+                    >
+                        <button
+                            className="btn btn-primary btn-sm"
+                            type="button"
+                            id="add-points-button"
+                            href="create-new-user"
+                        // onClick={() => {
+                        //   setIsOpenAddArchitects(true);
+                        // }}
+                        >
+                            <i className="fa-regular fa-square-plus" /> Add New
+                            User
+                        </button>
+                    </div>
+                </div>
+            </div>
             {showLogoutModal && (
                 <div className="modal" tabIndex="-1" role="dialog" style={{ display: "block" }}>
                     <div className="modal-dialog modal-sm" role="document">
                         <div className="modal-content modelCss">
                             <div className="modal-body">
-                            <h5 className="modal-title">Logout Confirmation</h5>
+                                <h5 className="modal-title">Logout Confirmation</h5>
                                 <p>Are you sure you want to logout?</p>
                             </div>
                             <div className="modal-footer" style={{ justifyContent: 'flex-end' }}>
                                 <button type="button" className="btn btn-secondary btn-sm me-2" onClick={handleLogoutCancel} style={{ width: '80px' }}>No</button>
                                 <a href='/create-user'>
-                                <button type="button" className="btn btn-primary btn-sm" onClick={handleLogoutConfirm} style={{ width: '80px' }}>Yes</button>
+                                    <button type="button" className="btn btn-primary btn-sm" onClick={handleLogoutConfirm} style={{ width: '80px' }}>Yes</button>
                                 </a>
                             </div>
                         </div>

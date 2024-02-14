@@ -37,6 +37,7 @@ const adminUSerViewLeadsURL = "purchase/leads/admin";
 const adminUserDisableEnableUrl = "/account/disable-enable/user";
 const stateidURl="/core/location"
 const activeUsersURL="account/active-users-count/?is_delete=false/"
+const createNewUserCreationURL = "/account/sales_poc_user_create/";
 
 const adminUSerViewOrderURL = "/purchase/tmt_orders_admin/user/";
 export const getDistributorsRequest = (searchUserData) => {
@@ -395,6 +396,17 @@ export const updateUser = (id, data) => {
     });
 };
 
+//////////////////New User create APi//////////////////////
+export const createNewUser = (data) => {
+  console.log(data);
+  return axiosInstance
+    .post(createNewUserCreationURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
+      throw error;
+    });
+};
 export const adminUSerViewOrdersRequest = async (id, data) => {
   console.log(data, "adminUSerViewOrdersRequest");
   try {
