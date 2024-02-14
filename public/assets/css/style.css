@@ -37902,6 +37902,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   border-radius: 10px;
   max-width: 300px;
   width: 100%;
+  min-height: 560px;
 }
 
 .login-formm {

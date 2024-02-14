@@ -10,6 +10,7 @@ const adminsURL = "/account/create-admin/";
 const createUserURL = "account/admin-create-user/";
 const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
+const distributorCountsURL = "/account/api/users/user_stats/";
 const enggCountsURL = "/account/api/users/user_stats/";
 const architectsCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
@@ -205,6 +206,16 @@ export const deleteContractor = (id) => {
 export const getUserStatics = (role) => {
   return axiosInstance
     .get(userCountsURL, { params: { role: role } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserDistributor = (role) => {
+  return axiosInstance
+    .get(distributorCountsURL, { params: { role: role } })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error while fetching architects request:", error);

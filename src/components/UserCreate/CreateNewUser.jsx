@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const offcanvasStyle = {
     width: "365px",
@@ -148,8 +149,8 @@ export default function CreateNewUser({
                     console.log(contractorData);
                     if (contractorData) {
                         setIsContractorAdded(!isContractorAdded);
-                        toast.success("Lead created successfully!");
-                        navigate('/user-dashboard');
+                        toast.success("User created successfully!");
+                        navigate('/user-dashboard'); // Redirect to user-dashboard
                     } else {
                         console.error(
                             "Error while creating Contractor:",
@@ -224,6 +225,7 @@ export default function CreateNewUser({
                     <option>Engineer</option>
                     <option>Contractor</option>
                     <option>Architect</option>
+                    <option>Distributor</option>
                 </select>
                 <div style={{ marginTop: 7 }}>
                     <input
@@ -352,7 +354,10 @@ export default function CreateNewUser({
                         position: "absolute",
                     }}
                 >
-                    {isLoading ? <Loader /> : "Add New"}
+                     <Link to="/user-dashboard" style={{ color: "white" }}>
+                     {isLoading ? <Loader /> : "Add New"}
+                     </Link>
+               
                 </button>
             </div>
         </form>
