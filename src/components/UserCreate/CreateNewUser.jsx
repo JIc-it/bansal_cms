@@ -224,6 +224,7 @@ export default function CreateNewUser({
                     <option>Engineer</option>
                     <option>Contractor</option>
                     <option>Architect</option>
+                    <option>Distributor</option>
                 </select>
                 <div style={{ marginTop: 7 }}>
                     <input

@@ -4,6 +4,7 @@ import { getProfileRequest } from '../../axiosHandle/profileHandle'
 import { getUserStatics } from '../../axiosHandle/userHandle';
 import { getUserArchitects } from '../../axiosHandle/userHandle';
 import { getUserEngg } from '../../axiosHandle/userHandle';
+import { getUserDistributor } from '../../axiosHandle/userHandle';
 import { Link } from "react-router-dom";
 const UserDashboard = () => {
 
@@ -19,6 +20,7 @@ const UserDashboard = () => {
     const [totalUserCount, setTotalUserCount] = useState(0);
     const [totalArchiectCount, setTotalArchiectCount] = useState(0);
     const [totalEnggCount, setTotalEnggCount] = useState(0);
+    const [totalDistributorCount, setTotalDistributorCount] = useState(0);
 
     useEffect(() => {
         getUserStatics("Contractor")
@@ -52,6 +54,17 @@ const UserDashboard = () => {
                 console.error("Error fetching  data:", error);
             });
     }, []);
+
+    useEffect(() => {
+        getUserDistributor("Distributor")
+          .then((data) => {
+            console.log(data);
+            setTotalDistributorCount(data);
+          })
+          .catch((error) => {
+            console.error("Error fetching distributor data:", error);
+          });
+      }, []);
 
     useEffect(() => {
         getProfileRequest()
@@ -137,6 +150,19 @@ const UserDashboard = () => {
                                             <h6>Total Architects</h6>
                                             <br />
                                             <h3>{totalArchiectCount.user_type_total}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-3 col-sm-6 same-card">
+                            <div className="card">
+                                <div className="card-body depostit-card">
+                                    <div className="depostit-card-media d-flex justify-content-between style-1">
+                                        <div>
+                                            <h6>Total Distributors</h6>
+                                            <br />
+                                            <h3>{totalDistributorCount.user_type_total}</h3>
                                         </div>
                                     </div>
                                 </div>
