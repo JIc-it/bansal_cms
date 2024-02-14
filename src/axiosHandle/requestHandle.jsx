@@ -132,3 +132,16 @@ export const handleOrderAcceptReject = (id, data, comment) => {
       throw error;
     });
 };
+
+
+// New User count
+
+export const getTotalContractors = () => {
+  return axiosInstance
+    .get("/account/sales_poc_user_create/")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching lead request:", error);
+      throw error;
+    });
+};

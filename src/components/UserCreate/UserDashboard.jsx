@@ -1,6 +1,10 @@
 import { flexbox } from '@mui/system'
 import React, { useEffect, useState } from "react";
 import { getProfileRequest } from '../../axiosHandle/profileHandle'
+import { getUserStatics } from '../../axiosHandle/userHandle';
+import { getUserArchitects } from '../../axiosHandle/userHandle';
+import { getUserEngg } from '../../axiosHandle/userHandle';
+import { Link } from "react-router-dom";
 const UserDashboard = () => {
 
     const [profile_data, setProfileData] = useState({
@@ -12,6 +16,42 @@ const UserDashboard = () => {
     });
 
     const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [totalUserCount, setTotalUserCount] = useState(0);
+    const [totalArchiectCount, setTotalArchiectCount] = useState(0);
+    const [totalEnggCount, setTotalEnggCount] = useState(0);
+
+    useEffect(() => {
+        getUserStatics("Contractor")
+            .then((data) => {
+                console.log(data);
+                setTotalUserCount(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching  data:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getUserEngg("Architect")
+            .then((data) => {
+                console.log(data);
+                setTotalArchiectCount(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching Architect data:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        getUserEngg("Engineer")
+            .then((data) => {
+                console.log(data);
+                setTotalEnggCount(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching  data:", error);
+            });
+    }, []);
 
     useEffect(() => {
         getProfileRequest()
@@ -70,7 +110,7 @@ const UserDashboard = () => {
                                         <div>
                                             <h6>Total Contractors</h6>
                                             <br />
-                                            <h3>50</h3>
+                                            <h3>{totalUserCount.user_type_total}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +123,7 @@ const UserDashboard = () => {
                                         <div>
                                             <h6>Total Engineers</h6>
                                             <br />
-                                            <h3>30</h3>
+                                            <h3>{totalEnggCount.user_type_total}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +136,7 @@ const UserDashboard = () => {
                                         <div>
                                             <h6>Total Architects</h6>
                                             <br />
-                                            <h3>30</h3>
+                                            <h3>{totalArchiectCount.user_type_total}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -115,13 +155,14 @@ const UserDashboard = () => {
                             className="btn btn-primary btn-sm"
                             type="button"
                             id="add-points-button"
-                            href="create-new-user"
-                        // onClick={() => {
-                        //   setIsOpenAddArchitects(true);
-                        // }}
+                        // onClick={handleAddUser}
                         >
-                            <i className="fa-regular fa-square-plus" /> Add New
-                            User
+
+                            {/* <i className="fa-regular fa-square-plus" /> Add New
+                            User */}
+                            <Link to="/create-new-user" style={{ color: "white" }}>
+                                <i className="fa-regular fa-square-plus" /> Add New User
+                            </Link>
                         </button>
                     </div>
                 </div>

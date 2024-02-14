@@ -93,7 +93,7 @@ const CreaateUser = () => {
                     Loyalty Management</p>
                 {/* <form class="login-formm"> */}
                 <form id='loginForm' action="https://w3crm.dexignzone.com/xhtml/index.html" autoComplete="off">
-                    <h2>Login</h2>
+                    <h2 style={{color: '#fff'}}>Login</h2>
                     <div class="form-groupp">
                         <label for="username">Username:</label>
                         {/* <input type="text" id="username" name="username" required /> */}
@@ -120,7 +120,19 @@ const CreaateUser = () => {
                         />
                     </div>
 
-                    <button type="button" onClick={handleLogin}>Login</button>
+                    {/* <button type="button" onClick={handleLogin}>Login</button> */}
+                    <div className="col-8 text-end">
+                        <button
+                            className="btn btn-primary btn-sm"
+                            type="button"
+                            id="add-points-button"
+                            onClick={handleLogin}
+                        >
+                            <i className="fa-regular fa-user" /> Login
+
+                        </button>
+
+                    </div>
 
                 </form>
             </div>
