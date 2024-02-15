@@ -161,6 +161,7 @@ export default function CreateNewUser({
                     setIsLoading(false);
                 } catch (err) {
                     console.log(err);
+                    
                     toast.error(err?.response?.data?.error)
                     err.response.data.email &&
                         toast.error(err.response.data.email[0]);

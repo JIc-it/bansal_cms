@@ -93,9 +93,9 @@ export default function AddNewContractor({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-            path: this.path,
-            message: "District is required",
-          });
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(
@@ -160,6 +160,7 @@ export default function AddNewContractor({
           setIsLoading(false);
         } catch (err) {
           console.log(err);
+          toast.error(err.response.data.error);
           err.response.data.email && toast.error(err.response.data.email[0]);
           err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
@@ -276,7 +277,6 @@ export default function AddNewContractor({
               className=" w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
-
             >
               <option disabled={true} value="" id={"0"}>
                 State
