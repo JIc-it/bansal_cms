@@ -37892,30 +37892,17 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     bottom: 20px;
 }
 
-
 /* Login Screen Css */
 
-
-
-/* body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: white;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
 .login-containerr {
-  background-image: url('../images/mobileView.png'); /* Set background image for container */
+  background-image: url('../images/mobileView.png');
   background-size: cover;
   background-position: center;
   padding: 20px;
   border-radius: 10px;
   max-width: 300px;
   width: 100%;
+  min-height: 560px;
 }
 
 .login-formm {
@@ -37941,19 +37928,6 @@ input[type="password"] {
   border-radius: 5px;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
 .loginLogo {
   position: relative;
   left: 60px;
@@ -37964,4 +37938,10 @@ button:hover {
   color: #fff;
   position: relative;
   left: 20px;
+}
+.modelCss {
+  position: relative;
+  left: 45px;
+  width: 255px;
+  top: 160px;
 }
