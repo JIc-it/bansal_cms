@@ -21,7 +21,7 @@ export default function CreateNewUser({
     handleroledata,
     open,
     setOpen,
-    setIsContractorAdded,
+    // setIsContractorAdded,
     isContractorAdded,
 }) {
     const navigate = useNavigate();
@@ -148,7 +148,7 @@ export default function CreateNewUser({
                     const contractorData = await createNewUser(data);
                     console.log(contractorData);
                     if (contractorData) {
-                        setIsContractorAdded(!isContractorAdded);
+                        // setIsContractorAdded(!isContractorAdded);
                         toast.success("User created successfully!");
                         navigate('/user-dashboard'); // Redirect to user-dashboard
                     } else {
@@ -161,6 +161,7 @@ export default function CreateNewUser({
                     setIsLoading(false);
                 } catch (err) {
                     console.log(err);
+                    toast.error(err?.response?.data?.error)
                     err.response.data.email &&
                         toast.error(err.response.data.email[0]);
                     err.response.data.mobile &&
@@ -218,7 +219,7 @@ export default function CreateNewUser({
                     onChange={(e) => {
                         const roleValue = e.target.value;
                         setSelectedRole(roleValue);
-                        handleroledata({ role: roleValue });
+                        // handleroledata({ role: roleValue });
                     }}
                 >
                     <option value="">Role</option>
