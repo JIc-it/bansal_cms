@@ -137,17 +137,17 @@ const ViewDistributorDetails = () => {
         let status =
           item.admin_approval === "Accepted"
             ? //  &&
-            // item.user_approval === "Accepted"
-            "Accepted"
+              // item.user_approval === "Accepted"
+              "Accepted"
             : item.admin_approval === "Rejected"
-              ? //  ||
+            ? //  ||
               //   item.user_approval === "Rejected"
               "Rejected"
-              : "Processing";
+            : "Processing";
 
-              const date = new Date(item.created_at);
-              const formattedDate = date.toLocaleDateString();
-              const formattedTime = date.toLocaleTimeString();
+        const date = new Date(item.created_at);
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString();
 
         return [
           item.transaction_id,
@@ -273,17 +273,41 @@ const ViewDistributorDetails = () => {
               <div className="card-body depostit-card">
                 <div class="user-card-heading"> Details</div>
                 <div className="depostit-card-media  style-1">
-                  <div className="user-email-details">
-                    <div className="user-email-details-property">
-                      <span>Email</span>
-                      <span>Mobile</span>
-                      <span>Location</span>
-                    </div>
-                    <div className="user-email-details-data">
+                  <div className="">
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Email</span>
                       <span>{userData && userData.email}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Mobile</span>
                       <span>{userData && userData.mobile}</span>
-                      <span>{`${userData && userData?.district?.district} , ${userData && userData?.state?.state
-                        }`}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Location</span>
+                      <span>{`${userData && userData?.district?.district} , ${
+                        userData && userData?.state?.state
+                      }`}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Created By</span>
+                      <span>{(userData && userData?.created_by) || "-"}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Created Date</span>
+                      <span>
+                        {userData &&
+                          userData?.created_on &&
+                          new Date(userData?.created_on).toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -510,26 +534,27 @@ const ViewDistributorDetails = () => {
 
                               <td>
                                 <button
-                                  className={`btn  btn-sm ${ele.admin_approval === "Accepted"
-                                    ? // &&
-                                    // ele.user_approval === "Accepted"
-                                    "Accepted-btn"
-                                    : ele.admin_approval === "Rejected"
+                                  className={`btn  btn-sm ${
+                                    ele.admin_approval === "Accepted"
+                                      ? // &&
+                                        // ele.user_approval === "Accepted"
+                                        "Accepted-btn"
+                                      : ele.admin_approval === "Rejected"
                                       ? //  ||
-                                      //   ele.user_approval === "Rejected"
-                                      "Rejected-btn"
+                                        //   ele.user_approval === "Rejected"
+                                        "Rejected-btn"
                                       : "Processing-btn"
-                                    }`}
+                                  }`}
                                 >
                                   {ele.admin_approval === "Accepted"
                                     ? //  &&
-                                    // ele.user_approval === "Accepted"
-                                    "Accepted"
+                                      // ele.user_approval === "Accepted"
+                                      "Accepted"
                                     : ele.admin_approval === "Rejected"
-                                      ? // ||
+                                    ? // ||
                                       //   ele.user_approval === "Rejected"
                                       "Rejected"
-                                      : "Processing"}
+                                    : "Processing"}
                                 </button>
                               </td>
                               <td>

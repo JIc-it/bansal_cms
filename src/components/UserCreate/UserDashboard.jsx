@@ -247,7 +247,7 @@ const UserDashboard = () => {
                 >
                   No
                 </button>
-                <a href="/create-user">
+                <Link to="/create-user">
                   <button
                     type="button"
                     className="btn btn-primary btn-sm"
@@ -256,7 +256,7 @@ const UserDashboard = () => {
                   >
                     Yes
                   </button>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

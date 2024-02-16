@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutRequest } from "../axiosHandle/authHandle";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
   loginRequest,
   verifyAccessToken,
   refreshAccessToken,
 } from "../axiosHandle/authHandle";
+import { toast } from "react-toastify";
 
 const CreaateUser = () => {
   const navigate = useNavigate();
@@ -17,6 +20,47 @@ const CreaateUser = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Must be a valid email")
+        .max(255)
+        .required("Email id is required"),
+      password: Yup.string().max(50).required("Password is required"),
+    }),
+    onSubmit: async (values, helpers) => {
+      try {
+        const data = {
+          email: values.email,
+          password: values.password,
+        };
+        const { access, refresh, role } = await loginRequest(data);
+        if (access) {
+          console.log(access, "access_token first");
+          localStorage.setItem("access_token", access);
+          localStorage.setItem("refresh_token", refresh);
+          localStorage.setItem("role", role);
+          navigate("/user-dashboard");
+          console.log("sucess");
+        } else {
+          toast.error("Login error");
+        }
+      } catch (err) {
+        console.log(err);
+        helpers.setStatus({ success: false });
+        helpers.setErrors({
+          submit: err.response?.data?.error || "Login Failed.",
+        });
+        helpers.setSubmitting(false);
+      }
+    },
   });
 
   useEffect(() => {
@@ -55,45 +99,13 @@ const CreaateUser = () => {
     checkTokens();
   }, [navigate]);
 
-  const handleLogin = async () => {
-    try {
-      const { email, password } = credentials;
-
-      if (email.length > 50) {
-        setError("Email must be at most 50 characters.");
-        return;
-      }
-
-      // Validate password length
-      if (password.length > 20) {
-        setError("Password must be at most 20 characters.");
-        return;
-      }
-
-      const data = {
-        email,
-        password,
-      };
-
-      const { access, refresh, role } = await loginRequest(data);
-
-      localStorage.setItem("access_token", access);
-      localStorage.setItem("refresh_token", refresh);
-      localStorage.setItem("role", role);
-
-      setMsg("Login Successful. Redirecting to user-dashboard");
-      navigate("/user-dashboard");
-    } catch (err) {
-      setError("Login failed. Please check your credentials.");
-    }
-  };
   return (
     <div
       style={{
         // alignItems: "center",
         justifyContent: "center",
         display: "flex",
-        padding:"1rem"
+        padding: "1rem",
         // position: "relative",
         // top: "70px",
       }}
@@ -104,52 +116,59 @@ const CreaateUser = () => {
         {/* <form class="login-formm"> */}
         <form
           id="loginForm"
-          action="https://w3crm.dexignzone.com/xhtml/index.html"
+          onSubmit={formik.handleSubmit}
           autoComplete="off"
           style={{ position: "relative", top: 50 }}
         >
           <h2 style={{ color: "#fff" }}>Login</h2>
           <div class="form-groupp">
-            {/* <label for="username">Username:</label> */}
-            {/* <input type="text" id="username" name="username" required /> */}
             <input
               type="text"
               className="form-control form-control"
-              value={credentials.email}
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              autoComplete="off"
               placeholder="Unique id"
               maxLength={50}
             />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="error">{formik.errors.email}</div>
+            ) : null}
           </div>
           <div class="form-groupp">
-            {/* <label for="password">Password:</label> */}
-            {/* <input type="password" id="password" name="password" required /> */}
             <input
               type={showPassword ? "text" : "password"}
               id="dz-password"
               className="form-control"
-              value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              autoComplete="off"
               placeholder="Password"
               maxLength={20}
             />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error">{formik.errors.password}</div>
+            ) : null}
           </div>
 
           {/* <button type="button" onClick={handleLogin}>Login</button> */}
           <div className="col-8 text-end">
             <button
               className="btn btn-primary btn-sm"
-              type="button"
+              type="submit"
               id="add-points-button"
-              onClick={handleLogin}
+              // onClick={handleLogin}
             >
               <i className="fa-regular fa-user" /> Login
             </button>
           </div>
+          {formik.errors.submit && (
+            <div className="error my-2 text-center">{formik.errors.submit}</div>
+          )}
         </form>
       </div>
     </div>

@@ -115,8 +115,8 @@ export default function EditArchitect({
         } catch (err) {
           console.log(err);
           toast.error(err.response.data.error);
-          err.response.data.email && toast.error(err.response.data.email[0]);
-          err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+          // err.response.data.email && toast.error(err.response.data.email[0]);
+          // err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
         }
       }

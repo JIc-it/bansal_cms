@@ -49,7 +49,14 @@ export default function CreateNewUser() {
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
-      .max(20, "Name must be at most 20 characters"),
+      .max(20, "Name must be at most 20 characters")
+      .test(
+        "is-not-blank",
+        "Name must not contain only blank spaces",
+        (value) => {
+          return /\S/.test(value); // Checks if there is at least one non-whitespace character
+        }
+      ),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -160,8 +167,8 @@ export default function CreateNewUser() {
           console.log(err);
 
           toast.error(err?.response?.data?.error);
-          err.response.data.email && toast.error(err.response.data.email[0]);
-          err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+          //   err.response.data.email && toast.error(err.response.data.email[0]);
+          //   err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
         }
       } else {
@@ -229,6 +236,7 @@ export default function CreateNewUser() {
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            maxLength={50}
           />
           {formik.touched.name && formik.errors.name ? (
             <div className="error">{formik.errors.name}</div>
@@ -244,6 +252,7 @@ export default function CreateNewUser() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            maxLength={50}
           />
           {formik.touched.email && formik.errors.email ? (
             <div className="error">{formik.errors.email}</div>
@@ -347,9 +356,7 @@ export default function CreateNewUser() {
             position: "absolute",
           }}
         >
-          {/* <Link to="/user-dashboard" style={{ color: "white" }}> */}
           {isLoading ? <Loader /> : "Add New"}
-          {/* </Link> */}
         </button>
       </div>
     </form>

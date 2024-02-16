@@ -291,12 +291,43 @@ const ViewSales = () => {
               <div className="card-body depostit-card">
                 <div class="user-card-heading"> Details</div>
                 <div className="depostit-card-media  style-1">
-                  <div className="user-email-details">
-                    <div className="user-email-details-property">
-                      <span className="fs-6">Email</span>
-                      <span className="fs-6">Mobile</span>
-                      <span className="fs-6">Location</span>
-                      <span className="fs-6 fw-bold">
+                <div className="">
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Email</span>
+                      <span>{userData && userData.email}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Mobile</span>
+                      <span>{userData && userData.mobile}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Location</span>
+                      <span>{`${userData && userData?.district?.district} , ${
+                        userData && userData?.state?.state
+                      }`}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Created By</span>
+                      <span>{userData && userData?.created_by||'-'}</span>
+                    </div>
+                    <div className="user-email-details-items">
+                      <span className="detial-property">Created Date</span>
+                      <span>
+                        {userData &&
+                          userData?.created_on &&
+                          new Date(userData?.created_on).toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                      </span>
+                    </div>
+                    <span className="fs-6 fw-bold permission-view-area" >
                         Permissions &nbsp;&nbsp;{" "}
                         <button
                           className="btn bg-blue btn-sm"
@@ -305,25 +336,6 @@ const ViewSales = () => {
                           View
                         </button>
                       </span>
-                    </div>
-                    <div className="user-email-details-data">
-                      <span className="fs-6">{userData && userData.email}</span>
-                      <span className="fs-6">
-                        {userData && userData.mobile}
-                      </span>
-                      <span className="fs-6">
-                        {userData &&
-                          userData.district &&
-                          userData.district?.district}
-                        {userData &&
-                          userData.state &&
-                          userData.state?.state &&
-                          ", "}
-                        {userData && userData.state && userData.state?.state
-                          ? userData.state?.state
-                          : "-"}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>

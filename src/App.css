@@ -370,13 +370,28 @@
   width: 20rem;
 }
 .reject-modal-main {
-  padding: 1rem ;
+  padding: 1rem;
 }
 .reject-modal-confirm .close {
   padding-top: 1rem;
   text-align: end;
   cursor: pointer;
 }
-.reject-modal-confirm .close svg{
+.reject-modal-confirm .close svg {
   height: 15px;
+}
+
+.user-email-details-items {
+  display: flex;
+  color: #000;
+  font-size: 13px;
+  padding-top: 5px;
+}
+.user-email-details-items .detial-property {
+  flex: 1;
+}
+.permission-view-area {
+  color: #000;
+  position: relative;
+  top: 5px;
 }
