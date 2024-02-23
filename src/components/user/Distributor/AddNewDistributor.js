@@ -89,9 +89,9 @@ export default function AddNewDistributor({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-            path: this.path,
-            message: "District is required",
-          });
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(

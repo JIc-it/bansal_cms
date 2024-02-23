@@ -83,8 +83,7 @@ export default function AddPointDistributorPoppUp({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Distributor Details</h5>
@@ -119,7 +118,18 @@ export default function AddPointDistributorPoppUp({
               maxLength={10}
               className="form-control form-control-sm"
               value={formik.values.points}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const { value } = e.target;
+                if (
+                  value === "" ||
+                  (!isNaN(value) && Number(value) > 0 && Number(value) <= 1000)
+                ) {
+                  formik.setFieldValue(
+                    "points",
+                    value === "" ? "" : Number(value)
+                  );
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.points && formik.errors.points ? (

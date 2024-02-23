@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-import {
-  addUserPoints,
-} from "../../../axiosHandle/userHandle";
+import { addUserPoints } from "../../../axiosHandle/userHandle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Loader } from "react-simple-widgets";
@@ -25,7 +23,7 @@ export default function AddPointsPopUP({
   totalPoints,
   setIsUpdated,
   isUpdated,
-  userData
+  userData,
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,12 +31,12 @@ export default function AddPointsPopUP({
     points: Yup.string()
       .required("Points is required")
       .matches(/^\d{1,10}$/, "Points must be up to 10 digits") // Validation for up to 10 digits
-      .test('maxPoints', 'Maximum 1000 points allowed', (value) => {
+      .test("maxPoints", "Maximum 1000 points allowed", (value) => {
         return parseInt(value, 10) <= 1000;
       }),
     comments: Yup.string()
       .required("Comments is required")
-      .max(50, 'Comments must be up to 50 characters'),
+      .max(50, "Comments must be up to 50 characters"),
   });
 
   const formik = useFormik({
@@ -51,11 +49,10 @@ export default function AddPointsPopUP({
       setIsLoading(true);
       if (!isLoading) {
         try {
-
           const pointsValue = parseInt(values.points, 10);
           if (pointsValue > 1000) {
             // Display a custom error message for exceeding the maximum points
-            formik.setErrors({ points: 'Maximum 1000 points allowed' });
+            formik.setErrors({ points: "Maximum 1000 points allowed" });
             setIsLoading(false);
             return;
           }
@@ -106,8 +103,7 @@ export default function AddPointsPopUP({
         style={{ marginLeft: 345 }}
         closeButton
         onClick={handleCloseOffcanvas}
-      >
-      </Offcanvas.Header>
+      ></Offcanvas.Header>
       <form onSubmit={formik.handleSubmit}>
         <div style={offcanvasStyle}>
           <h5>Engineer Details</h5>
@@ -142,7 +138,18 @@ export default function AddPointsPopUP({
               maxLength={10}
               className="form-control form-control-sm"
               value={formik.values.points}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const { value } = e.target;
+                if (
+                  value === "" ||
+                  (!isNaN(value) && Number(value) > 0 && Number(value) <= 1000)
+                ) {
+                  formik.setFieldValue(
+                    "points",
+                    value === "" ? "" : Number(value)
+                  );
+                }
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.points && formik.errors.points ? (
@@ -160,7 +167,9 @@ export default function AddPointsPopUP({
               onBlur={formik.handleBlur}
             />
             {formik.touched.comments && formik.errors.comments ? (
-              <div className="error" style={{ color: 'red' }}>{formik.errors.comments}</div>
+              <div className="error" style={{ color: "red" }}>
+                {formik.errors.comments}
+              </div>
             ) : null}
           </div>
           <span
