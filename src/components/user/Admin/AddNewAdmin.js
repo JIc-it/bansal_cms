@@ -304,8 +304,8 @@ export default function AddNewAdmin({
                 formik.setValues({
                   ...formik.values, // Spread the existing values to avoid overwriting other fields
                   name: capitalizedNewName,
-                  password1: capitalizedNewName.slice(0, 3) + "TMT$1",
-                  confirmPassword2: capitalizedNewName.slice(0, 3) + "TMT$1"
+                password1: capitalizedNewName.slice(0, 3) + "TMT$1",
+                confirmPassword2: capitalizedNewName.slice(0, 3) + "TMT$1"
                 });
               }}
               onBlur={formik.handleBlur}
