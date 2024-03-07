@@ -110,7 +110,7 @@ function LogSection() {
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) {
+   if (currentPage > 1) {
     setCurrentPage(currentPage - 1);
     }
   };
