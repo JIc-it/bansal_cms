@@ -10,6 +10,9 @@ const adminsURL = "/account/create-admin/";
 const createUserURL = "account/admin-create-user/";
 const distributorsURL = "/account/create-distributor/";
 const userCountsURL = "/account/api/users/user_stats/";
+const distributorCountsURL = "/account/api/users/user_stats/";
+const enggCountsURL = "/account/api/users/user_stats/";
+const architectsCountsURL = "/account/api/users/user_stats/";
 const userResetPasswordURL = "/account/password-reset";
 const getUserOrderURL = "/purchase/tmt_orders/user";
 const getUserOrderCount = "/purchase/admin-userview-orders-counts";
@@ -37,6 +40,7 @@ const adminUSerViewLeadsURL = "purchase/leads/admin";
 const adminUserDisableEnableUrl = "/account/disable-enable/user";
 const stateidURl="/core/location"
 const activeUsersURL="account/active-users-count/?is_delete=false/"
+const createNewUserCreationURL = "/account/sales_poc_user_create/";
 
 const adminUSerViewOrderURL = "/purchase/tmt_orders_admin/user/";
 export const getDistributorsRequest = (searchUserData) => {
@@ -208,6 +212,37 @@ export const getUserStatics = (role) => {
       throw error;
     });
 };
+
+export const getUserDistributor = (role) => {
+  return axiosInstance
+    .get(distributorCountsURL, { params: { role: role } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserEngg = (role) => {
+  return axiosInstance
+    .get(enggCountsURL, { params: { role: role } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
+export const getUserArchitects = (role) => {
+  return axiosInstance
+    .get(architectsCountsURL, { params: { role: role } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while fetching architects request:", error);
+      throw error;
+    });
+};
+
 export const getActiveUsers = (role) => {
   return axiosInstance
     .get(activeUsersURL, { params: { role: role } })
@@ -395,6 +430,17 @@ export const updateUser = (id, data) => {
     });
 };
 
+//////////////////New User create APi//////////////////////
+export const createNewUser = (data) => {
+  console.log(data);
+  return axiosInstance
+    .post(createNewUserCreationURL, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error while creating user:", error);
+      throw error;
+    });
+};
 export const adminUSerViewOrdersRequest = async (id, data) => {
   console.log(data, "adminUSerViewOrdersRequest");
   try {

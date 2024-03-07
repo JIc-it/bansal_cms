@@ -35,6 +35,9 @@ import LogSection from "./UserLog/LogSection";
 // import PrivacyPolicyNew from "./PrivacyPolicy";
 // import PrivacyPolicy from "./PrivacyPolicy";
 import PrivacyPolicyNew from "./PrivacyPolicy";
+import CreaateUser from "./CreaateUser";
+import UserDashboard from "./UserCreate/UserDashboard";
+import CreateNewUser from "./UserCreate/CreateNewUser";
 
 export default function AllRouting() {
   return (
@@ -81,6 +84,9 @@ export default function AllRouting() {
         <Route path="/log-section" element={<LogSection/>} />
         {/* <Route path="/privacy-policy" element={<PrivacyPolicy/>} /> */}
         <Route path="/privacy-policy" element={<PrivacyPolicyNew />} />
+        <Route path="/create-user" element={<CreaateUser />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/create-new-user" element={<CreateNewUser />} />
       </Routes>
     </main>
   );

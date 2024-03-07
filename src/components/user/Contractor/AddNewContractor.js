@@ -93,9 +93,9 @@ export default function AddNewContractor({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-            path: this.path,
-            message: "District is required",
-          });
+              path: this.path,
+              message: "District is required",
+            });
       }
     ),
     state: Yup.mixed().test(
@@ -160,8 +160,9 @@ export default function AddNewContractor({
           setIsLoading(false);
         } catch (err) {
           console.log(err);
-          err.response.data.email && toast.error(err.response.data.email[0]);
-          err.response.data.mobile && toast.error(err.response.data.mobile[0]);
+          toast.error(err.response.data.error);
+          // err.response.data.email && toast.error(err.response.data.email[0]);
+          // err.response.data.mobile && toast.error(err.response.data.mobile[0]);
           setIsLoading(false);
         }
       }

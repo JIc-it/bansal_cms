@@ -221,6 +221,7 @@ function RewardPoints() {
                       <th>Product ID</th>
                       <th>Points</th>
                       <th>Description</th>
+                      <th>Role</th>
                       <th>Status</th>
                       <th>Times Redeemed</th>
                       <th>Action</th>
@@ -252,6 +253,9 @@ function RewardPoints() {
                           </td>
                           <td>
                             <h6>{rw_data.description}</h6>
+                          </td>
+                          <td style={{wordBreak:"break-all"}}>
+                            <h6>{rw_data?.available_for.length> 0 ? rw_data?.available_for?.map((data)=>data).join(","):"-"}</h6>
                           </td>
 
                           <td>

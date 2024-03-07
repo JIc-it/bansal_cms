@@ -16,6 +16,10 @@ import { useState } from "react";
 import AppContextProvider from "./contexts/AppContext";
 import MainPage from "./pages/MainPage";
 import PrivacyPolicy from "./components/forgotPasswordPolicy";
+import CreaateUser from "./components/CreaateUser";
+import UserDashboard from "./components/UserCreate/UserDashboard";
+import CreateNewUser from "./components/UserCreate/CreateNewUser";
+
 function App() {
  
   return (
@@ -46,6 +50,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/create-user" element={<CreaateUser />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/create-new-user" element={<CreateNewUser />} />
         <Route path="/*" element={<MainPage />} />
        
       </Routes>

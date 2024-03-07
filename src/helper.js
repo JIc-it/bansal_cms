@@ -18,7 +18,6 @@ export const convertToDateTime = (standardTime) => {
   return formattedDateTime;
 };
 
-
 export const removeBaseUrlFromPath = (originalString) => {
   var modifiedString = originalString.replace(
     "https://api.bansalsale.com/",
@@ -26,3 +25,8 @@ export const removeBaseUrlFromPath = (originalString) => {
   );
   return modifiedString;
 };
+
+export function formatDate(isoDate) {
+  const date = new Date(isoDate);
+  return date.toLocaleString();
+}
