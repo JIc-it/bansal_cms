@@ -175,7 +175,6 @@ function LogSection() {
                       Export
                     </button>
                   </div>
-
                 </div>
                 <table id="reports-tbl" className="table">
                   <thead>
