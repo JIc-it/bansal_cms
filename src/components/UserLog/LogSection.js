@@ -110,8 +110,8 @@ function LogSection() {
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+   if (currentPage > 1) {
+    setCurrentPage(currentPage - 1);
     }
   };
   return (
@@ -175,7 +175,6 @@ function LogSection() {
                       Export
                     </button>
                   </div>
-
                 </div>
                 <table id="reports-tbl" className="table">
                   <thead>

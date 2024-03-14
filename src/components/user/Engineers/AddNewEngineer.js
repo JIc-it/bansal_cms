@@ -53,7 +53,7 @@ export default function AddNewEngineer({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-      mobile: Yup.string()
+    mobile: Yup.string()
       .required("Mobile is required")
       .matches(/^\d{10}$/, "Mobile must be a 10-digit number"),
     district: Yup.mixed().test(
@@ -227,7 +227,21 @@ export default function AddNewEngineer({
               className="form-control form-control-sm"
               name="name"
               value={formik.values.name}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const newName = e.target.value;
+                const capitalizedNewName = newName.charAt(0).toUpperCase() + newName.slice(1); // Capitalize first character
+
+                // Update the formik field for the name
+                formik.handleChange(e);
+
+                // Set new values for name, password, and confirmPassword
+                formik.setValues({
+                  ...formik.values, // Spread the existing values to avoid overwriting other fields
+                  name: capitalizedNewName,
+                  password: capitalizedNewName.slice(0, 3) + "TMT$1",
+                  confirmPassword: capitalizedNewName.slice(0, 3) + "TMT$1"
+                });
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.name && formik.errors.name ? (

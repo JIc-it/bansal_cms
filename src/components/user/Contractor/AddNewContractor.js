@@ -110,7 +110,7 @@ export default function AddNewContractor({
       .required("Password is required")
       .matches(
         passwordRegex,
-        "Password must contain at least 8 characters, at least one uppercase letter, lowercase letter, special character, and number"
+        "Password must contain at least 6 characters, at least one uppercase letter, lowercase letter, special character, and number"
       ),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
@@ -224,19 +224,33 @@ export default function AddNewContractor({
           <h5>Contractor Details</h5>
           <div style={{ marginTop: 7 }}>
             <input
-              type="text"
+              type="name"
+              name="name"
               placeholder="Name"
               className="form-control form-control-sm"
-              name="name"
               value={formik.values.name}
-              onChange={formik.handleChange}
+              // onChange={formik.handleChange}
+              onChange={(e) => {
+                const newName = e.target.value;
+                const capitalizedNewName = newName.charAt(0).toUpperCase() + newName.slice(1); // Capitalize first character
+              
+                // Update the formik field for the name
+                formik.handleChange(e);
+              
+                // Set new values for name, password, and confirmPassword
+                formik.setValues({
+                  ...formik.values, // Spread the existing values to avoid overwriting other fields
+                  name: capitalizedNewName,
+                  password: capitalizedNewName.slice(0, 3) + "TMT$1",
+                  confirmPassword: capitalizedNewName.slice(0, 3) + "TMT$1"
+                });
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.name && formik.errors.name ? (
               <div className="error">{formik.errors.name}</div>
             ) : null}
           </div>
-
           <div style={{ marginTop: 7 }}>
             <input
               type="email"

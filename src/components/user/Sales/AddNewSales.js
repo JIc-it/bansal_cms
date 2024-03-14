@@ -109,7 +109,7 @@ export default function AddNewSales({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-      mobile: Yup.string()
+    mobile: Yup.string()
       .required("Mobile is required")
       .matches(/^\d{10}$/, "Mobile must be a 10-digit number"),
     district: Yup.mixed().test(
@@ -147,9 +147,9 @@ export default function AddNewSales({
         return value && value.id !== "0" && value.name !== "District"
           ? true
           : this.createError({
-              path: this.path,
-              message: "District is required",
-            });
+            path: this.path,
+            message: "District is required",
+          });
       }
     ),
     state: Yup.mixed().test(
@@ -292,7 +292,21 @@ export default function AddNewSales({
               className="w-100 form-control form-control-sm"
               name="name"
               value={formik.values.name}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                const newName = e.target.value;
+                const capitalizedNewName = newName.charAt(0).toUpperCase() + newName.slice(1); // Capitalize first character
+
+                // Update the formik field for the name
+                formik.handleChange(e);
+
+                // Set new values for name, password, and confirmPassword
+                formik.setValues({
+                  ...formik.values, // Spread the existing values to avoid overwriting other fields
+                  name: capitalizedNewName,
+                  password1: capitalizedNewName.slice(0, 3) + "TMT$1",
+                  confirmPassword1: capitalizedNewName.slice(0, 3) + "TMT$1"
+                });
+              }}
               onBlur={formik.handleBlur}
             />
             {formik.touched.name && formik.errors.name ? (
@@ -337,7 +351,7 @@ export default function AddNewSales({
           <div style={{ marginTop: 7 }}>
             <select
               defaultValue=""
-              className=" w-100 form-control-sm form-control"
+              className="w-100 form-control-sm form-control"
               placeholder="State"
               onChange={handleStateChange}
             >
@@ -356,7 +370,7 @@ export default function AddNewSales({
           <div style={{ marginTop: 7 }}>
             <select
               defaultValue=""
-              className=" w-100 form-control-sm form-control"
+              className="w-100 form-control-sm form-control"
               placeholder="District"
               onChange={handleDistrictChange}
             >
@@ -426,7 +440,8 @@ export default function AddNewSales({
                         "category"
                       );
                       let permissionCheckBox =
-                        category === "redemptions_window" ? (
+                        category === "redemptions_window"
+                        ? (
                           <>
                             <td></td>
                             <td></td>

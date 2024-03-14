@@ -1,5 +1,5 @@
 export const passwordRegex =
-  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
 
 export const convertToDateTime = (standardTime) => {
   const dateTime = new Date(standardTime);
